@@ -1,3 +1,32 @@
+@use '../../styles/functions';
+@use '../../styles/typography';
+@use '../../styles/media';
+@import '../../styles/typography';
+
 .uiKit {
   display: block;
+  width: functions.calc-rem(1218);
+  margin: 0 auto;
+}
+
+.section {
+  padding-top: functions.calc-rem(50);
+}
+
+.sectionHeader {
+  color: var(--theme-main-text-color);
+  margin: 0 0 functions.calc-rem(50) 0;
+}
+
+.container {
+  display: flex;
+  margin-top: functions.calc-rem(45);
+}
+
+.column {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: functions.calc-rem(40);
 }

@@ -59,8 +59,8 @@
     "typescript-plugin-css-modules": "^2.8.0"
   },
   "scripts": {
-    "start": "yarn generate-assets-index & react-scripts start",
-    "build": "yarn generate-assets-index & react-scripts build",
+    "start": "yarn generate-assets-index & yarn build-svg-sprite & react-scripts start",
+    "build": "yarn generate-assets-index & yarn build-svg-sprite & react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "commit": "cz",
@@ -69,7 +69,8 @@
     "lint:scss": "stylelint --cache -f verbose \"**/*.scss\"",
     "lint:fix": "npm run lint -- --fix",
     "postinstall": "yarn generate-assets-index",
-    "generate-assets-index": "node scripts/generateAssetsIndex.js"
+    "generate-assets-index": "node scripts/generateAssetsIndex.js",
+    "build-svg-sprite": "svg-sprite -s --symbol-sprite=sprite-icons.svg --symbol-dest= --dest=public src/icons/*.svg"
   },
   "eslintConfig": {
     "extends": [
