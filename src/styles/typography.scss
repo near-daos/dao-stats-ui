@@ -1,26 +1,17 @@
 @use 'variables';
 @use 'functions';
 
-@mixin display {
-  font-family: variables.$secondary-font;
-  font-size: functions.calc-rem(156);
-  font-style: normal;
-  font-weight: normal;
-  line-height: functions.calc-rem(208);
-  text-transform: uppercase;
-}
-
 @mixin heading-1 {
-  font-family: variables.$secondary-font;
-  font-size: functions.calc-rem(76);
+  font-family: variables.$font;
+  font-size: functions.calc-rem(32);
   font-style: normal;
   font-weight: normal;
-  line-height: functions.calc-rem(104);
+  line-height: functions.calc-rem(48);
   text-transform: uppercase;
 }
 
 @mixin heading-2 {
-  font-family: variables.$secondary-font;
+  font-family: variables.$font;
   font-size: functions.calc-rem(60);
   font-style: normal;
   font-weight: normal;
@@ -28,58 +19,8 @@
   text-transform: uppercase;
 }
 
-@mixin heading-3 {
-  font-family: variables.$secondary-font;
-  font-size: functions.calc-rem(42);
-  font-style: normal;
-  font-weight: normal;
-  letter-spacing: 0.04em;
-  line-height: functions.calc-rem(56);
-  text-transform: uppercase;
-}
-
-@mixin heading-4 {
-  font-family: variables.$secondary-font;
-  font-size: functions.calc-rem(32);
-  font-style: normal;
-  font-weight: normal;
-  letter-spacing: 0.04em;
-  line-height: functions.calc-rem(48);
-  text-transform: uppercase;
-}
-
-@mixin heading-5 {
-  font-family: variables.$secondary-font;
-  font-size: functions.calc-rem(24);
-  font-style: normal;
-  font-weight: normal;
-  letter-spacing: 0.04em;
-  line-height: functions.calc-rem(36);
-  text-transform: uppercase;
-}
-
-@mixin heading-6 {
-  font-family: variables.$secondary-font;
-  font-size: functions.calc-rem(18);
-  font-style: normal;
-  font-weight: normal;
-  letter-spacing: 0.04em;
-  line-height: functions.calc-rem(28);
-  text-transform: uppercase;
-}
-
-@mixin heading-7 {
-  font-family: variables.$secondary-font;
-  font-size: functions.calc-rem(16);
-  font-style: normal;
-  font-weight: normal;
-  letter-spacing: 0.04em;
-  line-height: functions.calc-rem(24);
-  text-transform: uppercase;
-}
-
 @mixin body-1 {
-  font-family: variables.$main-font;
+  font-family: variables.$font;
   font-size: functions.calc-rem(16);
   font-style: normal;
   font-weight: normal;
@@ -87,47 +28,15 @@
 }
 
 @mixin body-2 {
-  font-family: variables.$main-font;
+  font-family: variables.$font;
   font-size: functions.calc-rem(14);
   font-style: normal;
   font-weight: normal;
   line-height: functions.calc-rem(24);
 }
 
-@mixin body-3 {
-  font-family: variables.$main-font;
-  font-size: functions.calc-rem(12);
-  font-style: normal;
-  font-weight: normal;
-  line-height: functions.calc-rem(20);
-}
-
-@mixin paragraph-1 {
-  font-family: variables.$main-font;
-  font-size: functions.calc-rem(32);
-  font-style: normal;
-  font-weight: normal;
-  line-height: functions.calc-rem(48);
-}
-
-@mixin paragraph-2 {
-  font-family: variables.$main-font;
-  font-size: functions.calc-rem(24);
-  font-style: normal;
-  font-weight: normal;
-  line-height: functions.calc-rem(36);
-}
-
-@mixin paragraph-3 {
-  font-family: variables.$main-font;
-  font-size: functions.calc-rem(18);
-  font-style: normal;
-  font-weight: normal;
-  line-height: functions.calc-rem(28);
-}
-
 @mixin caption-1 {
-  font-family: variables.$main-font;
+  font-family: variables.$font;
   font-size: functions.calc-rem(12);
   font-style: normal;
   font-weight: normal;
@@ -136,7 +45,7 @@
 }
 
 @mixin caption-2 {
-  font-family: variables.$main-font;
+  font-family: variables.$font;
   font-size: functions.calc-rem(10);
   font-style: normal;
   font-weight: normal;
@@ -144,7 +53,7 @@
 }
 
 @mixin title-1 {
-  font-family: variables.$main-font;
+  font-family: variables.$font;
   font-size: functions.calc-rem(42);
   font-style: normal;
   font-weight: 600;
@@ -152,7 +61,7 @@
 }
 
 @mixin title-2 {
-  font-family: variables.$main-font;
+  font-family: variables.$font;
   font-size: functions.calc-rem(32);
   font-style: normal;
   font-weight: 600;
@@ -160,7 +69,7 @@
 }
 
 @mixin title-3 {
-  font-family: variables.$main-font;
+  font-family: variables.$font;
   font-size: functions.calc-rem(24);
   font-style: normal;
   font-weight: 600;
@@ -168,7 +77,7 @@
 }
 
 @mixin title-4 {
-  font-family: variables.$main-font;
+  font-family: variables.$font;
   font-size: functions.calc-rem(18);
   font-style: normal;
   font-weight: 600;
@@ -176,75 +85,19 @@
 }
 
 @mixin title-5 {
-  font-family: variables.$main-font;
+  font-family: variables.$font;
   font-size: functions.calc-rem(16);
   font-style: normal;
   font-weight: 600;
   line-height: functions.calc-rem(24);
 }
 
-@mixin title-6 {
-  font-family: variables.$main-font;
-  font-size: functions.calc-rem(14);
-  font-style: normal;
-  font-weight: 600;
-  line-height: functions.calc-rem(24);
-}
-
-@mixin title-7 {
-  font-family: variables.$main-font;
-  font-size: functions.calc-rem(12);
-  font-style: normal;
-  font-weight: 600;
-  line-height: functions.calc-rem(16);
-}
-
-@mixin tagline-1 {
-  font-family: variables.$main-font;
+@mixin button {
+  font-family: variables.$font;
   font-size: functions.calc-rem(24);
   font-style: normal;
   font-weight: 600;
   line-height: functions.calc-rem(36);
-}
-
-@mixin tagline-2 {
-  font-family: variables.$main-font;
-  font-size: functions.calc-rem(18);
-  font-style: normal;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  line-height: functions.calc-rem(28);
-}
-
-@mixin tagline-3 {
-  font-family: variables.$main-font;
-  font-size: functions.calc-rem(16);
-  font-style: normal;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  line-height: functions.calc-rem(24);
-}
-
-@mixin tagline-4 {
-  font-family: variables.$main-font;
-  font-size: functions.calc-rem(14);
-  font-style: normal;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  line-height: functions.calc-rem(16);
-}
-
-@mixin tagline-5 {
-  font-family: variables.$main-font;
-  font-size: functions.calc-rem(12);
-  font-style: normal;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  line-height: functions.calc-rem(16);
-}
-
-%display {
-  @include display;
 }
 
 %heading-1 {
@@ -255,48 +108,12 @@
   @include heading-2;
 }
 
-%heading-3 {
-  @include heading-3;
-}
-
-%heading-4 {
-  @include heading-4;
-}
-
-%heading-5 {
-  @include heading-5;
-}
-
-%heading-6 {
-  @include heading-6;
-}
-
-%heading-7 {
-  @include heading-7;
-}
-
 %body-1 {
   @include body-1;
 }
 
 %body-2 {
   @include body-2;
-}
-
-%body-3 {
-  @include body-3;
-}
-
-%paragraph-1 {
-  @include paragraph-1;
-}
-
-%paragraph-2 {
-  @include paragraph-2;
-}
-
-%paragraph-3 {
-  @include paragraph-2;
 }
 
 %caption-1 {
@@ -327,30 +144,6 @@
   @include title-5;
 }
 
-%title-6 {
-  @include title-6;
-}
-
-%title-7 {
-  @include title-7;
-}
-
-%tagline-1 {
-  @include tagline-1;
-}
-
-%tagline-2 {
-  @include tagline-2;
-}
-
-%tagline-3 {
-  @include tagline-3;
-}
-
-%tagline-4 {
-  @include tagline-4;
-}
-
-%tagline-5 {
-  @include tagline-5;
+%button {
+  @include button;
 }

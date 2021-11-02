@@ -9,7 +9,7 @@ html {
 }
 
 body {
-  font-family: variables.$main-font;
+  font-family: variables.$font;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -20,10 +20,6 @@ body {
 
 p {
   margin: 0;
-}
-
-code {
-  font-family: variables.$monospace-font;
 }
 
 *,

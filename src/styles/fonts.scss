@@ -1,21 +1,5 @@
 @use 'mixins';
 
-@include mixins.font-face(furore, '../fonts/furore/Furore-webfont', 400);
-
-@include mixins.font-face(
-  aileron,
-  '../fonts/aileron/regular/Aileron-Regular-webfont',
-  400
-);
-
-@include mixins.font-face(
-  aileron,
-  '../fonts/aileron/semibold/Aileron-SemiBold-webfont',
-  600
-);
-
-@include mixins.font-face(
-  'Source Code Pro',
-  '../fonts/source-code-pro/regular/sourcecodepro-regular-webfont',
-  400
-);
+@include mixins.font-face(IBMPlexSans, '../fonts/IBM_Plex_Sans/IBMPlexSans-Regular', 400);
+@include mixins.font-face(IBMPlexSans, '../fonts/IBM_Plex_Sans/IBMPlexSans-Medium', 500);
+@include mixins.font-face(IBMPlexSans, '../fonts/IBM_Plex_Sans/IBMPlexSans-SemiBold', 600);
