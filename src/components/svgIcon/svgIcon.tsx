@@ -17,7 +17,13 @@ export const SvgIcon: React.FC<SvgIconProps> = ({
   color,
   icon,
 }) => (
-  <svg className={className} width={size} height={size} style={{ color }}>
+  <svg
+    viewBox={`0 0 ${size} ${size}`}
+    className={className}
+    width={size}
+    height={size}
+    style={{ color }}
+  >
     <use xlinkHref={`${process.env.PUBLIC_URL}/sprite-icons.svg#${icon}`} />
   </svg>
 );

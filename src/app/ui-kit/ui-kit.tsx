@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { SvgIcon } from '../../components';
+import { SvgIcon, Button } from '../../components';
 
 import styles from './ui-kit.module.scss';
 
@@ -20,6 +20,24 @@ export const UiKIt: FC = () => (
         </div>
         <div className={styles.column}>
           <SvgIcon icon="stats" />
+        </div>
+      </div>
+    </section>
+
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Buttons</div>
+      <div className={styles.container}>
+        <div className={styles.column}>
+          <Button variant="icon" />
+        </div>
+        <div className={styles.column}>
+          <Button disabled variant="icon" />
+        </div>
+        <div className={styles.column}>
+          <Button>Back to homepage</Button>
+        </div>
+        <div className={styles.column}>
+          <Button disabled>Back to homepage</Button>
         </div>
       </div>
     </section>

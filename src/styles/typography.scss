@@ -5,25 +5,23 @@
   font-family: variables.$font;
   font-size: functions.calc-rem(32);
   font-style: normal;
-  font-weight: normal;
+  font-weight: 500;
   line-height: functions.calc-rem(48);
-  text-transform: uppercase;
 }
 
 @mixin heading-2 {
   font-family: variables.$font;
-  font-size: functions.calc-rem(60);
+  font-size: functions.calc-rem(24);
   font-style: normal;
-  font-weight: normal;
-  line-height: functions.calc-rem(72);
-  text-transform: uppercase;
+  font-weight: 600;
+  line-height: functions.calc-rem(36);
 }
 
 @mixin body-1 {
   font-family: variables.$font;
   font-size: functions.calc-rem(16);
   font-style: normal;
-  font-weight: normal;
+  font-weight: 400;
   line-height: functions.calc-rem(28);
 }
 
@@ -39,65 +37,64 @@
   font-family: variables.$font;
   font-size: functions.calc-rem(12);
   font-style: normal;
-  font-weight: normal;
-  letter-spacing: 0.05em;
-  line-height: functions.calc-rem(18);
+  font-weight: 400;
+  line-height: functions.calc-rem(20);
 }
 
 @mixin caption-2 {
   font-family: variables.$font;
-  font-size: functions.calc-rem(10);
+  font-size: functions.calc-rem(11);
   font-style: normal;
-  font-weight: normal;
-  line-height: functions.calc-rem(12);
+  font-weight: 400;
+  line-height: functions.calc-rem(16);
 }
 
 @mixin title-1 {
   font-family: variables.$font;
-  font-size: functions.calc-rem(42);
+  font-size: functions.calc-rem(18);
   font-style: normal;
-  font-weight: 600;
-  line-height: functions.calc-rem(56);
+  font-weight: 500;
+  line-height: functions.calc-rem(28);
 }
 
 @mixin title-2 {
   font-family: variables.$font;
-  font-size: functions.calc-rem(32);
+  font-size: functions.calc-rem(16);
   font-style: normal;
-  font-weight: 600;
-  line-height: functions.calc-rem(48);
+  font-weight: 500;
+  line-height: functions.calc-rem(24);
 }
 
 @mixin title-3 {
   font-family: variables.$font;
-  font-size: functions.calc-rem(24);
+  font-size: functions.calc-rem(14);
   font-style: normal;
-  font-weight: 600;
-  line-height: functions.calc-rem(36);
+  font-weight: 500;
+  line-height: functions.calc-rem(24);
 }
 
 @mixin title-4 {
   font-family: variables.$font;
-  font-size: functions.calc-rem(18);
+  font-size: functions.calc-rem(12);
   font-style: normal;
-  font-weight: 600;
-  line-height: functions.calc-rem(28);
+  font-weight: 500;
+  line-height: functions.calc-rem(16);
 }
 
 @mixin title-5 {
   font-family: variables.$font;
-  font-size: functions.calc-rem(16);
+  font-size: functions.calc-rem(11);
   font-style: normal;
-  font-weight: 600;
-  line-height: functions.calc-rem(24);
+  font-weight: 500;
+  line-height: functions.calc-rem(16);
 }
 
 @mixin button {
   font-family: variables.$font;
-  font-size: functions.calc-rem(24);
+  font-size: functions.calc-rem(14);
   font-style: normal;
-  font-weight: 600;
-  line-height: functions.calc-rem(36);
+  font-weight: 500;
+  line-height: functions.calc-rem(24);
 }
 
 %heading-1 {

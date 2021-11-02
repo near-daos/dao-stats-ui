@@ -1,0 +1,38 @@
+@use '../../styles/functions';
+@import '../../styles/typography';
+
+.root {
+  @extend %title-3;
+  background-color: transparent;
+  border: 2px solid var(--color-yellow-500);
+  border-radius: functions.calc-rem(8);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  padding: functions.calc-rem(10) functions.calc-rem(22);
+  text-decoration: none;
+  transition: background-color 0.2s;
+  user-select: none;
+  white-space: nowrap;
+  width: 100%;
+
+  &:hover {
+    background-color: var(--color-yellow-500);
+  }
+  
+  &:active {
+    border: 2px solid var(--color-yellow-600);
+    background-color: var(--color-yellow-600);
+  }
+  
+  &[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  
+  &.icon {
+    padding: functions.calc-rem(10);
+  }
+}
