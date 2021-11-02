@@ -1,0 +1,45 @@
+@use 'variables';
+
+// breakpoints exclusive
+@mixin mobile-only {
+  @media (max-width: #{variables.$breakpoint-sm - 1}px) {
+    @content;
+  }
+}
+
+@mixin tablet-portrait-only {
+  @media (min-width: #{variables.$breakpoint-sm}) and (max-width: #{variables.$breakpoint-md - 1}px) {
+    @content;
+  }
+}
+
+@mixin tablet-landscape-only {
+  @media (min-width: #{variables.$breakpoint-md}) and (max-width: #{variables.$breakpoint-lg - 1}px) {
+    @content;
+  }
+}
+
+@mixin tablet-only {
+  @media (min-width: #{variables.$breakpoint-sm}) and (max-width: #{variables.$breakpoint-lg - 1}px) {
+    @content;
+  }
+}
+
+// breakpoints cascading
+@mixin tablet-portrait {
+  @media (min-width: #{variables.$breakpoint-sm}px) {
+    @content;
+  }
+}
+
+@mixin tablet-landscape {
+  @media (min-width: #{variables.$breakpoint-md}px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{variables.$breakpoint-lg}px) {
+    @content;
+  }
+}

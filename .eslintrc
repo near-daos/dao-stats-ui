@@ -1,0 +1,114 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "project": "./tsconfig.json",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": [
+    "airbnb",
+    "airbnb/hooks",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "plugins": ["react", "jsx-a11y", "import", "prettier", "@typescript-eslint"],
+  "globals": {},
+  "rules": {
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["error"],
+
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "padding-line-between-statements": [
+      "error",
+      // Always require blank lines after directive (like 'use-strict'), except between directives
+      { "blankLine": "always", "prev": "directive", "next": "*" },
+      { "blankLine": "any", "prev": "directive", "next": "directive" },
+      // Always require blank lines after import, except between imports
+      { "blankLine": "always", "prev": "import", "next": "*" },
+      { "blankLine": "any", "prev": "import", "next": "import" },
+      // Always require blank lines before and after every sequence of variable declarations and export
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": ["const", "let", "var", "export"]
+      },
+      {
+        "blankLine": "always",
+        "prev": ["const", "let", "var", "export"],
+        "next": "*"
+      },
+      {
+        "blankLine": "any",
+        "prev": ["const", "let", "var", "export"],
+        "next": ["const", "let", "var", "export"]
+      },
+      // Always require blank lines before and after class declaration, if, do/while, switch, try
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": ["if", "class", "for", "do", "while", "switch", "try"]
+      },
+      {
+        "blankLine": "always",
+        "prev": ["if", "class", "for", "do", "while", "switch", "try"],
+        "next": "*"
+      },
+      // Always require blank lines before return statements
+      { "blankLine": "always", "prev": "*", "next": "return" }
+    ],
+
+    // prettier
+    "prettier/prettier": ["error"],
+
+    // TypeScript
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/explicit-member-accessibility": "off",
+    "@typescript-eslint/no-object-literal-type-assertion": "off",
+
+    // React
+    "react/require-default-props": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-filename-extension": ["error", { "extensions": [".tsx"] }],
+    "react/prop-types": ["off", {}],
+    "react/jsx-props-no-spreading": "off",
+    "react/button-has-type": "off",
+
+    // import
+    "import/prefer-default-export": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "mjs": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
+  },
+  "settings": {
+    "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true
+      }
+    }
+  }
+}

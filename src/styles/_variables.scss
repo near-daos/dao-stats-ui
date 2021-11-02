@@ -1,0 +1,61 @@
+// Breakpoints
+
+// mobile <
+$breakpoint-sm: 768;
+// >= tablet-portrait <
+$breakpoint-md: 960;
+// >= tablet-landscape <
+$breakpoint-lg: 1280;
+// >= desktop
+
+// Fonts
+$base-font-size: 16;
+$main-font: aileron, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+  Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', Arial, Helvetica,
+  sans-serif;
+$secondary-font: furore, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+  Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', Arial, Helvetica,
+  sans-serif;
+$monospace-font: 'Source Code Pro', monospace;
+
+:root {
+  --color-grey-100: #c5c5c5;
+  --color-grey-200: #adadad;
+  --color-grey-300: #969696;
+  --color-grey-400: #7f7e7e;
+  --color-grey-500: #686767;
+  --color-grey-600: #505050;
+  --color-grey-700: #393838;
+  --color-grey-800: #2e2d2d;
+  --color-grey-900: #222121;
+
+  --color-blue-100: #caf0f8;
+  --color-blue-200: #ade8f4;
+  --color-blue-300: #90e0ef;
+  --color-blue-400: #48cae4;
+  --color-blue-500: #00b4d8;
+  --color-blue-600: #0096c7;
+  --color-blue-700: #0077b6;
+  --color-blue-800: #023e8a;
+  --color-blue-900: #03045e;
+
+  --color-yellow-500: #ffd60a;
+  --color-yellow-600: #ffc300;
+
+  --color-error-tint: #ff6666;
+  --color-error-pure: #ff6666;
+
+  --color-success-tint: #61ff00;
+  --color-success-pure: #4ecc00;
+
+  --color-chart-pink: #e33f84;
+  --color-chart-purple: #8f40dd;
+  --color-chart-blue: #5d75e9;
+  --color-chart-cyan: #81ceee;
+  --color-chart-yellow: #ffc300;
+  
+  --white: #fff;
+  --black: #000;
+  
+  --color-brand: #161515;
+}

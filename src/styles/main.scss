@@ -1,0 +1,36 @@
+@use 'variables';
+@import 'fonts';
+@import 'typography';
+
+html {
+  background: var(--color-brand);
+  color: var(--white);
+  font-size: #{variables.$base-font-size}px;
+}
+
+body {
+  font-family: variables.$main-font;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#themed {
+  color: var(--theme-text-color);
+}
+
+p {
+  margin: 0;
+}
+
+code {
+  font-family: variables.$monospace-font;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+}

@@ -5,7 +5,7 @@
 
 # Node artifact files
 node_modules/
-dist/
+build/
 
 # Compiled Java class files
 *.class
@@ -48,3 +48,12 @@ Thumbs.db
 *.mov
 *.wmv
 
+# generated assets
+public/sprite-icons.svg
+
+# eslint
+.eslintcache
+.stylelintcache
+
+# IDE
+.vscode

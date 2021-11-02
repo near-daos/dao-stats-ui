@@ -1,0 +1,17 @@
+{
+  "extends": "stylelint-config-sass-guidelines",
+  "rules": {
+    "indentation": [2, { "baseIndentLevel": 1 }],
+    "number-leading-zero": null,
+    "selector-max-id": null,
+    "declaration-property-value-disallowed-list": null,
+    "selector-no-qualifying-type": null,
+    "scss/at-extend-no-missing-placeholder": null,
+    "selector-class-pattern": [
+      "^[a-zA-Z0-9\\-]+$",
+      {
+        "message": "Selector should be written in lowercase with hyphens (selector-class-pattern)"
+      }
+    ]
+  }
+}
