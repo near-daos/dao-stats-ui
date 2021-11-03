@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { SvgIcon, Button, Search } from '../../components';
+import { SvgIcon, Button, Search, Tabs } from '../../components';
 
 import styles from './ui-kit.module.scss';
 
@@ -50,6 +50,55 @@ export const UiKIt: FC = () => (
             onChange={(id) => {
               console.log(id);
             }}
+          />
+        </div>
+      </div>
+    </section>
+
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Tabs</div>
+      <div className={styles.container}>
+        <div className={styles.column}>
+          <Tabs
+            options={[
+              {
+                label: 'Sputnik DAO',
+                value: 'sputnik',
+              },
+              {
+                label: 'Astro',
+                value: 'astro',
+              },
+              {
+                label: 'Astro 2',
+                value: 'astro 2',
+              },
+            ]}
+          />
+        </div>
+      </div>
+    </section>
+
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Tabs with default value</div>
+      <div className={styles.container}>
+        <div className={styles.column}>
+          <Tabs
+            defaultValue="astro"
+            options={[
+              {
+                label: 'Sputnik DAO',
+                value: 'sputnik',
+              },
+              {
+                label: 'Astro',
+                value: 'astro',
+              },
+              {
+                label: 'Astro 2',
+                value: 'astro 2',
+              },
+            ]}
           />
         </div>
       </div>
