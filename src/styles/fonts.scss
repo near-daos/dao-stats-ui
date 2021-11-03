@@ -1,5 +1,17 @@
 @use 'mixins';
 
-@include mixins.font-face(IBMPlexSans, '../fonts/IBM_Plex_Sans/IBMPlexSans-Regular', 400);
-@include mixins.font-face(IBMPlexSans, '../fonts/IBM_Plex_Sans/IBMPlexSans-Medium', 500);
-@include mixins.font-face(IBMPlexSans, '../fonts/IBM_Plex_Sans/IBMPlexSans-SemiBold', 600);
+@include mixins.font-face(
+  IBMPlexSans,
+  '../fonts/IBM_Plex_Sans/IBMPlexSans-Regular',
+  400
+);
+@include mixins.font-face(
+  IBMPlexSans,
+  '../fonts/IBM_Plex_Sans/IBMPlexSans-Medium',
+  500
+);
+@include mixins.font-face(
+  IBMPlexSans,
+  '../fonts/IBM_Plex_Sans/IBMPlexSans-SemiBold',
+  600
+);

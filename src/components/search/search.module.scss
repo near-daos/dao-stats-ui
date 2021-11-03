@@ -1,0 +1,112 @@
+@use '../../styles/functions';
+@import '../../styles/typography';
+@import '../../styles/helpers';
+
+.inputWrapper {
+  width: 100%;
+  min-width: 563px;
+  height: 48px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  background: transparent;
+  position: relative;
+}
+
+.input {
+  border: 2px solid var(--color-grey-700);
+  border-radius: 8px;
+  background: transparent;
+  position: relative;
+  outline: 0;
+  height: 100%;
+  width: 100%;
+  padding: functions.calc-rem(12) 33% functions.calc-rem(12)
+    functions.calc-rem(44);
+
+  &:hover,
+  &:active {
+    border: 2px solid var(--color-yellow-600);
+
+    + label {
+      background: var(--color-yellow-600);
+    }
+  }
+
+  &:focus {
+    border: 2px solid var(--color-blue-500);
+
+    + label {
+      background: var(--color-blue-500);
+    }
+  }
+}
+
+.inputLabel {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  right: 33%;
+  background: var(--color-grey-700);
+}
+
+.forceActive {
+  input {
+    border: 2px solid var(--color-yellow-600);
+  }
+
+  label {
+    background: var(--color-yellow-600);
+  }
+}
+
+.inputIcon {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  width: 24px;
+  height: 24px;
+  color: var(--color-grey-600);
+  z-index: 0;
+}
+
+.inputControl {
+  width: 33%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  padding: functions.calc-rem(8) functions.calc-rem(12);
+}
+
+.inputControlItem {
+  @extend %button-reset;
+  @include title-4;
+  width: 75px;
+  height: 32px;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--color-grey-300);
+  padding: functions.calc-rem(6) functions.calc-rem(12);
+  text-align: center;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &:nth-child(2) {
+    margin-left: 8px;
+  }
+}
+
+.active {
+  background: var(--color-grey-700);
+  color: var(--white);
+}

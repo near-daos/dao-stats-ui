@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { SvgIcon, Button } from '../../components';
+import { SvgIcon, Button, Search } from '../../components';
 
 import styles from './ui-kit.module.scss';
 
@@ -38,6 +38,19 @@ export const UiKIt: FC = () => (
         </div>
         <div className={styles.column}>
           <Button disabled>Back to homepage</Button>
+        </div>
+      </div>
+    </section>
+
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Search</div>
+      <div className={styles.container}>
+        <div className={styles.column}>
+          <Search
+            onChange={(id) => {
+              console.log(id);
+            }}
+          />
         </div>
       </div>
     </section>

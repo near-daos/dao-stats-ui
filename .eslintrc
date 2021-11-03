@@ -20,6 +20,7 @@
   "plugins": ["react", "jsx-a11y", "import", "prettier", "@typescript-eslint"],
   "globals": {},
   "rules": {
+    "jsx-a11y/label-has-associated-control": 0,
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": ["error"],
 
