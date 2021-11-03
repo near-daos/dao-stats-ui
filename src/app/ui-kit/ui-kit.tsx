@@ -103,5 +103,11 @@ export const UiKIt: FC = () => (
         </div>
       </div>
     </section>
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Scrollbar</div>
+      <div className={styles.sectionLarge}>
+        <div className={styles.largeBlock}>Scrollbar</div>
+      </div>
+    </section>
   </div>
 );
