@@ -74,7 +74,8 @@
     "lint:fix": "npm run lint -- --fix",
     "postinstall": "yarn generate-assets-index",
     "generate-assets-index": "node scripts/generateAssetsIndex.js",
-    "build-svg-sprite": "svg-sprite -s --symbol-sprite=sprite-icons.svg --symbol-dest= --dest=public src/icons/*.svg"
+    "build-svg-sprite": "svg-sprite -s --symbol-sprite=sprite-icons.svg --symbol-dest= --dest=public src/icons/*.svg",
+    "prepare": "husky install"
   },
   "jest": {
     "testEnvironment": "jsdom",
@@ -86,10 +87,15 @@
     "type": "git",
     "url": "bitbucket:magicpowered/dao-stats-ui"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "eslint --color --max-warnings 0 --no-ignore",
-      "tsc-files --noEmit"
+      "prettier --write",
+      "git add"
     ],
     "*.{js,jsx,ts,tsx,json,md}": [
       "prettier --write"

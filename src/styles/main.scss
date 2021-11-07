@@ -37,16 +37,16 @@ p {
 }
 
 *::-webkit-scrollbar {
-  width: 4px;               /* width of the entire scrollbar */
+  width: 4px; /* width of the entire scrollbar */
 }
 
 *::-webkit-scrollbar-track {
-  background: transparent;        /* color of the tracking area */
+  background: transparent; /* color of the tracking area */
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: var(--color-grey-700);    /* color of the scroll thumb */
+  background-color: var(--color-grey-700); /* color of the scroll thumb */
 
-  border: 3px solid transparent;  /* creates padding around scroll thumb */
-  border-radius: 7px;       /* roundness of the scroll thumb */
+  border: 3px solid transparent; /* creates padding around scroll thumb */
+  border-radius: 7px; /* roundness of the scroll thumb */
 }
