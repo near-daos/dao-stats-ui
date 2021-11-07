@@ -42,11 +42,7 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <Element
-      className={clsx(
-        styles.root,
-        { [styles[variant]]: variant === 'icon' },
-        className,
-      )}
+      className={clsx(styles.root, styles[variant], className)}
       onClick={handleClick}
       type={!href ? type : undefined}
       disabled={disabled}

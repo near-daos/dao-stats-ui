@@ -4,3 +4,4 @@ export * from './svgIcon';
 export * from './button';
 export * from './search';
 export * from './tabs';
+export * from './dropdown';

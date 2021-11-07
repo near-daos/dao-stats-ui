@@ -5,17 +5,20 @@
 .tabsWrapper {
   width: fit-content;
   height: 40px;
+
   display: flex;
   flex-flow: row nowrap;
-  align-items: center;
   justify-content: flex-start;
+  align-items: center;
 }
 
 .tab {
   @extend %button-reset;
   @include title-1;
   height: 100%;
+
   padding-bottom: 8px;
+
   border-bottom: 2px solid transparent;
 
   &:hover {

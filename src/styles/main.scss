@@ -3,8 +3,9 @@
 @import 'typography';
 
 html {
-  background: var(--color-brand);
   color: var(--white);
+  background: var(--color-brand);
+
   font-size: #{variables.$base-font-size}px;
 }
 
@@ -26,23 +27,26 @@ p {
 *::before,
 *::after {
   box-sizing: border-box;
+
   color: inherit;
-  font-family: inherit;
+
   font-size: inherit;
+  font-family: inherit;
   scrollbar-color: var(--color-grey-700) transparent;
   scrollbar-width: thin;
 }
 
 *::-webkit-scrollbar {
-  width: 12px;               /* width of the entire scrollbar */
+  width: 4px;               /* width of the entire scrollbar */
 }
 
 *::-webkit-scrollbar-track {
-  background: var(--color-brand);        /* color of the tracking area */
+  background: transparent;        /* color of the tracking area */
 }
 
 *::-webkit-scrollbar-thumb {
   background-color: var(--color-grey-700);    /* color of the scroll thumb */
+
+  border: 3px solid transparent;  /* creates padding around scroll thumb */
   border-radius: 7px;       /* roundness of the scroll thumb */
-  border: 3px solid var(--color-brand);  /* creates padding around scroll thumb */
 }

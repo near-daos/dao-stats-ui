@@ -4,9 +4,12 @@
 @import '../../styles/typography';
 
 .uiKit {
-  display: block;
   width: functions.calc-rem(1218);
+
+  padding: functions.calc-rem(50) 0;
   margin: 0 auto;
+
+  display: block;
 }
 
 .section {
@@ -14,29 +17,34 @@
 }
 
 .sectionHeader {
-  color: var(--theme-main-text-color);
   margin: 0 0 functions.calc-rem(50) 0;
+
+  color: var(--theme-main-text-color);
 }
 
 .container {
-  display: flex;
   margin-top: functions.calc-rem(45);
+
+  display: flex;
 }
 
 .column {
-  align-items: flex-start;
+  margin-right: functions.calc-rem(40);
+
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-right: functions.calc-rem(40);
+  align-items: flex-start;
 }
 
 .sectionLarge {
   width: 100%;
   max-height: 200px;
+
+  overflow-y: scroll;
+
   border: 2px solid var(--color-yellow-500);
   border-radius: functions.calc-rem(8);
-  overflow-y: scroll;
 }
 .largeBlock {
   width: 100%;
