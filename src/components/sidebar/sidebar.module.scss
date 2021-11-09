@@ -1,0 +1,14 @@
+@use '../../styles/functions';
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+.info {
+  margin: 0 0 functions.calc-rem(20);
+}
+
+.list {
+  margin: 0 0 functions.calc-rem(24);
+}

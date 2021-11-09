@@ -7,8 +7,8 @@ export type NavigationListProps = {
   className?: string;
   title: string;
   options: Option[];
-  selectedOption: Option;
-  onSelect: (value: string) => null;
+  selectedOption?: Option;
+  onSelect: (value: string) => void;
 };
 
 type Option = {
@@ -30,7 +30,7 @@ export const NavigationList: FC<NavigationListProps> = ({
         <li
           key={option.value}
           className={clsx(
-            { [styles.active]: selectedOption.value === option.value },
+            { [styles.active]: selectedOption?.value === option.value },
             styles.item,
           )}
         >

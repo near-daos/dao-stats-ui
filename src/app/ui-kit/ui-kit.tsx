@@ -10,6 +10,7 @@ import {
   Header,
   NavigationInfo,
   NavigationList,
+  Sidebar,
 } from '../../components';
 
 import styles from './ui-kit.module.scss';
@@ -114,6 +115,12 @@ export const UiKIt: FC = () => {
 
   return (
     <div className={styles.uiKit}>
+      <section className={styles.section}>
+        <div className={styles.sectionHeader}>Sidebar</div>
+        <div className={styles.container}>
+          <Sidebar />
+        </div>
+      </section>
       <section className={styles.section}>
         <div className={styles.sectionHeader}>Navigation List</div>
         <div className={styles.container}>
