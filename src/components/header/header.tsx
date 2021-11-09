@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { Tabs } from '../tabs';
 import { Dropdown, DropdownOption } from '../dropdown/dropdown';
+import { NavigationInfo } from '../navigation-info/navigation-info';
 
 import logo from '../../images/daostats.svg';
 
@@ -102,13 +103,17 @@ export const Header: FC = () => {
         <img src={logo} alt="" />
       </Link>
       <div className={styles.center}>
-        <Tabs variant="medium" options={tabOptions} />
+        <Tabs variant="medium" options={tabOptions} className={styles.tabs} />
         <Dropdown
           options={dropdownOptions}
           value={dropdownValue}
           onChange={(selectedItem) => setDropDownValue(selectedItem)}
         />
       </div>
+      <NavigationInfo
+        title="Sputnik DAO"
+        description="Average values for all DAOs"
+      />
     </div>
   );
 };

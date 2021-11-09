@@ -1,3 +1,5 @@
+@use '../../styles/functions';
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -7,4 +9,8 @@
 .center {
   display: flex;
   align-items: center;
+}
+
+.tabs {
+  margin-right: functions.calc-rem(32);
 }
