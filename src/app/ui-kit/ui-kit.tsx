@@ -8,6 +8,7 @@ import {
   Dropdown,
   DropdownOption,
   Header,
+  NavigationInfo,
 } from '../../components';
 
 import styles from './ui-kit.module.scss';
@@ -97,7 +98,42 @@ export const UiKIt: FC = () => {
 
   return (
     <div className={styles.uiKit}>
-      <Header />
+      <section className={styles.section}>
+        <div className={styles.sectionHeader}>Navigation info</div>
+        <div className={styles.container}>
+          <div className={styles.column}>
+            <NavigationInfo
+              title="Sputnik DAO"
+              description="Average values for all DAOs"
+            />
+          </div>
+          <div className={styles.column}>
+            <NavigationInfo
+              title="Sputnik DAO"
+              description="Average values for all DAOs"
+              color="blue"
+            />
+          </div>
+          <div className={styles.column}>
+            <NavigationInfo
+              title="Sputnik DAO"
+              description="Average values for all DAOs"
+              color="yellow"
+            />
+          </div>
+          <div className={styles.column}>
+            <NavigationInfo
+              title="Sputnik DAO"
+              description="Average values for all DAOs"
+              direction="left"
+            />
+          </div>
+        </div>
+      </section>
+      <section className={styles.section}>
+        <div className={styles.sectionHeader}>Header</div>
+        <Header />
+      </section>
       <section className={styles.section}>
         <div className={styles.sectionHeader}>Icons</div>
         <div className={styles.container}>

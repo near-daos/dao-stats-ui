@@ -3,11 +3,11 @@
 @import '../../styles/helpers';
 
 .navigationInfo {
-  --color-line: var(--color-grey-600);
+  --color-line: transparent;
   width: functions.calc-rem(169);
   height: functions.calc-rem(48);
 
-  padding: 0 functions.calc-rem(9) 0 0;
+  padding: 0 functions.calc-rem(9);
 
   position: relative;
 

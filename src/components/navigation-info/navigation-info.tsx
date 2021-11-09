@@ -15,7 +15,7 @@ export const NavigationInfo: FC<NavigationInfoProps> = ({
   className,
   title,
   description,
-  color = 'grey',
+  color = '',
   direction = 'right',
 }) => (
   <div
