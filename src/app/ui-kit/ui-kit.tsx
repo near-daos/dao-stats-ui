@@ -9,6 +9,7 @@ import {
   DropdownOption,
   Header,
   NavigationInfo,
+  NavigationList,
 } from '../../components';
 
 import styles from './ui-kit.module.scss';
@@ -88,6 +89,21 @@ const options: DropdownOption[] = [
   },
 ];
 
+const navigationOptions = [
+  {
+    label: 'General info',
+    value: 'general-info',
+  },
+  {
+    label: 'Users',
+    value: 'users',
+  },
+  {
+    label: 'Activity',
+    value: 'activity',
+  },
+];
+
 export const UiKIt: FC = () => {
   const [searchType, setSearchType] = useState<'mainnet' | 'testnet'>(
     'mainnet',
@@ -99,7 +115,18 @@ export const UiKIt: FC = () => {
   return (
     <div className={styles.uiKit}>
       <section className={styles.section}>
-        <div className={styles.sectionHeader}>Navigation info</div>
+        <div className={styles.sectionHeader}>Navigation List</div>
+        <div className={styles.container}>
+          <NavigationList
+            title="Overview"
+            options={navigationOptions}
+            selectedOption={navigationOptions[0]}
+            onSelect={() => null}
+          />
+        </div>
+      </section>
+      <section className={styles.section}>
+        <div className={styles.sectionHeader}>Navigation Info</div>
         <div className={styles.container}>
           <div className={styles.column}>
             <NavigationInfo
