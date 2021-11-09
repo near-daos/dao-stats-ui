@@ -7,6 +7,7 @@ import {
   Tabs,
   Dropdown,
   DropdownOption,
+  Header,
 } from '../../components';
 
 import styles from './ui-kit.module.scss';
@@ -96,6 +97,7 @@ export const UiKIt: FC = () => {
 
   return (
     <div className={styles.uiKit}>
+      <Header />
       <section className={styles.section}>
         <div className={styles.sectionHeader}>Icons</div>
         <div className={styles.container}>

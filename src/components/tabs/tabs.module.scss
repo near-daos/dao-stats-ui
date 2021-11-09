@@ -3,8 +3,11 @@
 @import '../../styles/helpers';
 
 .tabsWrapper {
+  --line-height: 4px;
+  --line-color: transparent;
+  --padding-bottom: 10px;
+
   width: fit-content;
-  height: 40px;
 
   display: flex;
   flex-flow: row nowrap;
@@ -13,23 +16,53 @@
 }
 
 .tab {
-  @extend %button-reset;
   @include title-1;
+  @extend %button-reset;
+
   height: 100%;
 
-  padding-bottom: 8px;
+  padding-bottom: var(--padding-bottom);
+  margin: 0 functions.calc-rem(24) 0 0;
 
-  border-bottom: 2px solid transparent;
+  position: relative;
 
-  &:hover {
-    border-bottom: 2px solid var(--color-yellow-600);
+  &::after {
+    width: 100%;
+    height: var(--line-height);
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    background-color: var(--line-color);
+    content: '';
+
+    border-radius: 4px;
+
+    transition: background-color 350ms;
   }
 
-  &:nth-child(n + 1) {
-    margin-left: 12px;
+  &:hover {
+    --line-color: var(--color-yellow-600);
+  }
+
+  &:last-child {
+    margin: 0;
   }
 }
 
+.medium,
+.small {
+  --padding-bottom: 6px;
+  .tab {
+    @include title-3;
+  }
+}
+
+.small {
+  --line-height: 2px;
+}
+
 .active {
-  border-bottom: 2px solid var(--color-blue-500);
+  --line-color: var(--color-blue-500);
 }

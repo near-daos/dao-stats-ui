@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 
-import s from './tabs.module.scss';
+import styles from './tabs.module.scss';
 
 type Option = {
   label: string;
@@ -10,6 +10,7 @@ type Option = {
 
 export interface TabsProps {
   className?: string;
+  variant?: 'large' | 'medium' | 'small';
   options: Option[];
   onChange?: (id: string) => void;
   defaultValue?: string;
@@ -17,6 +18,7 @@ export interface TabsProps {
 
 export const Tabs: React.FC<TabsProps> = ({
   className,
+  variant = 'large',
   defaultValue = '',
   options = [],
   onChange = () => null,
@@ -31,13 +33,13 @@ export const Tabs: React.FC<TabsProps> = ({
   };
 
   return (
-    <div className={clsx(s.tabsWrapper, className)}>
+    <div className={clsx(styles.tabsWrapper, styles[variant], className)}>
       {options.map((option) => (
         <button
           key={option.value}
           type="button"
-          className={clsx(s.tab, {
-            [s.active]: activeTab === option.value,
+          className={clsx(styles.tab, {
+            [styles.active]: activeTab === option.value,
           })}
           onClick={() => handleOnChange(option.value)}
         >
