@@ -1,1 +1,1 @@
-export * from './pieChart';
+export * from './pie-chart';

@@ -1,42 +1,35 @@
 import React, { useState } from 'react';
-import {
-  LineChart,
-  Line,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-} from 'recharts';
+import { BarChart, Bar, CartesianGrid, XAxis, YAxis, Legend } from 'recharts';
 import clsx from 'clsx';
+
 import s from '../../search/search.module.scss';
 
-export interface LineChartProps {
+export interface ChartBarProps {
   data: any;
 }
 
-export const ChartLine: React.FC<LineChartProps> = ({ data }) => {
+export const ChartBar: React.FC<ChartBarProps> = ({ data }) => {
   const [period, setPeriod] = useState('1y');
 
   const datas = () => {
     if (period === '1y' || period === 'All') {
-      return data().monthlyData;
+      return data.monthlyData;
     }
 
     if (period === '6m') {
-      return data().last6Months;
+      return data.last6Months;
     }
 
     if (period === '3m') {
-      return data().last3Months;
+      return data.last3Months;
     }
 
     if (period === '1m') {
-      return data().last30days;
+      return data.last30days;
     }
 
     if (period === '7d') {
-      return data().last7days;
+      return data.last7days;
     }
 
     return undefined;
@@ -62,7 +55,7 @@ export const ChartLine: React.FC<LineChartProps> = ({ data }) => {
               style={{
                 display: 'inline-block',
                 marginRight: '10px',
-                color: entry.color,
+                color: entry.payload.fill,
                 verticalAlign: 'middle',
               }}
               key={`item-${entry.value}`}
@@ -80,7 +73,7 @@ export const ChartLine: React.FC<LineChartProps> = ({ data }) => {
                 }}
               >
                 <path
-                  fill={entry.color}
+                  fill={entry.payload.fill}
                   cx="16"
                   cy="16"
                   type="circle"
@@ -156,7 +149,10 @@ export const ChartLine: React.FC<LineChartProps> = ({ data }) => {
   return (
     <div className="classes.rechartsWrap">
       <div className="classes.rechart">
-        <LineChart width={1100} height={400} data={datas()}>
+        <BarChart width={1100} height={400} data={datas()}>
+          <CartesianGrid stroke="#393838" vertical={false} />
+          <XAxis dataKey="name" />
+          <YAxis />
           <Legend
             align="left"
             verticalAlign="top"
@@ -164,26 +160,12 @@ export const ChartLine: React.FC<LineChartProps> = ({ data }) => {
             iconType="circle"
             content={renderLegend}
           />
-          <Line
-            dot={false}
-            dataKey="Total In"
-            stroke="#E33F84"
-            key="Total In"
-          />
-          <Line
-            dot={false}
-            dataKey="Total Out"
-            stroke="#8F40DD"
-            key="Total Out"
-          />
-          <CartesianGrid stroke="#393838" vertical={false} />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-        </LineChart>
+          <Bar dataKey="Total In" fill="#E33F84" />
+          <Bar dataKey="Total Out" fill="#8F40DD" />
+        </BarChart>
       </div>
     </div>
   );
 };
 
-export default ChartLine;
+export default ChartBar;

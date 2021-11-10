@@ -11,12 +11,14 @@ import {
   NavigationInfo,
   NavigationList,
   Sidebar,
+  WidgetTile,
+  WidgetInfo,
 } from '../../components';
 
 import { ChartLine } from '../../components/charts/line-chart';
 import { ChartBar } from '../../components/charts/bar-chart';
 import { ChartPie } from '../../components/charts/pie-chart';
-import { RechartsData, PieDatas } from '../../components/charts/RechartsData';
+import { pieData, getRechartsData } from '../../components/charts/rechartsData';
 
 import styles from './ui-kit.module.scss';
 
@@ -109,6 +111,8 @@ const navigationOptions = [
     value: 'activity',
   },
 ];
+
+const rechartsData = getRechartsData();
 
 export const UiKIt: FC = () => {
   const [searchType, setSearchType] = useState<'mainnet' | 'testnet'>(
@@ -285,21 +289,50 @@ export const UiKIt: FC = () => {
         </div>
       </section>
       <section className={styles.section}>
-        <div>
-          <ChartLine data={RechartsData} />
+        <div className={styles.sectionHeader}>Chart Line Widget</div>
+        <div className={styles.container}>
+          <ChartLine data={rechartsData} />
         </div>
       </section>
       <section className={styles.section}>
-        <div>
-          <ChartBar data={RechartsData} />
+        <div className={styles.sectionHeader}>Chart Bar Widget</div>
+        <div className={styles.container}>
+          <ChartBar data={rechartsData} />
         </div>
       </section>
       <section className={styles.section}>
-        <div>
-          <ChartPie data={PieDatas[0]} />
-          <ChartPie data={PieDatas[1]} />
-          <ChartPie data={PieDatas[2]} />
-          <ChartPie data={PieDatas[3]} />
+        <div className={styles.sectionHeader}>Chart Bar Widget</div>
+        <div className={styles.container}>
+          <ChartPie data={pieData[0]} />
+          <ChartPie data={pieData[1]} />
+          <ChartPie data={pieData[2]} />
+          <ChartPie data={pieData[3]} />
+        </div>
+      </section>
+      <section className={styles.section}>
+        <div className={styles.sectionHeader}>Info Widget</div>
+        <div className={styles.container}>
+          <WidgetTile>
+            <WidgetInfo
+              title="Number of Proposals"
+              number="456,2"
+              percentages={10}
+            />
+          </WidgetTile>
+        </div>
+        <div className={styles.container}>
+          <WidgetTile active>
+            <WidgetInfo
+              title="Vote through rate"
+              number="456,2"
+              percentages={100}
+            />
+            <WidgetInfo
+              title="Vote through rate"
+              number="456,2"
+              percentages={100}
+            />
+          </WidgetTile>
         </div>
       </section>
     </div>

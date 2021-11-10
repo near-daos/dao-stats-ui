@@ -1,1 +1,1 @@
-export * from './lineChart';
+export * from './line-chart';
