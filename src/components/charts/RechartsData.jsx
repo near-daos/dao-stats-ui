@@ -81,7 +81,7 @@ export function RechartsData() {
     return undefined;
   });
 
-  lastMonth.map((currentValue, index) => {
+  lastMonth.forEach((currentValue, index) => {
     if (index > 23) {
       return last7days.push(currentValue);
     }
@@ -89,7 +89,7 @@ export function RechartsData() {
     return undefined;
   });
 
-  monthlyData.map((currentValue, index) => {
+  monthlyData.forEach((currentValue, index) => {
     if (index > 2) {
       return last9Months.push(currentValue);
     }
@@ -97,7 +97,7 @@ export function RechartsData() {
     return undefined;
   });
 
-  monthlyData.map((currentValue, index) => {
+  monthlyData.forEach((currentValue, index) => {
     if (index > 5) {
       return last6Months.push(currentValue);
     }
@@ -105,7 +105,7 @@ export function RechartsData() {
     return undefined;
   });
 
-  monthlyData.map((currentValue, index) => {
+  monthlyData.forEach((currentValue, index) => {
     if (index > 8) {
       return last3Months.push(currentValue);
     }
@@ -113,7 +113,7 @@ export function RechartsData() {
     return undefined;
   });
 
-  dailyData.map((currentValue, index) => {
+  dailyData.forEach((currentValue, index) => {
     if (index > 2) {
       return last9Daily.push(currentValue);
     }
@@ -121,7 +121,7 @@ export function RechartsData() {
     return undefined;
   });
 
-  dailyData.map((currentValue, index) => {
+  dailyData.forEach((currentValue, index) => {
     if (index > 5) {
       return last6Daily.push(currentValue);
     }
@@ -129,7 +129,7 @@ export function RechartsData() {
     return undefined;
   });
 
-  dailyData.map((currentValue, index) => {
+  dailyData.forEach((currentValue, index) => {
     if (index > 8) {
       return last3Daily.push(currentValue);
     }
