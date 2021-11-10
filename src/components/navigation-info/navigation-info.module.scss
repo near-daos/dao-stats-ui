@@ -1,0 +1,68 @@
+@use '../../styles/functions';
+@import '../../styles/typography';
+@import '../../styles/helpers';
+
+.navigationInfo {
+  --color-line: transparent;
+  width: functions.calc-rem(169);
+  height: functions.calc-rem(48);
+
+  padding: 0 functions.calc-rem(9);
+
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--color-grey-900);
+
+  border-radius: 4px;
+  &::after {
+    width: 4px;
+    height: 100%;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    display: flex;
+
+    background-color: var(--color-line);
+
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    content: '';
+  }
+}
+
+.grey {
+  --color-line: var(--color-grey-600);
+}
+
+.blue {
+  --color-line: var(--color-blue-500);
+}
+
+.yellow {
+  --color-line: var(--color-yellow-600);
+}
+
+.right {
+  text-align: right;
+}
+
+.left {
+  text-align: left;
+}
+
+.title {
+  @include title-3();
+  color: var(--white);
+}
+
+.description {
+  @include caption-1();
+  margin: -3px 0 0 0;
+
+  color: var(--color-grey-300);
+}

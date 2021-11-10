@@ -4,10 +4,10 @@
 
 @mixin font-face($font-family, $file-path, $weight: normal, $style: normal) {
   @font-face {
-    font-display: block;
+    font-weight: $weight;
     font-family: $font-family;
     font-style: $style;
-    font-weight: $weight;
+    font-display: block;
     src: url('#{$file-path}.eot');
     src: url('#{$file-path}.eot?#iefix') format('embedded-opentype'),
       url('#{$file-path}.woff') format('woff'),
@@ -16,9 +16,10 @@
 }
 
 @mixin container {
-  margin: 0 auto;
-  padding: 0 functions.calc-rem(24);
   width: 100%;
+
+  padding: 0 functions.calc-rem(24);
+  margin: 0 auto;
 
   @include media.desktop {
     width: functions.calc-rem(variables.$breakpoint-lg);
@@ -26,9 +27,10 @@
 }
 
 @mixin narrow-container {
-  margin: 0 auto;
-  padding: 0 functions.calc-rem(24);
   width: 100%;
+
+  padding: 0 functions.calc-rem(24);
+  margin: 0 auto;
 
   @include media.desktop {
     width: functions.calc-rem(variables.$breakpoint-lg - 224);
@@ -37,25 +39,16 @@
 
 @mixin truncate {
   overflow: hidden;
+
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 @mixin truncate-multiline($lineCount) {
-  /* stylelint-disable-next-line property-no-vendor-prefix */
-  -webkit-box-orient: vertical;
+  overflow: hidden;
   /* stylelint-disable-next-line value-no-vendor-prefix */
   display: -webkit-box;
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-box-orient: vertical;
   -webkit-line-clamp: $lineCount;
-  overflow: hidden;
-}
-
-@mixin button-reset {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: block;
-  outline: none;
-  padding: 0;
-  text-decoration: none;
 }
