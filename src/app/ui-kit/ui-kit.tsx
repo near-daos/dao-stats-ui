@@ -2,6 +2,11 @@ import React, { FC } from 'react';
 
 import { SvgIcon, Button, Search, Tabs } from '../../components';
 
+import { ChartLine } from '../../components/charts/line-chart';
+import { ChartBar } from '../../components/charts/bar-chart';
+import { ChartPie } from '../../components/charts/pie-chart';
+import { RechartsData, PieDatas } from '../../components/charts/RechartsData';
+
 import styles from './ui-kit.module.scss';
 
 export const UiKIt: FC = () => (
@@ -107,6 +112,24 @@ export const UiKIt: FC = () => (
       <div className={styles.sectionHeader}>Scrollbar</div>
       <div className={styles.sectionLarge}>
         <div className={styles.largeBlock}>Scrollbar</div>
+      </div>
+    </section>
+    <section className={styles.section}>
+      <div>
+        <ChartLine data={RechartsData} />
+      </div>
+    </section>
+    <section className={styles.section}>
+      <div>
+        <ChartBar data={RechartsData} />
+      </div>
+    </section>
+    <section className={styles.section}>
+      <div>
+        <ChartPie data={PieDatas[0]} />
+        <ChartPie data={PieDatas[1]} />
+        <ChartPie data={PieDatas[2]} />
+        <ChartPie data={PieDatas[3]} />
       </div>
     </section>
   </div>
