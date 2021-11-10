@@ -8,3 +8,6 @@ export * from './dropdown';
 export * from './navigation-info';
 export * from './navigation-list';
 export * from './sidebar';
+export * from './charts';
+export * from './widget-tile';
+export * from './widget-info';

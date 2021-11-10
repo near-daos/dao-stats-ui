@@ -1,13 +1,13 @@
 import React from 'react';
 import { PieChart, Pie, Cell, Legend } from 'recharts';
 
-export interface PieChartPropItem {
+export interface PieChartItem {
   name: string;
   value: number;
 }
 
 interface PieChartProps {
-  data: Array<PieChartPropItem>;
+  data: PieChartItem[];
 }
 
 export const ChartPie: React.FC<PieChartProps> = ({ data }) => {

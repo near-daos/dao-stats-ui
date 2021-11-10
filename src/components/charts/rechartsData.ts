@@ -1,5 +1,25 @@
-export function RechartsData() {
-  const monthlyData = [
+type ChartData = {
+  name: string;
+  ['Total In']: number;
+  ['Total Out']: number;
+};
+
+type RechartsData = {
+  monthlyData: ChartData[];
+  last9Months: ChartData[];
+  last6Months: ChartData[];
+  last3Months: ChartData[];
+  dailyData: ChartData[];
+  last9Daily: ChartData[];
+  last6Daily: ChartData[];
+  last3Daily: ChartData[];
+  lastMonth: ChartData[];
+  last7days: ChartData[];
+  last30days: ChartData[];
+};
+
+const getRechartsData = (): RechartsData => {
+  const monthlyData: ChartData[] = [
     { name: 'Jan', 'Total In': 400, 'Total Out': 450 },
     { name: 'Feb', 'Total In': 500, 'Total Out': 570 },
     { name: 'Mar', 'Total In': 200, 'Total Out': 200 },
@@ -14,7 +34,7 @@ export function RechartsData() {
     { name: 'Dec', 'Total In': 300, 'Total Out': 315 },
   ];
 
-  const dailyData = [
+  const dailyData: ChartData[] = [
     { name: '1/1/20', 'Total In': 400, 'Total Out': 450 },
     { name: '1/2/20', 'Total In': 500, 'Total Out': 570 },
     { name: '1/3/20', 'Total In': 200, 'Total Out': 200 },
@@ -29,7 +49,7 @@ export function RechartsData() {
     { name: '1/12/20', 'Total In': 300, 'Total Out': 315 },
   ];
 
-  const lastMonth = [
+  const lastMonth: ChartData[] = [
     { name: '1/11/20', 'Total In': 400, 'Total Out': 450 },
     { name: '2/11/20', 'Total In': 500, 'Total Out': 570 },
     { name: '3/11/20', 'Total In': 200, 'Total Out': 200 },
@@ -63,78 +83,52 @@ export function RechartsData() {
     { name: '31/11/20', 'Total In': 300, 'Total Out': 315 },
   ];
 
-  const last9Months = [];
-  const last6Months = [];
-  const last3Months = [];
-  const last7days = [];
-  const last30days = [];
+  const last9Months: ChartData[] = [];
+  const last6Months: ChartData[] = [];
+  const last3Months: ChartData[] = [];
+  const last7days: ChartData[] = [];
+  const last30days: ChartData[] = [];
 
-  const last9Daily = [];
-  const last6Daily = [];
-  const last3Daily = [];
-
-  lastMonth.map((currentValue, index) => {
-    if (index >= 0) {
-      return last30days.push(currentValue);
-    }
-
-    return undefined;
-  });
+  const last9Daily: ChartData[] = [];
+  const last6Daily: ChartData[] = [];
+  const last3Daily: ChartData[] = [];
 
   lastMonth.forEach((currentValue, index) => {
+    if (index >= 0) {
+      last30days.push(currentValue);
+    }
+
     if (index > 23) {
-      return last7days.push(currentValue);
+      last7days.push(currentValue);
     }
-
-    return undefined;
   });
 
   monthlyData.forEach((currentValue, index) => {
     if (index > 2) {
-      return last9Months.push(currentValue);
+      last9Months.push(currentValue);
     }
 
-    return undefined;
-  });
-
-  monthlyData.forEach((currentValue, index) => {
     if (index > 5) {
-      return last6Months.push(currentValue);
+      last6Months.push(currentValue);
     }
 
-    return undefined;
-  });
-
-  monthlyData.forEach((currentValue, index) => {
     if (index > 8) {
-      return last3Months.push(currentValue);
+      last3Months.push(currentValue);
     }
-
-    return undefined;
   });
 
   dailyData.forEach((currentValue, index) => {
     if (index > 2) {
-      return last9Daily.push(currentValue);
+      last9Daily.push(currentValue);
     }
 
-    return undefined;
-  });
-
-  dailyData.forEach((currentValue, index) => {
     if (index > 5) {
-      return last6Daily.push(currentValue);
+      last6Daily.push(currentValue);
     }
 
-    return undefined;
-  });
-
-  dailyData.forEach((currentValue, index) => {
     if (index > 8) {
-      return last3Daily.push(currentValue);
+      last3Daily.push(currentValue);
     }
-
-    return undefined;
   });
 
   return {
@@ -150,9 +144,9 @@ export function RechartsData() {
     last7days,
     last30days,
   };
-}
+};
 
-export const PieDatas = [
+const pieData = [
   [
     { name: 'Payout', value: 60 },
     { name: 'Council member', value: 30 },
@@ -178,3 +172,5 @@ export const PieDatas = [
     { name: 'Expired', value: 37 },
   ],
 ];
+
+export { getRechartsData, pieData };

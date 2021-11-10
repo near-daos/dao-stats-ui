@@ -1,0 +1,37 @@
+@use '../../styles/functions';
+@import '../../styles/typography';
+@import '../../styles/helpers';
+
+.widgetInfo {
+  width: functions.calc-rem(236);
+  min-height: functions.calc-rem(98);
+
+  padding: functions.calc-rem(14) functions.calc-rem(20) 0;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  @include title-4;
+  color: var(--color-grey-300);
+}
+
+.icon {
+  color: var(--color-success-tint);
+}
+
+.percentages {
+  @include title-4;
+  display: flex;
+  align-items: center;
+
+  color: var(--color-success-tint);
+}
+
+.number {
+  @include heading-2;
+}
