@@ -10,7 +10,13 @@ import {
   Header,
   NavigationInfo,
   NavigationList,
+  Sidebar,
 } from '../../components';
+
+import { ChartLine } from '../../components/charts/line-chart';
+import { ChartBar } from '../../components/charts/bar-chart';
+import { ChartPie } from '../../components/charts/pie-chart';
+import { RechartsData, PieDatas } from '../../components/charts/RechartsData';
 
 import styles from './ui-kit.module.scss';
 
@@ -25,8 +31,7 @@ const options: DropdownOption[] = [
   {
     id: '1',
     name: 'Xaviera Gibson',
-    link:
-      'Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus',
+    link: 'Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus',
     searchType: 'testnet',
     type: 'astro',
   },
@@ -40,8 +45,7 @@ const options: DropdownOption[] = [
   {
     id: '3',
     name: 'Hadassah Harrington',
-    link:
-      'ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam auctor, velit',
+    link: 'ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam auctor, velit',
     searchType: 'mainnet',
     type: 'sputnik',
   },
@@ -114,6 +118,12 @@ export const UiKIt: FC = () => {
 
   return (
     <div className={styles.uiKit}>
+      <section className={styles.section}>
+        <div className={styles.sectionHeader}>Sidebar</div>
+        <div className={styles.container}>
+          <Sidebar />
+        </div>
+      </section>
       <section className={styles.section}>
         <div className={styles.sectionHeader}>Navigation List</div>
         <div className={styles.container}>
@@ -242,7 +252,6 @@ export const UiKIt: FC = () => {
           </div>
         </div>
       </section>
-
       <section className={styles.section}>
         <div className={styles.sectionHeader}>Tabs with default value</div>
         <div className={styles.container}>
@@ -271,6 +280,24 @@ export const UiKIt: FC = () => {
         <div className={styles.sectionHeader}>Scrollbar</div>
         <div className={styles.sectionLarge}>
           <div className={styles.largeBlock}>Scrollbar</div>
+        </div>
+      </section>
+      <section className={styles.section}>
+        <div>
+          <ChartLine data={RechartsData} />
+        </div>
+      </section>
+      <section className={styles.section}>
+        <div>
+          <ChartBar data={RechartsData} />
+        </div>
+      </section>
+      <section className={styles.section}>
+        <div>
+          <ChartPie data={PieDatas[0]} />
+          <ChartPie data={PieDatas[1]} />
+          <ChartPie data={PieDatas[2]} />
+          <ChartPie data={PieDatas[3]} />
         </div>
       </section>
     </div>
