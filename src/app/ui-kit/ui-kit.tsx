@@ -33,7 +33,8 @@ const options: DropdownOption[] = [
   {
     id: '1',
     name: 'Xaviera Gibson',
-    link: 'Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus',
+    link:
+      'Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus',
     searchType: 'testnet',
     type: 'astro',
   },
@@ -47,7 +48,8 @@ const options: DropdownOption[] = [
   {
     id: '3',
     name: 'Hadassah Harrington',
-    link: 'ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam auctor, velit',
+    link:
+      'ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam auctor, velit',
     searchType: 'mainnet',
     type: 'sputnik',
   },
