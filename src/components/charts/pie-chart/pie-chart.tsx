@@ -1,39 +1,42 @@
 import React from 'react';
 import { PieChart, Pie, Cell, Legend } from 'recharts';
+import clsx from 'clsx';
+import s from '../helper/charts.module.scss';
 
 export interface PieChartItem {
   name: string;
   value: number;
 }
 
+type piePayload = {
+  color: string;
+  value: string;
+  payload: {
+    percent: number;
+  };
+};
+
 interface PieChartProps {
   data: PieChartItem[];
+  active?: boolean;
 }
 
-export const ChartPie: React.FC<PieChartProps> = ({ data }) => {
+const COLORS = ['#E33F84', '#8F40DD', '#5D75E9', '#81CEEE'];
+
+const RADIAN = Math.PI / 180;
+
+export const ChartPie: React.FC<PieChartProps> = ({ data, active }) => {
   const renderLegend = (props: any) => {
     const { payload } = props;
 
     return (
       <div>
-        <ul
-          style={{
-            listStyle: 'none',
-            padding: 0,
-            margin: 0,
-            textAlign: 'left',
-          }}
-          className="recharts-default-legend"
-        >
-          {payload.map((entry: any, index: number) => (
+        <ul className={s.legendList}>
+          {payload.map((entry: piePayload) => (
             <li
-              className={`recharts-legend-item legend-item-${index + 1}`}
+              className={s.legendListPie}
               style={{
-                display: 'flex',
-                marginRight: '10px',
                 color: entry.color,
-                verticalAlign: 'middle',
-                justifyContent: 'space-between',
               }}
               key={`item-${entry.value}`}
             >
@@ -62,7 +65,7 @@ export const ChartPie: React.FC<PieChartProps> = ({ data }) => {
                 </svg>
                 {entry.value}
               </span>
-              <span style={{ color: '#fff' }}>
+              <span className={s.pieLegendValue}>
                 {entry.payload.percent * 100}%
               </span>
             </li>
@@ -71,10 +74,6 @@ export const ChartPie: React.FC<PieChartProps> = ({ data }) => {
       </div>
     );
   };
-
-  const COLORS = ['#E33F84', '#8F40DD', '#5D75E9', '#81CEEE'];
-
-  const RADIAN = Math.PI / 180;
 
   const renderLabel = ({
     cx,
@@ -103,22 +102,11 @@ export const ChartPie: React.FC<PieChartProps> = ({ data }) => {
 
   return (
     <div
-      className="classes.rechart"
-      style={{
-        border: '2px solid #393838',
-        borderRadius: '8px',
-        display: 'inline-block',
-        padding: '10px 15px',
-      }}
+      className={clsx(s.pieChartWrapper, {
+        [s.activePieChart]: active,
+      })}
     >
-      <span
-        style={{
-          color: '#969696',
-          fontSize: '14px',
-        }}
-      >
-        Average council size
-      </span>
+      <span className={s.pieChartLabel}>Average council size</span>
       <PieChart width={246} height={260}>
         <Legend
           verticalAlign="top"

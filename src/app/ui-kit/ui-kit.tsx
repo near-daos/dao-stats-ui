@@ -305,7 +305,7 @@ export const UiKIt: FC = () => {
         <div className={styles.container}>
           <ChartPie data={pieData[0]} />
           <ChartPie data={pieData[1]} />
-          <ChartPie data={pieData[2]} />
+          <ChartPie data={pieData[2]} active />
           <ChartPie data={pieData[3]} />
         </div>
       </section>
