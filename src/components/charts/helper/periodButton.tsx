@@ -11,7 +11,7 @@ export const PeriodButton: React.FC<PeriodButtonProps> = ({
   period,
   setPeriod,
 }) => (
-  <div style={{ display: 'flex' }}>
+  <div className={s.periodButtonsWrapper}>
     <button
       type="button"
       className={clsx(s.periodButtonItem, {

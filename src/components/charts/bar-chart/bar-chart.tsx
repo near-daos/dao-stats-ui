@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { BarChart, Bar, CartesianGrid, XAxis, YAxis, Legend } from 'recharts';
-import clsx from 'clsx';
 import { PeriodButton } from '../helper/periodButton';
 import s from '../helper/charts.module.scss';
 
@@ -15,42 +14,44 @@ type barPayload = {
   value: string;
 };
 
+const datas = (period: string, data: any) => {
+  if (period === '1y' || period === 'All') {
+    return data.monthlyData;
+  }
+
+  if (period === '6m') {
+    return data.last6Months;
+  }
+
+  if (period === '3m') {
+    return data.last3Months;
+  }
+
+  if (period === '1m') {
+    return data.last30days;
+  }
+
+  if (period === '7d') {
+    return data.last7days;
+  }
+
+  return undefined;
+};
+
 export const ChartBar: React.FC<ChartBarProps> = ({ data }) => {
   const [period, setPeriod] = useState('1y');
 
-  const datas = () => {
-    if (period === '1y' || period === 'All') {
-      return data.monthlyData;
-    }
-
-    if (period === '6m') {
-      return data.last6Months;
-    }
-
-    if (period === '3m') {
-      return data.last3Months;
-    }
-
-    if (period === '1m') {
-      return data.last30days;
-    }
-
-    if (period === '7d') {
-      return data.last7days;
-    }
-
-    return undefined;
-  };
+  const rechartsData = datas(period, data);
 
   const renderLegend = (props: any) => {
     const { payload } = props;
 
     return (
-      <div className={clsx(s.legendWrapper)}>
-        <ul className={clsx(s.legendList)}>
+      <div className={s.legendWrapper}>
+        <ul className={s.legendList}>
           {payload.map((entry: barPayload) => (
             <li
-              className={clsx(s.legendListBar)}
+              className={s.legendListBar}
               style={{ color: entry.payload.fill }}
               key={`item-${entry.value}`}
             >
@@ -86,7 +87,7 @@ export const ChartBar: React.FC<ChartBarProps> = ({ data }) => {
   };
 
   return (
-    <BarChart width={1100} height={400} data={datas()}>
+    <BarChart width={1100} height={400} data={rechartsData}>
       <CartesianGrid stroke="#393838" vertical={false} />
       <XAxis dataKey="name" />
       <YAxis />

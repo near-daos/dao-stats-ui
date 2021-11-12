@@ -1,5 +1,6 @@
 import React from 'react';
 import { PieChart, Pie, Cell, Legend } from 'recharts';
+import s from '../helper/charts.module.scss';
 
 export interface PieChartItem {
   name: string;
@@ -16,24 +17,12 @@ export const ChartPie: React.FC<PieChartProps> = ({ data }) => {
 
     return (
       <div>
-        <ul
-          style={{
-            listStyle: 'none',
-            padding: 0,
-            margin: 0,
-            textAlign: 'left',
-          }}
-          className="recharts-default-legend"
-        >
+        <ul className={s.legendList}>
           {payload.map((entry: any, index: number) => (
             <li
-              className={`recharts-legend-item legend-item-${index + 1}`}
+              className={s.legendListPie}
               style={{
-                display: 'flex',
-                marginRight: '10px',
                 color: entry.color,
-                verticalAlign: 'middle',
-                justifyContent: 'space-between',
               }}
               key={`item-${entry.value}`}
             >
@@ -102,23 +91,8 @@ export const ChartPie: React.FC<PieChartProps> = ({ data }) => {
   };
 
   return (
-    <div
-      className="classes.rechart"
-      style={{
-        border: '2px solid #393838',
-        borderRadius: '8px',
-        display: 'inline-block',
-        padding: '10px 15px',
-      }}
-    >
-      <span
-        style={{
-          color: '#969696',
-          fontSize: '14px',
-        }}
-      >
-        Average council size
-      </span>
+    <div className={s.pieChartWrapper}>
+      <span className={s.pieChartLabel}>Average council size</span>
       <PieChart width={246} height={260}>
         <Legend
           verticalAlign="top"

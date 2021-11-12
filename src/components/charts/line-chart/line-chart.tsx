@@ -8,7 +8,6 @@ import {
   Tooltip,
   Legend,
 } from 'recharts';
-import clsx from 'clsx';
 import { PeriodButton } from '../helper/periodButton';
 import s from '../helper/charts.module.scss';
 
@@ -16,7 +15,7 @@ type LineChartProps = {
   data: any;
 };
 
-type barPayload = {
+type linePayload = {
   payload: {
     fill: string;
   };
@@ -24,42 +23,44 @@ type barPayload = {
   color: string;
 };
 
+const datas = (period: string, data: any) => {
+  if (period === '1y' || period === 'All') {
+    return data.monthlyData;
+  }
+
+  if (period === '6m') {
+    return data.last6Months;
+  }
+
+  if (period === '3m') {
+    return data.last3Months;
+  }
+
+  if (period === '1m') {
+    return data.last30days;
+  }
+
+  if (period === '7d') {
+    return data.last7days;
+  }
+
+  return undefined;
+};
+
 export const ChartLine: React.FC<LineChartProps> = ({ data }) => {
   const [period, setPeriod] = useState('1y');
 
-  const datas = () => {
-    if (period === '1y' || period === 'All') {
-      return data.monthlyData;
-    }
-
-    if (period === '6m') {
-      return data.last6Months;
-    }
-
-    if (period === '3m') {
-      return data.last3Months;
-    }
-
-    if (period === '1m') {
-      return data.last30days;
-    }
-
-    if (period === '7d') {
-      return data.last7days;
-    }
-
-    return undefined;
-  };
+  const rechartsData = datas(period, data);
 
   const renderLegend = (props: any) => {
     const { payload } = props;
 
     return (
-      <div className={clsx(s.legendWrapper)}>
-        <ul className={clsx(s.legendList)}>
-          {payload.map((entry: barPayload) => (
+      <div className={s.legendWrapper}>
+        <ul className={s.legendList}>
+          {payload.map((entry: linePayload) => (
             <li
-              className={clsx(s.legendListBar)}
+              className={s.legendListBar}
               style={{ color: entry.color }}
               key={`item-${entry.value}`}
             >
@@ -95,7 +96,7 @@ export const ChartLine: React.FC<LineChartProps> = ({ data }) => {
   };
 
   return (
-    <LineChart width={1100} height={400} data={datas()}>
+    <LineChart width={1100} height={400} data={rechartsData}>
       <Legend
         align="left"
         verticalAlign="top"

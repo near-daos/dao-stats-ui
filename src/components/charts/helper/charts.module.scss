@@ -2,6 +2,10 @@
 @import '../../../styles/typography';
 @import '../../../styles/helpers';
 
+.periodButtonsWrapper {
+  display: flex;
+}
+
 .periodButtonItem {
   @extend %button-reset;
   @include title-4;
@@ -41,15 +45,33 @@
 }
 
 .legendList {
-  list-style: 'none';
+  list-style: none;
   padding: 0;
   margin: 0;
-  text-align: 'left';
-  display: flex;
+  text-align: left;
 }
 
 .legendListBar {
   display: inline-block;
   margin-right: 10px;
   vertical-align: middle;
+}
+
+.legendListPie {
+  display: flex;
+  margin-right: 10px;
+  vertical-align: middle;
+  justify-content: space-between;
+}
+
+.pieChartWrapper {
+  border: 2px solid #393838;
+  border-radius: 8px;
+  display: inline-block;
+  padding: 10px 15px;
+}
+
+.pieChartLabel {
+  color: #969696;
+  font-size: 14px;
 }
