@@ -1,5 +1,6 @@
 import React from 'react';
 import { PieChart, Pie, Cell, Legend } from 'recharts';
+import clsx from 'clsx';
 import s from '../helper/charts.module.scss';
 
 export interface PieChartItem {
@@ -7,18 +8,31 @@ export interface PieChartItem {
   value: number;
 }
 
+type piePayload = {
+  color: string;
+  value: string;
+  payload: {
+    percent: number;
+  };
+};
+
 interface PieChartProps {
   data: PieChartItem[];
+  active?: boolean;
 }
 
-export const ChartPie: React.FC<PieChartProps> = ({ data }) => {
+const COLORS = ['#E33F84', '#8F40DD', '#5D75E9', '#81CEEE'];
+
+const RADIAN = Math.PI / 180;
+
+export const ChartPie: React.FC<PieChartProps> = ({ data, active }) => {
   const renderLegend = (props: any) => {
     const { payload } = props;
 
     return (
       <div>
         <ul className={s.legendList}>
-          {payload.map((entry: any, index: number) => (
+          {payload.map((entry: piePayload) => (
             <li
               className={s.legendListPie}
               style={{
@@ -51,7 +65,7 @@ export const ChartPie: React.FC<PieChartProps> = ({ data }) => {
                 </svg>
                 {entry.value}
               </span>
-              <span style={{ color: '#fff' }}>
+              <span className={s.pieLegendValue}>
                 {entry.payload.percent * 100}%
               </span>
             </li>
@@ -60,10 +74,6 @@ export const ChartPie: React.FC<PieChartProps> = ({ data }) => {
       </div>
     );
   };
-
-  const COLORS = ['#E33F84', '#8F40DD', '#5D75E9', '#81CEEE'];
-
-  const RADIAN = Math.PI / 180;
 
   const renderLabel = ({
     cx,
@@ -91,7 +101,11 @@ export const ChartPie: React.FC<PieChartProps> = ({ data }) => {
   };
 
   return (
-    <div className={s.pieChartWrapper}>
+    <div
+      className={clsx(s.pieChartWrapper, {
+        [s.activePieChart]: active,
+      })}
+    >
       <span className={s.pieChartLabel}>Average council size</span>
       <PieChart width={246} height={260}>
         <Legend
