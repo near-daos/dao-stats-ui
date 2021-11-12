@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
 import { BarChart, Bar, CartesianGrid, XAxis, YAxis, Legend } from 'recharts';
 import clsx from 'clsx';
+import { PeriodButton } from '../helper/periodButton';
+import s from '../helper/charts.module.scss';
 
-import s from '../../search/search.module.scss';
-
-export interface ChartBarProps {
+type ChartBarProps = {
   data: any;
-}
+};
+
+type barPayload = {
+  payload: {
+    fill: string;
+  };
+  value: string;
+};
 
 export const ChartBar: React.FC<ChartBarProps> = ({ data }) => {
   const [period, setPeriod] = useState('1y');
@@ -39,25 +46,12 @@ export const ChartBar: React.FC<ChartBarProps> = ({ data }) => {
     const { payload } = props;
 
     return (
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <ul
-          style={{
-            listStyle: 'none',
-            padding: 0,
-            margin: 0,
-            textAlign: 'left',
-          }}
-          className="recharts-default-legend"
-        >
-          {payload.map((entry: any, index: number) => (
+      <div className={clsx(s.legendWrapper)}>
+        <ul className={clsx(s.legendList)}>
+          {payload.map((entry: barPayload) => (
             <li
-              className={`recharts-legend-item legend-item-${index + 1}`}
-              style={{
-                display: 'inline-block',
-                marginRight: '10px',
-                color: entry.payload.fill,
-                verticalAlign: 'middle',
-              }}
+              className={clsx(s.legendListBar)}
+              style={{ color: entry.payload.fill }}
               key={`item-${entry.value}`}
             >
               <svg
@@ -86,85 +80,26 @@ export const ChartBar: React.FC<ChartBarProps> = ({ data }) => {
             </li>
           ))}
         </ul>
-        <div style={{ display: 'flex' }}>
-          <button
-            type="button"
-            className={clsx(s.inputControlItem, {
-              [s.active]: period === '7d',
-            })}
-            onClick={() => setPeriod('7d')}
-          >
-            7d
-          </button>
-          <button
-            type="button"
-            className={clsx(s.inputControlItem, {
-              [s.active]: period === '1m',
-            })}
-            onClick={() => setPeriod('1m')}
-          >
-            1m
-          </button>
-          <button
-            type="button"
-            className={clsx(s.inputControlItem, {
-              [s.active]: period === '3m',
-            })}
-            onClick={() => setPeriod('3m')}
-          >
-            3m
-          </button>
-          <button
-            type="button"
-            className={clsx(s.inputControlItem, {
-              [s.active]: period === '6m',
-            })}
-            onClick={() => setPeriod('6m')}
-          >
-            6m
-          </button>
-          <button
-            type="button"
-            className={clsx(s.inputControlItem, {
-              [s.active]: period === '1y',
-            })}
-            onClick={() => setPeriod('1y')}
-          >
-            1y
-          </button>
-          <button
-            type="button"
-            className={clsx(s.inputControlItem, {
-              [s.active]: period === 'All',
-            })}
-            onClick={() => setPeriod('All')}
-          >
-            All
-          </button>
-        </div>
+        <PeriodButton period={period} setPeriod={setPeriod} />
       </div>
     );
   };
 
   return (
-    <div className="classes.rechartsWrap">
-      <div className="classes.rechart">
-        <BarChart width={1100} height={400} data={datas()}>
-          <CartesianGrid stroke="#393838" vertical={false} />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Legend
-            align="left"
-            verticalAlign="top"
-            height={50}
-            iconType="circle"
-            content={renderLegend}
-          />
-          <Bar dataKey="Total In" fill="#E33F84" />
-          <Bar dataKey="Total Out" fill="#8F40DD" />
-        </BarChart>
-      </div>
-    </div>
+    <BarChart width={1100} height={400} data={datas()}>
+      <CartesianGrid stroke="#393838" vertical={false} />
+      <XAxis dataKey="name" />
+      <YAxis />
+      <Legend
+        align="left"
+        verticalAlign="top"
+        height={50}
+        iconType="circle"
+        content={renderLegend}
+      />
+      <Bar dataKey="Total In" fill="#E33F84" />
+      <Bar dataKey="Total Out" fill="#8F40DD" />
+    </BarChart>
   );
 };
 
