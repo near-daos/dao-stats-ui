@@ -1,0 +1,39 @@
+@use '../../../styles/functions';
+
+.uiKit {
+  width: functions.calc-rem(1218);
+
+  padding: functions.calc-rem(50) 0;
+  margin: 0 auto;
+
+  display: block;
+}
+
+.section {
+  padding-top: functions.calc-rem(50);
+}
+
+.flexWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.main404 {
+  margin-top: 5em;
+  text-align: center;
+}
+
+.paragraphItem {
+  margin: 20px 0;
+}
+
+.notFound {
+  @extend .paragraphItem;
+  font-size: 32px;
+}
+
+.column {
+  width: 50%;
+  display: flex;
+  margin: auto;
+}

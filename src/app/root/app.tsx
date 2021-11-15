@@ -7,7 +7,7 @@ import { history } from '../../store/history';
 import { store } from '../../store';
 import { ROUTES } from '../../constants';
 import { Layout } from '../../components';
-import { UiKIt } from '..';
+import { UiKIt, Page404 } from '..';
 
 export const App: FC = () => (
   <Provider store={store}>
@@ -16,6 +16,7 @@ export const App: FC = () => (
         <Switch>
           <Route exact path={ROUTES.index} component={UiKIt} />
           <Route exact path={ROUTES.uiKit} component={UiKIt} />
+          <Route exact path={ROUTES.Page404} component={Page404} />
         </Switch>
       </Layout>
     </ConnectedRouter>
