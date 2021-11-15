@@ -8,13 +8,14 @@ import { store } from '../../store';
 import { ROUTES } from '../../constants';
 import { Layout } from '../../components';
 import { UiKIt } from '..';
+import { MainPage } from '../../pages/MainPage/MainPage';
 
 export const App: FC = () => (
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <Layout>
         <Switch>
-          <Route exact path={ROUTES.index} component={UiKIt} />
+          <Route exact path={ROUTES.index} component={MainPage} />
           <Route exact path={ROUTES.uiKit} component={UiKIt} />
         </Switch>
       </Layout>
