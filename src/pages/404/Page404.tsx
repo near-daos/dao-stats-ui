@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from '../../../components';
-import logo from '../../../images/daostats.svg';
-import error404 from '../../../images/error404.svg';
+import { Button } from '../../components';
+import logo from '../../images/daostats.svg';
+import error404 from '../../images/error404.svg';
 
 import styles from './page404.module.scss';
 

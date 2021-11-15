@@ -1,2 +1,2 @@
 export * from './ui-kit';
-export * from './pages/404/Page404';
+export * from '../pages/404/Page404';
