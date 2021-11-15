@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { BarChart, Bar, CartesianGrid, XAxis, YAxis, Legend } from 'recharts';
+import {
+  BarChart,
+  Bar,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Legend,
+  Tooltip,
+} from 'recharts';
 import { PeriodButton } from '../helper/periodButton';
 import s from '../helper/charts.module.scss';
 
@@ -86,11 +94,57 @@ export const ChartBar: React.FC<ChartBarProps> = ({ data }) => {
     );
   };
 
+  const BarСhartTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className={s.tooltipWrapper}>
+          <p className={s.tooltipLabel}>{label}</p>
+          {payload.map((el: any) => (
+            <div
+              style={{ color: el.color }}
+              key={`item-${el.dataKey}-${el.value}`}
+            >
+              <span className={s.tooltipElementName}>
+                <svg
+                  className="recharts-surface"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 32 32"
+                  version="1.1"
+                  style={{
+                    display: 'inline-block',
+                    verticalAlign: 'middle',
+                    marginRight: '4px',
+                  }}
+                >
+                  <path
+                    fill={el.color}
+                    cx="16"
+                    cy="16"
+                    type="circle"
+                    className="recharts-symbols"
+                    transform="translate(16, 16)"
+                    d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
+                  />
+                </svg>
+                {el.name}:
+              </span>
+              <span className={s.pieLegendValue}>${el.value}</span>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    return null;
+  };
+
   return (
     <BarChart width={1100} height={400} data={rechartsData}>
       <CartesianGrid stroke="#393838" vertical={false} />
       <XAxis dataKey="name" />
       <YAxis />
+      <Tooltip content={<BarСhartTooltip />} />
       <Legend
         align="left"
         verticalAlign="top"
