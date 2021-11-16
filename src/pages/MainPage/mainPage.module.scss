@@ -1,0 +1,50 @@
+@use '../../styles/functions';
+
+.uiKit {
+  width: functions.calc-rem(1218);
+
+  padding: functions.calc-rem(50) 0;
+
+  margin: 0 auto;
+
+  display: block;
+}
+
+.section {
+  padding-top: functions.calc-rem(50);
+}
+
+.flexWrapper {
+  width: functions.calc-rem(700);
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  text-align: center;
+}
+
+.paragraphItem {
+  margin: 20px 0;
+}
+
+.mainText {
+  @extend .paragraphItem;
+
+  margin-top: 5em;
+  font-size: 32px;
+}
+
+.tabs {
+  display: flex;
+
+  margin: 4em auto 2em auto;
+}
+
+.search {
+  margin-bottom: 7em;
+}
+
+.button {
+  width: 7%;
+  display: flex;
+  margin: auto;
+}
