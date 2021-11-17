@@ -12,13 +12,13 @@ import { UiKIt, Page404, MainPage } from '..';
 export const App: FC = () => (
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <Layout>
-        <Switch>
-          <Route exact path={ROUTES.index} component={MainPage} />
+      <Switch>
+        <Route exact path={ROUTES.index} component={MainPage} />
+        <Route exact path={ROUTES.Page404} component={Page404} />
+        <Layout>
           <Route exact path={ROUTES.uiKit} component={UiKIt} />
-          <Route exact path={ROUTES.Page404} component={Page404} />
-        </Switch>
-      </Layout>
+        </Layout>
+      </Switch>
     </ConnectedRouter>
   </Provider>
 );
