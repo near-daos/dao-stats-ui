@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Tabs, Search, Button } from '../../components';
 import logo from '../../images/daostats.svg';
-import styles from './mainPage.module.scss';
+import styles from './main-page.module.scss';
 
 export const MainPage: FC = () => {
   const [searchType, setSearchType] = useState<'mainnet' | 'testnet'>(

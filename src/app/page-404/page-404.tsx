@@ -4,7 +4,7 @@ import { Button } from '../../components';
 import logo from '../../images/daostats.svg';
 import error404 from '../../images/error404.svg';
 
-import styles from './page404.module.scss';
+import styles from './page-404.module.scss';
 
 export const Page404: FC = () => (
   <div className={styles.uiKit}>
