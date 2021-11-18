@@ -1,5 +1,6 @@
 export const ROUTES = {
   index: '/',
   uiKit: '/ui-kit',
-  Page404: '/404',
+  page404: '/404',
+  generalInfo: '/general-info',
 };

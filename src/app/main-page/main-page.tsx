@@ -52,7 +52,7 @@ export const MainPage: FC = () => {
 
         <p className={styles.paragraphItem}>Sputnik DAO stats</p>
         <div className={styles.button}>
-          <Button variant="icon" href="/ui-kit" />
+          <Button variant="icon" href="/general-info" />
         </div>
       </section>
     </div>

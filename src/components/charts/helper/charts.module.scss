@@ -9,7 +9,7 @@
 .periodButtonItem {
   @extend %button-reset;
   @include title-4;
-  width: 75px;
+  width: 40px;
   height: 32px;
 
   padding: functions.calc-rem(6) functions.calc-rem(12);
