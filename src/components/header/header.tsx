@@ -8,6 +8,7 @@ import { NavigationInfo } from '../navigation-info/navigation-info';
 import logo from '../../images/daostats.svg';
 
 import styles from './header.module.scss';
+import { useForbiddenRoutes } from '../../hooks';
 
 const tabOptions = [
   {
@@ -93,6 +94,8 @@ const dropdownOptions: DropdownOption[] = [
 ];
 
 export const Header: FC = () => {
+  const { isForbiddenHeader } = useForbiddenRoutes();
+
   const [dropdownValue, setDropDownValue] = useState<DropdownOption | null>(
     null,
   );
@@ -102,18 +105,22 @@ export const Header: FC = () => {
       <Link to="/" className={styles.logo}>
         <img src={logo} alt="" />
       </Link>
-      <div className={styles.center}>
-        <Tabs variant="medium" options={tabOptions} className={styles.tabs} />
-        <Dropdown
-          options={dropdownOptions}
-          value={dropdownValue}
-          onChange={(selectedItem) => setDropDownValue(selectedItem)}
-        />
-      </div>
-      <NavigationInfo
-        title="Sputnik DAO"
-        description="Average values for all DAOs"
-      />
+      {!isForbiddenHeader ? (
+        <div className={styles.main}>
+          <Tabs variant="medium" options={tabOptions} className={styles.tabs} />
+          <Dropdown
+            className={styles.search}
+            options={dropdownOptions}
+            value={dropdownValue}
+            onChange={(selectedItem) => setDropDownValue(selectedItem)}
+          />
+          <NavigationInfo
+            className={styles.navigationInfo}
+            title="Sputnik DAO"
+            description="Average values for all DAOs"
+          />
+        </div>
+      ) : null}
     </div>
   );
 };

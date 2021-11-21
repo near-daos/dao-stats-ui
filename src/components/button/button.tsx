@@ -1,5 +1,6 @@
 import React, { ReactChild } from 'react';
 import clsx from 'clsx';
+import { useHistory } from 'react-router';
 
 import { SvgIcon } from '../svgIcon/svgIcon';
 
@@ -29,28 +30,32 @@ export const Button: React.FC<ButtonProps> = ({
   href,
   ...other
 }) => {
+  const history = useHistory();
   const handleClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.stopPropagation();
     event.nativeEvent.stopImmediatePropagation();
+
+    if (href) {
+      history.push(href);
+
+      return;
+    }
 
     if (onClick) {
       onClick(event);
     }
   };
 
-  const Element = href ? 'a' : 'button';
-
   return (
-    <Element
+    <button
       className={clsx(styles.root, styles[variant], className)}
       onClick={handleClick}
       type={!href ? type : undefined}
       disabled={disabled}
-      href={href}
       {...other}
     >
       {variant === 'icon' ? <SvgIcon size={24} icon="arrow" /> : children}
-    </Element>
+    </button>
   );
 };
 

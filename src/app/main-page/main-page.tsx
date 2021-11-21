@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Tabs, Search, Button } from '../../components';
-import logo from '../../images/daostats.svg';
+
 import styles from './main-page.module.scss';
+import { ROUTES } from '../../constants';
 
 export const MainPage: FC = () => {
   const [searchType, setSearchType] = useState<'mainnet' | 'testnet'>(
@@ -10,51 +10,41 @@ export const MainPage: FC = () => {
   );
 
   return (
-    <div className={styles.uiKit}>
-      <section className={styles.section}>
-        <Link to="/">
-          <img src={logo} alt="" />
-        </Link>
-      </section>
+    <div className={styles.mainPage}>
+      <h1 className={styles.title}>
+        This dashboard represents live data collected by the middleware behind
+        Dapp
+      </h1>
 
-      <section className={styles.flexWrapper}>
-        <p className={styles.mainText}>
-          This dashboard represents live data collected by the middleware behind
-          Dapp
-        </p>
+      <h2 className={styles.subTitle}>
+        It uses the publicly available RPC and and Indexer.
+      </h2>
 
-        <p className={styles.paragraphItem}>
-          It uses the publicly available RPC and and Indexer.
-        </p>
+      <Tabs
+        className={styles.tabs}
+        options={[
+          {
+            label: 'Sputnik DAO',
+            value: 'sputnik',
+          },
+          {
+            label: 'Astro',
+            value: 'astro',
+          },
+        ]}
+      />
+      <Search
+        className={styles.search}
+        searchType={searchType}
+        setSearchType={(type) => setSearchType(type)}
+      />
 
-        <div className={styles.tabs}>
-          <Tabs
-            options={[
-              {
-                label: 'Sputnik DAO',
-                value: 'sputnik',
-              },
-              {
-                label: 'Astro',
-                value: 'astro',
-              },
-            ]}
-          />
-        </div>
-
-        <div className={styles.search}>
-          <Search
-            inputProps={{ type: 'text' }}
-            searchType={searchType}
-            setSearchType={(type) => setSearchType(type)}
-          />
-        </div>
-
-        <p className={styles.paragraphItem}>Sputnik DAO stats</p>
-        <div className={styles.button}>
-          <Button variant="icon" href="/general-info" />
-        </div>
-      </section>
+      <p className={styles.info}>Sputnik DAO stats</p>
+      <Button
+        className={styles.button}
+        variant="icon"
+        href={ROUTES.generalInfo}
+      />
     </div>
   );
 };

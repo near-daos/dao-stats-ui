@@ -4,9 +4,8 @@
 
 .widgetInfo {
   width: functions.calc-rem(236);
-  min-height: functions.calc-rem(98);
 
-  padding: functions.calc-rem(14) functions.calc-rem(20) 0;
+  padding: 0 functions.calc-rem(20) functions.calc-rem(14);
 }
 
 .top {
@@ -20,16 +19,20 @@
   color: var(--color-grey-300);
 }
 
-.icon {
-  color: var(--color-success-tint);
-}
-
 .percentages {
   @include title-4;
   display: flex;
   align-items: center;
-
+  
   color: var(--color-success-tint);
+}
+
+.negativeGrowth {
+  color: var(--color-error-pure);
+  
+  .icon {
+    transform: rotate(180deg);
+  }
 }
 
 .number {

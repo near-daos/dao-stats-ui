@@ -10,7 +10,7 @@ import styles from './general-info.module.scss';
 const rechartsData = getRechartsData();
 
 export const GeneralInfo: FC = () => (
-  <>
+  <div className={styles.page}>
     <div className={styles.subpageWrapper}>
       <h1 className={styles.title}>General Info</h1>
       <div className={styles.subpageContent}>
@@ -45,5 +45,5 @@ export const GeneralInfo: FC = () => (
         </div>
       </div>
     </div>
-  </>
+  </div>
 );

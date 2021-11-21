@@ -1,20 +1,23 @@
 @use '../../styles/functions';
+@use '../../styles/mixins';
 
-.tableLayout {
-  width: functions.calc-rem(1218);
-
-  padding: functions.calc-rem(50) 0;
-  margin: 0 auto;
-
-  display: block;
-}
-
-.section {
-  padding-top: functions.calc-rem(50);
+.layout {
+  @include mixins.container;
+  min-height: 100vh;
 }
 
 .container {
-  margin-top: functions.calc-rem(25);
+  padding: functions.calc-rem(48) 0 0;
 
   display: flex;
+}
+
+.page {
+  width: functions.calc-rem(1005);
+}
+
+.fullWidth {
+  width: 100%;
+  
+  margin: 0 auto;
 }
