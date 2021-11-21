@@ -3,10 +3,12 @@ import clsx from 'clsx';
 
 import { SvgIcon } from '../svgIcon/svgIcon';
 
-import s from './search.module.scss';
+import styles from './search.module.scss';
 
 export interface SearchProps {
   className?: string;
+  classNameInput?: string;
+  classNameIcon?: string;
   value?: string;
   inputProps?: Partial<InputHTMLAttributes<HTMLInputElement>>;
   setSearchType: (type: 'mainnet' | 'testnet') => void;
@@ -15,32 +17,34 @@ export interface SearchProps {
 
 export const Search: React.FC<SearchProps> = ({
   className,
-  value,
+  classNameInput,
+  classNameIcon,
+  value = '',
   inputProps,
   setSearchType,
   searchType,
 }) => (
   <div
-    className={clsx(s.inputWrapper, className, {
-      [s.forceActive]: value?.trim() !== '',
+    className={clsx(styles.root, className, {
+      [styles.forceActive]: value?.trim() !== '',
     })}
   >
     <input
       {...inputProps}
       id="search"
       type="text"
-      className={s.input}
+      className={clsx(styles.input, classNameInput)}
       placeholder="Search"
     />
-    <label htmlFor="search" className={s.inputLabel} />
+    <label htmlFor="search" className={styles.inputLabel} />
 
-    <SvgIcon icon="search" className={s.inputIcon} />
+    <SvgIcon icon="search" className={clsx(styles.inputIcon, classNameIcon)} />
 
-    <div className={s.inputControl}>
+    <div className={styles.inputControl}>
       <button
         type="button"
-        className={clsx(s.inputControlItem, {
-          [s.active]: searchType === 'mainnet',
+        className={clsx(styles.inputControlItem, {
+          [styles.active]: searchType === 'mainnet',
         })}
         onClick={() => setSearchType('mainnet')}
       >
@@ -49,8 +53,8 @@ export const Search: React.FC<SearchProps> = ({
 
       <button
         type="button"
-        className={clsx(s.inputControlItem, {
-          [s.active]: searchType === 'testnet',
+        className={clsx(styles.inputControlItem, {
+          [styles.active]: searchType === 'testnet',
         })}
         onClick={() => setSearchType('testnet')}
       >

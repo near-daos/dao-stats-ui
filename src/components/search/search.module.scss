@@ -2,7 +2,7 @@
 @import '../../styles/typography';
 @import '../../styles/helpers';
 
-.inputWrapper {
+.root {
   width: 100%;
   height: 48px;
   min-width: 563px;
@@ -15,19 +15,27 @@
   align-items: center;
 
   background: transparent;
+
+  &:hover .inputIcon {
+    color: var(--color-grey-400);
+  }
 }
 
 .forceActive {
   input {
-    border: 2px solid var(--color-yellow-600);
+    border: 1px solid var(--color-yellow-600);
+    outline: 1px solid var(--color-yellow-600);
   }
 
   label {
+    width: 2px;
+
     background: var(--color-yellow-600);
   }
 }
 
 .input {
+  @include body-2;
   width: 100%;
   height: 100%;
 
@@ -38,30 +46,38 @@
 
   background: transparent;
 
-  border: 2px solid var(--color-grey-700);
-  border-radius: 8px;
-  outline: 0;
+  border: 1px solid var(--color-grey-700);
+  border-radius: functions.calc-rem(8);
+  outline: 1px solid transparent;
+
+  transition: outline-color ease-in-out 300ms, border ease-in-out 300ms;
 
   &:hover,
   &:active {
-    border: 2px solid var(--color-yellow-600);
+    border: 1px solid var(--color-yellow-600);
+    outline: 1px solid var(--color-yellow-600);
 
     + label {
+      width: 2px;
+
       background: var(--color-yellow-600);
     }
   }
 
   &:focus {
-    border: 2px solid var(--color-blue-500);
+    border: 1px solid var(--color-blue-500);
+    outline: 1px solid var(--color-blue-500);
 
     + label {
+      width: 2px;
+
       background: var(--color-blue-500);
     }
   }
 }
 
 .inputLabel {
-  width: 2px;
+  width: 1px;
   height: 100%;
 
   position: absolute;
@@ -69,6 +85,8 @@
   right: 33%;
 
   background: var(--color-grey-700);
+
+  transition: background ease-in-out 300ms, width ease-in-out 300ms;
 }
 
 .inputIcon {
@@ -76,11 +94,13 @@
   height: 24px;
 
   position: absolute;
-  top: 12px;
-  left: 12px;
+  top: functions.calc-rem(12);
+  left: functions.calc-rem(12);
   z-index: 0;
 
   color: var(--color-grey-600);
+
+  transition: color ease-in-out 300ms;
 }
 
 .inputControl {
