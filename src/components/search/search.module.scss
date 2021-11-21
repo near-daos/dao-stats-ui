@@ -15,10 +15,6 @@
   align-items: center;
 
   background: transparent;
-
-  &:hover .inputIcon {
-    color: var(--color-grey-400);
-  }
 }
 
 .forceActive {
@@ -62,6 +58,10 @@
 
       background: var(--color-yellow-600);
     }
+
+    ~ svg {
+      color: var(--color-grey-400);
+    }
   }
 
   &:focus {
@@ -72,6 +72,10 @@
       width: 2px;
 
       background: var(--color-blue-500);
+    }
+
+    ~ svg {
+      color: var(--color-grey-400);
     }
   }
 }
