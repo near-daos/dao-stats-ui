@@ -16,7 +16,6 @@ import {
   ChartLine,
   ChartBar,
   ChartPie,
-  DataTable,
 } from '../../components';
 
 import { pieData, getRechartsData } from '../../components/charts/rechartsData';
@@ -335,12 +334,6 @@ export const UiKIt: FC = () => {
               negativeGrowth
             />
           </WidgetTile>
-        </div>
-      </section>
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>Data Table</div>
-        <div className={styles.container}>
-          <DataTable />
         </div>
       </section>
     </div>
