@@ -1,16 +1,26 @@
 @use '../../styles/functions';
 
 .header {
+  height: functions.calc-rem(88);
+
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.center {
+.main {
   display: flex;
-  align-items: center;
+  justify-content: flex-end;
 }
 
 .tabs {
   margin-right: functions.calc-rem(32);
+}
+
+.navigationInfo {
+  margin: 0 0 0 functions.calc-rem(60);
+}
+
+.search {
+  width: functions.calc-rem(587);
 }

@@ -19,8 +19,6 @@
   @include title-1;
   @extend %button-reset;
 
-  height: 100%;
-
   padding-bottom: var(--padding-bottom);
   margin: 0 functions.calc-rem(24) 0 0;
 

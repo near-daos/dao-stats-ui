@@ -13,11 +13,12 @@ import {
   Sidebar,
   WidgetTile,
   WidgetInfo,
+  ChartLine,
+  ChartBar,
+  ChartPie,
+  DataTable,
 } from '../../components';
 
-import { ChartLine } from '../../components/charts/line-chart';
-import { ChartBar } from '../../components/charts/bar-chart';
-import { ChartPie } from '../../components/charts/pie-chart';
 import { pieData, getRechartsData } from '../../components/charts/rechartsData';
 
 import styles from './ui-kit.module.scss';
@@ -331,8 +332,15 @@ export const UiKIt: FC = () => {
               title="Vote through rate"
               number="456,2"
               percentages={100}
+              negativeGrowth
             />
           </WidgetTile>
+        </div>
+      </section>
+      <section className={styles.section}>
+        <div className={styles.sectionHeader}>Data Table</div>
+        <div className={styles.container}>
+          <DataTable />
         </div>
       </section>
     </div>

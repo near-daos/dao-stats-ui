@@ -1,50 +1,44 @@
 @use '../../styles/functions';
+@use '../../styles/typography';
 
-.uiKit {
-  width: functions.calc-rem(1218);
+.mainPage {
+  width: functions.calc-rem(700);
 
-  padding: functions.calc-rem(50) 0;
-
+  padding: functions.calc-rem(104) 0 0 0;
+  
   margin: 0 auto;
 
-  display: block;
-}
-
-.section {
-  padding-top: functions.calc-rem(50);
-}
-
-.flexWrapper {
-  width: functions.calc-rem(700);
   display: flex;
   flex-direction: column;
-  margin: auto;
+  
   text-align: center;
 }
 
-.paragraphItem {
-  margin: 20px 0;
+.title {
+   @include typography.heading-1;
+  
+  padding: 0;
+  margin: 0 0 functions.calc-rem(28);
 }
 
-.mainText {
-  @extend .paragraphItem;
-
-  margin-top: 5em;
-  font-size: 32px;
+.subTitle {
+  @include typography.body-1;
+  margin: 0 0 functions.calc-rem(56);
 }
 
 .tabs {
-  display: flex;
-
-  margin: 4em auto 2em auto;
+  margin: 0 auto functions.calc-rem(32);
 }
 
 .search {
-  margin-bottom: 7em;
+  margin: 0 0 functions.calc-rem(120);
+}
+
+.info {
+  @include typography.title-4;
+  margin: 0 auto functions.calc-rem(16);
 }
 
 .button {
-  width: 7%;
-  display: flex;
-  margin: auto;
+  margin: 0 auto functions.calc-rem(12);
 }

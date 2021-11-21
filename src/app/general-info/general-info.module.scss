@@ -1,8 +1,13 @@
+@use '../../styles/mixins';
 @use '../../styles/typography';
-@import '../../styles/typography';
+@use '../../styles/functions';
+
+.page {
+  
+}
 
 .title {
-  @include title-1;
+  @include typography.title-1;
 }
 
 .subpageWrapper {

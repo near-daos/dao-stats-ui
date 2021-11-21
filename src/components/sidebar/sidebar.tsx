@@ -54,6 +54,7 @@ export const Sidebar: FC = () => {
         title="Sputnik DAO"
         description="Average values for all DAOs"
         direction="left"
+        color="none"
         className={styles.info}
       />
       <NavigationList

@@ -7,7 +7,7 @@ export type NavigationInfoProps = {
   className?: string;
   title: string;
   description: string;
-  color?: 'grey' | 'blue' | 'yellow';
+  color?: 'none' | 'grey' | 'blue' | 'yellow';
   direction?: 'right' | 'left';
 };
 

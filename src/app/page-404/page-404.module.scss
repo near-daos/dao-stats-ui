@@ -1,39 +1,33 @@
 @use '../../styles/functions';
+@use '../../styles/typography';
 
-.uiKit {
-  width: functions.calc-rem(1218);
+.page404 {
+  padding: functions.calc-rem(148) 0 0;
 
-  padding: functions.calc-rem(50) 0;
   margin: 0 auto;
 
-  display: block;
-}
-
-.section {
-  padding-top: functions.calc-rem(50);
-}
-
-.flexWrapper {
   display: flex;
-  justify-content: center;
-}
+  flex-direction: column;
 
-.main404 {
-  margin-top: 5em;
   text-align: center;
 }
 
-.paragraphItem {
-  margin: 20px 0;
+.image {
+  width: functions.calc-rem(434);
+
+  margin: 0 auto functions.calc-rem(32);
 }
 
-.notFound {
-  @extend .paragraphItem;
-  font-size: 32px;
+.title {
+  @include typography.heading-1;
+  margin: 0 0 functions.calc-rem(12);
 }
 
-.column {
-  width: 50%;
-  display: flex;
-  margin: auto;
+.subTitle {
+  @include typography.body-1;
+  margin: 0 0 functions.calc-rem(32);
+}
+
+.button {
+  margin: 0 auto functions.calc-rem(12);
 }
