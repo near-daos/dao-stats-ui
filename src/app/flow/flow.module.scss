@@ -3,14 +3,10 @@
 .widgets {
   width: functions.calc-rem(240);
 
-  margin: 0 functions.calc-rem(15) 0 0;
+  margin-right: functions.calc-rem(15);
 
   display: flex;
   flex-direction: column;
-}
-
-.widget {
-  margin: 0 0 functions.calc-rem(12) 0;
 }
 
 .chart {
