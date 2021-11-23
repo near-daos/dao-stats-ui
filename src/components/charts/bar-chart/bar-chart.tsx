@@ -8,8 +8,8 @@ import {
   Legend,
   Tooltip,
 } from 'recharts';
-import { PeriodButton } from '../helper/periodButton';
-import s from '../helper/charts.module.scss';
+import { PeriodButton } from '../period-button';
+import s from '../charts.module.scss';
 
 type ChartBarProps = {
   data: any;

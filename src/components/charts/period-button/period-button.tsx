@@ -1,16 +1,13 @@
-import React from 'react';
+import React, { FC } from 'react';
 import clsx from 'clsx';
-import s from './charts.module.scss';
+import s from '../charts.module.scss';
 
 export interface PeriodButtonProps {
   period: string;
   setPeriod: (type: '7d' | '1m' | '3m' | '6m' | '1y' | 'All') => void;
 }
 
-export const PeriodButton: React.FC<PeriodButtonProps> = ({
-  period,
-  setPeriod,
-}) => (
+export const PeriodButton: FC<PeriodButtonProps> = ({ period, setPeriod }) => (
   <div className={s.periodButtonsWrapper}>
     <button
       type="button"
