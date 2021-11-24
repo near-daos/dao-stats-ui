@@ -8,7 +8,8 @@ import {
   Legend,
   Tooltip,
 } from 'recharts';
-import { PeriodButton } from '../period-button';
+import { RangeFilter } from '../range-filter';
+
 import s from '../charts.module.scss';
 
 type ChartBarProps = {
@@ -89,7 +90,11 @@ export const ChartBar: React.FC<ChartBarProps> = ({ data }) => {
             </li>
           ))}
         </ul>
-        <PeriodButton period={period} setPeriod={setPeriod} />
+        <RangeFilter
+          period={period}
+          setPeriod={setPeriod}
+          periods={['7d', '1m', '3m', '6m', '1y', 'All']}
+        />
       </div>
     );
   };
