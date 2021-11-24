@@ -1,4 +1,4 @@
-import logo from '../../images/leaderboardElementLogo.svg';
+import logo from '../../images/sputnik.png';
 
 export interface LeaderboarDataItem {
   name: string;

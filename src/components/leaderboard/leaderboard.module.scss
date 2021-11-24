@@ -1,22 +1,25 @@
 @use '../../styles/typography';
+@use '../../styles/functions';
 @import '../../styles/typography';
 
 .tableWrapper {
-  width: 85%;
+  width: functions.calc-rem(750);
+  padding: functions.calc-rem(15) functions.calc-rem(40) functions.calc-rem(15)
+    functions.calc-rem(0);
   margin: auto;
 }
 
 th {
-  color: #686767;
-  height: 2em;
+  color: var(--color-grey-500);
+  height: functions.calc-rem(32);
 }
 
-tbody tr {
-  height: 5em;
+.leaderboardBody tr {
+  height: functions.calc-rem(80);
 }
 
 .title {
-  font-size: 14px;
+  font-size: functions.calc-rem(14);
 }
 
 .percentages {
@@ -35,7 +38,12 @@ tbody tr {
   }
 }
 
-.df {
+.elementLogo {
+  height: functions.calc-rem(40);
+  width: functions.calc-rem(40);
+}
+
+.displayFlex {
   display: flex;
 }
 

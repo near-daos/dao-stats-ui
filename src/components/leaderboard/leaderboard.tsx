@@ -32,13 +32,13 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({ data }) => (
       </tr>
     </thead>
 
-    <tbody>
+    <tbody className={styles.leaderboardBody}>
       {data.map((el: LeaderboardItem, index: number) => (
         <tr key={el.id}>
           <td>{index + 1}</td>
           <td>
-            <div className={styles.df}>
-              <img src={el.logo} alt="" />
+            <div className={styles.displayFlex}>
+              <img className={styles.elementLogo} src={el.logo} alt="" />
               <span>
                 <p>{el.label}</p>
                 <p>{el.domain}</p>
@@ -47,7 +47,9 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({ data }) => (
           </td>
           <td>
             <div>
-              <div className={styles.title}>{el.activity}</div>
+              <div className={styles.title}>
+                {el.activity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              </div>
               <div
                 className={clsx(styles.percentages, {
                   [styles.negativeGrowth]: el.negativeGrowth,
