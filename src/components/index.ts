@@ -12,3 +12,4 @@ export * from './charts';
 export * from './widget-tile';
 export * from './widget-info';
 export * from './leaderboard';
+export * from './page';

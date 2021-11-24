@@ -1,52 +1,46 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useCallback } from 'react';
+import { useHistory, useLocation } from 'react-router';
 
 import { NavigationInfo } from '../navigation-info';
 import { NavigationList } from '../navigation-list';
+import { ROUTES } from '../../constants';
 
 import styles from './sidebar.module.scss';
 
-const overviewData = {
-  title: 'Overview',
-  options: [
-    {
-      label: 'General Info',
-      value: 'general-info',
-    },
-    { label: 'Users', value: 'users' },
-    { label: 'Activity', value: 'activity' },
-  ],
-};
+const overviewItems = [
+  {
+    label: 'General Info',
+    value: ROUTES.generalInfo,
+  },
+  { label: 'Users', value: ROUTES.users },
+  { label: 'Activity', value: ROUTES.activity },
+];
 
-const financialData = {
-  title: 'Financial',
-  options: [
-    {
-      label: 'Flow',
-      value: 'flow',
-    },
-    {
-      label: 'TVL',
-      value: 'tvl',
-    },
-    {
-      label: 'Token',
-      value: 'token',
-    },
-  ],
-};
+const financialItems = [
+  {
+    label: 'Flow',
+    value: ROUTES.flow,
+  },
+  {
+    label: 'TVL',
+    value: ROUTES.tvl,
+  },
+  {
+    label: 'Tokens',
+    value: ROUTES.tokens,
+  },
+];
 
 export const Sidebar: FC = () => {
-  const [active, setActive] = useState(overviewData.options[0]);
+  const history = useHistory();
+  const location = useLocation();
 
-  const handlerChangeActive = (value: string) => {
-    const newActiveElement =
-      overviewData.options.find((option) => option.value === value) ||
-      financialData.options.find((option) => option.value === value);
-
-    if (newActiveElement) {
-      setActive(newActiveElement);
-    }
-  };
+  const handlerChangeActive = useCallback(
+    (value: string) => {
+      history.push(value);
+    },
+    [history],
+  );
 
   return (
     <div className={styles.sidebar}>
@@ -58,16 +52,16 @@ export const Sidebar: FC = () => {
         className={styles.info}
       />
       <NavigationList
-        title={overviewData.title}
-        selectedOption={active}
-        options={overviewData.options}
+        title="Overview"
+        selectedValue={location.pathname}
+        options={overviewItems}
         onSelect={handlerChangeActive}
         className={styles.list}
       />
       <NavigationList
-        title={financialData.title}
-        selectedOption={active}
-        options={financialData.options}
+        title="Financial"
+        selectedValue={location.pathname}
+        options={financialItems}
         onSelect={handlerChangeActive}
         className={styles.list}
       />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { PieChart, Pie, Cell, Legend } from 'recharts';
 import clsx from 'clsx';
-import s from '../helper/charts.module.scss';
+import s from '../charts.module.scss';
 
 export interface PieChartItem {
   name: string;

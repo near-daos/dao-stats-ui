@@ -3,6 +3,13 @@ export const ROUTES = {
   uiKit: '/ui-kit',
   page404: '/404',
   generalInfo: '/general-info',
+  generalInfoDaoActivity: '/general-info/dao-activity',
+  generalInfoGroups: '/general-info/groups',
+  users: '/users',
+  activity: '/activity',
+  flow: '/flow',
+  tvl: '/tvl',
+  tokens: '/tokens',
 };
 
 export const HEADER_FORBIDDEN_ROUTES = [

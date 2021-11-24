@@ -1,70 +1,64 @@
 import React, { FC } from 'react';
+import { Switch, Route, useLocation, useHistory } from 'react-router';
 
-import { WidgetTile, WidgetInfo, Tabs, Leaderboard } from '../../components';
+import { Page, WidgetTile, WidgetInfo } from '../../components';
 
 import { ChartLine } from '../../components/charts/line-chart';
 import { getRechartsData } from '../../components/charts/rechartsData';
-import { leaderboardData } from '../../components/leaderboard/leaderboardData';
+
+import { DaoActivity } from './dao-activity';
+import { NumbersDao } from './numbers-dao';
+import { Groups } from './groups';
+import { ROUTES } from '../../constants';
 
 import styles from './general-info.module.scss';
 
 const rechartsData = getRechartsData();
 
-const tabOptions = [
-  {
-    label: 'History data',
-    value: 'history-data',
-  },
-  { label: 'Leaderboard', value: 'leaderboard' },
-];
+export const GeneralInfo: FC = () => {
+  const location = useLocation();
+  const history = useHistory();
 
-export const GeneralInfo: FC = () => (
-  <div className={styles.subpageWrapper}>
-    <h1 className={styles.title}>General Info</h1>
-    <div className={styles.subpageContent}>
+  return (
+    <Page title="General info">
       <div className={styles.widgets}>
-        <div>
-          <WidgetTile>
-            <WidgetInfo
-              title="Vote through rate"
-              number="456"
-              percentages={10}
-            />
-          </WidgetTile>
-        </div>
+        <WidgetTile
+          className={styles.widget}
+          active={location.pathname === ROUTES.generalInfo}
+          onClick={() => history.push(ROUTES.generalInfo)}
+        >
+          <WidgetInfo title="Number of DAOs" number="456" percentages={10} />
+        </WidgetTile>
 
-        <div>
-          <WidgetTile active>
-            <WidgetInfo
-              title="Vote through rate"
-              number="456"
-              percentages={10}
-            />
-          </WidgetTile>
-        </div>
+        <WidgetTile
+          className={styles.widget}
+          onClick={() => history.push(ROUTES.generalInfoDaoActivity)}
+          active={location.pathname === ROUTES.generalInfoDaoActivity}
+        >
+          <WidgetInfo title="DAOs activity" number="456" percentages={10} />
+        </WidgetTile>
 
-        <div>
-          <WidgetTile>
-            <WidgetInfo
-              title="Vote through rate"
-              number="456"
-              percentages={10}
-            />
-          </WidgetTile>
-        </div>
+        <WidgetTile
+          className={styles.widget}
+          onClick={() => history.push(ROUTES.generalInfoGroups)}
+          active={location.pathname === ROUTES.generalInfoGroups}
+        >
+          <WidgetInfo title="Groups" number="456" percentages={10} />
+        </WidgetTile>
       </div>
 
-      <div className={styles.contentWrapper}>
-        <div className={styles.tabWrapper}>
-          <Tabs variant="small" options={tabOptions} className={styles.tabs} />
-        </div>
-        <div className={styles.chartWrapper}>
-          <ChartLine data={rechartsData} />
-        </div>
-        <div className={styles.leaderboardWrapper}>
-          <Leaderboard data={leaderboardData} />
-        </div>
+      <div className={styles.chart}>
+        <Switch>
+          <Route exact path={ROUTES.generalInfo} component={NumbersDao} />
+          <Route
+            exact
+            path={ROUTES.generalInfoDaoActivity}
+            component={DaoActivity}
+          />
+          <Route exact path={ROUTES.generalInfoGroups} component={Groups} />
+        </Switch>
+        <ChartLine data={rechartsData} />
       </div>
-    </div>
-  </div>
-);
+    </Page>
+  );
+};

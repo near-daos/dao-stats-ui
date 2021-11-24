@@ -8,8 +8,8 @@ import {
   Tooltip,
   Legend,
 } from 'recharts';
-import { PeriodButton } from '../helper/periodButton';
-import s from '../helper/charts.module.scss';
+import { PeriodButton } from '../period-button';
+import styles from '../charts.module.scss';
 
 type LineChartProps = {
   data: any;
@@ -52,60 +52,45 @@ export const ChartLine: React.FC<LineChartProps> = ({ data }) => {
 
   const rechartsData = datas(period, data);
 
-  const renderLegend = (props: any) => {
-    const { payload } = props;
-
-    return (
-      <div className={s.legendWrapper}>
-        <ul className={s.legendList}>
-          {payload.map((entry: linePayload) => (
-            <li
-              className={s.legendListBar}
-              style={{ color: entry.color }}
-              key={`item-${entry.value}`}
+  const renderLegend = ({ payload }: any) => (
+    <div className={styles.legendWrapper}>
+      <ul className={styles.legendList}>
+        {payload.map((entry: linePayload) => (
+          <li className={styles.legendListBar} key={`item-${entry.value}`}>
+            <svg
+              className={styles.legendListSvg}
+              width="8"
+              height="8"
+              viewBox="0 0 32 32"
             >
-              <svg
-                className="recharts-surface"
-                width="14"
-                height="14"
-                viewBox="0 0 32 32"
-                version="1.1"
-                style={{
-                  display: 'inline-block',
-                  verticalAlign: 'middle',
-                  marginRight: '4px',
-                }}
-              >
-                <path
-                  fill={entry.color}
-                  cx="16"
-                  cy="16"
-                  type="circle"
-                  className="recharts-symbols"
-                  transform="translate(16, 16)"
-                  d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
-                />
-              </svg>
-              <span>{entry.value}</span>
-            </li>
-          ))}
-        </ul>
-        <PeriodButton period={period} setPeriod={setPeriod} />
-      </div>
-    );
-  };
+              <path
+                fill={entry.color}
+                cx="16"
+                cy="16"
+                type="circle"
+                transform="translate(16, 16)"
+                d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
+              />
+            </svg>
+            <span className={styles.legendListValue}>{entry.value}</span>
+          </li>
+        ))}
+      </ul>
+      <PeriodButton period={period} setPeriod={setPeriod} />
+    </div>
+  );
 
   const LineСhartTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className={s.tooltipWrapper}>
-          <p className={s.tooltipLabel}>{label}</p>
+        <div className={styles.tooltipWrapper}>
+          <p className={styles.tooltipLabel}>{label}</p>
           {payload.map((el: any) => (
             <div
               style={{ color: el.color }}
               key={`item-${el.dataKey}-${el.value}`}
             >
-              <span className={s.tooltipElementName}>
+              <span className={styles.tooltipElementName}>
                 <svg
                   className="recharts-surface"
                   width="14"
@@ -130,7 +115,7 @@ export const ChartLine: React.FC<LineChartProps> = ({ data }) => {
                 </svg>
                 {el.name}:
               </span>
-              <span className={s.pieLegendValue}>${el.value}</span>
+              <span className={styles.pieLegendValue}>${el.value}</span>
             </div>
           ))}
         </div>

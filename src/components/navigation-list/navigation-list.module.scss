@@ -30,6 +30,9 @@
 
 .item {
   border-radius: 4px;
+  &:hover {
+    --line-color: var(--color-yellow-600);
+  }
 }
 
 .active {
@@ -69,5 +72,7 @@
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
     content: '';
+
+    transition: background-color ease-in-out 300ms;
   }
 }

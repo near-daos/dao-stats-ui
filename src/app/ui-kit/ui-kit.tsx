@@ -136,7 +136,7 @@ export const UiKIt: FC = () => {
           <NavigationList
             title="Overview"
             options={navigationOptions}
-            selectedOption={navigationOptions[0]}
+            selectedValue={navigationOptions[0].value}
             onSelect={() => null}
           />
         </div>

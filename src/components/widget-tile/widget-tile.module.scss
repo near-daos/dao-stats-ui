@@ -3,18 +3,21 @@
 @import '../../styles/helpers';
 
 .widgetTile {
+  @extend %button-reset;
+
   width: functions.calc-rem(240);
   height: functions.calc-rem(177);
+
+  flex-direction: column;
 
   background-color: var(--color-grey-900);
 
   border: 2px solid var(--color-grey-700);
   border-radius: functions.calc-rem(8);
 
+  text-align: left;
+
   transition: border-color 350ms;
-
-  margin-bottom: functions.calc-rem(12);
-
   &:hover {
     border: 2px solid var(--color-chart-yellow);
   }
