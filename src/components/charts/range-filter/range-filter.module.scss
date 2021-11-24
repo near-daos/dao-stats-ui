@@ -1,0 +1,38 @@
+@use '../../../styles/functions';
+@import '../../../styles/typography';
+@import '../../../styles/helpers';
+
+.list {
+  display: flex;
+}
+
+.button {
+  @extend %button-reset;
+  @include title-4;
+  width: functions.calc-rem(40);
+  height: functions.calc-rem(32);
+
+  padding: functions.calc-rem(6) functions.calc-rem(12);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--color-grey-300);
+
+  border-radius: 4px;
+
+  text-align: center;
+
+  transition: background ease-in-out 300ms, color ease-in-out 300ms;
+
+  &:hover {
+    color: var(--white);
+    background: var(--color-grey-700);
+  }
+}
+
+.active {
+  color: var(--white);
+  background: var(--color-grey-700);
+}

@@ -1,0 +1,33 @@
+@use '../../../styles/functions';
+@use '../../../styles/typography';
+
+.tooltip {
+  padding: functions.calc-rem(12) functions.calc-rem(16);
+
+  background-color: var(--color-grey-700);
+
+  border-radius: functions.calc-rem(8);
+}
+
+.dot {
+  margin: 0 functions.calc-rem(6) 0 0;
+}
+
+.label {
+  @include typography.title-4;
+  margin: 0 0 functions.calc-rem(10);
+}
+
+.name {
+  @include typography.caption-1;
+  margin: 0 functions.calc-rem(4) 0 0;
+
+  color: var(--color-grey-100);
+}
+
+.value {
+  @include typography.title-4;
+  margin: 0 functions.calc-rem(4) 0 0;
+
+  color: var(--white);
+}

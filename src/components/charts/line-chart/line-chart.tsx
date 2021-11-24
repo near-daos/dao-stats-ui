@@ -7,139 +7,129 @@ import {
   YAxis,
   Tooltip,
   Legend,
+  LegendProps,
 } from 'recharts';
-import { PeriodButton } from '../period-button';
+
+import { RangeFilter } from '../range-filter';
+import { ChartTooltip } from '../chart-tooltip';
+import { tickStyles } from '../constants';
+import { filterDataByRange, yTickFormatter } from '../helpers';
+import { Dot } from '../svg/dot';
+
 import styles from '../charts.module.scss';
 
 type LineChartProps = {
+  width?: number;
+  height?: number;
   data: any;
 };
 
-type linePayload = {
-  payload: {
-    fill: string;
-  };
-  value: string;
-  color: string;
-};
-
-const datas = (period: string, data: any) => {
-  if (period === '1y' || period === 'All') {
-    return data.monthlyData;
-  }
-
-  if (period === '6m') {
-    return data.last6Months;
-  }
-
-  if (period === '3m') {
-    return data.last3Months;
-  }
-
-  if (period === '1m') {
-    return data.last30days;
-  }
-
-  if (period === '7d') {
-    return data.last7days;
-  }
-
-  return undefined;
-};
-
-export const ChartLine: React.FC<LineChartProps> = ({ data }) => {
+export const ChartLine: React.FC<LineChartProps> = ({
+  data,
+  width = 685,
+  height = 500,
+}) => {
   const [period, setPeriod] = useState('1y');
 
-  const rechartsData = datas(period, data);
+  const rechartsData = filterDataByRange(period, data);
 
-  const renderLegend = ({ payload }: any) => (
-    <div className={styles.legendWrapper}>
+  const CustomLegend = ({ payload }: LegendProps) => (
+    <div className={styles.legend}>
       <ul className={styles.legendList}>
-        {payload.map((entry: linePayload) => (
+        {payload?.map((entry) => (
           <li className={styles.legendListBar} key={`item-${entry.value}`}>
-            <svg
-              className={styles.legendListSvg}
-              width="8"
-              height="8"
-              viewBox="0 0 32 32"
-            >
-              <path
-                fill={entry.color}
-                cx="16"
-                cy="16"
-                type="circle"
-                transform="translate(16, 16)"
-                d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
-              />
-            </svg>
+            <Dot color={entry.color || ''} className={styles.legendListSvg} />
             <span className={styles.legendListValue}>{entry.value}</span>
           </li>
         ))}
       </ul>
-      <PeriodButton period={period} setPeriod={setPeriod} />
+      <RangeFilter
+        period={period}
+        setPeriod={setPeriod}
+        periods={['7d', '1m', '3m', '6m', '1y', 'All']}
+      />
     </div>
   );
 
-  const LineСhartTooltip = ({ active, payload, label }: any) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className={styles.tooltipWrapper}>
-          <p className={styles.tooltipLabel}>{label}</p>
-          {payload.map((el: any) => (
-            <div
-              style={{ color: el.color }}
-              key={`item-${el.dataKey}-${el.value}`}
-            >
-              <span className={styles.tooltipElementName}>
-                <svg
-                  className="recharts-surface"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 32 32"
-                  version="1.1"
-                  style={{
-                    display: 'inline-block',
-                    verticalAlign: 'middle',
-                    marginRight: '4px',
-                  }}
-                >
-                  <path
-                    fill={el.color}
-                    cx="16"
-                    cy="16"
-                    type="circle"
-                    className="recharts-symbols"
-                    transform="translate(16, 16)"
-                    d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
-                  />
-                </svg>
-                {el.name}:
-              </span>
-              <span className={styles.pieLegendValue}>${el.value}</span>
-            </div>
-          ))}
-        </div>
-      );
-    }
-
-    return null;
-  };
+  const renderActiveDot = ({
+    cx,
+    cy,
+    fill,
+  }: {
+    cx: number;
+    cy: number;
+    fill: string;
+  }) => (
+    <g>
+      <line
+        x1={65}
+        y1={cy}
+        x2={width}
+        y2={cy}
+        stroke="#686767"
+        strokeWidth="0.5"
+        strokeDasharray="5,5"
+      />
+      <circle
+        cx={cx}
+        cy={cy}
+        r={4}
+        strokeWidth={8}
+        fill={fill}
+        stroke={fill}
+        strokeOpacity={0.5}
+      />
+    </g>
+  );
 
   return (
-    <LineChart width={685} height={480} data={rechartsData}>
+    <LineChart width={width} height={height} data={rechartsData}>
+      <CartesianGrid stroke="#393838" vertical={false} />
       <Legend
         align="left"
         verticalAlign="top"
         height={50}
         iconType="circle"
-        content={renderLegend}
+        content={<CustomLegend />}
       />
-      <Line dot={false} dataKey="Total In" stroke="#E33F84" key="Total In" />
-      <Line dot={false} dataKey="Total Out" stroke="#8F40DD" key="Total Out" />
-      <CartesianGrid stroke="#393838" vertical={false} />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip content={<LineСhartTooltip />} />
+      <XAxis
+        stroke="#393838"
+        tickMargin={12}
+        tickLine={false}
+        dataKey="name"
+        style={tickStyles}
+      />
+      <YAxis
+        stroke="#393838"
+        tickFormatter={yTickFormatter}
+        tickMargin={1} // base margin is 5px, added 1px by according to design
+        style={tickStyles}
+        tickLine={false}
+      />
+      <Line
+        strokeWidth={2}
+        dot={false}
+        dataKey="Total In"
+        stroke="#E33F84"
+        key="Total In"
+        activeDot={renderActiveDot}
+      />
+      <Line
+        strokeWidth={2}
+        dot={false}
+        dataKey="Total Out"
+        stroke="#8F40DD"
+        key="Total Out"
+        activeDot={renderActiveDot}
+      />
+      <Tooltip
+        content={ChartTooltip}
+        cursor={{
+          stroke: '#686767',
+          strokeWidth: '0.5',
+          strokeDasharray: '5,5',
+        }}
+      />
     </LineChart>
   );
 };

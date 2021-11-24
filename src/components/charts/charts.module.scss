@@ -37,7 +37,7 @@
   background: var(--color-grey-700);
 }
 
-.legendWrapper {
+.legend {
   display: flex;
 
   margin-left: 20px;
@@ -108,22 +108,4 @@
 
 .activePieChart {
   border: 2px solid var(--color-blue-500);
-}
-
-.tooltipWrapper {
-  padding: functions.calc-rem(15) functions.calc-rem(20);
-
-  background-color: var(--color-grey-700);
-
-  border-radius: functions.calc-rem(8);
-}
-
-.tooltipLabel {
-  padding-bottom: functions.calc-rem(10);
-}
-
-.tooltipElementName {
-  margin-right: functions.calc-rem(5);
-
-  color: var(--color-grey-100);
 }
