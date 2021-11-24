@@ -1,0 +1,48 @@
+@use '../../styles/typography';
+@import '../../styles/typography';
+
+.tableWrapper {
+  width: 85%;
+  margin: auto;
+}
+
+th {
+  color: #686767;
+  height: 2em;
+}
+
+tbody tr {
+  height: 5em;
+}
+
+.title {
+  font-size: 14px;
+}
+
+.percentages {
+  @include title-4;
+  display: flex;
+  align-items: center;
+
+  color: var(--color-success-tint);
+}
+
+.negativeGrowth {
+  color: var(--color-error-pure);
+
+  .icon {
+    transform: rotate(180deg);
+  }
+}
+
+.df {
+  display: flex;
+}
+
+.textStart {
+  text-align: start;
+}
+
+.textEnd {
+  text-align: end;
+}

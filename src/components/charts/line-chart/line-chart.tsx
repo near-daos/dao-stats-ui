@@ -141,11 +141,11 @@ export const ChartLine: React.FC<LineChartProps> = ({ data }) => {
   };
 
   return (
-    <LineChart width={685} height={500} data={rechartsData}>
+    <LineChart width={685} height={480} data={rechartsData}>
       <Legend
         align="left"
         verticalAlign="top"
-        height={80}
+        height={50}
         iconType="circle"
         content={renderLegend}
       />

@@ -11,3 +11,4 @@ export * from './sidebar';
 export * from './charts';
 export * from './widget-tile';
 export * from './widget-info';
+export * from './leaderboard';

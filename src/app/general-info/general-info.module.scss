@@ -1,10 +1,7 @@
 @use '../../styles/mixins';
 @use '../../styles/typography';
 @use '../../styles/functions';
-
-.page {
-  
-}
+@import '../../styles/typography';
 
 .title {
   @include typography.title-1;
@@ -27,10 +24,63 @@
   margin-right: 15px;
 }
 
-.chart {
+.contentWrapper {
   background-color: #222121;
   border-radius: 7px;
   width: 750px;
   height: 556px;
-  padding: 30px 30px 30px 20px;
+}
+
+.tabWrapper {
+  width: 750px;
+  border-bottom: 1px solid #393838;
+  padding: 20px 0 0 30px;
+}
+
+.chartWrapper {
+  padding-left: 35px;
+  margin-top: 20px;
+  margin-left: -20px;
+}
+
+.leaderboardWrapper {
+  margin-top: 20px;
+}
+
+.tabs {
+  margin-right: functions.calc-rem(32);
+}
+
+.title {
+  font-size: 14px;
+}
+
+.icon {
+  color: var(--color-success-tint);
+  font-size: 11px;
+}
+
+.percentages {
+  @include title-4;
+  display: flex;
+  align-items: center;
+
+  color: var(--color-success-tint);
+}
+
+.tableWrapper {
+  width: 85%;
+  margin: auto;
+}
+
+th {
+  color: #686767;
+}
+
+.textStart {
+  text-align: start;
+}
+
+.textEnd {
+  text-align: end;
 }
