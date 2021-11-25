@@ -1,11 +1,7 @@
 import React, { FC } from 'react';
 import { Switch, Route, useLocation, useHistory } from 'react-router';
 
-import { leaderboardData } from 'src/components/leaderboard/leaderboardData';
-import { Page, WidgetTile, WidgetInfo, Leaderboard } from '../../components';
-
-import { ChartLine } from '../../components/charts/line-chart';
-import { getRechartsData } from '../../components/charts/rechartsData';
+import { Page, WidgetTile, WidgetInfo } from '../../components';
 
 import { DaoActivity } from './dao-activity';
 import { NumbersDao } from './numbers-dao';
@@ -13,8 +9,6 @@ import { Groups } from './groups';
 import { ROUTES } from '../../constants';
 
 import styles from './general-info.module.scss';
-
-const rechartsData = getRechartsData();
 
 export const GeneralInfo: FC = () => {
   const location = useLocation();
