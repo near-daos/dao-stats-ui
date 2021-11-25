@@ -7,16 +7,12 @@ import {
   YAxis,
   Tooltip,
   Legend,
-  LegendProps,
 } from 'recharts';
 
-import { RangeFilter } from '../range-filter';
+import { CustomLegend } from '../custom-legend';
 import { ChartTooltip } from '../chart-tooltip';
 import { tickStyles } from '../constants';
 import { filterDataByRange, yTickFormatter } from '../helpers';
-import { Dot } from '../svg/dot';
-
-import styles from '../charts.module.scss';
 
 type LineChartProps = {
   width?: number;
@@ -32,24 +28,6 @@ export const ChartLine: React.FC<LineChartProps> = ({
   const [period, setPeriod] = useState('1y');
 
   const rechartsData = filterDataByRange(period, data);
-
-  const CustomLegend = ({ payload }: LegendProps) => (
-    <div className={styles.legend}>
-      <ul className={styles.legendList}>
-        {payload?.map((entry) => (
-          <li className={styles.legendListBar} key={`item-${entry.value}`}>
-            <Dot color={entry.color || ''} className={styles.legendListSvg} />
-            <span className={styles.legendListValue}>{entry.value}</span>
-          </li>
-        ))}
-      </ul>
-      <RangeFilter
-        period={period}
-        setPeriod={setPeriod}
-        periods={['7d', '1m', '3m', '6m', '1y', 'All']}
-      />
-    </div>
-  );
 
   const renderActiveDot = ({
     cx,
@@ -90,7 +68,7 @@ export const ChartLine: React.FC<LineChartProps> = ({
         verticalAlign="top"
         height={80}
         iconType="circle"
-        content={<CustomLegend />}
+        content={<CustomLegend period={period} setPeriod={setPeriod} />}
       />
       <XAxis
         stroke="#393838"

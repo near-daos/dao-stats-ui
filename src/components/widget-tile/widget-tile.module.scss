@@ -6,7 +6,9 @@
   @extend %button-reset;
 
   width: functions.calc-rem(240);
-  height: functions.calc-rem(177);
+  min-height: functions.calc-rem(177);
+
+  padding: functions.calc-rem(14) functions.calc-rem(18);
 
   flex-direction: column;
 

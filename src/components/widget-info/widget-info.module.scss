@@ -3,9 +3,7 @@
 @import '../../styles/helpers';
 
 .widgetInfo {
-  width: functions.calc-rem(236);
-
-  padding: 0 functions.calc-rem(20) functions.calc-rem(14);
+  width: 100%;
 }
 
 .top {
@@ -23,13 +21,13 @@
   @include title-4;
   display: flex;
   align-items: center;
-  
+
   color: var(--color-success-tint);
 }
 
 .negativeGrowth {
   color: var(--color-error-pure);
-  
+
   .icon {
     transform: rotate(180deg);
   }

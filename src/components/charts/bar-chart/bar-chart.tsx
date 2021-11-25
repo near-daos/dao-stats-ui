@@ -7,158 +7,97 @@ import {
   YAxis,
   Legend,
   Tooltip,
+  Cell,
 } from 'recharts';
-import { RangeFilter } from '../range-filter';
+import { CustomLegend } from '../custom-legend';
+import { ChartTooltip } from '../chart-tooltip';
 
-import s from '../charts.module.scss';
+import { tickStyles } from '../constants';
+import { filterDataByRange, yTickFormatter } from '../helpers';
 
 type ChartBarProps = {
   data: any;
+  width?: number;
+  height?: number;
 };
 
-type barPayload = {
-  payload: {
-    fill: string;
-  };
-  value: string;
-};
+const bars = [
+  {
+    dataKey: 'Total In',
+    fill: '#E33F84',
+  },
+  {
+    dataKey: 'Total Out',
+    fill: '#8F40DD',
+  },
+];
 
-const datas = (period: string, data: any) => {
-  if (period === '1y' || period === 'All') {
-    return data.monthlyData;
-  }
-
-  if (period === '6m') {
-    return data.last6Months;
-  }
-
-  if (period === '3m') {
-    return data.last3Months;
-  }
-
-  if (period === '1m') {
-    return data.last30days;
-  }
-
-  if (period === '7d') {
-    return data.last7days;
-  }
-
-  return undefined;
-};
-
-export const ChartBar: React.FC<ChartBarProps> = ({ data }) => {
+export const ChartBar: React.FC<ChartBarProps> = ({
+  data,
+  width = 685,
+  height = 500,
+}) => {
   const [period, setPeriod] = useState('1y');
+  const [focusBar, setFocusBar] = useState(null);
 
-  const rechartsData = datas(period, data);
-
-  const renderLegend = (props: any) => {
-    const { payload } = props;
-
-    return (
-      <div className={s.legendWrapper}>
-        <ul className={s.legendList}>
-          {payload.map((entry: barPayload) => (
-            <li
-              className={s.legendListBar}
-              style={{ color: entry.payload.fill }}
-              key={`item-${entry.value}`}
-            >
-              <svg
-                className="recharts-surface"
-                width="14"
-                height="14"
-                viewBox="0 0 32 32"
-                version="1.1"
-                style={{
-                  display: 'inline-block',
-                  verticalAlign: 'middle',
-                  marginRight: '4px',
-                }}
-              >
-                <path
-                  fill={entry.payload.fill}
-                  cx="16"
-                  cy="16"
-                  type="circle"
-                  className="recharts-symbols"
-                  transform="translate(16, 16)"
-                  d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
-                />
-              </svg>
-              <span>{entry.value}</span>
-            </li>
-          ))}
-        </ul>
-        <RangeFilter
-          period={period}
-          setPeriod={setPeriod}
-          periods={['7d', '1m', '3m', '6m', '1y', 'All']}
-        />
-      </div>
-    );
-  };
-
-  const BarСhartTooltip = ({ active, payload, label }: any) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className={s.tooltipWrapper}>
-          <p className={s.tooltipLabel}>{label}</p>
-          {payload.map((el: any) => (
-            <div
-              style={{ color: el.color }}
-              key={`item-${el.dataKey}-${el.value}`}
-            >
-              <span className={s.tooltipElementName}>
-                <svg
-                  className="recharts-surface"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 32 32"
-                  version="1.1"
-                  style={{
-                    display: 'inline-block',
-                    verticalAlign: 'middle',
-                    marginRight: '4px',
-                  }}
-                >
-                  <path
-                    fill={el.color}
-                    cx="16"
-                    cy="16"
-                    type="circle"
-                    className="recharts-symbols"
-                    transform="translate(16, 16)"
-                    d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
-                  />
-                </svg>
-                {el.name}:
-              </span>
-              <span className={s.pieLegendValue}>${el.value}</span>
-            </div>
-          ))}
-        </div>
-      );
-    }
-
-    return null;
-  };
+  const rechartsData = filterDataByRange(period, data);
 
   return (
-    <BarChart width={1100} height={400} data={rechartsData}>
+    <BarChart
+      width={width}
+      height={height}
+      data={rechartsData}
+      onMouseMove={(state: {
+        isTooltipActive: boolean;
+        activeTooltipIndex: React.SetStateAction<null>;
+      }) => {
+        if (state.isTooltipActive) {
+          setFocusBar(state.activeTooltipIndex);
+        } else {
+          setFocusBar(null);
+        }
+      }}
+    >
       <CartesianGrid stroke="#393838" vertical={false} />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip content={<BarСhartTooltip />} />
+      <XAxis
+        stroke="#393838"
+        tickMargin={12}
+        tickLine={false}
+        dataKey="name"
+        style={tickStyles}
+      />
+      <YAxis
+        stroke="#393838"
+        tickFormatter={yTickFormatter}
+        tickMargin={1} // base margin is 5px, added 1px by according to design
+        style={tickStyles}
+        tickLine={false}
+      />
       <Legend
         align="left"
         verticalAlign="top"
-        height={50}
+        height={80}
         iconType="circle"
-        content={renderLegend}
+        content={<CustomLegend period={period} setPeriod={setPeriod} />}
       />
-      <Bar dataKey="Total In" fill="#E33F84" />
-      <Bar dataKey="Total Out" fill="#8F40DD" />
+      {bars.map((bar) => (
+        <Bar
+          key={bar.dataKey}
+          dataKey={bar.dataKey}
+          fill={bar.fill}
+          barSize={8}
+        >
+          {rechartsData.map((entry: any, index: number) => (
+            <Cell
+              style={{
+                cursor: 'pointer',
+                filter: focusBar === index ? 'none' : 'grayscale(100%)',
+              }}
+            />
+          ))}
+        </Bar>
+      ))}
+      <Tooltip offset={25} content={ChartTooltip} cursor={false} />
     </BarChart>
   );
 };
