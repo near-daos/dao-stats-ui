@@ -1,0 +1,8 @@
+@use '../../../styles/functions';
+
+.chart {
+  width: functions.calc-rem(750);
+
+  padding: functions.calc-rem(30) functions.calc-rem(30) functions.calc-rem(30)
+    functions.calc-rem(20);
+}

@@ -2,13 +2,7 @@ import React, { FC } from 'react';
 import { Switch, Route, useLocation, useHistory } from 'react-router';
 
 import { leaderboardData } from 'src/components/leaderboard/leaderboardData';
-import {
-  Page,
-  WidgetTile,
-  WidgetInfo,
-  Tabs,
-  Leaderboard,
-} from '../../components';
+import { Page, WidgetTile, WidgetInfo, Leaderboard } from '../../components';
 
 import { ChartLine } from '../../components/charts/line-chart';
 import { getRechartsData } from '../../components/charts/rechartsData';
@@ -21,14 +15,6 @@ import { ROUTES } from '../../constants';
 import styles from './general-info.module.scss';
 
 const rechartsData = getRechartsData();
-
-const tabOptions = [
-  {
-    label: 'History data',
-    value: 'history-data',
-  },
-  { label: 'Leaderboard', value: 'leaderboard' },
-];
 
 export const GeneralInfo: FC = () => {
   const location = useLocation();
@@ -63,22 +49,15 @@ export const GeneralInfo: FC = () => {
       </div>
 
       <div className={styles.mainContent}>
-        <div className={styles.tabWrapper}>
-          <Tabs variant="small" options={tabOptions} className={styles.tabs} />
-        </div>
-        <div className={styles.chart}>
-          <Switch>
-            <Route exact path={ROUTES.generalInfo} component={NumbersDao} />
-            <Route
-              exact
-              path={ROUTES.generalInfoDaoActivity}
-              component={DaoActivity}
-            />
-            <Route exact path={ROUTES.generalInfoGroups} component={Groups} />
-          </Switch>
-          <ChartLine data={rechartsData} />
-          <Leaderboard data={leaderboardData} />
-        </div>
+        <Switch>
+          <Route exact path={ROUTES.generalInfo} component={NumbersDao} />
+          <Route
+            exact
+            path={ROUTES.generalInfoDaoActivity}
+            component={DaoActivity}
+          />
+          <Route exact path={ROUTES.generalInfoGroups} component={Groups} />
+        </Switch>
       </div>
     </Page>
   );
