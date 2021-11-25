@@ -5,7 +5,7 @@ import { Page, WidgetTile, WidgetInfo } from '../../components';
 
 import { ROUTES } from '../../constants';
 import { AverageCouncilSize } from './average-council-size';
-import { NumberOfInteractions } from './number-interactions';
+import { NumberInteractions } from './number-interactions';
 import { NumberUsers } from './number-users';
 
 import styles from './users.module.scss';
@@ -39,8 +39,8 @@ export const Users: FC = () => {
 
         <WidgetTile
           className={styles.widget}
-          onClick={() => history.push(ROUTES.usersNumberOfInteractions)}
-          active={location.pathname === ROUTES.usersNumberOfInteractions}
+          onClick={() => history.push(ROUTES.usersNumberInteractions)}
+          active={location.pathname === ROUTES.usersNumberInteractions}
         >
           <WidgetInfo
             title="Number of Interactions"
@@ -60,8 +60,8 @@ export const Users: FC = () => {
           />
           <Route
             exact
-            path={ROUTES.usersNumberOfInteractions}
-            component={NumberOfInteractions}
+            path={ROUTES.usersNumberInteractions}
+            component={NumberInteractions}
           />
         </Switch>
       </div>
