@@ -47,9 +47,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({ data }) => (
           </td>
           <td>
             <div>
-              <div className={styles.title}>
-                {el.activity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-              </div>
+              <div className={styles.title}>{el.activity}</div>
               <div
                 className={clsx(styles.percentages, {
                   [styles.negativeGrowth]: el.negativeGrowth,

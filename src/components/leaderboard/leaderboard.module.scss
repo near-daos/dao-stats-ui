@@ -19,7 +19,7 @@ th {
 }
 
 .title {
-  font-size: functions.calc-rem(14);
+  @include title-3;
 }
 
 .percentages {

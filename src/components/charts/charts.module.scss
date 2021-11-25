@@ -40,7 +40,7 @@
 .legend {
   display: flex;
 
-  margin-left: 20px;
+  margin-left: functions.calc-rem(20);
 
   justify-content: space-between;
 }
