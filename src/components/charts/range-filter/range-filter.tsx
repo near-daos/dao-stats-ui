@@ -6,13 +6,13 @@ import styles from './range-filter.module.scss';
 export type PeriodType = '7d' | '1m' | '3m' | '6m' | '1y' | 'All' | string;
 
 export interface RangeFilterProps {
-  periods: PeriodType[];
+  periods?: PeriodType[];
   period: string;
   setPeriod: (type: PeriodType) => void;
 }
 
 export const RangeFilter: FC<RangeFilterProps> = ({
-  periods,
+  periods = [],
   period,
   setPeriod,
 }) => (
