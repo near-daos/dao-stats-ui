@@ -1,0 +1,20 @@
+@use '../../../styles/functions';
+
+.mainContent {
+  width: functions.calc-rem(750);
+}
+
+.tabWrapper {
+  padding-top: functions.calc-rem(10);
+
+  padding-left: functions.calc-rem(30);
+
+  height: functions.calc-rem(40);
+
+  border-bottom: 1px solid #393838;
+}
+
+.chart {
+  padding: functions.calc-rem(10) functions.calc-rem(30) functions.calc-rem(10)
+    functions.calc-rem(20);
+}
