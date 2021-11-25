@@ -66,7 +66,7 @@ export const ChartLine: React.FC<LineChartProps> = ({
       <Legend
         align="left"
         verticalAlign="top"
-        height={80}
+        height={50}
         iconType="circle"
         content={<CustomLegend period={period} setPeriod={setPeriod} />}
       />

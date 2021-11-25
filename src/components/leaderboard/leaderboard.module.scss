@@ -1,0 +1,56 @@
+@use '../../styles/typography';
+@use '../../styles/functions';
+@import '../../styles/typography';
+
+.tableWrapper {
+  width: functions.calc-rem(750);
+  padding: functions.calc-rem(15) functions.calc-rem(40) functions.calc-rem(15)
+    functions.calc-rem(0);
+  margin: auto;
+}
+
+th {
+  color: var(--color-grey-500);
+  height: functions.calc-rem(32);
+}
+
+.leaderboardBody tr {
+  height: functions.calc-rem(80);
+}
+
+.title {
+  @include title-3;
+}
+
+.percentages {
+  @include title-4;
+  display: flex;
+  align-items: center;
+
+  color: var(--color-success-tint);
+}
+
+.negativeGrowth {
+  color: var(--color-error-pure);
+
+  .icon {
+    transform: rotate(180deg);
+  }
+}
+
+.elementLogo {
+  height: functions.calc-rem(40);
+  width: functions.calc-rem(40);
+}
+
+.displayFlex {
+  display: flex;
+}
+
+.textStart {
+  text-align: start;
+}
+
+.textEnd {
+  text-align: end;
+}

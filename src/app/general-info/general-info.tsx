@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import { Switch, Route, useLocation, useHistory } from 'react-router';
 
-import { Page, WidgetTile, WidgetInfo } from '../../components';
+import { leaderboardData } from 'src/components/leaderboard/leaderboardData';
+import { Page, WidgetTile, WidgetInfo, Leaderboard } from '../../components';
 
 import { ChartLine } from '../../components/charts/line-chart';
 import { getRechartsData } from '../../components/charts/rechartsData';
@@ -47,7 +48,7 @@ export const GeneralInfo: FC = () => {
         </WidgetTile>
       </div>
 
-      <div className={styles.chart}>
+      <div className={styles.mainContent}>
         <Switch>
           <Route exact path={ROUTES.generalInfo} component={NumbersDao} />
           <Route
@@ -57,7 +58,6 @@ export const GeneralInfo: FC = () => {
           />
           <Route exact path={ROUTES.generalInfoGroups} component={Groups} />
         </Switch>
-        <ChartLine data={rechartsData} />
       </div>
     </Page>
   );

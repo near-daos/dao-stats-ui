@@ -13,14 +13,12 @@
   margin: 0 0 functions.calc-rem(12) 0;
 }
 
-.chart {
+.mainContent {
   width: functions.calc-rem(750);
+
   height: functions.calc-rem(556);
 
-  padding: functions.calc-rem(30) functions.calc-rem(30) functions.calc-rem(30)
-    functions.calc-rem(20);
+  border-radius: functions.calc-rem(7);
 
   background-color: var(--color-grey-900);
-
-  border-radius: functions.calc-rem(7);
 }
