@@ -6,6 +6,8 @@ export const ROUTES = {
   generalInfoDaoActivity: '/general-info/dao-activity',
   generalInfoGroups: '/general-info/groups',
   users: '/users',
+  usersAverageCouncilSize: '/users/average-council-size',
+  usersNumberOfInteractions: '/users/number-of-interactions',
   activity: '/activity',
   flow: '/flow',
   tvl: '/tvl',

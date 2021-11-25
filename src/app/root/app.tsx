@@ -38,6 +38,16 @@ export const App: FC = () => (
             component={GeneralInfo}
           />
           <Route exact path={ROUTES.users} component={Users} />
+          <Route
+            exact
+            path={ROUTES.usersAverageCouncilSize}
+            component={Users}
+          />
+          <Route
+            exact
+            path={ROUTES.usersNumberOfInteractions}
+            component={Users}
+          />
           <Route exact path={ROUTES.activity} component={Activity} />
           <Route exact path={ROUTES.flow} component={Flow} />
           <Route exact path={ROUTES.tvl} component={Tvl} />
