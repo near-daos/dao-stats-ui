@@ -3,7 +3,7 @@ import { HttpService } from '../httpService';
 import {
   GeneralInfoType,
   ContractWithTimestampParams,
-  HistoryWithCount,
+  History,
   Todo,
   ContractWithDaoParams,
   ActivityData,
@@ -27,7 +27,7 @@ export class TodosService extends HttpService {
 
   async getNumberDAOs(
     params: ContractWithTimestampParams,
-  ): Promise<AxiosResponse<HistoryWithCount>> {
+  ): Promise<AxiosResponse<History>> {
     return this.get(
       `${params.contract}/general/daos?timespan=${params.timestamp}`,
     );
@@ -41,7 +41,7 @@ export class TodosService extends HttpService {
 
   async getDAOActivityHistory(
     params: ContractWithTimestampParams,
-  ): Promise<AxiosResponse<HistoryWithCount>> {
+  ): Promise<AxiosResponse<History>> {
     return this.get(
       `${params.contract}/general/activity?timespan=${params.timestamp}`,
     );
@@ -61,7 +61,7 @@ export class TodosService extends HttpService {
 
   async getGroupsHistory(
     params: ContractWithTimestampParams,
-  ): Promise<AxiosResponse<HistoryWithCount>> {
+  ): Promise<AxiosResponse<History>> {
     return this.get(
       `${params.contract}/general/groups?timespan=${params.timestamp}`,
     );

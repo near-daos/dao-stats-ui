@@ -26,36 +26,32 @@ export type ContractWithDaoParams = {
   dao: string;
 };
 
-export type HistoryItem = {
-  data: [
-    {
-      start: string;
-      end: string;
-      count: number;
-    },
-  ];
+type HistoryItem = {
+  start: string;
+  end: string;
+  count: number;
 };
 
 export type History = {
   data: HistoryItem[];
 };
 
+type AcivityItem = {
+  dao: CountAndGrowth;
+  activity: CountAndGrowth;
+  overview: History[];
+};
+
 export type ActivityData = {
-  data: [
-    {
-      dao: CountAndGrowth;
-      activity: CountAndGrowth;
-      overview: History[];
-    },
-  ];
+  data: AcivityItem[];
+};
+
+type GroupItem = {
+  dao: CountAndGrowth;
+  groups: CountAndGrowth;
+  overview: History[];
 };
 
 export type GroupsData = {
-  data: [
-    {
-      dao: CountAndGrowth;
-      groups: CountAndGrowth;
-      overview: History[];
-    },
-  ];
+  data: GroupItem[];
 };
