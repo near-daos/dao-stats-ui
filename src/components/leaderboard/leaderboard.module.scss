@@ -4,14 +4,16 @@
 
 .tableWrapper {
   width: functions.calc-rem(750);
+
   padding: functions.calc-rem(15) functions.calc-rem(40) functions.calc-rem(15)
     functions.calc-rem(0);
   margin: auto;
 }
 
 th {
-  color: var(--color-grey-500);
   height: functions.calc-rem(32);
+
+  color: var(--color-grey-500);
 }
 
 .leaderboardBody tr {
@@ -39,8 +41,8 @@ th {
 }
 
 .elementLogo {
-  height: functions.calc-rem(40);
   width: functions.calc-rem(40);
+  height: functions.calc-rem(40);
 }
 
 .displayFlex {

@@ -11,7 +11,7 @@ import {
 
 import { CustomLegend } from '../custom-legend';
 import { ChartTooltip } from '../chart-tooltip';
-import { tickStyles } from '../constants';
+import { COLORS, tickStyles } from '../constants';
 import { filterDataByRange, yTickFormatter } from '../helpers';
 
 type LineChartProps = {
@@ -19,6 +19,15 @@ type LineChartProps = {
   height?: number;
   data: any;
 };
+
+const lines = [
+  {
+    dataKey: 'Total In',
+  },
+  {
+    dataKey: 'Total Out',
+  },
+];
 
 export const ChartLine: React.FC<LineChartProps> = ({
   data,
@@ -84,22 +93,16 @@ export const ChartLine: React.FC<LineChartProps> = ({
         style={tickStyles}
         tickLine={false}
       />
-      <Line
-        strokeWidth={2}
-        dot={false}
-        dataKey="Total In"
-        stroke="#E33F84"
-        key="Total In"
-        activeDot={renderActiveDot}
-      />
-      <Line
-        strokeWidth={2}
-        dot={false}
-        dataKey="Total Out"
-        stroke="#8F40DD"
-        key="Total Out"
-        activeDot={renderActiveDot}
-      />
+      {lines.map((line, lineIndex) => (
+        <Line
+          strokeWidth={2}
+          dot={false}
+          dataKey={line.dataKey}
+          stroke={COLORS[lineIndex]}
+          key={line.dataKey}
+          activeDot={renderActiveDot}
+        />
+      ))}
       <Tooltip
         content={ChartTooltip}
         cursor={{
