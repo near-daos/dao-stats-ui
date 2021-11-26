@@ -26,7 +26,7 @@ export type ContractWithDaoParams = {
   dao: string;
 };
 
-export type HistoryWithCount = {
+export type HistoryItem = {
   data: [
     {
       start: string;
@@ -36,12 +36,16 @@ export type HistoryWithCount = {
   ];
 };
 
+export type History = {
+  data: HistoryItem[];
+};
+
 export type ActivityData = {
   data: [
     {
       dao: CountAndGrowth;
       activity: CountAndGrowth;
-      overview: HistoryWithCount[];
+      overview: History[];
     },
   ];
 };
@@ -51,7 +55,7 @@ export type GroupsData = {
     {
       dao: CountAndGrowth;
       groups: CountAndGrowth;
-      overview: HistoryWithCount[];
+      overview: History[];
     },
   ];
 };
