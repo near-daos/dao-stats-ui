@@ -14,7 +14,7 @@ const tabOptions = [
   { label: 'Leaderboard', value: 'leaderboard' },
 ];
 
-export const NumberOfInteractions: FC = () => {
+export const NumberInteractions: FC = () => {
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
 
   const handleOnChange = (value: string) => {

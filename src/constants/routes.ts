@@ -7,10 +7,10 @@ export const ROUTES = {
   generalInfoGroups: '/general-info/groups',
   users: '/users',
   usersAverageCouncilSize: '/users/average-council-size',
-  usersNumberOfInteractions: '/users/number-of-interactions',
+  usersNumberInteractions: '/users/number-interactions',
   activity: '/activity',
-  activityProposalsByType: '/activity/proposals-by-type',
-  activityVote: '/activity/vote',
+  activityProposalType: '/activity/proposal-type',
+  activityVoteRate: '/activity/vote-rate',
   flow: '/flow',
   flowTransactions: '/flow/transactions',
   tvl: '/tvl',
@@ -18,7 +18,7 @@ export const ROUTES = {
   tvlNear: '/tvl/near',
   tvlDao: '/tvl/dao',
   tokens: '/tokens',
-  tokensNumberOfFTs: '/tokens/fts',
+  tokensFt: '/tokens/ft',
 };
 
 export const HEADER_FORBIDDEN_ROUTES = [
