@@ -56,8 +56,13 @@ export const App: FC = () => (
           />
           <Route exact path={ROUTES.activityVote} component={Activity} />
           <Route exact path={ROUTES.flow} component={Flow} />
+          <Route exact path={ROUTES.flowTransactions} component={Flow} />
           <Route exact path={ROUTES.tvl} component={Tvl} />
+          <Route exact path={ROUTES.tvlBounties} component={Tvl} />
+          <Route exact path={ROUTES.tvlNear} component={Tvl} />
+          <Route exact path={ROUTES.tvlDao} component={Tvl} />
           <Route exact path={ROUTES.tokens} component={Tokens} />
+          <Route exact path={ROUTES.tokensNumberOfFTs} component={Tokens} />
           <Route exact path={ROUTES.page404} component={Page404} />
           <Route exact path={ROUTES.uiKit} component={UiKIt} />
           <Redirect to={ROUTES.page404} />

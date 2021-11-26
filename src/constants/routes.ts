@@ -12,8 +12,13 @@ export const ROUTES = {
   activityProposalsByType: '/activity/proposals-by-type',
   activityVote: '/activity/vote',
   flow: '/flow',
+  flowTransactions: '/flow/transactions',
   tvl: '/tvl',
+  tvlBounties: '/tvl/bounties',
+  tvlNear: '/tvl/near',
+  tvlDao: '/tvl/dao',
   tokens: '/tokens',
+  tokensNumberOfFTs: '/tokens/fts',
 };
 
 export const HEADER_FORBIDDEN_ROUTES = [
