@@ -9,6 +9,8 @@ export const ROUTES = {
   usersAverageCouncilSize: '/users/average-council-size',
   usersNumberOfInteractions: '/users/number-of-interactions',
   activity: '/activity',
+  activityProposalsByType: '/activity/proposals-by-type',
+  activityVote: '/activity/vote',
   flow: '/flow',
   tvl: '/tvl',
   tokens: '/tokens',

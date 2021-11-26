@@ -49,6 +49,12 @@ export const App: FC = () => (
             component={Users}
           />
           <Route exact path={ROUTES.activity} component={Activity} />
+          <Route
+            exact
+            path={ROUTES.activityProposalsByType}
+            component={Activity}
+          />
+          <Route exact path={ROUTES.activityVote} component={Activity} />
           <Route exact path={ROUTES.flow} component={Flow} />
           <Route exact path={ROUTES.tvl} component={Tvl} />
           <Route exact path={ROUTES.tokens} component={Tokens} />

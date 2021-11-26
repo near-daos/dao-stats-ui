@@ -20,6 +20,14 @@
   text-align: left;
 
   transition: border-color 350ms;
+
+  &.short {
+    min-height: 0;
+
+    padding-top: functions.calc-rem(15);
+    padding-bottom: functions.calc-rem(25);
+  }
+
   &:hover {
     border: 2px solid var(--color-chart-yellow);
   }

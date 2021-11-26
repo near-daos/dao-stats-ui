@@ -2,6 +2,12 @@
 @import '../../../styles/typography';
 @import '../../../styles/helpers';
 
+.root {
+  * {
+    cursor: pointer;
+  }
+}
+
 .legend {
   margin: 0 0 functions.calc-rem(12) 0;
 

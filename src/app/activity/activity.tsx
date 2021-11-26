@@ -1,32 +1,62 @@
 import React, { FC } from 'react';
+import { Route, Switch, useHistory, useLocation } from 'react-router';
+import { ROUTES } from 'src/constants';
 
-import { Page, WidgetTile, WidgetInfo } from '../../components';
+import { Page, WidgetTile, WidgetInfo, ChartPie } from '../../components';
 
-import { ChartLine } from '../../components/charts/line-chart';
-import { getRechartsData } from '../../components/charts/rechartsData';
+import { pieData } from '../../components/charts/rechartsData';
 
 import styles from './activity.module.scss';
+import { NumberOfProposals } from './number-of-proposals';
+import { ProposalsType } from './proposals-type';
+import { Vote } from './vote';
 
-const rechartsData = getRechartsData();
+export const Activity: FC = () => {
+  const location = useLocation();
+  const history = useHistory();
 
-export const Activity: FC = () => (
-  <Page title="Activity">
-    <div className={styles.widgets}>
-      <WidgetTile active>
-        <WidgetInfo title="Number of DAOs" number="456" percentages={10} />
-      </WidgetTile>
+  return (
+    <Page title="Activity">
+      <div className={styles.widgets}>
+        <WidgetTile
+          short
+          className={styles.widget}
+          active={location.pathname === ROUTES.activity}
+          onClick={() => history.push(ROUTES.activity)}
+        >
+          <WidgetInfo
+            title="Number of Proposals"
+            number="456"
+            percentages={10}
+          />
+        </WidgetTile>
+        <WidgetTile
+          className={styles.widget}
+          active={location.pathname === ROUTES.activityProposalsByType}
+          onClick={() => history.push(ROUTES.activityProposalsByType)}
+        >
+          <ChartPie data={pieData[0]} title="Proposals by type" />
+        </WidgetTile>
+        <WidgetTile
+          short
+          className={styles.widget}
+          active={location.pathname === ROUTES.activityVote}
+          onClick={() => history.push(ROUTES.activityVote)}
+        >
+          <WidgetInfo title="Vote through rate" number="456" percentages={10} />
+        </WidgetTile>
+      </div>
 
-      <WidgetTile>
-        <WidgetInfo title="DAOs activity" number="456" percentages={10} />
-      </WidgetTile>
-
-      <WidgetTile>
-        <WidgetInfo title="Groups" number="456" percentages={10} />
-      </WidgetTile>
-    </div>
-
-    <div className={styles.chart}>
-      <ChartLine data={rechartsData} />
-    </div>
-  </Page>
-);
+      <div className={styles.mainContent}>
+        <Switch>
+          <Route exact path={ROUTES.activity} component={NumberOfProposals} />
+          <Route
+            path={ROUTES.activityProposalsByType}
+            component={ProposalsType}
+          />
+          <Route exact path={ROUTES.activityVote} component={Vote} />
+        </Switch>
+      </div>
+    </Page>
+  );
+};
