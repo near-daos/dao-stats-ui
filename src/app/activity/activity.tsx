@@ -32,16 +32,16 @@ export const Activity: FC = () => {
         </WidgetTile>
         <WidgetTile
           className={styles.widget}
-          active={location.pathname === ROUTES.activityProposalsByType}
-          onClick={() => history.push(ROUTES.activityProposalsByType)}
+          active={location.pathname === ROUTES.activityProposalType}
+          onClick={() => history.push(ROUTES.activityProposalType)}
         >
           <ChartPie data={pieData[0]} title="Proposals by type" />
         </WidgetTile>
         <WidgetTile
           short
           className={styles.widget}
-          active={location.pathname === ROUTES.activityVote}
-          onClick={() => history.push(ROUTES.activityVote)}
+          active={location.pathname === ROUTES.activityVoteRate}
+          onClick={() => history.push(ROUTES.activityVoteRate)}
         >
           <WidgetInfo title="Vote through rate" number="456" percentages={10} />
         </WidgetTile>
@@ -50,11 +50,8 @@ export const Activity: FC = () => {
       <div className={styles.mainContent}>
         <Switch>
           <Route exact path={ROUTES.activity} component={NumberOfProposals} />
-          <Route
-            path={ROUTES.activityProposalsByType}
-            component={ProposalsType}
-          />
-          <Route exact path={ROUTES.activityVote} component={Vote} />
+          <Route path={ROUTES.activityProposalType} component={ProposalsType} />
+          <Route exact path={ROUTES.activityVoteRate} component={Vote} />
         </Switch>
       </div>
     </Page>

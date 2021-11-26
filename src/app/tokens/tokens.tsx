@@ -25,8 +25,8 @@ export const Tokens: FC = () => {
         </WidgetTile>
         <WidgetTile
           className={styles.widget}
-          active={location.pathname === ROUTES.tokensNumberOfFTs}
-          onClick={() => history.push(ROUTES.tokensNumberOfFTs)}
+          active={location.pathname === ROUTES.tokensNumberFt}
+          onClick={() => history.push(ROUTES.tokensNumberFt)}
         >
           <WidgetInfo title="Number of FTs" number="16193" percentages={10} />
           <WidgetInfo title="VL of FTs" number="456" percentages={10} />
@@ -36,10 +36,7 @@ export const Tokens: FC = () => {
       <div className={styles.mainContent}>
         <Switch>
           <Route exact path={ROUTES.tokens} component={TokensNumberOfNFTs} />
-          <Route
-            path={ROUTES.tokensNumberOfFTs}
-            component={TokensNumberOfFTs}
-          />
+          <Route path={ROUTES.tokensNumberFt} component={TokensNumberOfFTs} />
         </Switch>
       </div>
     </Page>

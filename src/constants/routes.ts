@@ -18,7 +18,7 @@ export const ROUTES = {
   tvlNear: '/tvl/near',
   tvlDao: '/tvl/dao',
   tokens: '/tokens',
-  tokensFt: '/tokens/ft',
+  tokensNumberFt: '/tokens/number-ft',
 };
 
 export const HEADER_FORBIDDEN_ROUTES = [
