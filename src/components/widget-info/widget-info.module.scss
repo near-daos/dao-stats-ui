@@ -35,4 +35,15 @@
 
 .number {
   @include heading-2;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  width: functions.calc-rem(20);
+  height: functions.calc-rem(20);
+
+  margin-left: functions.calc-rem(8);
+
+  color: var(--color-grey-100);
 }
