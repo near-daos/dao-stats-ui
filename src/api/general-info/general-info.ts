@@ -4,21 +4,12 @@ import {
   GeneralInfoType,
   ContractWithTimestampParams,
   History,
-  Todo,
   ContractWithDaoParams,
   ActivityData,
   GroupsData,
 } from './types';
 
 export class TodosService extends HttpService {
-  async getTodos(): Promise<AxiosResponse<Todo[]>> {
-    return this.get('/todos');
-  }
-
-  async getTodo(id: string): Promise<AxiosResponse<Todo>> {
-    return this.get(`/todos/${id}`);
-  }
-
   async getGeneralInfo(
     contract: string,
   ): Promise<AxiosResponse<GeneralInfoType>> {
