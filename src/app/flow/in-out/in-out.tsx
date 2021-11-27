@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
-import { ChartBar, ChartLine, Leaderboard, Tabs } from 'src/components';
+import { ChartBar, Tabs } from 'src/components';
 import { getRechartsData } from 'src/components/charts/rechartsData';
-import { leaderboardData } from 'src/components/leaderboard/leaderboardData';
+
 import styles from './in-out.module.scss';
 
 const rechartsData = getRechartsData();
@@ -33,7 +33,7 @@ export const FlowInOut: FC = () => {
       </div>
       <div className={styles.chart}>
         {activeTab === 'history-data' && <ChartBar data={rechartsData} />}
-        {activeTab === 'leaderboard' && <Leaderboard data={leaderboardData} />}
+        {activeTab === 'leaderboard' && 'leaderboard'}
       </div>
     </div>
   );

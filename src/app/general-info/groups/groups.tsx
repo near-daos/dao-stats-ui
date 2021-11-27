@@ -1,7 +1,6 @@
 import React, { FC, useState } from 'react';
-import { ChartLine, Leaderboard, Tabs } from 'src/components';
+import { ChartLine, Tabs } from 'src/components';
 import { getRechartsData } from 'src/components/charts/rechartsData';
-import { leaderboardData } from 'src/components/leaderboard/leaderboardData';
 import styles from './groups.module.scss';
 
 const rechartsData = getRechartsData();
@@ -33,7 +32,7 @@ export const Groups: FC = () => {
       </div>
       <div className={styles.chart}>
         {activeTab === 'history-data' && <ChartLine data={rechartsData} />}
-        {activeTab === 'leaderboard' && <Leaderboard data={leaderboardData} />}
+        {activeTab === 'leaderboard' && 'leaderboard'}
       </div>
     </div>
   );

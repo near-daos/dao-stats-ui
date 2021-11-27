@@ -1,11 +1,6 @@
 import logo from '../../images/sputnik.png';
 
-export interface LeaderboarDataItem {
-  name: string;
-  'Total In': number;
-}
-
-export const leaderboardData = [
+export const mock = [
   {
     id: 1,
     logo,

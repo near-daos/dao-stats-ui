@@ -1,0 +1,30 @@
+@use '../../styles/typography';
+@use '../../styles/functions';
+@import '../../styles/typography';
+
+.titleCell {
+  width: functions.calc-rem(238);
+
+  display: flex;
+}
+
+.logo {
+  width: functions.calc-rem(40);
+
+  margin-right: functions.calc-rem(8);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  @include title-3;
+  color: var(--white);
+}
+
+.domain {
+  @include caption-2;
+  color: var(--color-grey-500);
+}

@@ -5,11 +5,10 @@
 }
 
 .tabWrapper {
-  padding-top: functions.calc-rem(10);
+  height: functions.calc-rem(40);
 
   padding-left: functions.calc-rem(30);
-
-  height: functions.calc-rem(40);
+  padding-top: functions.calc-rem(10);
 
   border-bottom: 1px solid #393838;
 }

@@ -1,0 +1,52 @@
+@use '../../styles/typography';
+@use '../../styles/functions';
+@import '../../styles/typography';
+
+.table {
+  width: 100%;
+  max-width: functions.calc-rem(750);
+}
+
+.headerCell {
+  @include caption-1;
+  height: functions.calc-rem(32);
+
+  color: var(--color-grey-500);
+
+  text-align: left;
+  &:last-child {
+    padding-right: functions.calc-rem(32);
+  }
+}
+
+.headerCellRight {
+  text-align: right;
+}
+
+.row {
+  height: functions.calc-rem(80);
+
+  transition: background linear 300ms;
+  &:hover {
+    background: var(--color-grey-800);
+  }
+}
+
+.cell {
+  @include title-3;
+
+  color: var(--color-grey-300);
+  &:first-child {
+    padding: 0 functions.calc-rem(12) 0 functions.calc-rem(32);
+  }
+
+  &:last-child {
+    padding-right: functions.calc-rem(32);
+  }
+}
+
+.cellWrapper {
+  display: flex;
+  justify-content: flex-start;
+  gap: functions.calc-rem(32);
+}
