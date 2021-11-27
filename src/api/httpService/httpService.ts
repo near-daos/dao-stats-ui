@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-const BASE_URL = 'https://jsonplaceholder.typicode.com';
+const BASE_URL = '/api/v1/';
 
 export class HttpService {
   private readonly client: AxiosInstance;
