@@ -1,10 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { HttpService } from '../httpService';
-import {
-  UsersType,
-  GroupsData,
-  ContractWithDaoAndTimestampParams,
-} from './types';
+import { UsersType } from './types';
+import { GroupsData, ContractWithDaoAndTimestampParams } from '../types';
 
 export class UsersService extends HttpService {
   async getUsers(contract: string): Promise<AxiosResponse<UsersType>> {

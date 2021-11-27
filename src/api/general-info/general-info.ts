@@ -1,15 +1,13 @@
 import { AxiosResponse } from 'axios';
 import { HttpService } from '../httpService';
+import { GeneralInfoType, ActivityData } from './types';
 import {
-  GeneralInfoType,
-  ContractWithTimestampParams,
+  ContractWithDaoAndTimestampParams,
   History,
-  ContractWithDaoParams,
-  ActivityData,
   GroupsData,
-} from './types';
+} from '../types';
 
-export class TodosService extends HttpService {
+export class GeneralInfoService extends HttpService {
   async getGeneralInfo(
     contract: string,
   ): Promise<AxiosResponse<GeneralInfoType>> {
@@ -17,7 +15,7 @@ export class TodosService extends HttpService {
   }
 
   async getNumberDAOs(
-    params: ContractWithTimestampParams,
+    params: ContractWithDaoAndTimestampParams,
   ): Promise<AxiosResponse<History>> {
     return this.get(
       `${params.contract}/general/daos?timespan=${params.timestamp}`,
@@ -25,13 +23,13 @@ export class TodosService extends HttpService {
   }
 
   async getDAOActivityDAO(
-    params: ContractWithDaoParams,
+    params: ContractWithDaoAndTimestampParams,
   ): Promise<AxiosResponse<ActivityData>> {
     return this.get(`${params.contract}/general/${params.dao}/activity`);
   }
 
   async getDAOActivityHistory(
-    params: ContractWithTimestampParams,
+    params: ContractWithDaoAndTimestampParams,
   ): Promise<AxiosResponse<History>> {
     return this.get(
       `${params.contract}/general/activity?timespan=${params.timestamp}`,
@@ -45,13 +43,13 @@ export class TodosService extends HttpService {
   }
 
   async getGroupsDAO(
-    params: ContractWithDaoParams,
+    params: ContractWithDaoAndTimestampParams,
   ): Promise<AxiosResponse<GroupsData>> {
     return this.get(`${params.contract}/general/${params.dao}/groups`);
   }
 
   async getGroupsHistory(
-    params: ContractWithTimestampParams,
+    params: ContractWithDaoAndTimestampParams,
   ): Promise<AxiosResponse<History>> {
     return this.get(
       `${params.contract}/general/groups?timespan=${params.timestamp}`,
@@ -65,4 +63,4 @@ export class TodosService extends HttpService {
   }
 }
 
-export const todosService = new TodosService();
+export const generalInfoService = new GeneralInfoService();

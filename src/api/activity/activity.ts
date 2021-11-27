@@ -1,10 +1,8 @@
 import { AxiosResponse } from 'axios';
 import { HttpService } from '../httpService';
-import {
-  ActivityType,
-  GroupsData,
-  ContractWithDaoAndTimestampParams,
-} from './types';
+import { ActivityType, GroupsData } from './types';
+
+import { ContractWithDaoAndTimestampParams } from '../types';
 
 export class ActivityService extends HttpService {
   async getActivity(contract: string): Promise<AxiosResponse<ActivityType>> {

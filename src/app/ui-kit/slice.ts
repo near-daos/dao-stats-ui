@@ -9,7 +9,6 @@ import {
 } from '@reduxjs/toolkit';
 
 import { RequestStatus } from '../../store/types';
-import { todosService } from '../../api';
 import { UIKitState } from './types';
 
 export const todosAdapter = createEntityAdapter();
@@ -24,6 +23,4 @@ export const uiKitSlice = createSlice({
   name: 'uiKit',
   initialState,
   reducers: {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  extraReducers: (builder) => {},
 });
