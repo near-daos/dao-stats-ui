@@ -3,18 +3,20 @@
 .widgets {
   width: functions.calc-rem(240);
 
-  margin-right: functions.calc-rem(15);
+  margin: 0 functions.calc-rem(15) 0 0;
 
   display: flex;
   flex-direction: column;
 }
 
-.chart {
-  width: functions.calc-rem(750);
-  height: functions.calc-rem(556);
+.widget {
+  margin: 0 0 functions.calc-rem(12) 0;
+}
 
-  padding: functions.calc-rem(30) functions.calc-rem(30) functions.calc-rem(30)
-    functions.calc-rem(20);
+.mainContent {
+  width: functions.calc-rem(750);
+
+  height: functions.calc-rem(556);
 
   background-color: var(--color-grey-900);
 

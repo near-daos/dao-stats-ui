@@ -6,10 +6,19 @@ export const ROUTES = {
   generalInfoDaoActivity: '/general-info/dao-activity',
   generalInfoGroups: '/general-info/groups',
   users: '/users',
+  usersAverageCouncilSize: '/users/average-council-size',
+  usersNumberInteractions: '/users/number-interactions',
   activity: '/activity',
+  activityProposalType: '/activity/proposal-type',
+  activityVoteRate: '/activity/vote-rate',
   flow: '/flow',
+  flowTransactions: '/flow/transactions',
   tvl: '/tvl',
+  tvlBounties: '/tvl/bounties',
+  tvlNear: '/tvl/near',
+  tvlDao: '/tvl/dao',
   tokens: '/tokens',
+  tokensNumberFt: '/tokens/number-ft',
 };
 
 export const HEADER_FORBIDDEN_ROUTES = [

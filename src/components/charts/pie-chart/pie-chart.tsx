@@ -12,19 +12,21 @@ export interface PieChartItem {
 }
 
 interface PieChartProps {
+  title?: string;
   data: PieChartItem[];
   width?: number;
   height?: number;
 }
 
 export const ChartPie: React.FC<PieChartProps> = ({
+  title = 'Average council size',
   data,
   width = 200,
   height = 293,
 }) => {
   const renderCustomLegend = ({ payload }: any) => (
     <div className={styles.legend}>
-      <span className={styles.legendTitle}>Average council size</span>
+      <span className={styles.legendTitle}>{title}</span>
       <ul className={styles.legendList}>
         {payload?.map((entry: any) => (
           <li className={styles.legendItem} key={`item-${entry.value}`}>

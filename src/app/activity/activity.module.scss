@@ -9,12 +9,15 @@
   flex-direction: column;
 }
 
-.chart {
+.widget {
+  padding-top: functions.calc-rem(15);
+  padding-bottom: functions.calc-rem(24);
+  margin: 0 0 functions.calc-rem(12) 0;
+}
+
+.mainContent {
   width: functions.calc-rem(750);
   height: functions.calc-rem(556);
-
-  padding: functions.calc-rem(30) functions.calc-rem(30) functions.calc-rem(30)
-    functions.calc-rem(20);
 
   background-color: var(--color-grey-900);
 

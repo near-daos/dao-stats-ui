@@ -1,32 +1,44 @@
 import React, { FC } from 'react';
+import { Route, Switch, useHistory, useLocation } from 'react-router';
+import { ROUTES } from 'src/constants';
 
 import { Page, WidgetTile, WidgetInfo } from '../../components';
-
-import { ChartLine } from '../../components/charts/line-chart';
-import { getRechartsData } from '../../components/charts/rechartsData';
+import { TokensNumberOfFTs } from './number-of-fts';
+import { TokensNumberOfNFTs } from './number-of-nfts';
 
 import styles from './tokens.module.scss';
 
-const rechartsData = getRechartsData();
+export const Tokens: FC = () => {
+  const location = useLocation();
+  const history = useHistory();
 
-export const Tokens: FC = () => (
-  <Page title="Tokens">
-    <div className={styles.widgets}>
-      <WidgetTile active>
-        <WidgetInfo title="Number of DAOs" number="456" percentages={10} />
-      </WidgetTile>
+  return (
+    <Page title="Tokens">
+      <div className={styles.widgets}>
+        <WidgetTile
+          className={styles.widget}
+          active={location.pathname === ROUTES.tokens}
+          onClick={() => history.push(ROUTES.tokens)}
+        >
+          <WidgetInfo title="Number of NFTs" number="13290" percentages={10} />
+          <WidgetInfo title="Number of FTs" number="2290" percentages={10} />
+        </WidgetTile>
+        <WidgetTile
+          className={styles.widget}
+          active={location.pathname === ROUTES.tokensNumberFt}
+          onClick={() => history.push(ROUTES.tokensNumberFt)}
+        >
+          <WidgetInfo title="Number of FTs" number="16193" percentages={10} />
+          <WidgetInfo title="VL of FTs" number="456" percentages={10} />
+        </WidgetTile>
+      </div>
 
-      <WidgetTile>
-        <WidgetInfo title="DAOs activity" number="456" percentages={10} />
-      </WidgetTile>
-
-      <WidgetTile>
-        <WidgetInfo title="Groups" number="456" percentages={10} />
-      </WidgetTile>
-    </div>
-
-    <div className={styles.chart}>
-      <ChartLine data={rechartsData} />
-    </div>
-  </Page>
-);
+      <div className={styles.mainContent}>
+        <Switch>
+          <Route exact path={ROUTES.tokens} component={TokensNumberOfNFTs} />
+          <Route path={ROUTES.tokensNumberFt} component={TokensNumberOfFTs} />
+        </Switch>
+      </div>
+    </Page>
+  );
+};

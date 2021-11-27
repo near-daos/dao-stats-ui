@@ -1,32 +1,70 @@
 import React, { FC } from 'react';
+import { Switch, Route, useLocation, useHistory } from 'react-router';
 
 import { Page, WidgetTile, WidgetInfo } from '../../components';
 
-import { ChartLine } from '../../components/charts/line-chart';
-import { getRechartsData } from '../../components/charts/rechartsData';
+import { ROUTES } from '../../constants';
+import { AverageCouncilSize } from './average-council-size';
+import { NumberInteractions } from './number-interactions';
+import { NumberUsers } from './number-users';
 
 import styles from './users.module.scss';
 
-const rechartsData = getRechartsData();
+export const Users: FC = () => {
+  const location = useLocation();
+  const history = useHistory();
 
-export const Users: FC = () => (
-  <Page title="Users">
-    <div className={styles.widgets}>
-      <WidgetTile active>
-        <WidgetInfo title="Number of DAOs" number="456" percentages={10} />
-      </WidgetTile>
+  return (
+    <Page title="Users">
+      <div className={styles.widgets}>
+        <WidgetTile
+          className={styles.widget}
+          active={location.pathname === ROUTES.users}
+          onClick={() => history.push(ROUTES.users)}
+        >
+          <WidgetInfo title="Users" number="1230" percentages={10} />
+        </WidgetTile>
 
-      <WidgetTile>
-        <WidgetInfo title="DAOs activity" number="456" percentages={10} />
-      </WidgetTile>
+        <WidgetTile
+          className={styles.widget}
+          onClick={() => history.push(ROUTES.usersAverageCouncilSize)}
+          active={location.pathname === ROUTES.usersAverageCouncilSize}
+        >
+          <WidgetInfo
+            title="Average council size"
+            number="456"
+            percentages={10}
+          />
+        </WidgetTile>
 
-      <WidgetTile>
-        <WidgetInfo title="Groups" number="456" percentages={10} />
-      </WidgetTile>
-    </div>
+        <WidgetTile
+          className={styles.widget}
+          onClick={() => history.push(ROUTES.usersNumberInteractions)}
+          active={location.pathname === ROUTES.usersNumberInteractions}
+        >
+          <WidgetInfo
+            title="Number of Interactions"
+            number="1087"
+            percentages={10}
+          />
+        </WidgetTile>
+      </div>
 
-    <div className={styles.chart}>
-      <ChartLine data={rechartsData} />
-    </div>
-  </Page>
-);
+      <div className={styles.mainContent}>
+        <Switch>
+          <Route exact path={ROUTES.users} component={NumberUsers} />
+          <Route
+            exact
+            path={ROUTES.usersAverageCouncilSize}
+            component={AverageCouncilSize}
+          />
+          <Route
+            exact
+            path={ROUTES.usersNumberInteractions}
+            component={NumberInteractions}
+          />
+        </Switch>
+      </div>
+    </Page>
+  );
+};

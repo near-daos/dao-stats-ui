@@ -1,0 +1,39 @@
+@use '../../../styles/functions';
+@import '../../../styles/typography';
+@import '../../../styles/helpers';
+
+.stackedChart {
+  width: 100%;
+  height: functions.calc-rem(4);
+  min-width: functions.calc-rem(411);
+
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.stack {
+  height: 100%;
+
+  margin: functions.calc-rem(13) 0 0;
+
+  position: relative;
+  &:first-child {
+    border-top-left-radius: functions.calc-rem(4);
+    border-bottom-left-radius: functions.calc-rem(4);
+  }
+  &:last-child {
+    border-top-right-radius: functions.calc-rem(4);
+    border-bottom-right-radius: functions.calc-rem(4);
+  }
+}
+
+.value {
+  @include caption-2;
+  position: absolute;
+  bottom: calc(100% + #{functions.calc-rem(7)});
+  left: 50%;
+
+  color: var(--white);
+
+  transform: translate(-50%, 0);
+}
