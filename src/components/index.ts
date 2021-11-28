@@ -12,6 +12,5 @@ export * from './charts';
 export * from './widget-tile';
 export * from './widget-info';
 export * from './page';
-export * from './table';
-export * from './amount';
-export * from './title-cell';
+export * from './leaderboard';
+export * from './loading';

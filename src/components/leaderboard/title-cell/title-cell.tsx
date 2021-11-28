@@ -2,13 +2,13 @@ import React, { FC } from 'react';
 
 import styles from './title-cell.module.scss';
 
-export type TitleCell = {
+export type TitleCellProps = {
   logo?: string;
   label?: string;
   domain?: string;
 };
 
-export const TitleCell: FC<TitleCell> = ({ logo, label, domain }) => (
+export const TitleCell: FC<TitleCellProps> = ({ logo, label, domain }) => (
   <div className={styles.titleCell}>
     {logo && <img className={styles.logo} src={logo} alt="" />}
     <div className={styles.content}>

@@ -1,24 +1,21 @@
 import React, { FC } from 'react';
-import styles from './stacked-chart.module.scss';
+import clsx from 'clsx';
+
 import { COLORS } from '../constants';
 
-const data = [
-  {
-    value: 47,
-  },
-  {
-    value: 35,
-  },
-  {
-    value: 1,
-  },
-  {
-    value: 17,
-  },
-];
+import styles from './stacked-chart.module.scss';
 
-export const StackedChart: FC = () => (
-  <div className={styles.stackedChart}>
+export type StackedChartItem = {
+  value: number;
+};
+
+export type StackedChartProps = {
+  data: StackedChartItem[];
+  className?: string;
+};
+
+export const StackedChart: FC<StackedChartProps> = ({ data, className }) => (
+  <div className={clsx(styles.stackedChart, className)}>
     {data.map(({ value }, index: number) => (
       <div
         key={value}
