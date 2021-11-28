@@ -7,8 +7,25 @@
   height: functions.calc-rem(4);
   min-width: functions.calc-rem(411);
 
+  position: relative;
+
   display: flex;
   flex-wrap: nowrap;
+
+  &::before {
+    width: 100%;
+    height: 100%;
+
+    position: absolute;
+    top: functions.calc-rem(13);
+    left: 0;
+
+    background: var(--color-grey-500);
+    content: '';
+
+    border-top-right-radius: functions.calc-rem(4);
+    border-bottom-right-radius: functions.calc-rem(4);
+  }
 }
 
 .stack {

@@ -1,10 +1,7 @@
-@use '../../styles/typography';
-@use '../../styles/functions';
-@import '../../styles/typography';
+@use '../../../styles/functions';
+@import '../../../styles/typography';
 
 .titleCell {
-  width: functions.calc-rem(238);
-
   display: flex;
 }
 

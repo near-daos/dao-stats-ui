@@ -1,4 +1,3 @@
-@use '../../styles/typography';
 @use '../../styles/functions';
 @import '../../styles/typography';
 
@@ -37,7 +36,13 @@
 
   color: var(--color-grey-300);
   &:first-child {
-    padding: 0 functions.calc-rem(12) 0 functions.calc-rem(32);
+    width: functions.calc-rem(24);
+
+    padding: 0 functions.calc-rem(15) 0 functions.calc-rem(32);
+  }
+
+  &:nth-child(2) {
+    width: functions.calc-rem(238);
   }
 
   &:last-child {
