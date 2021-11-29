@@ -88,7 +88,7 @@ export const ChartLine: React.FC<LineChartProps> = ({
         style={tickStyles}
         tickLine={false}
       />
-      {lines.map((line: any, lineIndex: any) => (
+      {lines.map((line, lineIndex) => (
         <Line
           strokeWidth={2}
           dot={false}
