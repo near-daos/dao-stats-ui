@@ -28,7 +28,7 @@ export const NavigationList: FC<NavigationListProps> = ({
     <ul className={styles.list}>
       {options.map((option) => (
         <li
-          key={option.value + Math.random()}
+          key={option.value}
           className={clsx(
             { [styles.active]: selectedValue?.startsWith(option.value) },
             styles.item,

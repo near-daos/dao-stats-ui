@@ -73,6 +73,6 @@
     border-bottom-left-radius: functions.calc-rem(4);
     content: '';
 
-    transition: background-color ease-in 300ms;
+    transition: background-color ease-in-out 300ms;
   }
 }
