@@ -28,9 +28,9 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
     let arrowPsn = '';
 
     if (tooltipWidth && viewBox?.width && coordinate?.x && offset) {
-      const x = coordinate?.x - offset;
+      const x = coordinate?.x;
 
-      if (viewBox.width - tooltipWidth > x) arrowPsn = 'left';
+      if (viewBox.width - tooltipWidth > x - offset) arrowPsn = 'left';
       else arrowPsn = 'right';
     }
 
