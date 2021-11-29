@@ -38,7 +38,7 @@
   display: flex;
   flex-direction: column;
 
-  border-radius: 1px;
+  border-radius: functions.calc-rem(1);
 }
 
 .dropDownMenu {
@@ -49,7 +49,7 @@
 }
 
 .dropDownItem {
-  height: 40px;
+  height: functions.calc-rem(40);
 
   padding: 0 functions.calc-rem(20);
 
@@ -59,7 +59,7 @@
   white-space: nowrap;
 
   cursor: pointer;
-  gap: 12px;
+  gap: functions.calc-rem(12);
 
   &:last-child {
     margin-bottom: 0;
@@ -80,7 +80,7 @@
 
 .foundTitle {
   @include title-4();
-  height: 24px;
+  height: functions.calc-rem(24);
 
   padding: 0 functions.calc-rem(20);
   margin: functions.calc-rem(12) 0 0;
