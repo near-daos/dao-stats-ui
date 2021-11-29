@@ -29,7 +29,7 @@
 }
 
 .item {
-  border-radius: 4px;
+  border-radius: functions.calc-rem(4);
   &:hover {
     --line-color: var(--color-yellow-600);
   }
@@ -58,7 +58,7 @@
   background-color: var(--background-color);
 
   &::after {
-    width: 4px;
+    width: functions.calc-rem(4);
     height: 100%;
 
     position: absolute;
@@ -69,8 +69,8 @@
 
     background-color: var(--line-color);
 
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
+    border-top-left-radius: functions.calc-rem(4);
+    border-bottom-left-radius: functions.calc-rem(4);
     content: '';
 
     transition: background-color ease-in-out 300ms;
