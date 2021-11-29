@@ -28,7 +28,6 @@ export const ChartBar: React.FC<ChartBarProps> = ({
 }) => {
   const [period, setPeriod] = useState('1y');
   const [focusBar, setFocusBar] = useState(null);
-
   const rechartsData = filterDataByRange(period, data);
 
   const bars = Object.keys(rechartsData[0]).filter(
@@ -85,7 +84,11 @@ export const ChartBar: React.FC<ChartBarProps> = ({
           ))}
         </Bar>
       ))}
-      <Tooltip offset={25} content={ChartTooltip} cursor={false} />
+      <Tooltip
+        offset={25}
+        content={<ChartTooltip showArrow />}
+        cursor={false}
+      />
     </BarChart>
   );
 };
