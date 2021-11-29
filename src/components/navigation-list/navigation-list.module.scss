@@ -5,6 +5,8 @@
 .navigationList {
   --background-color: transparent;
   --line-color: transparent;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 
   display: flex;
   flex-direction: column;
@@ -64,8 +66,6 @@
     position: absolute;
     top: 0;
     left: 0;
-
-    display: flex;
 
     background-color: var(--line-color);
 
