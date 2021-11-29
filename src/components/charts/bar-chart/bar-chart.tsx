@@ -12,7 +12,7 @@ import {
 import { CustomLegend } from '../custom-legend';
 import { ChartTooltip } from '../chart-tooltip';
 
-import { tickStyles } from '../constants';
+import { COLORS, tickStyles } from '../constants';
 import { filterDataByRange, yTickFormatter } from '../helpers';
 
 type ChartBarProps = {
@@ -20,17 +20,6 @@ type ChartBarProps = {
   width?: number;
   height?: number;
 };
-
-const bars = [
-  {
-    dataKey: 'Total In',
-    fill: '#E33F84',
-  },
-  {
-    dataKey: 'Total Out',
-    fill: '#8F40DD',
-  },
-];
 
 export const ChartBar: React.FC<ChartBarProps> = ({
   data,
@@ -41,6 +30,10 @@ export const ChartBar: React.FC<ChartBarProps> = ({
   const [focusBar, setFocusBar] = useState(null);
 
   const rechartsData = filterDataByRange(period, data);
+
+  const bars = Object.keys(rechartsData[0]).filter(
+    (el) => el !== 'name' && el !== 'id',
+  );
 
   return (
     <BarChart
@@ -80,13 +73,8 @@ export const ChartBar: React.FC<ChartBarProps> = ({
         iconType="circle"
         content={<CustomLegend period={period} setPeriod={setPeriod} />}
       />
-      {bars.map((bar) => (
-        <Bar
-          key={bar.dataKey}
-          dataKey={bar.dataKey}
-          fill={bar.fill}
-          barSize={8}
-        >
+      {bars.map((bar, i) => (
+        <Bar key={bar} dataKey={bar} fill={COLORS[i]} barSize={8}>
           {rechartsData.map((entry: any, index: number) => (
             <Cell
               style={{

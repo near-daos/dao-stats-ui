@@ -20,15 +20,6 @@ type LineChartProps = {
   data: any;
 };
 
-const lines = [
-  {
-    dataKey: 'Total In',
-  },
-  {
-    dataKey: 'Total Out',
-  },
-];
-
 export const ChartLine: React.FC<LineChartProps> = ({
   data,
   width = 685,
@@ -37,6 +28,10 @@ export const ChartLine: React.FC<LineChartProps> = ({
   const [period, setPeriod] = useState('1y');
 
   const rechartsData = filterDataByRange(period, data);
+
+  const lines = Object.keys(rechartsData[0]).filter(
+    (el) => el !== 'name' && el !== 'id',
+  );
 
   const renderActiveDot = ({
     cx,
@@ -93,13 +88,13 @@ export const ChartLine: React.FC<LineChartProps> = ({
         style={tickStyles}
         tickLine={false}
       />
-      {lines.map((line, lineIndex) => (
+      {lines.map((line: any, lineIndex: any) => (
         <Line
           strokeWidth={2}
           dot={false}
-          dataKey={line.dataKey}
+          dataKey={line}
           stroke={COLORS[lineIndex]}
-          key={line.dataKey}
+          key={line}
           activeDot={renderActiveDot}
         />
       ))}
