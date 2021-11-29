@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { TooltipProps } from 'recharts';
 
 import { Dot } from '../svg/dot';
@@ -25,16 +25,16 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
   const tooltipWidth = rootRef.current?.offsetWidth;
 
   const findArrowPosition = () => {
-    let arrowPsn = '';
+    let arrow = '';
 
     if (tooltipWidth && viewBox?.width && coordinate?.x && offset) {
-      const x = coordinate?.x;
+      const toolTipX = coordinate?.x;
 
-      if (viewBox.width - tooltipWidth > x - offset) arrowPsn = 'left';
-      else arrowPsn = 'right';
+      if (viewBox.width - tooltipWidth > toolTipX - offset) arrow = 'left';
+      else arrow = 'right';
     }
 
-    return setArrowPosition(arrowPsn);
+    return setArrowPosition(arrow);
   };
 
   useEffect(() => {
