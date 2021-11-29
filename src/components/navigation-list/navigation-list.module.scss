@@ -5,6 +5,8 @@
 .navigationList {
   --background-color: transparent;
   --line-color: transparent;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 
   display: flex;
   flex-direction: column;
@@ -65,14 +67,12 @@
     top: 0;
     left: 0;
 
-    display: flex;
-
     background-color: var(--line-color);
 
     border-top-left-radius: functions.calc-rem(4);
     border-bottom-left-radius: functions.calc-rem(4);
     content: '';
 
-    transition: background-color ease-in-out 300ms;
+    transition: background-color ease-in 300ms;
   }
 }
