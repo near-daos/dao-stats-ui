@@ -1,21 +1,58 @@
-import React, { ReactNode } from 'react';
+import clsx from 'clsx';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import { TooltipProps } from 'recharts';
 
 import { Dot } from '../svg/dot';
 
 import styles from './chart-tooltip.module.scss';
 
-export const ChartTooltip = ({
+export interface ChartTooltipProps extends TooltipProps<number, string> {
+  showArrow?: boolean;
+}
+
+export const ChartTooltip: React.FC<ChartTooltipProps> = ({
   active,
   payload,
   label,
-}: TooltipProps<number, string>): ReactNode => {
+  viewBox,
+  coordinate,
+  offset,
+  showArrow,
+}) => {
+  const [arrowPosition, setArrowPosition] = useState('');
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  const tooltipWidth = rootRef.current?.offsetWidth;
+
+  const findArrowPosition = () => {
+    let arrowPsn = '';
+
+    if (tooltipWidth && viewBox?.width && coordinate?.x && offset) {
+      const x = coordinate?.x - offset;
+
+      if (viewBox.width - tooltipWidth > x) arrowPsn = 'left';
+      else arrowPsn = 'right';
+    }
+
+    return setArrowPosition(arrowPsn);
+  };
+
+  useEffect(() => {
+    if (showArrow) findArrowPosition();
+  });
+
   if (!active || !payload || !payload.length) {
     return null;
   }
 
   return (
-    <div className={styles.tooltip}>
+    <div
+      className={clsx(styles.tooltip, {
+        [styles.arrowLeft]: arrowPosition === 'left',
+        [styles.arrowRight]: arrowPosition === 'right',
+      })}
+      ref={rootRef}
+    >
       <p className={styles.label}>{label}</p>
       {payload.map((element) => (
         <div key={`item-${element.dataKey}-${element.value}`}>
