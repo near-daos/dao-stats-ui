@@ -20,7 +20,7 @@
 
   color: var(--color-grey-300);
 
-  border-radius: 4px;
+  border-radius: functions.calc-rem(4);
 
   text-align: center;
 
