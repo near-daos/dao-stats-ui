@@ -14,7 +14,7 @@
 
   background-color: var(--color-grey-900);
 
-  border: 2px solid var(--color-grey-700);
+  border: functions.calc-rem(2) solid var(--color-grey-700);
   border-radius: functions.calc-rem(8);
 
   text-align: left;
@@ -26,10 +26,10 @@
   }
 
   &:hover {
-    border: 2px solid var(--color-chart-yellow);
+    border: functions.calc-rem(2) solid var(--color-chart-yellow);
   }
 }
 
 .active {
-  border: 2px solid var(--color-blue-500);
+  border: functions.calc-rem(2) solid var(--color-blue-500);
 }

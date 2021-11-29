@@ -2,45 +2,10 @@
 @import '../../../styles/typography';
 @import '../../../styles/helpers';
 
-.periodButtonsWrapper {
-  display: flex;
-}
-
-.periodButtonItem {
-  @extend %button-reset;
-  @include title-4;
-  width: functions.calc-rem(40);
-  height: functions.calc-rem(32);
-
-  padding: functions.calc-rem(6) functions.calc-rem(12);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  color: var(--color-grey-300);
-
-  border-radius: 4px;
-
-  text-align: center;
-
-  transition: background ease-in-out 300ms, color ease-in-out 300ms;
-
-  &:hover {
-    color: var(--white);
-    background: var(--color-grey-700);
-  }
-}
-
-.activeButton {
-  color: var(--white);
-  background: var(--color-grey-700);
-}
-
 .legend {
-  display: flex;
-
   margin-left: functions.calc-rem(20);
+
+  display: flex;
 
   justify-content: space-between;
 }
@@ -69,43 +34,4 @@
 
 .legendListValue {
   @include title-3;
-}
-
-.legendListPie {
-  margin-right: functions.calc-rem(10);
-
-  display: flex;
-  justify-content: space-between;
-
-  vertical-align: middle;
-}
-
-.pieChartWrapper {
-  padding: functions.calc-rem(10) functions.calc-rem(15);
-  margin: functions.calc-rem(6) functions.calc-rem(12);
-
-  display: inline-block;
-
-  border: 2px solid #393838;
-  border-radius: 8px;
-
-  transition: border-color 350ms;
-
-  &:hover {
-    border: 2px solid var(--color-chart-yellow);
-  }
-}
-
-.pieChartLabel {
-  color: var(--color-grey-300);
-
-  font-size: 14px;
-}
-
-.pieLegendValue {
-  color: var(--white);
-}
-
-.activePieChart {
-  border: 2px solid var(--color-blue-500);
 }

@@ -12,7 +12,7 @@
 
   background-color: transparent;
 
-  border: 2px solid var(--color-yellow-500);
+  border: functions.calc-rem(2) solid var(--color-yellow-500);
   border-radius: functions.calc-rem(8);
   outline: none;
 
@@ -31,7 +31,7 @@
   &:active {
     background-color: var(--color-yellow-600);
 
-    border: 2px solid var(--color-yellow-600);
+    border: functions.calc-rem(2) solid var(--color-yellow-600);
   }
 
   &[disabled] {
