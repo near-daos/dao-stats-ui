@@ -3,9 +3,9 @@
 @import '../../styles/helpers';
 
 .tabsWrapper {
-  --line-height: functions.calc-rem(4);
+  --line-height: #{functions.calc-rem(4)};
   --line-color: transparent;
-  --padding-bottom: functions.calc-rem(10);
+  --padding-bottom: #{functions.calc-rem(10)};
 
   width: fit-content;
 
@@ -31,6 +31,8 @@
     position: absolute;
     bottom: 0;
     left: 0;
+    
+    display: flex;
 
     background-color: var(--line-color);
     content: '';
@@ -51,14 +53,14 @@
 
 .medium,
 .small {
-  --padding-bottom: functions.calc-rem(6);
+  --padding-bottom: #{functions.calc-rem(6)};
   .tab {
     @include title-3;
   }
 }
 
 .small {
-  --line-height: functions.calc-rem(2);
+  --line-height: #{functions.calc-rem(2)};
 }
 
 .active {
