@@ -34,6 +34,7 @@
   border-radius: functions.calc-rem(4);
   &:hover {
     --line-color: var(--color-yellow-600);
+    --background-color: var(--color-grey-900);
   }
 }
 
