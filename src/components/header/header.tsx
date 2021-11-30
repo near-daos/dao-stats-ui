@@ -118,6 +118,7 @@ export const Header: FC = () => {
             className={styles.navigationInfo}
             title="Sputnik DAO"
             description="Average values for all DAOs"
+            color="blue"
           />
         </div>
       ) : null}
