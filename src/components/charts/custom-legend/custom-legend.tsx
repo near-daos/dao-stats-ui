@@ -18,11 +18,9 @@ export const CustomLegend: React.FC<CustomLegendProps> = ({
   onFilterSelect,
   setPeriod,
 }) => {
-  const initialState: Set<string> = new Set();
-
-  payload?.forEach((el) => initialState.add(el.value));
-
-  const [activeLines, setActiveLines] = useState<Set<string>>(initialState);
+  const [activeLines, setActiveLines] = useState<Set<string>>(
+    new Set(payload?.map((el) => el.value)),
+  );
 
   const handleClick = (value: string) => {
     const newSet = new Set(activeLines);
@@ -38,15 +36,13 @@ export const CustomLegend: React.FC<CustomLegendProps> = ({
     if (onFilterSelect) onFilterSelect(Array.from(newSet));
   };
 
-  const isLineActive = (value: string) => activeLines.has(value);
-
   return (
     <div className={styles.legend}>
       <div className={styles.legendList}>
         {payload?.map((entry, i) => (
           <button
             className={clsx(styles.legendListBar, {
-              [styles.disabled]: !isLineActive(entry.value),
+              [styles.disabled]: !activeLines.has(entry.value),
             })}
             key={`item-${entry.value}`}
             onClick={() => handleClick(entry.value)}
