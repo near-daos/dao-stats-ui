@@ -4,8 +4,8 @@ import { LegendProps } from 'recharts';
 
 import { Dot } from '../svg/dot';
 import { RangeFilter, RangeFilterProps } from '../range-filter';
-import { COLORS } from '../constants';
 
+import { COLORS } from '../constants';
 import styles from './custom-legend.module.scss';
 
 export interface CustomLegendProps extends LegendProps, RangeFilterProps {
@@ -18,7 +18,11 @@ export const CustomLegend: React.FC<CustomLegendProps> = ({
   onFilterSelect,
   setPeriod,
 }) => {
-  const [activeLines, setActiveLines] = useState<Set<string>>(new Set());
+  const initialState: Set<string> = new Set();
+
+  payload?.forEach((el) => initialState.add(el.value));
+
+  const [activeLines, setActiveLines] = useState<Set<string>>(initialState);
 
   const handleClick = (value: string) => {
     const newSet = new Set(activeLines);
@@ -35,15 +39,6 @@ export const CustomLegend: React.FC<CustomLegendProps> = ({
   };
 
   const isLineActive = (value: string) => activeLines.has(value);
-
-  useEffect(() => {
-    const newSet: Set<string> = new Set();
-
-    payload?.map((el) => newSet.add(el.value));
-
-    setActiveLines(newSet);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div className={styles.legend}>
