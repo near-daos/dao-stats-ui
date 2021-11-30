@@ -22,10 +22,24 @@
 }
 
 .legendListBar {
-  margin-right: functions.calc-rem(24);
+  padding: functions.calc-rem(4) functions.calc-rem(8);
+  margin-right: functions.calc-rem(8);
 
   display: flex;
   align-items: center;
+
+  background: unset;
+
+  border: unset;
+  border-radius: functions.calc-rem(2);
+
+  transition: filter 0.2s ease-out, background-color 0.2s ease-out;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--color-grey-600);
+  }
 }
 
 .legendListSvg {
@@ -34,4 +48,8 @@
 
 .legendListValue {
   @include title-3;
+}
+
+.disabled {
+  filter: opacity(0.3);
 }

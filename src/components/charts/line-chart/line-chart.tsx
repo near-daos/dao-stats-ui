@@ -28,10 +28,10 @@ export const ChartLine: React.FC<LineChartProps> = ({
   const [period, setPeriod] = useState('1y');
 
   const rechartsData = filterDataByRange(period, data);
-
   const lines = Object.keys(rechartsData[0]).filter(
     (el) => el !== 'name' && el !== 'id',
   );
+  const [activeLines, setActiveLines] = useState<string[]>(lines);
 
   const renderActiveDot = ({
     cx,
@@ -72,7 +72,13 @@ export const ChartLine: React.FC<LineChartProps> = ({
         verticalAlign="top"
         height={50}
         iconType="circle"
-        content={<CustomLegend period={period} setPeriod={setPeriod} />}
+        content={
+          <CustomLegend
+            period={period}
+            setPeriod={setPeriod}
+            onFilterSelect={(active) => setActiveLines(active)}
+          />
+        }
       />
       <XAxis
         stroke="#393838"
@@ -93,7 +99,9 @@ export const ChartLine: React.FC<LineChartProps> = ({
           strokeWidth={2}
           dot={false}
           dataKey={line}
-          stroke={COLORS[lineIndex]}
+          stroke={
+            activeLines.includes(line) ? COLORS[lineIndex] : 'transparent'
+          }
           key={line}
           activeDot={renderActiveDot}
         />

@@ -28,7 +28,11 @@
 
   &:hover {
     color: var(--white);
-    background: var(--color-grey-700);
+    background: var(--color-grey-600);
+  }
+
+  &:active {
+    background: var(--color-grey-500);
   }
 }
 
