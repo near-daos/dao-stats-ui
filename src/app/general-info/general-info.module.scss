@@ -10,7 +10,11 @@
 }
 
 .widget {
-  margin: 0 0 functions.calc-rem(12) 0;
+  margin: 0 0 functions.calc-rem(12.5) 0;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .mainContent {
@@ -18,7 +22,7 @@
 
   height: functions.calc-rem(556);
 
-  border-radius: functions.calc-rem(7);
-
   background-color: var(--color-grey-900);
+
+  border-radius: functions.calc-rem(7);
 }
