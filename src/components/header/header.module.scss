@@ -2,10 +2,15 @@
 
 .header {
   height: functions.calc-rem(88);
+  max-width: functions.calc-rem(1216);
 
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.logo {
+  margin-left: functions.calc-rem(12);
 }
 
 .main {

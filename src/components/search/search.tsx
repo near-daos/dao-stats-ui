@@ -34,7 +34,7 @@ export const Search: React.FC<SearchProps> = ({
       id="search"
       type="text"
       className={clsx(styles.input, classNameInput)}
-      placeholder="Search"
+      placeholder="Search by Dao Name"
     />
     <label htmlFor="search" className={styles.inputLabel} />
 

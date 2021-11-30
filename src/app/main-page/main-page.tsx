@@ -17,7 +17,7 @@ export const MainPage: FC = () => {
       </h1>
 
       <h2 className={styles.subTitle}>
-        It uses the publicly available RPC and and Indexer.
+        It uses the publicly available RPC and Indexer.
       </h2>
 
       <Tabs
