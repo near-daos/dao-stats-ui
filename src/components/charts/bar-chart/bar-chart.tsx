@@ -35,6 +35,8 @@ export const ChartBar: React.FC<ChartBarProps> = ({
     (el) => el !== 'name' && el !== 'id',
   );
 
+  const [activeBars, setActiveBars] = useState<string[]>(bars);
+
   return (
     <BarChart
       width={width}
@@ -71,10 +73,21 @@ export const ChartBar: React.FC<ChartBarProps> = ({
         verticalAlign="top"
         height={80}
         iconType="circle"
-        content={<CustomLegend period={period} setPeriod={setPeriod} />}
+        content={
+          <CustomLegend
+            period={period}
+            setPeriod={setPeriod}
+            onFilterSelect={(active) => setActiveBars(active)}
+          />
+        }
       />
       {bars.map((bar, i) => (
-        <Bar key={bar} dataKey={bar} fill={COLORS[i]} barSize={8}>
+        <Bar
+          key={bar}
+          dataKey={bar}
+          fill={activeBars.includes(bar) ? COLORS[i] : 'transparent'}
+          barSize={8}
+        >
           {rechartsData.map((entry: any, index: number) => (
             <Cell
               style={{
