@@ -4,9 +4,43 @@
 .tooltip {
   padding: functions.calc-rem(12) functions.calc-rem(16);
 
+  position: relative;
+
   background-color: var(--color-grey-700);
 
   border-radius: functions.calc-rem(8);
+
+  &.arrowLeft::after {
+    width: 0;
+    height: 0;
+
+    position: absolute;
+    top: 50%;
+    left: functions.calc-rem(-15);
+
+    border-width: functions.calc-rem(8);
+    border-style: solid;
+    border-color: transparent var(--color-grey-700) transparent transparent;
+
+    transform: translateY(-50%);
+    content: '';
+  }
+
+  &.arrowRight::after {
+    width: 0;
+    height: 0;
+
+    position: absolute;
+    top: 50%;
+    right: functions.calc-rem(-15);
+
+    border-width: functions.calc-rem(8);
+    border-style: solid;
+    border-color: transparent transparent transparent var(--color-grey-700);
+
+    transform: translateY(-50%);
+    content: '';
+  }
 }
 
 .dot {
