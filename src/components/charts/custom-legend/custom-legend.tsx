@@ -4,9 +4,9 @@ import { LegendProps } from 'recharts';
 
 import { Dot } from '../svg/dot';
 import { RangeFilter, RangeFilterProps } from '../range-filter';
+import { COLORS } from '../constants';
 
 import styles from './custom-legend.module.scss';
-import { COLORS } from '../constants';
 
 export interface CustomLegendProps extends LegendProps, RangeFilterProps {
   onFilterSelect?: (disabled: string[]) => void;
@@ -18,8 +18,6 @@ export const CustomLegend: React.FC<CustomLegendProps> = ({
   onFilterSelect,
   setPeriod,
 }) => {
-  console.log(payload);
-
   const [activeLines, setActiveLines] = useState<Set<string>>(new Set());
 
   const handleClick = (value: string) => {
