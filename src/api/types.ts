@@ -1,32 +1,41 @@
-export type CountAndGrowth = {
+export type History = {
+  from: string;
+  to?: string;
+};
+
+export type Params = {
+  contract: string;
+};
+
+export type HistoryParams = Params & History;
+
+export type DaoParams = Params & {
+  dao: string;
+};
+
+export type DaoHistoryParams = DaoParams & History;
+
+export type TotalMetrics = {
   count: number;
   growth: number;
 };
 
-type Timestamp = '7d' | '1m' | '3m' | '6m' | '1y' | 'All';
-
-export type ContractWithDaoAndTimestampParams = {
-  contract: string;
-  dao?: string;
-  timestamp: Timestamp;
-};
-
-export type HistoryItem = {
+export type MetricItem = {
   start: string;
   end: string;
   count: number;
 };
 
-export type History = {
-  data: HistoryItem[];
+export type Metrics = {
+  metrics: MetricItem[];
 };
 
-type GroupItem = {
-  dao: CountAndGrowth;
-  groups: CountAndGrowth;
-  overview: History[];
+export type LeaderboardItem = {
+  dao: string;
+  activity: TotalMetrics;
+  overview: string[];
 };
 
-export type GroupsData = {
-  data: GroupItem[];
+export type Leaderboard = {
+  metrics: LeaderboardItem[];
 };

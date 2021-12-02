@@ -1,65 +1,43 @@
 import { AxiosResponse } from 'axios';
 import { HttpService } from '../httpService';
-import { GeneralInfoType, ActivityData } from './types';
+import { GeneralInfo } from './types';
 import {
-  ContractWithDaoAndTimestampParams,
-  History,
-  GroupsData,
+  Metrics,
+  Params,
+  DaoParams,
+  HistoryParams,
+  Leaderboard,
 } from '../types';
 
 export class GeneralInfoService extends HttpService {
-  async getGeneralInfo(
-    contract: string,
-  ): Promise<AxiosResponse<GeneralInfoType>> {
-    return this.get(`${contract}/general`);
+  async getGeneralInfo(params: Params): Promise<AxiosResponse<GeneralInfo>> {
+    return this.get(`${params.contract}/general`);
   }
 
-  async getNumberDAOs(
-    params: ContractWithDaoAndTimestampParams,
-  ): Promise<AxiosResponse<History>> {
+  async getGeneralDaos(params: HistoryParams): Promise<AxiosResponse<Metrics>> {
     return this.get(
-      `${params.contract}/general/daos?timespan=${params.timestamp}`,
+      `${params.contract}/general/daos?from=${params.from}&to=${params.to}`,
     );
   }
 
-  async getDAOActivityDAO(
-    params: ContractWithDaoAndTimestampParams,
-  ): Promise<AxiosResponse<ActivityData>> {
-    return this.get(`${params.contract}/general/${params.dao}/activity`);
-  }
-
-  async getDAOActivityHistory(
-    params: ContractWithDaoAndTimestampParams,
-  ): Promise<AxiosResponse<History>> {
+  async getGeneralInfoActivity(
+    params: HistoryParams,
+  ): Promise<AxiosResponse<Metrics>> {
     return this.get(
-      `${params.contract}/general/activity?timespan=${params.timestamp}`,
+      `${params.contract}/general/activity?from=${params.from}&to=${params.to}`,
     );
   }
 
-  async getDAOActivityLeaderboard(
+  async getGeneralInfoActivityLeaderboard(
     contract: string,
-  ): Promise<AxiosResponse<ActivityData>> {
+  ): Promise<AxiosResponse<Leaderboard>> {
     return this.get(`${contract}/general/activity/leaderboard`);
   }
 
-  async getGroupsDAO(
-    params: ContractWithDaoAndTimestampParams,
-  ): Promise<AxiosResponse<GroupsData>> {
-    return this.get(`${params.contract}/general/${params.dao}/groups`);
-  }
-
-  async getGroupsHistory(
-    params: ContractWithDaoAndTimestampParams,
-  ): Promise<AxiosResponse<History>> {
-    return this.get(
-      `${params.contract}/general/groups?timespan=${params.timestamp}`,
-    );
-  }
-
-  async getGroupsLeaderboard(
-    contract: string,
-  ): Promise<AxiosResponse<GroupsData>> {
-    return this.get(`${contract}/general/groups/leaderboard`);
+  async getGeneralInfoDao(
+    params: DaoParams,
+  ): Promise<AxiosResponse<GeneralInfo>> {
+    return this.get(`${params.contract}/general/${params.dao}`);
   }
 }
 

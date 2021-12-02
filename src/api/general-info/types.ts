@@ -1,17 +1,7 @@
-import { CountAndGrowth } from '../types';
+import { TotalMetrics } from '../types';
 
-export type GeneralInfoType = {
-  dao: CountAndGrowth;
-  activity: CountAndGrowth;
-  groups: CountAndGrowth;
-};
-
-type AcivityItem = {
-  dao: CountAndGrowth;
-  activity: CountAndGrowth;
-  overview: History[];
-};
-
-export type ActivityData = {
-  data: AcivityItem[];
+export type GeneralInfo = {
+  dao: TotalMetrics;
+  activity: TotalMetrics;
+  groups: TotalMetrics;
 };
