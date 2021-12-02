@@ -585,7 +585,7 @@ const tableMock3: LeaderboardDataItem[] = [
       label: 'jonathan',
       domain: '.sputnikdao.near',
     },
-    stacked: [{ value: 50 }, { value: 50 }],
+    stacked: [{ value: 70 }, { value: 28 }, { value: 1 }, { value: 1 }],
   },
   {
     id: 2,
@@ -594,7 +594,7 @@ const tableMock3: LeaderboardDataItem[] = [
       label: 'JBN',
       domain: '.example.test',
     },
-    stacked: [{ value: 50 }, { value: 50 }],
+    stacked: [{ value: 47 }, { value: 13 }, { value: 1 }, { value: 39 }],
   },
   {
     id: 3,
@@ -603,7 +603,7 @@ const tableMock3: LeaderboardDataItem[] = [
       label: 'Oklahoma',
       domain: '.oklahoma.okh',
     },
-    stacked: [{ value: 50 }, { value: 50 }],
+    stacked: [{ value: 96 }, { value: 3 }, { value: 1 }, { value: 1 }],
   },
   {
     id: 4,
@@ -612,7 +612,7 @@ const tableMock3: LeaderboardDataItem[] = [
       label: 'ProfTool',
       domain: '.proftool.com',
     },
-    stacked: [{ value: 50 }, { value: 50 }],
+    stacked: [{ value: 0 }, { value: 3 }, { value: 50 }, { value: 47 }],
   },
 ];
 
@@ -1119,7 +1119,9 @@ export const UiKIt: FC = () => {
       <section className={styles.section}>
         <div className={styles.sectionHeader}>Stacked chart</div>
         <div className={styles.container}>
-          <StackedChart data={[{ value: 10 }, { value: 50 }, { value: 20 }]} />
+          <StackedChart
+            data={[{ value: 10 }, { value: 50 }, { value: 25 }, { value: 15 }]}
+          />
         </div>
       </section>
       <section className={styles.section}>

@@ -10,47 +10,67 @@
   position: relative;
 
   display: flex;
-  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-content: center;
+}
 
-  &::before {
-    width: 100%;
-    height: 100%;
+.valuesWrapper {
+  width: 100%;
 
-    position: absolute;
-    top: functions.calc-rem(13);
-    left: 0;
+  margin-top: functions.calc-rem(8);
 
-    background: var(--color-grey-500);
-    content: '';
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
 
-    border-top-right-radius: functions.calc-rem(4);
-    border-bottom-right-radius: functions.calc-rem(4);
+.valueContainer {
+  margin-right: functions.calc-rem(24);
+
+  display: flex;
+  align-items: center;
+  &:last-child {
+    margin-right: 0;
   }
 }
 
+.dot {
+  width: functions.calc-rem(8);
+  height: functions.calc-rem(8);
+
+  margin-right: functions.calc-rem(6);
+
+  flex-shrink: 0;
+
+  border-radius: 100%;
+}
+
+.value {
+  @include title-4;
+  color: var(--white);
+}
+
+.barWrapper {
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+
+  background: var(--color-grey-500);
+
+  border-radius: functions.calc-rem(4);
+}
+
 .stack {
-  height: 100%;
+  height: functions.calc-rem(6);
 
-  margin: functions.calc-rem(13) 0 0;
-
-  position: relative;
   &:first-child {
     border-top-left-radius: functions.calc-rem(4);
     border-bottom-left-radius: functions.calc-rem(4);
   }
+
   &:last-child {
     border-top-right-radius: functions.calc-rem(4);
     border-bottom-right-radius: functions.calc-rem(4);
   }
-}
-
-.value {
-  @include caption-2;
-  position: absolute;
-  bottom: calc(100% + #{functions.calc-rem(7)});
-  left: 50%;
-
-  color: var(--white);
-
-  transform: translate(-50%, 0);
 }

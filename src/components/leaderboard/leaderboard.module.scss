@@ -29,10 +29,15 @@
   &:hover {
     background: var(--color-grey-800);
   }
+
+  &:active {
+    background: var(--color-grey-600);
+  }
 }
 
 .cell {
   @include title-3;
+  height: 100%;
 
   color: var(--color-grey-300);
   &:first-child {
