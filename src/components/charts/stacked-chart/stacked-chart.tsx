@@ -16,14 +16,34 @@ export type StackedChartProps = {
 
 export const StackedChart: FC<StackedChartProps> = ({ data, className }) => (
   <div className={clsx(styles.stackedChart, className)}>
-    {data.map(({ value }, index: number) => (
-      <div
-        key={value}
-        style={{ width: `${value}%`, background: COLORS[index] }}
-        className={styles.stack}
-      >
-        <div className={styles.value}>{value}%</div>
-      </div>
-    ))}
+    <div className={styles.barWrapper}>
+      {data.map(
+        ({ value }, index: number) =>
+          value !== 0 && (
+            <div
+              key={value}
+              style={{ background: COLORS[index], width: `${value}%` }}
+              className={styles.stack}
+            />
+          ),
+      )}
+    </div>
+    <div className={styles.valuesWrapper}>
+      {data.map(({ value }, index: number) => (
+        <div className={styles.valueContainer}>
+          <div className={styles.dot} style={{ background: COLORS[index] }} />
+          <div
+            // eslint-disable-next-line react/no-array-index-key
+            key={value + index}
+            className={styles.value}
+            style={{
+              width: `${value}%`,
+            }}
+          >
+            {value}%
+          </div>
+        </div>
+      ))}
+    </div>
   </div>
 );
