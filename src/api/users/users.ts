@@ -1,70 +1,43 @@
 import { AxiosResponse } from 'axios';
 import { HttpService } from '../httpService';
-import { UsersType } from './types';
-import { GroupsData, ContractWithDaoAndTimestampParams } from '../types';
+import { Users } from './types';
+import {
+  Metrics,
+  Params,
+  DaoParams,
+  HistoryParams,
+  DaoHistoryParams,
+  Leaderboard,
+} from '../types';
 
 export class UsersService extends HttpService {
-  async getUsers(contract: string): Promise<AxiosResponse<UsersType>> {
-    return this.get(`${contract}/users`);
+  async getUsers(params: Params): Promise<AxiosResponse<Users>> {
+    return this.get(`${params.contract}/users`);
   }
 
   async getUsersHistory(
-    params: ContractWithDaoAndTimestampParams,
-  ): Promise<AxiosResponse<History>> {
-    return this.get(`${params.contract}/users?timespan=${params.timestamp}`);
+    params: HistoryParams,
+  ): Promise<AxiosResponse<Metrics>> {
+    return this.get(
+      `${params.contract}/users/history?from=${params.from}&to=${params.to}`,
+    );
   }
 
   async getUsersLeaderboard(
-    contract: string,
-  ): Promise<AxiosResponse<GroupsData>> {
-    return this.get(`${contract}/users/leaderboard`);
+    params: Params,
+  ): Promise<AxiosResponse<Leaderboard>> {
+    return this.get(`${params.contract}/users/leaderboard`);
   }
 
-  async getAverageCouncilSizeHistory(
-    contract: string,
-  ): Promise<AxiosResponse<History>> {
-    return this.get(`${contract}/users/council`);
+  async getUsersDao(params: DaoParams): Promise<AxiosResponse<Users>> {
+    return this.get(`${params.contract}/users/${params.dao}`);
   }
 
-  async getAverageCouncilSizeLeaderboard(
-    contract: string,
-  ): Promise<AxiosResponse<GroupsData>> {
-    return this.get(`${contract}/users/council/leaderboard`);
-  }
-
-  async getNumberInteractionsHistory(
-    contract: string,
-  ): Promise<AxiosResponse<History>> {
-    return this.get(`${contract}/users/interactions`);
-  }
-
-  async getNumberInteractionsLeaderboard(
-    contract: string,
-  ): Promise<AxiosResponse<GroupsData>> {
-    return this.get(`${contract}/users/interactions/leaderboard`);
-  }
-
-  async getUsersDAO(
-    params: ContractWithDaoAndTimestampParams,
-  ): Promise<AxiosResponse<History>> {
+  async getUsersDaoHistory(
+    params: DaoHistoryParams,
+  ): Promise<AxiosResponse<Metrics>> {
     return this.get(
-      `${params.contract}/users/${params.dao}?timespan=${params.timestamp}`,
-    );
-  }
-
-  async getAverageCouncilSizeDAO(
-    params: ContractWithDaoAndTimestampParams,
-  ): Promise<AxiosResponse<History>> {
-    return this.get(
-      `${params.contract}/users/${params.dao}/council?timespan=${params.timestamp}`,
-    );
-  }
-
-  async getNumberInteractionsDAO(
-    params: ContractWithDaoAndTimestampParams,
-  ): Promise<AxiosResponse<History>> {
-    return this.get(
-      `${params.contract}/users/${params.dao}/interactions?timespan=${params.timestamp}`,
+      `${params.contract}/users/${params.dao}/history?from=${params.from}&to=${params.to}`,
     );
   }
 }

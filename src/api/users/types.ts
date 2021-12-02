@@ -1,7 +1,7 @@
-import { CountAndGrowth } from '../types';
+import { TotalMetrics } from '../types';
 
-export type UsersType = {
-  users: CountAndGrowth;
-  councilSize: CountAndGrowth;
-  interactions: CountAndGrowth;
+export type Users = {
+  users: TotalMetrics;
+  councilSize: TotalMetrics;
+  interactions: TotalMetrics;
 };

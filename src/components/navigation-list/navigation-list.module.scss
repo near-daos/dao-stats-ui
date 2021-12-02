@@ -60,6 +60,8 @@
 
   background-color: var(--background-color);
 
+  transition: background-color ease-in-out 300ms;
+
   &::after {
     width: functions.calc-rem(4);
     height: 100%;
