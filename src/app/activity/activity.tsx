@@ -6,10 +6,11 @@ import { Page, WidgetTile, WidgetInfo, ChartPie } from '../../components';
 
 import { pieData } from '../../components/charts/rechartsData';
 
-import styles from './activity.module.scss';
 import { NumberOfProposals } from './number-of-proposals';
 import { ProposalsType } from './proposals-type';
 import { Vote } from './vote';
+
+import styles from './activity.module.scss';
 
 export const Activity: FC = () => {
   const location = useLocation();

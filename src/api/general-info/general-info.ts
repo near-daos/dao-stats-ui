@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { HttpService } from '../httpService';
+import { HttpService } from '../http-service';
 import { GeneralInfo } from './types';
 import {
   Metrics,
@@ -29,9 +29,9 @@ export class GeneralInfoService extends HttpService {
   }
 
   async getGeneralInfoActivityLeaderboard(
-    contract: string,
+    params: Params,
   ): Promise<AxiosResponse<Leaderboard>> {
-    return this.get(`${contract}/general/activity/leaderboard`);
+    return this.get(`${params.contract}/general/activity/leaderboard`);
   }
 
   async getGeneralInfoDao(

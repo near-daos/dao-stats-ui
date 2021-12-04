@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { HttpService } from '../httpService';
+import { HttpService } from '../http-service';
 import { Users } from './types';
 import {
   Metrics,
