@@ -16,16 +16,8 @@ import {
 } from '../../api';
 
 const initialState: generalState = {
-  general: {
-    dao: { count: 0, growth: 0 },
-    activity: { count: 0, growth: 0 },
-    groups: { count: 0, growth: 0 },
-  },
-  dao: {
-    dao: { count: 0, growth: 0 },
-    activity: { count: 0, growth: 0 },
-    groups: { count: 0, growth: 0 },
-  },
+  general: null,
+  dao: null,
   leaderboard: { metrics: [] },
   history: { metrics: [] },
   daoHistory: { metrics: [] },

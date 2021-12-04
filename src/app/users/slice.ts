@@ -17,16 +17,8 @@ import {
 } from '../../api';
 
 const initialState: usersState = {
-  users: {
-    users: { count: 0, growth: 0 },
-    councilSize: { count: 0, growth: 0 },
-    interactions: { count: 0, growth: 0 },
-  },
-  dao: {
-    users: { count: 0, growth: 0 },
-    councilSize: { count: 0, growth: 0 },
-    interactions: { count: 0, growth: 0 },
-  },
+  users: null,
+  dao: null,
   history: { metrics: [] },
   daoHistory: { metrics: [] },
   leaderboard: { metrics: [] },
