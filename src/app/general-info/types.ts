@@ -1,17 +1,9 @@
 import { RequestStatus } from '../../store/types';
-import { Metrics, TotalMetrics, Leaderboard } from '../../api/types';
+import { Metrics, Leaderboard, General } from '../../api';
 
-export type generalInfoState = {
-  generalInfo: {
-    dao: TotalMetrics | null;
-    activity: TotalMetrics | null;
-    groups: TotalMetrics | null;
-  };
-  dao: {
-    dao: TotalMetrics | null;
-    activity: TotalMetrics | null;
-    groups: TotalMetrics | null;
-  };
+export type generalState = {
+  general: General;
+  dao: General;
   leaderboard: Leaderboard;
   history: Metrics;
   daoHistory: Metrics;

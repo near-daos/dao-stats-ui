@@ -7,20 +7,24 @@ import {
   isFulfilled,
 } from '@reduxjs/toolkit';
 import { RequestStatus } from '../../store/types';
-import { generalInfoState } from './types';
-import { generalInfoService } from '../../api/general-info';
-import { HistoryParams, Params, DaoHistoryParams } from '../../api/types';
+import { generalState } from './types';
+import {
+  generalService,
+  HistoryParams,
+  Params,
+  DaoHistoryParams,
+} from '../../api';
 
-const initialState: generalInfoState = {
-  generalInfo: {
-    dao: null,
-    activity: null,
-    groups: null,
+const initialState: generalState = {
+  general: {
+    dao: { count: 0, growth: 0 },
+    activity: { count: 0, growth: 0 },
+    groups: { count: 0, growth: 0 },
   },
   dao: {
-    dao: null,
-    activity: null,
-    groups: null,
+    dao: { count: 0, growth: 0 },
+    activity: { count: 0, growth: 0 },
+    groups: { count: 0, growth: 0 },
   },
   leaderboard: { metrics: [] },
   history: { metrics: [] },
@@ -29,81 +33,79 @@ const initialState: generalInfoState = {
   error: null,
 };
 
-export const getGeneralInfo = createAsyncThunk(
-  'generalInfo/getGeneralInfo',
-  async (params: Params) => generalInfoService.getGeneralInfo(params),
+export const getGeneral = createAsyncThunk(
+  'general/getGeneral',
+  async (params: Params) => generalService.getGeneral(params),
 );
 
-export const getGeneralInfoActivity = createAsyncThunk(
-  'generalInfo/getGeneralInfoActivity',
-  async (params: HistoryParams) =>
-    generalInfoService.getGeneralInfoActivity(params),
+export const getGeneralActivity = createAsyncThunk(
+  'general/getGeneralActivity',
+  async (params: HistoryParams) => generalService.getGeneralActivity(params),
 );
 
-export const getGeneralInfoActivityLeaderboard = createAsyncThunk(
-  'generalInfo/getGeneralInfoActivityLeaderboard',
+export const getGeneralActivityLeaderboard = createAsyncThunk(
+  'general/getGeneralActivityLeaderboard',
   async (params: Params) =>
-    generalInfoService.getGeneralInfoActivityLeaderboard(params),
+    generalService.getGeneralActivityLeaderboard(params),
 );
 
-export const getGeneralInfoDao = createAsyncThunk(
-  'generalInfo/getGeneralInfoDao',
-  async (params: DaoHistoryParams) =>
-    generalInfoService.getGeneralInfoDao(params),
+export const getGeneralDao = createAsyncThunk(
+  'general/getGeneralDao',
+  async (params: DaoHistoryParams) => generalService.getGeneralDao(params),
 );
 
-export const getGeneralInfoDaos = createAsyncThunk(
-  'generalInfo/getGeneralDaos',
-  async (params: DaoHistoryParams) => generalInfoService.getGeneralDaos(params),
+export const getGeneralDaos = createAsyncThunk(
+  'general/getGeneralDaos',
+  async (params: DaoHistoryParams) => generalService.getGeneralDaos(params),
 );
 
 const isPendingAction = isPending(
-  getGeneralInfo,
-  getGeneralInfoActivity,
-  getGeneralInfoActivityLeaderboard,
-  getGeneralInfoDao,
-  getGeneralInfoDaos,
+  getGeneral,
+  getGeneralActivity,
+  getGeneralActivityLeaderboard,
+  getGeneralDao,
+  getGeneralDaos,
 );
 const isRejectedAction = isRejected(
-  getGeneralInfo,
-  getGeneralInfoActivity,
-  getGeneralInfoActivityLeaderboard,
-  getGeneralInfoDao,
-  getGeneralInfoDaos,
+  getGeneral,
+  getGeneralActivity,
+  getGeneralActivityLeaderboard,
+  getGeneralDao,
+  getGeneralDaos,
 );
 const isFulfilledAction = isFulfilled(
-  getGeneralInfo,
-  getGeneralInfoActivity,
-  getGeneralInfoActivityLeaderboard,
-  getGeneralInfoDao,
-  getGeneralInfoDaos,
+  getGeneral,
+  getGeneralActivity,
+  getGeneralActivityLeaderboard,
+  getGeneralDao,
+  getGeneralDaos,
 );
 
-export const generalInfoSlice = createSlice({
-  name: 'generalInfo',
+export const generalSlice = createSlice({
+  name: 'general',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getGeneralInfo.fulfilled, (state, { payload }) => {
-      state.generalInfo = payload.data;
+    builder.addCase(getGeneral.fulfilled, (state, { payload }) => {
+      state.general = payload.data;
     });
 
-    builder.addCase(getGeneralInfoActivity.fulfilled, (state, { payload }) => {
+    builder.addCase(getGeneralActivity.fulfilled, (state, { payload }) => {
       state.history = payload.data;
     });
 
     builder.addCase(
-      getGeneralInfoActivityLeaderboard.fulfilled,
+      getGeneralActivityLeaderboard.fulfilled,
       (state, { payload }) => {
         state.leaderboard = payload.data;
       },
     );
 
-    builder.addCase(getGeneralInfoDao.fulfilled, (state, { payload }) => {
+    builder.addCase(getGeneralDao.fulfilled, (state, { payload }) => {
       state.dao = payload.data;
     });
 
-    builder.addCase(getGeneralInfoDaos.fulfilled, (state, { payload }) => {
+    builder.addCase(getGeneralDaos.fulfilled, (state, { payload }) => {
       state.daoHistory = payload.data;
     });
 

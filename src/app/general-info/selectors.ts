@@ -1,11 +1,11 @@
 import { createSelector } from '@reduxjs/toolkit';
 
+import { generalSlice } from './slice';
 import { RootState } from '../../store/root-reducer';
-import { generalInfoSlice } from './slice';
 
-const getState = (state: RootState) => state[generalInfoSlice.name];
+const getState = (state: RootState) => state[generalSlice.name];
 
-export const selector = createSelector(
-  (state: RootState) => getState(state).generalInfo,
+export const selectorGeneral = createSelector(
+  (state: RootState) => getState(state).general,
   (data) => data,
 );

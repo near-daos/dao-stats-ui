@@ -1,19 +1,12 @@
 import { RequestStatus } from '../../store/types';
-import { Metrics, TotalMetrics } from '../../api/types';
+import { Leaderboard, Metrics, Users } from '../../api';
 
-export type activityState = {
-  activity: {
-    proposals: TotalMetrics | null;
-    ratio: TotalMetrics | null;
-    rate: TotalMetrics | null;
-  };
-  dao: {
-    proposals: TotalMetrics | null;
-    ratio: TotalMetrics | null;
-    rate: TotalMetrics | null;
-  };
+export type usersState = {
+  users: Users;
+  dao: Users;
   history: Metrics;
   daoHistory: Metrics;
+  leaderboard: Leaderboard;
   loading: RequestStatus;
   error: unknown;
 };

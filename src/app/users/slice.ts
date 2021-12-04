@@ -7,91 +7,103 @@ import {
   isFulfilled,
 } from '@reduxjs/toolkit';
 import { RequestStatus } from '../../store/types';
-import { activityState } from './types';
-import { activityService } from '../../api/activity';
+import { usersState } from './types';
 import {
   HistoryParams,
   Params,
   DaoParams,
   DaoHistoryParams,
-} from '../../api/types';
+  usersService,
+} from '../../api';
 
-const initialState: activityState = {
-  activity: {
-    proposals: null,
-    rate: null,
-    ratio: null,
+const initialState: usersState = {
+  users: {
+    users: { count: 0, growth: 0 },
+    councilSize: { count: 0, growth: 0 },
+    interactions: { count: 0, growth: 0 },
   },
   dao: {
-    proposals: null,
-    rate: null,
-    ratio: null,
+    users: { count: 0, growth: 0 },
+    councilSize: { count: 0, growth: 0 },
+    interactions: { count: 0, growth: 0 },
   },
   history: { metrics: [] },
   daoHistory: { metrics: [] },
+  leaderboard: { metrics: [] },
   loading: RequestStatus.NOT_ASKED,
   error: null,
 };
 
-export const getActivity = createAsyncThunk(
-  'activity/getActivity',
-  async (params: Params) => activityService.getActivity(params),
+export const getUsers = createAsyncThunk(
+  'users/getUsers',
+  async (params: Params) => usersService.getUsers(params),
 );
 
-export const getActivityHistory = createAsyncThunk(
-  'activity/getActivityHistory',
-  async (params: HistoryParams) => activityService.getActivityHistory(params),
+export const getUsersHistory = createAsyncThunk(
+  'users/getUsersHistory',
+  async (params: HistoryParams) => usersService.getUsersHistory(params),
 );
 
-export const getActivityDao = createAsyncThunk(
-  'activity/getActivityDao',
-  async (params: DaoParams) => activityService.getActivityDao(params),
+export const getUsersDao = createAsyncThunk(
+  'users/getUsersDao',
+  async (params: DaoParams) => usersService.getUsersDao(params),
 );
 
-export const getActivityDaoHistory = createAsyncThunk(
-  'activity/getActivityDaoHistory',
-  async (params: DaoHistoryParams) =>
-    activityService.getActivityDaoHistory(params),
+export const getUsersDaoHistory = createAsyncThunk(
+  'users/getUsersDaoHistory',
+  async (params: DaoHistoryParams) => usersService.getUsersDaoHistory(params),
+);
+
+export const getUsersLeaderboard = createAsyncThunk(
+  'users/getUsersLeaderboard',
+  async (params: Params) => usersService.getUsersLeaderboard(params),
 );
 
 const isPendingAction = isPending(
-  getActivity,
-  getActivityHistory,
-  getActivityDao,
-  getActivityDaoHistory,
+  getUsers,
+  getUsersHistory,
+  getUsersDao,
+  getUsersDaoHistory,
+  getUsersLeaderboard,
 );
 const isRejectedAction = isRejected(
-  getActivity,
-  getActivityHistory,
-  getActivityDao,
-  getActivityDaoHistory,
+  getUsers,
+  getUsersHistory,
+  getUsersDao,
+  getUsersDaoHistory,
+  getUsersLeaderboard,
 );
 const isFulfilledAction = isFulfilled(
-  getActivity,
-  getActivityHistory,
-  getActivityDao,
-  getActivityDaoHistory,
+  getUsers,
+  getUsersHistory,
+  getUsersDao,
+  getUsersDaoHistory,
+  getUsersLeaderboard,
 );
 
-export const activitySlice = createSlice({
-  name: 'activity',
+export const usersSlice = createSlice({
+  name: 'users',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getActivity.fulfilled, (state, { payload }) => {
-      state.activity = payload.data;
+    builder.addCase(getUsers.fulfilled, (state, { payload }) => {
+      state.users = payload.data;
     });
 
-    builder.addCase(getActivityHistory.fulfilled, (state, { payload }) => {
+    builder.addCase(getUsersHistory.fulfilled, (state, { payload }) => {
       state.history = payload.data;
     });
 
-    builder.addCase(getActivityDao.fulfilled, (state, { payload }) => {
+    builder.addCase(getUsersDao.fulfilled, (state, { payload }) => {
       state.dao = payload.data;
     });
 
-    builder.addCase(getActivityDaoHistory.fulfilled, (state, { payload }) => {
+    builder.addCase(getUsersDaoHistory.fulfilled, (state, { payload }) => {
       state.daoHistory = payload.data;
+    });
+
+    builder.addCase(getUsersLeaderboard.fulfilled, (state, { payload }) => {
+      state.leaderboard = payload.data;
     });
 
     builder.addMatcher(isRejectedAction, (state, { error }) => {

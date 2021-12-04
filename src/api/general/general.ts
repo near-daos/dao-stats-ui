@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { HttpService } from '../http-service';
-import { GeneralInfo } from './types';
+import { General } from './types';
 import {
   Metrics,
   Params,
@@ -9,8 +9,8 @@ import {
   Leaderboard,
 } from '../types';
 
-export class GeneralInfoService extends HttpService {
-  async getGeneralInfo(params: Params): Promise<AxiosResponse<GeneralInfo>> {
+export class GeneralService extends HttpService {
+  async getGeneral(params: Params): Promise<AxiosResponse<General>> {
     return this.get(`${params.contract}/general`);
   }
 
@@ -20,7 +20,7 @@ export class GeneralInfoService extends HttpService {
     );
   }
 
-  async getGeneralInfoActivity(
+  async getGeneralActivity(
     params: HistoryParams,
   ): Promise<AxiosResponse<Metrics>> {
     return this.get(
@@ -28,17 +28,15 @@ export class GeneralInfoService extends HttpService {
     );
   }
 
-  async getGeneralInfoActivityLeaderboard(
+  async getGeneralActivityLeaderboard(
     params: Params,
   ): Promise<AxiosResponse<Leaderboard>> {
     return this.get(`${params.contract}/general/activity/leaderboard`);
   }
 
-  async getGeneralInfoDao(
-    params: DaoParams,
-  ): Promise<AxiosResponse<GeneralInfo>> {
+  async getGeneralDao(params: DaoParams): Promise<AxiosResponse<General>> {
     return this.get(`${params.contract}/general/${params.dao}`);
   }
 }
 
-export const generalInfoService = new GeneralInfoService();
+export const generalService = new GeneralService();
