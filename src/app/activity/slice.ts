@@ -8,25 +8,17 @@ import {
 } from '@reduxjs/toolkit';
 import { RequestStatus } from '../../store/types';
 import { activityState } from './types';
-import { activityService } from '../../api/activity';
 import {
+  activityService,
   HistoryParams,
   Params,
   DaoParams,
   DaoHistoryParams,
-} from '../../api/types';
+} from '../../api';
 
 const initialState: activityState = {
-  activity: {
-    proposals: null,
-    rate: null,
-    ratio: null,
-  },
-  dao: {
-    proposals: null,
-    rate: null,
-    ratio: null,
-  },
+  activity: null,
+  dao: null,
   history: { metrics: [] },
   daoHistory: { metrics: [] },
   loading: RequestStatus.NOT_ASKED,

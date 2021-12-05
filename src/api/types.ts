@@ -21,8 +21,7 @@ export type TotalMetrics = {
 };
 
 export type MetricItem = {
-  start: string;
-  end: string;
+  timestamp: number;
   count: number;
 };
 

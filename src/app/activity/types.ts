@@ -1,17 +1,9 @@
 import { RequestStatus } from '../../store/types';
-import { Metrics, TotalMetrics } from '../../api/types';
+import { Metrics, Activity } from '../../api';
 
 export type activityState = {
-  activity: {
-    proposals: TotalMetrics | null;
-    ratio: TotalMetrics | null;
-    rate: TotalMetrics | null;
-  };
-  dao: {
-    proposals: TotalMetrics | null;
-    ratio: TotalMetrics | null;
-    rate: TotalMetrics | null;
-  };
+  activity: Activity | null;
+  dao: Activity | null;
   history: Metrics;
   daoHistory: Metrics;
   loading: RequestStatus;

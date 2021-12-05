@@ -1,1 +1,5 @@
-export * from './general-info';
+export * from './types';
+
+export * from './general';
+export * from './activity';
+export * from './users';
