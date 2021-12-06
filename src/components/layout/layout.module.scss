@@ -1,9 +1,14 @@
 @use '../../styles/functions';
 @use '../../styles/mixins';
+@use '../../styles/media';
 
 .layout {
-  @include mixins.container;
-  min-height: 100vh;
+  padding: 0 functions.calc-rem(8);
+
+  @include media.desktop {
+    @include mixins.container;
+    min-height: 100vh;
+  }
 }
 
 .container {
@@ -18,6 +23,6 @@
 
 .fullWidth {
   width: 100%;
-  
+
   margin: 0 auto;
 }

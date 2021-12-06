@@ -1,21 +1,37 @@
 @use '../../styles/functions';
+@use '../../styles/media';
+@import '../../styles/typography';
 
 .header {
   height: functions.calc-rem(88);
   max-width: functions.calc-rem(1216);
 
+  position: sticky;
+  top: 0;
+
+  z-index: 1;
+  background: var(--color-brand);
+
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+
+  @include media.desktop {
+    position: initial;
+  }
 }
 
-.logo {
-  margin-left: functions.calc-rem(12);
+.headerControls {
+  display: flex;
 }
 
 .main {
-  display: flex;
-  justify-content: flex-end;
+  display: none;
+
+  @include media.desktop {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 
 .tabs {
@@ -28,4 +44,37 @@
 
 .search {
   width: functions.calc-rem(587);
+}
+
+.logo {
+  margin-left: functions.calc-rem(6);
+  content: url('../../images/logo-mobile.svg');
+
+  @include media.desktop {
+    content: url('../../images/daostats.svg');
+    margin-left: functions.calc-rem(12);
+  }
+}
+
+.title {
+  text-align: center;
+  width: functions.calc-rem(144);
+  @include title-3;
+}
+
+.mobileIcon {
+  background-color: transparent;
+  border: 0;
+  width: functions.calc-rem(40);
+  height: functions.calc-rem(40);
+  padding: 0;
+}
+
+.title,
+.mobileIcon {
+  display: block;
+
+  @include media.desktop {
+    display: none;
+  }
 }
