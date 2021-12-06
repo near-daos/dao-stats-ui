@@ -1,12 +1,9 @@
 import React, { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
-import clsx from 'clsx';
 import { Tabs } from '../tabs';
 import { Dropdown, DropdownOption } from '../dropdown/dropdown';
 import { NavigationInfo } from '../navigation-info/navigation-info';
 
-import logo from '../../images/daostats.svg';
-// import logo from '../../images/logo-mobile.svg';
 import { SvgIcon } from '../svgIcon/svgIcon';
 
 import styles from './header.module.scss';
