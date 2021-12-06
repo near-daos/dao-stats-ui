@@ -1,4 +1,5 @@
 @use '../../styles/functions';
+@use '../../styles/_media';
 
 .header {
   height: functions.calc-rem(88);
@@ -28,4 +29,21 @@
 
 .search {
   width: functions.calc-rem(587);
+}
+
+.logo {
+  content: url('../../images/logo-mobile.svg');
+
+  @include media.desktop {
+    content: url('../../images/daostats.svg');
+  }
+}
+
+.title,
+.mobileIcon {
+  display: block;
+
+  @include media.desktop {
+    display: none;
+  }
 }

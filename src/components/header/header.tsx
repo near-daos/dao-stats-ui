@@ -1,11 +1,13 @@
 import React, { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import clsx from 'clsx';
 import { Tabs } from '../tabs';
 import { Dropdown, DropdownOption } from '../dropdown/dropdown';
 import { NavigationInfo } from '../navigation-info/navigation-info';
 
 import logo from '../../images/daostats.svg';
+// import logo from '../../images/logo-mobile.svg';
+import { SvgIcon } from '../svgIcon/svgIcon';
 
 import styles from './header.module.scss';
 import { useForbiddenRoutes } from '../../hooks';
@@ -103,8 +105,11 @@ export const Header: FC = () => {
   return (
     <div className={styles.header}>
       <Link to="/" className={styles.logo}>
-        <img src={logo} alt="" />
+        <img className={styles.logo} alt="" />
       </Link>
+      <h1 className={styles.title}>Sputnik Dao</h1>
+      <SvgIcon icon="search" className={styles.mobileIcon} />
+      <SvgIcon icon="burger" className={styles.mobileIcon} />
       {!isForbiddenHeader ? (
         <div className={styles.main}>
           <Tabs variant="medium" options={tabOptions} className={styles.tabs} />
