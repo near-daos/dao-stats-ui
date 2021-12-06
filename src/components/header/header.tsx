@@ -104,15 +104,15 @@ export const Header: FC = () => {
       <Link to="/" className={styles.logo}>
         <img className={styles.logo} alt="" />
       </Link>
-      <h1 className={styles.title}>Sputnik Dao</h1>
       <div className={styles.headerControls}>
+        <h1 className={styles.title}>Sputnik Dao</h1>
         <button type="button" className={styles.mobileIcon}>
           <SvgIcon icon="search" />
         </button>
-        <button type="button" className={styles.mobileIcon}>
-          <SvgIcon icon="burger" />
-        </button>
       </div>
+      <button type="button" className={styles.mobileIcon}>
+        <SvgIcon icon="burger" />
+      </button>
 
       {!isForbiddenHeader ? (
         <div className={styles.main}>

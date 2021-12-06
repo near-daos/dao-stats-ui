@@ -6,24 +6,23 @@
   height: functions.calc-rem(88);
   max-width: functions.calc-rem(1216);
 
+  position: sticky;
+  top: 0;
+
+  z-index: 1;
+  background: var(--color-brand);
+
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   @include media.desktop {
-    justify-content: space-between;
+    position: initial;
   }
 }
 
 .headerControls {
   display: flex;
-}
-
-.logo {
-  margin-left: functions.calc-rem(6);
-
-  @include media.desktop {
-    margin-left: functions.calc-rem(12);
-  }
 }
 
 .main {
@@ -48,16 +47,17 @@
 }
 
 .logo {
+  margin-left: functions.calc-rem(6);
   content: url('../../images/logo-mobile.svg');
 
   @include media.desktop {
     content: url('../../images/daostats.svg');
+    margin-left: functions.calc-rem(12);
   }
 }
 
 .title {
   text-align: center;
-  margin-left: functions.calc-rem(35);
   width: functions.calc-rem(144);
   @include title-3;
 }
