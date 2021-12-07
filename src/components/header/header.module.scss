@@ -25,6 +25,28 @@
   display: flex;
 }
 
+@keyframes hide {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.mobileIcon svg {
+  animation: show linear 0.1s 1 forwards;
+  &:active {
+    animation: hide linear 0.1s 1 forwards;
+  }
+}
+
 .main {
   display: none;
 
