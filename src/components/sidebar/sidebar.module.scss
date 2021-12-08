@@ -23,41 +23,27 @@
 
   background-color: var(--color-grey-800);
 
-  animation: show linear 0.2s 1 forwards;
+  transition: transform 0.3s ease-in-out;
+  transform: translate(functions.calc-rem(-269), 0);
 
   @include media.desktop {
-    width: functions.calc-rem(187);
     margin: 0 functions.calc-rem(24) 0 0;
     position: initial;
     background-color: initial;
+    transform: initial;
   }
 }
 
-@keyframes show {
-  0% {
-    margin-left: functions.calc-rem(-269);
-  }
-  100% {
-    margin-left: 0;
-  }
-}
-
-@keyframes hide {
-  0% {
-    margin-left: 0;
-  }
-  100% {
-    margin-left: functions.calc-rem(-269);
-    display: none;
-  }
-}
-
-.hide {
-  animation: hide linear 0.2s 1 forwards;
+.show {
+  transform: translate(0, 0);
 }
 
 .navInfo {
   margin-top: functions.calc-rem(108);
+
+  @include media.desktop {
+    display: none;
+  }
 }
 
 .info {
