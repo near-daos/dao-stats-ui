@@ -1,13 +1,10 @@
 import React from 'react';
 import { LineChart, Line } from 'recharts';
 
-export type LineChartItem = {
-  name: string;
-  'Total In': number;
-};
+import { MetricItem } from 'src/api';
 
 export type LineChartProps = {
-  data: LineChartItem[];
+  data: MetricItem[];
   negativeGrowth?: boolean;
   width?: number;
   height?: number;
@@ -28,10 +25,11 @@ export const ChartTiny: React.FC<LineChartProps> = ({
     style={{ marginLeft: rightAlign ? 'auto' : 0 }}
   >
     <Line
+      isAnimationActive={false} // low perfomanse because of animation
       dot={false}
-      dataKey="Total In"
+      dataKey="count"
       stroke={negativeGrowth ? '#FF3333' : '#61FF00'}
-      key="Total In"
+      key="count"
     />
   </LineChart>
 );

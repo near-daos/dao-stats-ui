@@ -1,32 +1,21 @@
 import React, { FC } from 'react';
 import clsx from 'clsx';
+import { TotalMetrics } from 'src/api';
 
 import { SvgIcon } from '../../svgIcon';
 
 import styles from './amount.module.scss';
 
-export type AmountProps = {
-  className?: string;
-  amount?: number;
-  isNegativeGrowth?: boolean;
-  percentages?: number;
-};
-
-export const Amount: FC<AmountProps> = ({
-  className,
-  amount,
-  isNegativeGrowth,
-  percentages,
-}) => (
-  <div className={clsx(styles.amount, className)}>
-    <div className={styles.label}>{amount}</div>
+export const Amount: FC<TotalMetrics> = ({ count, growth }) => (
+  <div className={styles.amount}>
+    <div className={styles.label}>{count}</div>
     <div
       className={clsx(styles.percentages, {
-        [styles.negativeGrowth]: isNegativeGrowth,
+        [styles.negativeGrowth]: growth <= 0,
       })}
     >
       <SvgIcon icon="stats" className={styles.icon} />
-      {percentages}%
+      {growth}%
     </div>
   </div>
 );

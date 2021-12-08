@@ -1,9 +1,15 @@
 @use '../../styles/functions';
 @import '../../styles/typography';
 
+.tableWrapper {
+  height: functions.calc-rem(490);
+  max-width: functions.calc-rem(750);
+
+  overflow-y: auto;
+}
+
 .table {
   width: 100%;
-  max-width: functions.calc-rem(750);
 }
 
 .headerCell {

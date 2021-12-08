@@ -19,3 +19,18 @@ export const selectGeneralActivity = createSelector(
   (state: RootState) => getState(state).generalActivity,
   (data) => data,
 );
+
+export const selectGeneralActivityLeaderboard = createSelector(
+  (state: RootState) => getState(state).generalActivityLeaderboard,
+  (data) => data,
+);
+
+export const selectGeneralGroups = createSelector(
+  (state: RootState) => getState(state).generalGroups,
+  (data) => data,
+);
+
+export const selectGeneralGroupsLeaderboard = createSelector(
+  (state: RootState) => getState(state).generalGroupsLeaderboard,
+  (data) => data,
+);

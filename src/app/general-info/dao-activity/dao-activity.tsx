@@ -1,12 +1,15 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, useEffect, useState, useMemo } from 'react';
 import { useParams } from 'react-router';
 
-import { ChartLine, Tabs } from 'src/components';
+import { ChartLine, Tabs, Leaderboard } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { getDateFromMow } from 'src/components/charts/helpers';
 
-import { selectGeneralActivity } from '../selectors';
-import { getGeneralActivity } from '../slice';
+import {
+  selectGeneralActivity,
+  selectGeneralActivityLeaderboard,
+} from '../selectors';
+import { getGeneralActivity, getGeneralActivityLeaderboard } from '../slice';
 
 import styles from './dao-activity.module.scss';
 
@@ -24,7 +27,8 @@ export const DaoActivity: FC = () => {
 
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
-  const activityData = useAppSelector(selectGeneralActivity);
+  const activity = useAppSelector(selectGeneralActivity);
+  const activityLeaderboard = useAppSelector(selectGeneralActivityLeaderboard);
 
   useEffect(() => {
     (async () => {
@@ -33,6 +37,11 @@ export const DaoActivity: FC = () => {
           getGeneralActivity({
             contract,
             from: String(getDateFromMow(period)),
+          }),
+        );
+        await dispatch(
+          getGeneralActivityLeaderboard({
+            contract,
           }),
         );
       } catch (error: unknown) {
@@ -45,6 +54,22 @@ export const DaoActivity: FC = () => {
     setActiveTab(value);
   };
 
+  const activityLeaderboardData = useMemo(
+    () =>
+      activityLeaderboard?.metrics.map((activityLeaderboardItem, index) => ({
+        id: index,
+        titleCell: {
+          label: activityLeaderboardItem.dao,
+          domain: activityLeaderboardItem.dao,
+        },
+        line: {
+          totalMetrics: activityLeaderboardItem.activity,
+          metrics: activityLeaderboardItem.overview,
+        },
+      })),
+    [activityLeaderboard],
+  );
+
   return (
     <div className={styles.mainContent}>
       <div className={styles.tabWrapper}>
@@ -56,9 +81,9 @@ export const DaoActivity: FC = () => {
         />
       </div>
       <div className={styles.chart}>
-        {activeTab === 'history-data' && activityData ? (
+        {activeTab === 'history-data' && activity ? (
           <ChartLine
-            data={activityData}
+            data={activity}
             period={period}
             setPeriod={setPeriod}
             lines={[
@@ -66,7 +91,18 @@ export const DaoActivity: FC = () => {
             ]}
           />
         ) : null}
-        {activeTab === 'leaderboard' && 'leaderboard'}
+        {activeTab === 'leaderboard' && activityLeaderboardData ? (
+          <Leaderboard
+            headerCells={[
+              { value: '' },
+              { value: 'DAO Name' },
+              { value: 'DAOs activity' },
+              { value: 'Last 7 days', position: 'right' },
+            ]}
+            type="line"
+            dataRows={activityLeaderboardData}
+          />
+        ) : null}
       </div>
     </div>
   );
