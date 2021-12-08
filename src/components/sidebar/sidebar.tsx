@@ -11,10 +11,11 @@ import { useRoutes } from '../../hooks';
 import styles from './sidebar.module.scss';
 
 export type SidebarProps = {
-  isOpened?: boolean;
+  isOpened: boolean;
+  setIsOpened: (value: boolean) => void;
 };
 
-export const Sidebar: FC<SidebarProps> = ({ isOpened }) => {
+export const Sidebar: FC<SidebarProps> = ({ isOpened, setIsOpened }) => {
   const selectedContract = useAppSelector(selectorSelectedContract);
   const history = useHistory();
   const location = useLocation();
@@ -70,6 +71,7 @@ export const Sidebar: FC<SidebarProps> = ({ isOpened }) => {
         options={overviewItems}
         onSelect={handlerChangeActive}
         className={styles.list}
+        setIsOpened={setIsOpened}
       />
       <NavigationList
         title="Financial"
@@ -77,6 +79,7 @@ export const Sidebar: FC<SidebarProps> = ({ isOpened }) => {
         options={financialItems}
         onSelect={handlerChangeActive}
         className={styles.list}
+        setIsOpened={setIsOpened}
       />
       <div className={styles.navInfo}>
         <NavigationInfo
