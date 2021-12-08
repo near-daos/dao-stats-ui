@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { Search } from '../search/search';
 import astroImage from '../../images/astro.png';
 import sputnikImage from '../../images/sputnik.png';
+import { NETWORKS } from '../../constants';
 
 import styles from './dropdown.module.scss';
 
@@ -12,7 +13,7 @@ export type DropdownOption = {
   id: string;
   name: string;
   link: string;
-  searchType: 'mainnet' | 'testnet';
+  searchType: NETWORKS;
   type: 'sputnik' | 'astro';
 };
 
@@ -36,9 +37,7 @@ export const Dropdown: FC<DropdownProps> = ({
   initialSelectedItem = undefined,
   value,
 }) => {
-  const [searchType, setSearchType] = useState<'mainnet' | 'testnet'>(
-    'mainnet',
-  );
+  const [searchType, setSearchType] = useState<NETWORKS>(NETWORKS.Mainnet);
 
   const renderOptions = ({
     getItemProps,

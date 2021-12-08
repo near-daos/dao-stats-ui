@@ -1051,7 +1051,7 @@ export const UiKIt: FC = () => {
       <section className={styles.section}>
         <div className={styles.sectionHeader}>Chart Line Widget</div>
         <div className={styles.container}>
-          {/* <ChartLine data={rechartsData} /> */}
+          {/*  <ChartLine data={rechartsData} /> */}
         </div>
       </section>
       <section className={styles.section}>

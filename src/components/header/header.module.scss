@@ -10,11 +10,12 @@
   top: 0;
 
   z-index: 1;
-  background: var(--color-brand);
 
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+
+  background: var(--color-brand);
 
   @include media.desktop {
     position: initial;
@@ -74,22 +75,27 @@
 
   @include media.desktop {
     content: url('../../images/daostats.svg');
+
     margin-left: functions.calc-rem(12);
   }
 }
 
 .title {
-  text-align: center;
   width: functions.calc-rem(144);
+
+  text-align: center;
   @include title-3;
 }
 
 .mobileIcon {
-  background-color: transparent;
-  border: 0;
   width: functions.calc-rem(40);
   height: functions.calc-rem(40);
+
   padding: 0;
+
+  background-color: transparent;
+
+  border: 0;
 }
 
 .title,

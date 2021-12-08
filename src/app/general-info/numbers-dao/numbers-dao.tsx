@@ -43,6 +43,8 @@ export const NumbersDao: FC = () => {
     [daosData, period],
   );
 
+  console.log('daos', daos);
+
   return (
     <div className={styles.chart}>
       <ChartLine

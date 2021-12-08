@@ -32,7 +32,7 @@ export const TVLGrants: FC = () => {
         />
       </div>
       <div className={styles.chart}>
-        {activeTab === 'history-data' && <ChartLine data={rechartsData} />}
+        {activeTab === 'history-data' && 'charts'}
         {activeTab === 'leaderboard' && 'leaderboard'}
       </div>
     </div>
