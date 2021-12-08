@@ -3,7 +3,7 @@
 @import '../../styles/typography';
 
 .header {
-  height: functions.calc-rem(88);
+  height: functions.calc-rem(64);
   max-width: functions.calc-rem(1216);
 
   position: sticky;
@@ -19,6 +19,7 @@
 
   @include media.desktop {
     position: initial;
+    height: functions.calc-rem(88);
   }
 }
 
@@ -70,7 +71,7 @@
 }
 
 .logo {
-  margin-left: functions.calc-rem(6);
+  margin-left: functions.calc-rem(2);
   content: url('../../images/logo-mobile.svg');
 
   @include media.desktop {

@@ -10,9 +10,9 @@ export const Page404: FC = () => (
   <div className={styles.page404}>
     <img className={styles.image} src={error404} alt="Error 404" />
     <h1 className={styles.title}>Page not found</h1>
-    <h2 className={styles.subTitle}>
+    <span className={styles.subTitle}>
       We&apos;re sorry, the page you were trying to retrieve does not exist
-    </h2>
+    </span>
     <Button className={styles.button} href="/">
       Back to homepage
     </Button>

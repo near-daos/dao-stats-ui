@@ -3,7 +3,7 @@
 @use '../../styles/media';
 
 .layout {
-  padding: 0 functions.calc-rem(8);
+  padding: 0 functions.calc-rem(12);
 
   @include media.desktop {
     @include mixins.container;
@@ -12,9 +12,9 @@
 }
 
 .container {
-  display: flex;
+  padding: functions.calc-rem(20) 0 0;
 
-  padding: functions.calc-rem(90) 0 0;
+  display: flex;
 
   @include media.desktop {
     padding: functions.calc-rem(48) 0 0;

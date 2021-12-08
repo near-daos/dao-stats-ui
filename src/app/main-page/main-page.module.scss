@@ -1,22 +1,25 @@
 @use '../../styles/functions';
 @use '../../styles/typography';
+@use '../../styles/media';
 
 .mainPage {
   width: functions.calc-rem(700);
 
-  padding: functions.calc-rem(104) 0 0 0;
-  
   margin: 0 auto;
 
   display: flex;
   flex-direction: column;
-  
+
   text-align: center;
+
+  @include media.desktop {
+    padding: functions.calc-rem(104) 0 0 0;
+  }
 }
 
 .title {
-   @include typography.heading-1;
-  
+  @include typography.heading-1;
+
   padding: 0;
   margin: 0 0 functions.calc-rem(28);
 }
