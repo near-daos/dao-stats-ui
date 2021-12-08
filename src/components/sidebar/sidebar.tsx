@@ -50,7 +50,7 @@ export const Sidebar: FC<SidebarProps> = ({ isOpened }) => {
   return (
     <div
       className={clsx(styles.sidebar, {
-        [styles.hide]: !isOpened,
+        [styles.show]: isOpened,
       })}
     >
       <NavigationInfo
