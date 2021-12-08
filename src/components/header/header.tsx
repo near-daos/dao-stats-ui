@@ -9,6 +9,11 @@ import { SvgIcon } from '../svgIcon/svgIcon';
 import styles from './header.module.scss';
 import { useForbiddenRoutes } from '../../hooks';
 
+export type HeaderProps = {
+  isOpened?: boolean;
+  setIsOpened?: any;
+};
+
 const tabOptions = [
   {
     label: 'Sputnik DAO',
@@ -92,7 +97,7 @@ const dropdownOptions: DropdownOption[] = [
   },
 ];
 
-export const Header: FC = () => {
+export const Header: FC<HeaderProps> = ({ isOpened, setIsOpened }) => {
   const { isForbiddenHeader } = useForbiddenRoutes();
 
   const [dropdownValue, setDropDownValue] = useState<DropdownOption | null>(
@@ -110,8 +115,12 @@ export const Header: FC = () => {
           <SvgIcon icon="search" />
         </button>
       </div>
-      <button type="button" className={styles.mobileIcon}>
-        <SvgIcon icon="burger" />
+      <button
+        type="button"
+        className={styles.mobileIcon}
+        onClick={() => setIsOpened(!isOpened)}
+      >
+        <SvgIcon icon={isOpened ? 'close' : 'burger'} />
       </button>
 
       {!isForbiddenHeader ? (

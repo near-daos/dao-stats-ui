@@ -9,6 +9,7 @@ export type NavigationInfoProps = {
   description: string;
   color?: 'none' | 'grey' | 'blue' | 'yellow';
   direction?: 'right' | 'left';
+  linePosition?: 'start' | 'end';
 };
 
 export const NavigationInfo: FC<NavigationInfoProps> = ({
@@ -17,12 +18,14 @@ export const NavigationInfo: FC<NavigationInfoProps> = ({
   description,
   color = '',
   direction = 'right',
+  linePosition = 'end',
 }) => (
   <div
     className={clsx(
       styles.navigationInfo,
       styles[color],
       styles[direction],
+      styles[linePosition],
       className,
     )}
   >

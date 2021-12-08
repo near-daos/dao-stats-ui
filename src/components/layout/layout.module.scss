@@ -21,6 +21,15 @@
   width: functions.calc-rem(1005);
 }
 
+.blur {
+  background-color: #000;
+  opacity: 0.3;
+  z-index: 2;
+
+  min-width: functions.calc-rem(320);
+  min-height: 100%;
+}
+
 .fullWidth {
   width: 100%;
 

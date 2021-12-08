@@ -24,15 +24,28 @@
 
     position: absolute;
     top: 0;
-    right: 0;
 
     display: flex;
 
     background-color: var(--color-line);
 
+    content: '';
+  }
+}
+
+.end {
+  &::after {
+    right: 0;
     border-top-right-radius: functions.calc-rem(4);
     border-bottom-right-radius: functions.calc-rem(4);
-    content: '';
+  }
+}
+
+.start {
+  &::after {
+    left: 0;
+    border-top-left-radius: functions.calc-rem(4);
+    border-bottom-left-radius: functions.calc-rem(4);
   }
 }
 

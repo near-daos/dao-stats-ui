@@ -1,11 +1,16 @@
 import React, { FC, useCallback } from 'react';
 import { useHistory, useLocation } from 'react-router';
+import clsx from 'clsx';
 
 import { NavigationInfo } from '../navigation-info';
 import { NavigationList } from '../navigation-list';
 import { ROUTES } from '../../constants';
 
 import styles from './sidebar.module.scss';
+
+export type SidebarProps = {
+  isOpened?: boolean;
+};
 
 const overviewItems = [
   {
@@ -31,7 +36,7 @@ const financialItems = [
   },
 ];
 
-export const Sidebar: FC = () => {
+export const Sidebar: FC<SidebarProps> = ({ isOpened }) => {
   const history = useHistory();
   const location = useLocation();
 
@@ -43,7 +48,11 @@ export const Sidebar: FC = () => {
   );
 
   return (
-    <div className={styles.sidebar}>
+    <div
+      className={clsx(styles.sidebar, {
+        [styles.hide]: !isOpened,
+      })}
+    >
       <NavigationInfo
         title="Sputnik DAO"
         description="Average values for all DAOs"
@@ -65,6 +74,16 @@ export const Sidebar: FC = () => {
         onSelect={handlerChangeActive}
         className={styles.list}
       />
+      <div className={styles.navInfo}>
+        <NavigationInfo
+          className={styles.navigationInfo}
+          title="Sputnik DAO"
+          description="Average values for all DAOs"
+          color="blue"
+          direction="left"
+          linePosition="start"
+        />
+      </div>
     </div>
   );
 };
