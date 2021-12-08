@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   LineChart,
   Line,
@@ -11,28 +11,38 @@ import {
 
 import { CustomLegend } from '../custom-legend';
 import { ChartTooltip } from '../chart-tooltip';
-import { COLORS, tickStyles } from '../constants';
-import { filterDataByRange, yTickFormatter } from '../helpers';
+import { tickStyles } from '../constants';
+import { Metrics } from '../../../api';
+import {
+  getYTicks,
+  getYDomain,
+  tickXFormatter,
+  getXInterval,
+} from '../helpers';
+
+type LineItem = {
+  name: string;
+  color: string;
+  dataKey: string;
+};
 
 type LineChartProps = {
   width?: number;
   height?: number;
-  data: any;
+  lines?: LineItem[];
+  data: Metrics | null;
+  period: string;
+  setPeriod: (period: string) => void;
 };
 
 export const ChartLine: React.FC<LineChartProps> = ({
-  data,
+  lines = [],
+  data = { metrics: [] },
   width = 685,
   height = 500,
+  period,
+  setPeriod,
 }) => {
-  const [period, setPeriod] = useState('1y');
-
-  const rechartsData = filterDataByRange(period, data);
-  const lines = Object.keys(rechartsData[0]).filter(
-    (el) => el !== 'name' && el !== 'id',
-  );
-  const [activeLines, setActiveLines] = useState<string[]>(lines);
-
   const renderActiveDot = ({
     cx,
     cy,
@@ -65,7 +75,7 @@ export const ChartLine: React.FC<LineChartProps> = ({
   );
 
   return (
-    <LineChart width={width} height={height} data={rechartsData}>
+    <LineChart width={width} height={height} data={data?.metrics as any}>
       <CartesianGrid stroke="#393838" vertical={false} />
       <Legend
         align="left"
@@ -74,35 +84,40 @@ export const ChartLine: React.FC<LineChartProps> = ({
         iconType="circle"
         content={
           <CustomLegend
+            lines={lines.map((line) => line.name)}
             period={period}
-            setPeriod={setPeriod}
-            onFilterSelect={(active) => setActiveLines(active)}
+            setPeriod={(periodType) => setPeriod(periodType)}
           />
         }
       />
-      <XAxis
-        stroke="#393838"
-        tickMargin={12}
-        tickLine={false}
-        dataKey="name"
-        style={tickStyles}
-      />
       <YAxis
+        type="number"
         stroke="#393838"
-        tickFormatter={yTickFormatter}
-        tickMargin={1} // base margin is 5px, added 1px by according to design
-        style={tickStyles}
+        dataKey="count"
+        tickMargin={1}
+        interval={0}
         tickLine={false}
+        style={tickStyles}
+        ticks={getYTicks(data?.metrics || [])}
+        domain={getYDomain(data?.metrics || [])}
       />
-      {lines.map((line, lineIndex) => (
+      <XAxis
+        interval={getXInterval(data?.metrics || [], period)}
+        stroke="#393838"
+        dataKey="timestamp"
+        tickMargin={12}
+        tickCount={6}
+        tickLine={false}
+        tickFormatter={(value) => tickXFormatter(value, period)}
+        style={tickStyles}
+      />
+      {lines.map((line) => (
         <Line
           strokeWidth={2}
           dot={false}
-          dataKey={line}
-          stroke={
-            activeLines.includes(line) ? COLORS[lineIndex] : 'transparent'
-          }
-          key={line}
+          dataKey={line.dataKey}
+          stroke={line.color}
+          key={line.name}
           activeDot={renderActiveDot}
         />
       ))}

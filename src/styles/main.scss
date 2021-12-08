@@ -11,6 +11,10 @@ html {
 }
 
 body {
+  min-height: 100vh;
+
+  position: relative;
+
   font-family: variables.$font;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

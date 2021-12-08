@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import queryString from 'query-string';
 import { HttpService } from '../http-service';
 import { General } from './types';
 import {
@@ -14,18 +15,22 @@ export class GeneralService extends HttpService {
     return this.get(`${params.contract}/general`);
   }
 
+  async getGeneralDao(params: DaoParams): Promise<AxiosResponse<General>> {
+    return this.get(`${params.contract}/general/${params.dao}`);
+  }
+
   async getGeneralDaos(params: HistoryParams): Promise<AxiosResponse<Metrics>> {
-    return this.get(
-      `${params.contract}/general/daos?from=${params.from}&to=${params.to}`,
-    );
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(`${params.contract}/general/daos?${query}`);
   }
 
   async getGeneralActivity(
     params: HistoryParams,
   ): Promise<AxiosResponse<Metrics>> {
-    return this.get(
-      `${params.contract}/general/activity?from=${params.from}&to=${params.to}`,
-    );
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(`${params.contract}/general/activity${query}`);
   }
 
   async getGeneralActivityLeaderboard(
@@ -34,8 +39,18 @@ export class GeneralService extends HttpService {
     return this.get(`${params.contract}/general/activity/leaderboard`);
   }
 
-  async getGeneralDao(params: DaoParams): Promise<AxiosResponse<General>> {
-    return this.get(`${params.contract}/general/${params.dao}`);
+  async getGeneralGroups(
+    params: HistoryParams,
+  ): Promise<AxiosResponse<Metrics>> {
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(`${params.contract}/general/groups${query}`);
+  }
+
+  async getGeneralGroupsLeaderboard(
+    params: Params,
+  ): Promise<AxiosResponse<Leaderboard>> {
+    return this.get(`${params.contract}/general/groups/leaderboard`);
   }
 }
 

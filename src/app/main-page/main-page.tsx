@@ -1,13 +1,19 @@
 import React, { FC, useState } from 'react';
+
 import { Tabs, Search, Button } from '../../components';
+import { useAppSelector } from '../../store';
+import { selectorSelectedContract } from '../shared';
+import { useOptionsForContract, useRoutes } from '../../hooks';
+
+import { NETWORKS } from '../../constants';
 
 import styles from './main-page.module.scss';
-import { ROUTES } from '../../constants';
 
 export const MainPage: FC = () => {
-  const [searchType, setSearchType] = useState<'mainnet' | 'testnet'>(
-    'mainnet',
-  );
+  const [searchType, setSearchType] = useState<NETWORKS>(NETWORKS.Mainnet);
+  const contractTabOptions = useOptionsForContract();
+  const selectedContract = useAppSelector(selectorSelectedContract);
+  const routes = useRoutes();
 
   return (
     <div className={styles.mainPage}>
@@ -22,16 +28,8 @@ export const MainPage: FC = () => {
 
       <Tabs
         className={styles.tabs}
-        options={[
-          {
-            label: 'Sputnik DAO',
-            value: 'sputnik',
-          },
-          {
-            label: 'Astro',
-            value: 'astro',
-          },
-        ]}
+        options={contractTabOptions}
+        defaultValue={selectedContract?.contractId}
       />
       <Search
         className={styles.search}
@@ -39,11 +37,11 @@ export const MainPage: FC = () => {
         setSearchType={(type) => setSearchType(type)}
       />
 
-      <p className={styles.info}>Sputnik DAO stats</p>
+      <p className={styles.info}>{selectedContract?.contractId} stats</p>
       <Button
         className={styles.button}
         variant="icon"
-        href={ROUTES.generalInfo}
+        href={routes.generalInfo}
       />
     </div>
   );

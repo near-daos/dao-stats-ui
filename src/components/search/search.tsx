@@ -2,6 +2,7 @@ import React, { InputHTMLAttributes } from 'react';
 import clsx from 'clsx';
 
 import { SvgIcon } from '../svgIcon/svgIcon';
+import { NETWORKS } from '../../constants';
 
 import styles from './search.module.scss';
 
@@ -11,8 +12,8 @@ export interface SearchProps {
   classNameIcon?: string;
   value?: string;
   inputProps?: Partial<InputHTMLAttributes<HTMLInputElement>>;
-  setSearchType: (type: 'mainnet' | 'testnet') => void;
-  searchType: 'mainnet' | 'testnet';
+  setSearchType: (network: NETWORKS) => void;
+  searchType: NETWORKS;
 }
 
 export const Search: React.FC<SearchProps> = ({
@@ -44,9 +45,9 @@ export const Search: React.FC<SearchProps> = ({
       <button
         type="button"
         className={clsx(styles.inputControlItem, {
-          [styles.active]: searchType === 'mainnet',
+          [styles.active]: searchType === NETWORKS.Mainnet,
         })}
-        onClick={() => setSearchType('mainnet')}
+        onClick={() => setSearchType(NETWORKS.Mainnet)}
       >
         Mainnet
       </button>
@@ -54,9 +55,9 @@ export const Search: React.FC<SearchProps> = ({
       <button
         type="button"
         className={clsx(styles.inputControlItem, {
-          [styles.active]: searchType === 'testnet',
+          [styles.active]: searchType === NETWORKS.Testnet,
         })}
-        onClick={() => setSearchType('testnet')}
+        onClick={() => setSearchType(NETWORKS.Testnet)}
       >
         Testnet
       </button>

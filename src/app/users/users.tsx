@@ -22,7 +22,7 @@ export const Users: FC = () => {
           active={location.pathname === ROUTES.users}
           onClick={() => history.push(ROUTES.users)}
         >
-          <WidgetInfo title="Users" number="1230" percentages={10} />
+          <WidgetInfo title="Users" number={1230} percentages={10} />
         </WidgetTile>
 
         <WidgetTile
@@ -32,7 +32,7 @@ export const Users: FC = () => {
         >
           <WidgetInfo
             title="Average council size"
-            number="456"
+            number={456}
             percentages={10}
           />
         </WidgetTile>
@@ -44,7 +44,7 @@ export const Users: FC = () => {
         >
           <WidgetInfo
             title="Number of Interactions"
-            number="1087"
+            number={1087}
             percentages={10}
           />
         </WidgetTile>

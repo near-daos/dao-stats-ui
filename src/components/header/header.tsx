@@ -3,31 +3,26 @@ import { Link } from 'react-router-dom';
 import { Tabs } from '../tabs';
 import { Dropdown, DropdownOption } from '../dropdown/dropdown';
 import { NavigationInfo } from '../navigation-info/navigation-info';
+import { useForbiddenRoutes, useOptionsForContract } from '../../hooks';
+import { NETWORKS } from '../../constants';
 
 import { SvgIcon } from '../svgIcon/svgIcon';
 
 import styles from './header.module.scss';
-import { useForbiddenRoutes } from '../../hooks';
+import { useAppSelector } from '../../store';
+import { selectorSelectedContract } from '../../app/shared';
 
 export type HeaderProps = {
   isOpened?: boolean;
   setIsOpened?: any;
 };
 
-const tabOptions = [
-  {
-    label: 'Sputnik DAO',
-    value: 'sputnik',
-  },
-  { label: 'Astro', value: 'astro' },
-];
-
 const dropdownOptions: DropdownOption[] = [
   {
     id: '0',
     name: 'Fatima Sanders',
     link: 'Quisque libero lacus, varius et, euismod et, commodo at, libero.',
-    searchType: 'testnet',
+    searchType: NETWORKS.Mainnet,
     type: 'sputnik',
   },
   {
@@ -35,14 +30,16 @@ const dropdownOptions: DropdownOption[] = [
     name: 'Xaviera Gibson',
     link:
       'Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus',
-    searchType: 'testnet',
+    searchType: NETWORKS.Mainnet,
+
     type: 'astro',
   },
   {
     id: '2',
     name: 'Anthony Hawkins',
     link: 'ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo',
-    searchType: 'mainnet',
+    searchType: NETWORKS.Mainnet,
+
     type: 'sputnik',
   },
   {
@@ -50,55 +47,64 @@ const dropdownOptions: DropdownOption[] = [
     name: 'Hadassah Harrington',
     link:
       'ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam auctor, velit',
-    searchType: 'mainnet',
+    searchType: NETWORKS.Mainnet,
+
     type: 'sputnik',
   },
   {
     id: '4',
     name: 'Abel Knight',
     link: 'felis. Donec tempor, est ac mattis semper, dui lectus rutrum',
-    searchType: 'mainnet',
+    searchType: NETWORKS.Mainnet,
+
     type: 'astro',
   },
   {
     id: '5',
     name: 'jonathan',
     link: 'jonathan.sputnikdao.near',
-    searchType: 'mainnet',
+    searchType: NETWORKS.Mainnet,
+
     type: 'sputnik',
   },
   {
     id: '6',
     name: 'jonathan',
     link: 'jonathan.sputnikdao.near',
-    searchType: 'mainnet',
+    searchType: NETWORKS.Mainnet,
+
     type: 'astro',
   },
   {
     id: '7',
     name: 'jonathan',
     link: 'jonathan.sputnikdao.near',
-    searchType: 'mainnet',
+    searchType: NETWORKS.Mainnet,
+
     type: 'sputnik',
   },
   {
     id: '8',
     name: 'jonathan',
     link: 'jonathan.sputnikdao.near',
-    searchType: 'mainnet',
+    searchType: NETWORKS.Mainnet,
+
     type: 'sputnik',
   },
   {
     id: '9',
     name: 'jonathan',
     link: 'jonathan.sputnikdao.near',
-    searchType: 'mainnet',
+    searchType: NETWORKS.Mainnet,
+
     type: 'sputnik',
   },
 ];
 
 export const Header: FC<HeaderProps> = ({ isOpened, setIsOpened }) => {
   const { isForbiddenHeader } = useForbiddenRoutes();
+  const selectedContract = useAppSelector(selectorSelectedContract);
+  const contractTabOptions = useOptionsForContract();
 
   const [dropdownValue, setDropDownValue] = useState<DropdownOption | null>(
     null,
@@ -110,7 +116,7 @@ export const Header: FC<HeaderProps> = ({ isOpened, setIsOpened }) => {
         <img className={styles.logo} alt="" />
       </Link>
       <div className={styles.headerControls}>
-        <h1 className={styles.title}>Sputnik Dao</h1>
+        <h1 className={styles.title}>{selectedContract?.contractId}</h1>
         <button type="button" className={styles.mobileIcon}>
           <SvgIcon icon="search" />
         </button>
@@ -125,7 +131,12 @@ export const Header: FC<HeaderProps> = ({ isOpened, setIsOpened }) => {
 
       {!isForbiddenHeader ? (
         <div className={styles.main}>
-          <Tabs variant="medium" options={tabOptions} className={styles.tabs} />
+          <Tabs
+            variant="medium"
+            options={contractTabOptions}
+            defaultValue={selectedContract?.contractId}
+            className={styles.tabs}
+          />
           <Dropdown
             className={styles.search}
             options={dropdownOptions}
@@ -134,8 +145,8 @@ export const Header: FC<HeaderProps> = ({ isOpened, setIsOpened }) => {
           />
           <NavigationInfo
             className={styles.navigationInfo}
-            title="Sputnik DAO"
-            description="Average values for all DAOs"
+            title={selectedContract?.contractId || ''}
+            description={selectedContract?.description || ''}
             color="blue"
           />
         </div>
