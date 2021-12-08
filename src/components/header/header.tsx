@@ -13,8 +13,8 @@ import { useAppSelector } from '../../store';
 import { selectorSelectedContract } from '../../app/shared';
 
 export type HeaderProps = {
-  isOpened?: boolean;
-  setIsOpened?: any;
+  isOpened: boolean;
+  setIsOpened: (value: boolean) => void;
 };
 
 const dropdownOptions: DropdownOption[] = [
@@ -115,41 +115,43 @@ export const Header: FC<HeaderProps> = ({ isOpened, setIsOpened }) => {
       <Link to="/" className={styles.logo}>
         <img className={styles.logo} alt="" />
       </Link>
-      <div className={styles.headerControls}>
-        <h1 className={styles.title}>{selectedContract?.contractId}</h1>
-        <button type="button" className={styles.mobileIcon}>
-          <SvgIcon icon="search" />
-        </button>
-      </div>
-      <button
-        type="button"
-        className={styles.mobileIcon}
-        onClick={() => setIsOpened(!isOpened)}
-      >
-        <SvgIcon icon={isOpened ? 'close' : 'burger'} />
-      </button>
-
       {!isForbiddenHeader ? (
-        <div className={styles.main}>
-          <Tabs
-            variant="medium"
-            options={contractTabOptions}
-            defaultValue={selectedContract?.contractId}
-            className={styles.tabs}
-          />
-          <Dropdown
-            className={styles.search}
-            options={dropdownOptions}
-            value={dropdownValue}
-            onChange={(selectedItem) => setDropDownValue(selectedItem)}
-          />
-          <NavigationInfo
-            className={styles.navigationInfo}
-            title={selectedContract?.contractId || ''}
-            description={selectedContract?.description || ''}
-            color="blue"
-          />
-        </div>
+        <>
+          <div className={styles.headerControls}>
+            <h1 className={styles.title}>{selectedContract?.contractId}</h1>
+            <button type="button" className={styles.mobileIcon}>
+              <SvgIcon icon="search" />
+            </button>
+          </div>
+          <button
+            type="button"
+            className={styles.mobileIcon}
+            onClick={() => setIsOpened(!isOpened)}
+          >
+            <SvgIcon icon={isOpened ? 'close' : 'burger'} />
+          </button>
+
+          <div className={styles.main}>
+            <Tabs
+              variant="medium"
+              options={contractTabOptions}
+              defaultValue={selectedContract?.contractId}
+              className={styles.tabs}
+            />
+            <Dropdown
+              className={styles.search}
+              options={dropdownOptions}
+              value={dropdownValue}
+              onChange={(selectedItem) => setDropDownValue(selectedItem)}
+            />
+            <NavigationInfo
+              className={styles.navigationInfo}
+              title={selectedContract?.contractId || ''}
+              description={selectedContract?.description || ''}
+              color="blue"
+            />
+          </div>
+        </>
       ) : null}
     </div>
   );
