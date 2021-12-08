@@ -10,7 +10,7 @@ import { useForbiddenRoutes } from '../../hooks';
 import styles from './layout.module.scss';
 
 export const Layout: FC = ({ children }) => {
-  const [isOpened, setIsOpened] = useState(false);
+  const [isOpened, setIsOpened] = useState<boolean>(false);
 
   const { isForbiddenSidebar } = useForbiddenRoutes();
 
@@ -18,7 +18,9 @@ export const Layout: FC = ({ children }) => {
     <div className={styles.layout}>
       <Header isOpened={isOpened} setIsOpened={setIsOpened} />
       <div className={styles.container}>
-        {!isForbiddenSidebar ? <Sidebar isOpened={isOpened} /> : null}
+        {!isForbiddenSidebar ? (
+          <Sidebar isOpened={isOpened} setIsOpened={setIsOpened} />
+        ) : null}
         <div
           className={clsx(styles.page, {
             [styles.fullWidth]: isForbiddenSidebar,
