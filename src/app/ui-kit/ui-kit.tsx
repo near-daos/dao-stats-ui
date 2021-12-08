@@ -537,7 +537,7 @@ export const UiKIt: FC = () => {
       <section className={styles.section}>
         <div className={styles.sectionHeader}>Sidebar</div>
         <div className={styles.container}>
-          <Sidebar />
+          <Sidebar isOpened={false} setIsOpened={() => null} />
         </div>
       </section>
       <section className={styles.section}>
@@ -548,6 +548,7 @@ export const UiKIt: FC = () => {
             options={navigationOptions}
             selectedValue={navigationOptions[0].value}
             onSelect={() => null}
+            setIsOpened={() => null}
           />
         </div>
       </section>
@@ -585,7 +586,7 @@ export const UiKIt: FC = () => {
       </section>
       <section className={styles.section}>
         <div className={styles.sectionHeader}>Header</div>
-        <Header />
+        <Header isOpened={false} setIsOpened={() => null} />
       </section>
       <section className={styles.section}>
         <div className={styles.sectionHeader}>Icons</div>

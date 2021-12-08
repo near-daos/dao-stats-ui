@@ -1,4 +1,5 @@
 @use '../../styles/functions';
+@use '../../styles/media';
 @import '../../styles/typography';
 @import '../../styles/helpers';
 
@@ -32,15 +33,23 @@
 
 .item {
   border-radius: functions.calc-rem(4);
-  &:hover {
+
+  &:active {
     --line-color: var(--color-yellow-600);
     --background-color: var(--color-grey-900);
+  }
+
+  @include media.desktop {
+    &:hover {
+      --line-color: var(--color-yellow-600);
+      --background-color: rgba(255, 255, 255, 0.03);
+    }
   }
 }
 
 .active {
   --line-color: var(--color-blue-500);
-  --background-color: var(--color-grey-900);
+  --background-color: rgba(255, 255, 255, 0.03);
 }
 
 .button {
