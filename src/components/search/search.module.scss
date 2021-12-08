@@ -1,11 +1,10 @@
 @use '../../styles/functions';
+@use '../../styles/media';
 @import '../../styles/typography';
 @import '../../styles/helpers';
 
 .root {
   width: 100%;
-  height: functions.calc-rem(48);
-  min-width: functions.calc-rem(563);
 
   position: relative;
 
@@ -15,6 +14,12 @@
   align-items: center;
 
   background: transparent;
+
+  flex-direction: column;
+
+  @include media.desktop {
+    flex-direction: initial;
+  }
 }
 
 .forceActive {
@@ -35,7 +40,7 @@
   width: 100%;
   height: 100%;
 
-  padding: functions.calc-rem(12) 33% functions.calc-rem(12)
+  padding: functions.calc-rem(12) 5% functions.calc-rem(12)
     functions.calc-rem(44);
 
   position: relative;
@@ -78,19 +83,28 @@
       color: var(--color-grey-400);
     }
   }
+
+  @include media.desktop {
+    padding-right: 33%;
+  }
 }
 
 .inputLabel {
-  width: functions.calc-rem(1);
-  height: 100%;
+  display: none;
 
-  position: absolute;
-  top: 0;
-  right: 33%;
+  @include media.desktop {
+    display: block;
+    width: functions.calc-rem(1);
+    height: 100%;
 
-  background: var(--color-grey-700);
+    position: absolute;
+    top: 0;
+    right: 33%;
 
-  transition: background ease-in-out 300ms, width ease-in-out 300ms;
+    background: var(--color-grey-700);
+
+    transition: background ease-in-out 300ms, width ease-in-out 300ms;
+  }
 }
 
 .inputIcon {
@@ -98,35 +112,52 @@
   height: functions.calc-rem(24);
 
   position: absolute;
-  top: functions.calc-rem(12);
+  top: functions.calc-rem(62);
   left: functions.calc-rem(12);
   z-index: 0;
 
   color: var(--color-grey-600);
 
   transition: color ease-in-out 300ms;
+
+  @include media.desktop {
+    top: functions.calc-rem(12);
+  }
 }
 
 .inputControl {
-  width: 33%;
+  width: 100%;
   height: 100%;
 
-  padding: functions.calc-rem(8) functions.calc-rem(12);
-
-  position: absolute;
-  top: 0;
-  right: 0;
+  padding: functions.calc-rem(3);
 
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
+
+  border: functions.calc-rem(1) solid #393838;
+  box-sizing: border-box;
+  border-radius: functions.calc-rem(8);
+  margin-bottom: 12px;
+
+  @include media.desktop {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    padding: functions.calc-rem(8) functions.calc-rem(12);
+
+    width: 33%;
+
+    border: 0;
+  }
 }
 
 .inputControlItem {
   @extend %button-reset;
   @include title-4;
-  width: functions.calc-rem(75);
+  width: functions.calc-rem(140);
   height: functions.calc-rem(32);
 
   padding: functions.calc-rem(6) functions.calc-rem(12);
@@ -152,6 +183,10 @@
 
   &:nth-child(2) {
     margin-left: functions.calc-rem(8);
+  }
+
+  @include media.desktop {
+    width: functions.calc-rem(75);
   }
 }
 

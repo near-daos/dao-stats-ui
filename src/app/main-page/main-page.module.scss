@@ -3,7 +3,7 @@
 @use '../../styles/media';
 
 .mainPage {
-  width: functions.calc-rem(700);
+  width: functions.calc-rem(296);
 
   margin: 0 auto;
 
@@ -13,28 +13,46 @@
   text-align: center;
 
   @include media.desktop {
+    width: functions.calc-rem(700);
     padding: functions.calc-rem(104) 0 0 0;
   }
 }
 
 .title {
-  @include typography.heading-1;
+  @include typography.title-1;
 
   padding: 0;
-  margin: 0 0 functions.calc-rem(28);
+  margin: 0 0 functions.calc-rem(22);
+
+  @include media.desktop {
+    @include typography.heading-1;
+    margin-bottom: functions.calc-rem(28);
+  }
 }
 
 .subTitle {
-  @include typography.body-1;
+  @include typography.body-2;
   margin: 0 0 functions.calc-rem(56);
+
+  @include media.desktop {
+    @include typography.body-1;
+  }
 }
 
 .tabs {
-  margin: 0 auto functions.calc-rem(32);
+  margin: 0 auto functions.calc-rem(24);
+
+  @include media.desktop {
+    margin-bottom: functions.calc-rem(32);
+  }
 }
 
 .search {
-  margin: 0 0 functions.calc-rem(120);
+  margin: 0 0 functions.calc-rem(34);
+
+  @include media.desktop {
+    margin-bottom: functions.calc-rem(120);
+  }
 }
 
 .info {

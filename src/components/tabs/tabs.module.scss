@@ -1,4 +1,5 @@
 @use '../../styles/functions';
+@use '../../styles/media';
 @import '../../styles/typography';
 @import '../../styles/helpers';
 
@@ -16,7 +17,7 @@
 }
 
 .tab {
-  @include title-1;
+  @include title-3;
   @extend %button-reset;
 
   padding-bottom: var(--padding-bottom);
@@ -46,6 +47,10 @@
 
   &:last-child {
     margin: 0;
+  }
+
+  @include media.desktop {
+    @include title-1;
   }
 }
 
