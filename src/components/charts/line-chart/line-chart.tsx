@@ -110,6 +110,7 @@ export const ChartLine: React.FC<LineChartProps> = ({
         tickLine={false}
         tickFormatter={(value) => tickXFormatter(value, period)}
         style={tickStyles}
+        minTickGap={5}
       />
       {lines.map((line) => (
         <Line

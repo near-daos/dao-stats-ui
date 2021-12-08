@@ -10,10 +10,8 @@ import { selectGeneralDaos } from '../selectors';
 
 import styles from './numbers-dao.module.scss';
 
-const periods = ['7d', '1m', '3m', '6m', '1y'];
-
 export const NumbersDao: FC = () => {
-  const [period, setPeriod] = useState(periods[0]);
+  const [period, setPeriod] = useState('1y');
 
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
@@ -43,16 +41,18 @@ export const NumbersDao: FC = () => {
     [daosData, period],
   );
 
-  console.log('daos', daos);
-
   return (
     <div className={styles.chart}>
-      <ChartLine
-        data={daos}
-        period={period}
-        setPeriod={setPeriod}
-        lines={[{ name: 'Number of dao', color: '#E33F84', dataKey: 'count' }]}
-      />
+      {daos ? (
+        <ChartLine
+          data={daos}
+          period={period}
+          setPeriod={setPeriod}
+          lines={[
+            { name: 'Number of dao', color: '#E33F84', dataKey: 'count' },
+          ]}
+        />
+      ) : null}
     </div>
   );
 };

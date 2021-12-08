@@ -30,7 +30,7 @@ export class GeneralService extends HttpService {
   ): Promise<AxiosResponse<Metrics>> {
     const query = queryString.stringify({ from: params.from, to: params.to });
 
-    return this.get(`${params.contract}/general/activity${query}`);
+    return this.get(`${params.contract}/general/activity?${query}`);
   }
 
   async getGeneralActivityLeaderboard(
@@ -44,7 +44,7 @@ export class GeneralService extends HttpService {
   ): Promise<AxiosResponse<Metrics>> {
     const query = queryString.stringify({ from: params.from, to: params.to });
 
-    return this.get(`${params.contract}/general/groups${query}`);
+    return this.get(`${params.contract}/general/groups?${query}`);
   }
 
   async getGeneralGroupsLeaderboard(
