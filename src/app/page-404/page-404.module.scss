@@ -10,6 +10,8 @@
 
   text-align: center;
 
+  padding: functions.calc-rem(70) 0 0;
+
   @include media.desktop {
     padding: functions.calc-rem(148) 0 0;
   }
@@ -26,13 +28,25 @@
 }
 
 .title {
-  @include typography.heading-1;
-  margin: 0 0 functions.calc-rem(12);
+  @include typography.heading-2;
+
+  margin-top: 0;
+  margin-bottom: functions.calc-rem(12);
+
+  @include media.desktop {
+    @include typography.heading-1;
+    margin-bottom: functions.calc-rem(12);
+  }
 }
 
 .subTitle {
-  @include typography.body-1;
-  margin: 0 0 functions.calc-rem(32);
+  @include typography.body-2;
+  margin: 0 0 functions.calc-rem(24);
+
+  @include media.desktop {
+    @include typography.body-1;
+    margin: 0 0 functions.calc-rem(32);
+  }
 }
 
 .button {
