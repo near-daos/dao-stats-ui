@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import clsx from 'clsx';
-import { numberWithCommas } from 'src/utils/numberWithCommas';
+import { numberWithCommas } from 'src/utils';
 import { IconName, SvgIcon } from '../svgIcon';
 
 import styles from './widget-info.module.scss';
@@ -9,8 +9,7 @@ type WidgetInfoProps = {
   className?: string;
   title: string;
   percentages?: number;
-  number?: string;
-  negativeGrowth?: boolean;
+  number?: number;
   icon?: IconName;
 };
 
@@ -19,7 +18,6 @@ export const WidgetInfo: FC<WidgetInfoProps> = ({
   title,
   percentages,
   number,
-  negativeGrowth,
   icon,
 }) => (
   <div className={clsx(styles.widgetInfo, className)}>
@@ -28,7 +26,7 @@ export const WidgetInfo: FC<WidgetInfoProps> = ({
       {percentages ? (
         <div
           className={clsx(styles.percentages, {
-            [styles.negativeGrowth]: negativeGrowth,
+            [styles.negativeGrowth]: percentages <= 0,
           })}
         >
           <SvgIcon icon="stats" className={styles.icon} />
@@ -38,7 +36,7 @@ export const WidgetInfo: FC<WidgetInfoProps> = ({
     </div>
     {number ? (
       <div className={styles.number}>
-        {numberWithCommas(number)}
+        {numberWithCommas(String(number))}
         {icon ? <SvgIcon icon={icon} className={styles.icon} /> : null}
       </div>
     ) : null}

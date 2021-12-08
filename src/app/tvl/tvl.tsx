@@ -25,13 +25,13 @@ export const Tvl: FC = () => {
         >
           <WidgetInfo
             title="Number of Grants"
-            number="2290"
+            number={2290}
             percentages={10}
             className={styles.info}
           />
           <WidgetInfo
             title="VL of Grants"
-            number="2290999999"
+            number={2290999999}
             percentages={10}
           />
         </WidgetTile>
@@ -43,11 +43,11 @@ export const Tvl: FC = () => {
         >
           <WidgetInfo
             title="Number of Bounties"
-            number="16193"
+            number={16193}
             percentages={10}
             className={styles.info}
           />
-          <WidgetInfo title="VL of Bounties" number="456" percentages={10} />
+          <WidgetInfo title="VL of Bounties" number={456} percentages={10} />
         </WidgetTile>
         <WidgetTile
           short
@@ -55,7 +55,7 @@ export const Tvl: FC = () => {
           active={location.pathname === ROUTES.tvlNear}
           onClick={() => history.push(ROUTES.tvlNear)}
         >
-          <WidgetInfo title="TVL (NEAR)" number="16,193" percentages={10} />
+          <WidgetInfo title="TVL (NEAR)" number={16.193} percentages={10} />
         </WidgetTile>
         <WidgetTile
           short
@@ -63,7 +63,7 @@ export const Tvl: FC = () => {
           active={location.pathname === ROUTES.tvlDao}
           onClick={() => history.push(ROUTES.tvlDao)}
         >
-          <WidgetInfo title="TVL per DAO" number="16,193" percentages={10} />
+          <WidgetInfo title="TVL per DAO" number={16.193} percentages={10} />
         </WidgetTile>
       </div>
 

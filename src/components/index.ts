@@ -14,3 +14,4 @@ export * from './widget-info';
 export * from './page';
 export * from './leaderboard';
 export * from './loading';
+export * from './user-data';

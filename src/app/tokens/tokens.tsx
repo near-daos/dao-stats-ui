@@ -20,16 +20,16 @@ export const Tokens: FC = () => {
           active={location.pathname === ROUTES.tokens}
           onClick={() => history.push(ROUTES.tokens)}
         >
-          <WidgetInfo title="Number of NFTs" number="13290" percentages={10} />
-          <WidgetInfo title="Number of FTs" number="2290" percentages={10} />
+          <WidgetInfo title="Number of NFTs" number={13290} percentages={10} />
+          <WidgetInfo title="Number of FTs" number={2290} percentages={10} />
         </WidgetTile>
         <WidgetTile
           className={styles.widget}
           active={location.pathname === ROUTES.tokensNumberFt}
           onClick={() => history.push(ROUTES.tokensNumberFt)}
         >
-          <WidgetInfo title="Number of FTs" number="16193" percentages={10} />
-          <WidgetInfo title="VL of FTs" number="456" percentages={10} />
+          <WidgetInfo title="Number of FTs" number={16193} percentages={10} />
+          <WidgetInfo title="VL of FTs" number={456} percentages={10} />
         </WidgetTile>
       </div>
 

@@ -1,5 +1,5 @@
 export type History = {
-  from: string;
+  from?: string;
   to?: string;
 };
 
@@ -32,7 +32,7 @@ export type Metrics = {
 export type LeaderboardItem = {
   dao: string;
   activity: TotalMetrics;
-  overview: string[];
+  overview: MetricItem[];
 };
 
 export type Leaderboard = {

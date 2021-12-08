@@ -4,9 +4,11 @@ import { Metrics, Leaderboard, General } from '../../api';
 export type generalState = {
   general: General | null;
   dao: General | null;
-  leaderboard: Leaderboard;
-  history: Metrics;
-  daoHistory: Metrics;
+  generalDaos: Metrics | null;
+  generalActivity: Metrics | null;
+  generalActivityLeaderboard: Leaderboard | null;
+  generalGroups: Metrics | null;
+  generalGroupsLeaderboard: Leaderboard | null;
   loading: RequestStatus;
   error: unknown;
 };

@@ -1,11 +1,20 @@
-import React, { FC } from 'react';
-import { Switch, Route, useLocation, useHistory } from 'react-router';
+import React, { FC, useEffect } from 'react';
+import {
+  Switch,
+  Route,
+  useLocation,
+  useParams,
+  useHistory,
+} from 'react-router';
 
 import { Page, WidgetTile, WidgetInfo } from '../../components';
-
 import { DaoActivity } from './dao-activity';
 import { NumbersDao } from './numbers-dao';
 import { Groups } from './groups';
+import { useRoutes } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../store';
+import { getGeneral } from './slice';
+import { selectGeneral } from './selectors';
 import { ROUTES } from '../../constants';
 
 import styles from './general-info.module.scss';
@@ -13,32 +22,58 @@ import styles from './general-info.module.scss';
 export const GeneralInfo: FC = () => {
   const location = useLocation();
   const history = useHistory();
+  const routes = useRoutes();
+  const { contract } = useParams<{ contract: string }>();
+  const dispatch = useAppDispatch();
+  const general = useAppSelector(selectGeneral);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        await dispatch(getGeneral({ contract }));
+      } catch (error: unknown) {
+        console.error(error);
+      }
+    })();
+  }, [contract, dispatch]);
 
   return (
     <Page title="General info">
       <div className={styles.widgets}>
         <WidgetTile
           className={styles.widget}
-          active={location.pathname === ROUTES.generalInfo}
-          onClick={() => history.push(ROUTES.generalInfo)}
+          active={location.pathname === routes.generalInfo}
+          onClick={() => history.push(routes.generalInfo)}
         >
-          <WidgetInfo title="Number of DAOs" number="456" percentages={10} />
+          <WidgetInfo
+            title="Number of DAOs"
+            number={general?.dao?.count}
+            percentages={general?.dao?.growth}
+          />
         </WidgetTile>
 
         <WidgetTile
           className={styles.widget}
-          onClick={() => history.push(ROUTES.generalInfoDaoActivity)}
-          active={location.pathname === ROUTES.generalInfoDaoActivity}
+          onClick={() => history.push(routes.generalInfoDaoActivity)}
+          active={location.pathname === routes.generalInfoDaoActivity}
         >
-          <WidgetInfo title="DAOs activity" number="456" percentages={10} />
+          <WidgetInfo
+            title="DAOs activity"
+            number={general?.activity?.count}
+            percentages={general?.activity?.growth}
+          />
         </WidgetTile>
 
         <WidgetTile
           className={styles.widget}
-          onClick={() => history.push(ROUTES.generalInfoGroups)}
-          active={location.pathname === ROUTES.generalInfoGroups}
+          onClick={() => history.push(routes.generalInfoGroups)}
+          active={location.pathname === routes.generalInfoGroups}
         >
-          <WidgetInfo title="Groups" number="456" percentages={10} />
+          <WidgetInfo
+            title="Groups"
+            number={general?.groups?.count}
+            percentages={general?.groups?.growth}
+          />
         </WidgetTile>
       </div>
 
