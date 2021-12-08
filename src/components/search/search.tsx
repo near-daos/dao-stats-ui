@@ -30,17 +30,6 @@ export const Search: React.FC<SearchProps> = ({
       [styles.forceActive]: value?.trim() !== '',
     })}
   >
-    <input
-      {...inputProps}
-      id="search"
-      type="text"
-      className={clsx(styles.input, classNameInput)}
-      placeholder="Search by Dao Name"
-    />
-    <label htmlFor="search" className={styles.inputLabel} />
-
-    <SvgIcon icon="search" className={clsx(styles.inputIcon, classNameIcon)} />
-
     <div className={styles.inputControl}>
       <button
         type="button"
@@ -62,6 +51,17 @@ export const Search: React.FC<SearchProps> = ({
         Testnet
       </button>
     </div>
+
+    <input
+      {...inputProps}
+      id="search"
+      type="text"
+      className={clsx(styles.input, classNameInput)}
+      placeholder="Search by Dao Name"
+    />
+    <label htmlFor="search" className={styles.inputLabel} />
+
+    <SvgIcon icon="search" className={clsx(styles.inputIcon, classNameIcon)} />
   </div>
 );
 
