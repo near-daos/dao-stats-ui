@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 import styles from './tabs.module.scss';
 
-type Option = {
+export type TabOption = {
   label: string;
   value: string;
 };
@@ -11,7 +11,7 @@ type Option = {
 export interface TabsProps {
   className?: string;
   variant?: 'large' | 'medium' | 'small';
-  options: Option[];
+  options: TabOption[];
   onChange?: (id: string) => void;
   defaultValue?: string;
 }

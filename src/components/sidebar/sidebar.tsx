@@ -4,7 +4,9 @@ import clsx from 'clsx';
 
 import { NavigationInfo } from '../navigation-info';
 import { NavigationList } from '../navigation-list';
-import { ROUTES } from '../../constants';
+import { useAppSelector } from '../../store';
+import { selectorSelectedContract } from '../../app/shared';
+import { useRoutes } from '../../hooks';
 
 import styles from './sidebar.module.scss';
 
@@ -13,33 +15,11 @@ export type SidebarProps = {
   setIsOpened: (value: boolean) => void;
 };
 
-const overviewItems = [
-  {
-    label: 'General Info',
-    value: ROUTES.generalInfo,
-  },
-  { label: 'Users', value: ROUTES.users },
-  { label: 'Activity', value: ROUTES.activity },
-];
-
-const financialItems = [
-  {
-    label: 'Flow',
-    value: ROUTES.flow,
-  },
-  {
-    label: 'TVL',
-    value: ROUTES.tvl,
-  },
-  {
-    label: 'Tokens',
-    value: ROUTES.tokens,
-  },
-];
-
 export const Sidebar: FC<SidebarProps> = ({ isOpened, setIsOpened }) => {
+  const selectedContract = useAppSelector(selectorSelectedContract);
   const history = useHistory();
   const location = useLocation();
+  const routes = useRoutes();
 
   const handlerChangeActive = useCallback(
     (value: string) => {
@@ -48,6 +28,30 @@ export const Sidebar: FC<SidebarProps> = ({ isOpened, setIsOpened }) => {
     [history],
   );
 
+  const overviewItems = [
+    {
+      label: 'General Info',
+      value: routes.generalInfo,
+    },
+    { label: 'Users', value: routes.users },
+    { label: 'Activity', value: routes.activity },
+  ];
+
+  const financialItems = [
+    {
+      label: 'Flow',
+      value: routes.flow,
+    },
+    {
+      label: 'TVL',
+      value: routes.tvl,
+    },
+    {
+      label: 'Tokens',
+      value: routes.tokens,
+    },
+  ];
+
   return (
     <div
       className={clsx(styles.sidebar, {
@@ -55,8 +59,8 @@ export const Sidebar: FC<SidebarProps> = ({ isOpened, setIsOpened }) => {
       })}
     >
       <NavigationInfo
-        title="Sputnik DAO"
-        description="Average values for all DAOs"
+        title={selectedContract?.contractId || ''}
+        description={selectedContract?.description || ''}
         direction="left"
         color="none"
         className={styles.info}

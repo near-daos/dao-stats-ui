@@ -32,7 +32,7 @@ export const DaoActivity: FC = () => {
         />
       </div>
       <div className={styles.chart}>
-        {activeTab === 'history-data' && <ChartLine data={rechartsData} />}
+        {activeTab === 'history-data' && 'chart'}
         {activeTab === 'leaderboard' && 'leaderboard'}
       </div>
     </div>

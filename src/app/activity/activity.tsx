@@ -27,7 +27,7 @@ export const Activity: FC = () => {
         >
           <WidgetInfo
             title="Number of Proposals"
-            number="456"
+            number={456}
             percentages={10}
           />
         </WidgetTile>
@@ -44,7 +44,7 @@ export const Activity: FC = () => {
           active={location.pathname === ROUTES.activityVoteRate}
           onClick={() => history.push(ROUTES.activityVoteRate)}
         >
-          <WidgetInfo title="Vote through rate" number="456" percentages={10} />
+          <WidgetInfo title="Vote through rate" number={456} percentages={10} />
         </WidgetTile>
       </div>
 

@@ -1,31 +1,31 @@
 import React, { FC, useState } from 'react';
 
 import {
-  SvgIcon,
   Button,
-  Search,
-  Tabs,
+  ChartBar,
+  ChartLine,
+  ChartPie,
   Dropdown,
   DropdownOption,
   Header,
-  NavigationInfo,
-  NavigationList,
-  Sidebar,
-  WidgetTile,
-  WidgetInfo,
-  ChartLine,
-  ChartBar,
-  ChartPie,
-  StackedChart,
   Leaderboard,
   LeaderboardDataItem,
   Loading,
+  NavigationInfo,
+  NavigationList,
+  Search,
+  Sidebar,
+  StackedChart,
+  SvgIcon,
+  Tabs,
+  WidgetInfo,
+  WidgetTile,
 } from '../../components';
-
-import { pieData, getRechartsData } from '../../components/charts/rechartsData';
+import { NETWORKS } from '../../constants';
+import { getRechartsData, pieData } from '../../components/charts/rechartsData';
+import logo from '../../images/sputnik.png';
 
 import styles from './ui-kit.module.scss';
-import logo from '../../images/sputnik.png';
 
 const tableMock1: LeaderboardDataItem[] = [
   {
@@ -621,7 +621,7 @@ const options: DropdownOption[] = [
     id: '0',
     name: 'Fatima Sanders',
     link: 'Quisque libero lacus, varius et, euismod et, commodo at, libero.',
-    searchType: 'testnet',
+    searchType: NETWORKS.Mainnet,
     type: 'sputnik',
   },
   {
@@ -629,14 +629,14 @@ const options: DropdownOption[] = [
     name: 'Xaviera Gibson',
     link:
       'Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus',
-    searchType: 'testnet',
+    searchType: NETWORKS.Mainnet,
     type: 'astro',
   },
   {
     id: '2',
     name: 'Anthony Hawkins',
     link: 'ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo',
-    searchType: 'mainnet',
+    searchType: NETWORKS.Mainnet,
     type: 'sputnik',
   },
   {
@@ -644,49 +644,49 @@ const options: DropdownOption[] = [
     name: 'Hadassah Harrington',
     link:
       'ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam auctor, velit',
-    searchType: 'mainnet',
+    searchType: NETWORKS.Mainnet,
     type: 'sputnik',
   },
   {
     id: '4',
     name: 'Abel Knight',
     link: 'felis. Donec tempor, est ac mattis semper, dui lectus rutrum',
-    searchType: 'mainnet',
+    searchType: NETWORKS.Mainnet,
     type: 'astro',
   },
   {
     id: '5',
     name: 'jonathan',
     link: 'jonathan.sputnikdao.near',
-    searchType: 'mainnet',
+    searchType: NETWORKS.Mainnet,
     type: 'sputnik',
   },
   {
     id: '6',
     name: 'jonathan',
     link: 'jonathan.sputnikdao.near',
-    searchType: 'mainnet',
+    searchType: NETWORKS.Mainnet,
     type: 'astro',
   },
   {
     id: '7',
     name: 'jonathan',
     link: 'jonathan.sputnikdao.near',
-    searchType: 'mainnet',
+    searchType: NETWORKS.Mainnet,
     type: 'sputnik',
   },
   {
     id: '8',
     name: 'jonathan',
     link: 'jonathan.sputnikdao.near',
-    searchType: 'mainnet',
+    searchType: NETWORKS.Mainnet,
     type: 'sputnik',
   },
   {
     id: '9',
     name: 'jonathan',
     link: 'jonathan.sputnikdao.near',
-    searchType: 'mainnet',
+    searchType: NETWORKS.Mainnet,
     type: 'sputnik',
   },
 ];
@@ -877,9 +877,7 @@ export const leaderboardData = [
 ];
 
 export const UiKIt: FC = () => {
-  const [searchType, setSearchType] = useState<'mainnet' | 'testnet'>(
-    'mainnet',
-  );
+  const [searchType, setSearchType] = useState<NETWORKS>(NETWORKS.Mainnet);
   const [dropdownValue, setDropDownValue] = useState<DropdownOption | null>(
     null,
   );
@@ -1054,7 +1052,7 @@ export const UiKIt: FC = () => {
       <section className={styles.section}>
         <div className={styles.sectionHeader}>Chart Line Widget</div>
         <div className={styles.container}>
-          <ChartLine data={rechartsData} />
+          {/*  <ChartLine data={rechartsData} /> */}
         </div>
       </section>
       <section className={styles.section}>
@@ -1095,7 +1093,7 @@ export const UiKIt: FC = () => {
             <WidgetTile>
               <WidgetInfo
                 title="Number of Proposals"
-                number="456,2"
+                number={456.2}
                 percentages={10}
               />
             </WidgetTile>
@@ -1104,14 +1102,13 @@ export const UiKIt: FC = () => {
             <WidgetTile active>
               <WidgetInfo
                 title="Vote through rate"
-                number="456,2"
+                number={456.2}
                 percentages={100}
               />
               <WidgetInfo
                 title="Vote through rate"
-                number="456,2"
-                percentages={100}
-                negativeGrowth
+                number={456.2}
+                percentages={-100}
               />
             </WidgetTile>
           </div>

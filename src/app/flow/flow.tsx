@@ -22,13 +22,13 @@ export const Flow: FC = () => {
         >
           <WidgetInfo
             title="Total in"
-            number="2290"
+            number={2290}
             percentages={10}
             icon="near"
           />
           <WidgetInfo
             title="Total out"
-            number="2290"
+            number={2290}
             percentages={10}
             icon="near"
           />
@@ -40,7 +40,7 @@ export const Flow: FC = () => {
         >
           <WidgetInfo
             title="Number of Transactions"
-            number="16,193"
+            number={16.193}
             percentages={10}
           />
         </WidgetTile>

@@ -13,6 +13,7 @@
   height: functions.calc-rem(32);
 
   padding: functions.calc-rem(6) functions.calc-rem(12);
+  margin-right: functions.calc-rem(6);
 
   display: flex;
   justify-content: center;
@@ -25,6 +26,10 @@
   text-align: center;
 
   transition: background ease-in-out 300ms, color ease-in-out 300ms;
+  
+  &:last-child {
+    margin-right: 0;
+  }
 
   &:hover {
     color: var(--white);
