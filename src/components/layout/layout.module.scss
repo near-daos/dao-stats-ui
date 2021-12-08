@@ -12,9 +12,13 @@
 }
 
 .container {
-  padding: functions.calc-rem(48) 0 0;
-
   display: flex;
+
+  padding: functions.calc-rem(90) 0 0;
+
+  @include media.desktop {
+    padding: functions.calc-rem(48) 0 0;
+  }
 }
 
 .page {
