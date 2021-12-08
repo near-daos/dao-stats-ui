@@ -14,3 +14,8 @@ export const selectGeneralDaos = createSelector(
   (state: RootState) => getState(state).generalDaos,
   (data) => data,
 );
+
+export const selectGeneralActivity = createSelector(
+  (state: RootState) => getState(state).generalActivity,
+  (data) => data,
+);
