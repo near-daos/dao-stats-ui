@@ -1,7 +1,7 @@
-import { TotalMetrics } from '../types';
+import { Proposals, TotalMetrics } from '../types';
 
 export type Activity = {
   proposals: TotalMetrics;
-  ratio: TotalMetrics;
-  rate: TotalMetrics;
+  proposalsByType: Proposals;
+  voteRate: TotalMetrics;
 };

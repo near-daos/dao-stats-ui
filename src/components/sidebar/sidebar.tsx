@@ -59,8 +59,8 @@ export const Sidebar: FC<SidebarProps> = ({ isOpened, setIsOpened }) => {
       })}
     >
       <NavigationInfo
-        title={selectedContract?.contractId || ''}
-        description={selectedContract?.description || ''}
+        title="Sputnik DAO"
+        description="Average values for all DAOs"
         direction="left"
         color="none"
         className={styles.info}

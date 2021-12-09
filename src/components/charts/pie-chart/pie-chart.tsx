@@ -1,22 +1,22 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { PieChart, Pie, Cell, Legend } from 'recharts';
+import { Proposals } from 'src/api';
+import startCase from 'lodash/startCase';
 
 import { Dot } from '../svg/dot';
 import { COLORS } from '../constants';
 
 import styles from './pie-chart.module.scss';
 
-export interface PieChartItem {
-  name: string;
-  value: number;
-}
-
 interface PieChartProps {
   title?: string;
-  data: PieChartItem[];
+  data?: Proposals | null;
   width?: number;
   height?: number;
 }
+
+const updatePercent = (percentages: number) =>
+  parseInt((percentages * 100).toFixed(0), 10);
 
 export const ChartPie: React.FC<PieChartProps> = ({
   title = 'Average council size',
@@ -24,6 +24,17 @@ export const ChartPie: React.FC<PieChartProps> = ({
   width = 200,
   height = 293,
 }) => {
+  const chartData = useMemo(
+    () =>
+      data
+        ? Object.keys(data).map((key) => ({
+            name: startCase(key),
+            value: (data as any)[key],
+          }))
+        : [],
+    [data],
+  );
+
   const renderCustomLegend = ({ payload }: any) => (
     <div className={styles.legend}>
       <span className={styles.legendTitle}>{title}</span>
@@ -36,7 +47,7 @@ export const ChartPie: React.FC<PieChartProps> = ({
             </div>
             <div>
               <span className={styles.legendValue}>
-                {entry?.payload?.percent * 100}%
+                {updatePercent(entry?.payload?.percent)}%
               </span>
             </div>
           </li>
@@ -62,7 +73,7 @@ export const ChartPie: React.FC<PieChartProps> = ({
     const sx = cx + (outerRadius + 15) * cos;
     const sy = cy + (outerRadius + 15) * sin;
 
-    const updatedPercent = parseInt((percent * 100).toFixed(0), 10);
+    const updatedPercent = updatePercent(percent);
 
     return (
       <text
@@ -82,7 +93,7 @@ export const ChartPie: React.FC<PieChartProps> = ({
     <PieChart width={width} height={height} className={styles.root}>
       <Legend verticalAlign="top" content={renderCustomLegend} />
       <Pie
-        data={data}
+        data={chartData}
         cx="50%"
         cy="50%"
         labelLine={false}
@@ -92,7 +103,7 @@ export const ChartPie: React.FC<PieChartProps> = ({
         innerRadius={26}
         strokeWidth={0}
       >
-        {data.map((entry: { value: number }, index: number) => (
+        {chartData.map((entry: { value: number }, index: number) => (
           <Cell
             key={`cell-${entry.value}`}
             fill={COLORS[index % COLORS.length]}

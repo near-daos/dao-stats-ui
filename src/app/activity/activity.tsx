@@ -1,8 +1,15 @@
-import React, { FC } from 'react';
-import { Route, Switch, useHistory, useLocation } from 'react-router';
+import React, { FC, useEffect, useMemo } from 'react';
+import {
+  Route,
+  Switch,
+  useHistory,
+  useLocation,
+  useParams,
+} from 'react-router';
 import { ROUTES } from 'src/constants';
-
-import { Page, WidgetTile, WidgetInfo, ChartPie } from '../../components';
+import { useRoutes } from 'src/hooks';
+import { useAppDispatch, useAppSelector } from 'src/store';
+import { Page, WidgetTile, WidgetInfo, ChartPie } from 'src/components';
 
 import { pieData } from '../../components/charts/rechartsData';
 
@@ -10,11 +17,28 @@ import { NumberOfProposals } from './number-of-proposals';
 import { ProposalsType } from './proposals-type';
 import { Vote } from './vote';
 
+import { selectActivity } from './selectors';
+import { getActivity } from './slice';
+
 import styles from './activity.module.scss';
 
 export const Activity: FC = () => {
   const location = useLocation();
   const history = useHistory();
+  const routes = useRoutes();
+  const { contract } = useParams<{ contract: string }>();
+  const dispatch = useAppDispatch();
+  const activity = useAppSelector(selectActivity);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        await dispatch(getActivity({ contract }));
+      } catch (error: unknown) {
+        console.error(error);
+      }
+    })();
+  }, [contract, dispatch]);
 
   return (
     <Page title="Activity">
@@ -22,29 +46,36 @@ export const Activity: FC = () => {
         <WidgetTile
           short
           className={styles.widget}
-          active={location.pathname === ROUTES.activity}
-          onClick={() => history.push(ROUTES.activity)}
+          active={location.pathname === routes.activity}
+          onClick={() => history.push(routes.activity)}
         >
           <WidgetInfo
             title="Number of Proposals"
-            number={456}
-            percentages={10}
+            number={activity?.proposals.count}
+            percentages={activity?.proposals.growth}
           />
-        </WidgetTile>
-        <WidgetTile
-          className={styles.widget}
-          active={location.pathname === ROUTES.activityProposalType}
-          onClick={() => history.push(ROUTES.activityProposalType)}
-        >
-          <ChartPie data={pieData[0]} title="Proposals by type" />
         </WidgetTile>
         <WidgetTile
           short
           className={styles.widget}
-          active={location.pathname === ROUTES.activityVoteRate}
-          onClick={() => history.push(ROUTES.activityVoteRate)}
+          active={location.pathname === routes.activityVoteRate}
+          onClick={() => history.push(routes.activityVoteRate)}
         >
-          <WidgetInfo title="Vote through rate" number={456} percentages={10} />
+          <WidgetInfo
+            title="Vote through rate"
+            number={activity?.voteRate.count}
+            percentages={activity?.voteRate.growth}
+          />
+        </WidgetTile>
+        <WidgetTile
+          className={styles.widget}
+          active={location.pathname === routes.activityProposalType}
+          onClick={() => history.push(routes.activityProposalType)}
+        >
+          <ChartPie
+            data={activity?.proposalsByType}
+            title="Proposals by type"
+          />
         </WidgetTile>
       </div>
 

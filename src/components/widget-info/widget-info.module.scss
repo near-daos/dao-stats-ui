@@ -23,12 +23,25 @@
   align-items: center;
 
   color: var(--color-success-tint);
+  .icon {
+    color: var(--color-success-tint);
+  }
+}
+
+.zeroGrowth {
+  color: var(--color-grey-300);
+
+  .icon {
+    display: none;
+  }
 }
 
 .negativeGrowth {
   color: var(--color-error-pure);
 
   .icon {
+    color: var(--color-error-pure);
+
     transform: rotate(180deg);
   }
 }

@@ -715,24 +715,18 @@ export const UiKIt: FC = () => {
         <div className={styles.sectionHeader}>Chart Bar Widget</div>
         <div className={styles.container}>
           <div className={styles.column}>
-            <WidgetTile>
-              <ChartPie data={pieData[0]} />
-            </WidgetTile>
+            <WidgetTile>{/* <ChartPie data={pieData[0]} /> */}</WidgetTile>
           </div>
           <div className={styles.column}>
-            <WidgetTile>
-              <ChartPie data={pieData[1]} />
-            </WidgetTile>
+            <WidgetTile>{/* <ChartPie data={pieData[1]} /> */}</WidgetTile>
           </div>
           <div className={styles.column}>
             <WidgetTile active>
-              <ChartPie data={pieData[2]} />
+              {/* <ChartPie data={pieData[2]} /> */}
             </WidgetTile>
           </div>
           <div className={styles.column}>
-            <WidgetTile>
-              <ChartPie data={pieData[3]} />
-            </WidgetTile>
+            <WidgetTile>{/* <ChartPie data={pieData[3]} /> */}</WidgetTile>
           </div>
         </div>
       </section>

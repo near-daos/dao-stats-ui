@@ -1,8 +1,10 @@
 import React, { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
+import startCase from 'lodash/startCase';
+
 import { Tabs } from '../tabs';
 import { Dropdown, DropdownOption } from '../dropdown/dropdown';
-import { NavigationInfo } from '../navigation-info/navigation-info';
+import { NavigationInfo } from '../navigation-info';
 import { useForbiddenRoutes, useOptionsForContract } from '../../hooks';
 import { NETWORKS } from '../../constants';
 
@@ -118,7 +120,7 @@ export const Header: FC<HeaderProps> = ({ isOpened, setIsOpened }) => {
       {!isForbiddenHeader ? (
         <>
           <div className={styles.headerControls}>
-            <h1 className={styles.title}>{selectedContract?.contractId}</h1>
+            <h1 className={styles.title}>Sputnik DAO</h1>
             <button type="button" className={styles.mobileIcon}>
               <SvgIcon icon="search" />
             </button>
@@ -135,7 +137,7 @@ export const Header: FC<HeaderProps> = ({ isOpened, setIsOpened }) => {
             <Tabs
               variant="medium"
               options={contractTabOptions}
-              defaultValue={selectedContract?.contractId}
+              defaultValue={startCase(selectedContract?.contractId)}
               className={styles.tabs}
             />
             <Dropdown
@@ -146,8 +148,8 @@ export const Header: FC<HeaderProps> = ({ isOpened, setIsOpened }) => {
             />
             <NavigationInfo
               className={styles.navigationInfo}
-              title={selectedContract?.contractId || ''}
-              description={selectedContract?.description || ''}
+              title="Sputnik DAO"
+              description="Average values for all DAOs"
               color="blue"
             />
           </div>
