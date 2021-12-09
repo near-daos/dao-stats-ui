@@ -15,7 +15,7 @@
 
   background: transparent;
 
-  flex-direction: column;
+  flex-direction: column-reverse;
 
   @include media.desktop {
     flex-direction: initial;
