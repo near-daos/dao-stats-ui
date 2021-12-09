@@ -93,6 +93,7 @@ export const ChartPie: React.FC<PieChartProps> = ({
     <PieChart width={width} height={height} className={styles.root}>
       <Legend verticalAlign="top" content={renderCustomLegend} />
       <Pie
+        isAnimationActive={false}
         data={chartData}
         cx="50%"
         cy="50%"
