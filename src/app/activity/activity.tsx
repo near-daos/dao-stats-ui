@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useEffect } from 'react';
 import {
   Route,
   Switch,
@@ -10,8 +10,6 @@ import { ROUTES } from 'src/constants';
 import { useRoutes } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { Page, WidgetTile, WidgetInfo, ChartPie } from 'src/components';
-
-import { pieData } from '../../components/charts/rechartsData';
 
 import { NumberOfProposals } from './number-of-proposals';
 import { ProposalsType } from './proposals-type';
