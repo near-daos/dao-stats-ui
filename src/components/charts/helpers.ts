@@ -1,10 +1,13 @@
 import { subYears, subMonths, subDays, startOfDay, format } from 'date-fns';
 import { MetricItem } from '../../api';
 
-export const getDateFromMow = (range: string): number => {
+export const getDateFromMow = (range: string): number | string => {
   const currentDateStartedFromDay = startOfDay(new Date());
 
   switch (range) {
+    case 'All':
+      // todo temporary solution
+      return subYears(currentDateStartedFromDay, 30).getTime();
     case '1y':
       return subYears(currentDateStartedFromDay, 1).getTime();
     case '6m':
@@ -38,18 +41,20 @@ export const filterDataByRange = (range: string, data: any): any[] => {
   }
 };
 
+const Y_TICKS_COUNT = 6;
+
 export const getYTicks = (metrics: MetricItem[]): number[] => {
   const max = Math.max(...metrics.map((metric) => metric.count));
-  const res = [];
-  const step = 50;
+  const step = max / Y_TICKS_COUNT;
 
-  // todo temporary solution
+  const result = [];
+
   // eslint-disable-next-line no-plusplus
-  for (let i = 0; i <= Math.floor(max / step); i++) {
-    res.push(i * 50);
+  for (let i = 0; i < Y_TICKS_COUNT; i++) {
+    result.push(Math.floor(step * i));
   }
 
-  return [0, ...res, max];
+  return [0, ...result, max];
 };
 
 export const getYDomain = (metrics: MetricItem[]): number[] => [
@@ -73,18 +78,20 @@ export const getXInterval = (metrics: MetricItem[], period: string) => {
   const timestamps = metrics.map((metric) => metric.timestamp);
 
   switch (period) {
+    case 'All':
+      return Math.floor(timestamps.length / 6);
     case '1y':
       return Math.floor(timestamps.length / 12);
     case '6m':
       return Math.floor(timestamps.length / 6);
     case '3m':
-      return Math.floor(timestamps.length / 3);
+      return Math.floor(timestamps.length / 4);
     case '1m':
       return Math.floor(timestamps.length / 10);
     case '7d':
-      return 0;
+      return 1;
     default:
-      return 0;
+      return 1;
   }
 };
 
@@ -94,8 +101,10 @@ export const tickXFormatter = (value: number | string, period: string) => {
   }
 
   switch (period) {
+    case 'All':
+      return format(new Date(value), 'LLL');
     case '1y':
-      return format(new Date(value), 'd LLL');
+      return format(new Date(value), 'LLL');
     case '6m':
       return format(new Date(value), 'd LLL');
     case '3m':

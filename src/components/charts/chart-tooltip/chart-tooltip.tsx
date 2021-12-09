@@ -61,7 +61,7 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
         <div key={`item-${element.dataKey}-${element.value}`}>
           <Dot color={element.color || ''} className={styles.dot} />
           <span className={styles.name}>{element.name}:</span>
-          <span className={styles.value}>${element.value}</span>
+          <span className={styles.value}>{element.value}</span>
         </div>
       ))}
     </div>

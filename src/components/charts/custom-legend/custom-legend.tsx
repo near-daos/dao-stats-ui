@@ -57,7 +57,7 @@ export const CustomLegend: React.FC<CustomLegendProps> = ({
       <RangeFilter
         period={period}
         setPeriod={setPeriod}
-        periods={['7d', '1m', '3m', '6m', '1y']}
+        periods={['7d', '1m', '3m', '6m', '1y', 'All']}
       />
     </div>
   );
