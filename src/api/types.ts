@@ -13,11 +13,29 @@ export type DaoParams = Params & {
   dao: string;
 };
 
+export type ProposalMetrics = {
+  metrics: {
+    payout: MetricItem[];
+    councilMember: MetricItem[];
+    policyChange: MetricItem[];
+    expired: MetricItem[];
+  };
+};
+
 export type Proposals = {
   payout: 0;
   councilMember: 0;
   policyChange: 0;
   expired: 0;
+};
+
+export type ProposalsLeaderboardItem = {
+  dao: 'string';
+  proposalsByType: Proposals;
+};
+
+export type ProposalsLeaderboard = {
+  leaderboard: ProposalsLeaderboardItem[];
 };
 
 export type DaoHistoryParams = DaoParams & History;
