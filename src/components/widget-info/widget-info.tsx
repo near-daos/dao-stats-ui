@@ -26,7 +26,8 @@ export const WidgetInfo: FC<WidgetInfoProps> = ({
       {percentages ? (
         <div
           className={clsx(styles.percentages, {
-            [styles.negativeGrowth]: percentages <= 0,
+            [styles.negativeGrowth]: percentages < 0,
+            [styles.zeroGrowth]: percentages === 0,
           })}
         >
           <SvgIcon icon="stats" className={styles.icon} />

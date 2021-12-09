@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import startCase from 'lodash/startCase';
 
 import { useAppSelector } from '../store';
 import { selectorContracts } from '../app/shared';
@@ -9,8 +10,8 @@ export const useOptionsForContract = () => {
   return useMemo(() => {
     if (contracts) {
       return contracts.map((contract) => ({
-        value: contract.contractId,
-        label: contract.contractId,
+        value: startCase(contract.contractId),
+        label: startCase(contract.contractId),
       }));
     }
 

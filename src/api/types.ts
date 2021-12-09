@@ -13,6 +13,13 @@ export type DaoParams = Params & {
   dao: string;
 };
 
+export type Proposals = {
+  payout: 0;
+  councilMember: 0;
+  policyChange: 0;
+  expired: 0;
+};
+
 export type DaoHistoryParams = DaoParams & History;
 
 export type TotalMetrics = {

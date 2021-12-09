@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import startCase from 'lodash/startCase';
 
 import { Tabs, Search, Button } from '../../components';
 import { useAppSelector } from '../../store';
@@ -29,7 +30,7 @@ export const MainPage: FC = () => {
       <Tabs
         className={styles.tabs}
         options={contractTabOptions}
-        defaultValue={selectedContract?.contractId}
+        defaultValue={startCase(selectedContract?.contractId)}
       />
       <Search
         className={styles.search}
@@ -37,7 +38,9 @@ export const MainPage: FC = () => {
         setSearchType={(type) => setSearchType(type)}
       />
 
-      <p className={styles.info}>{selectedContract?.contractId} stats</p>
+      <p className={styles.info}>
+        {startCase(selectedContract?.contractId)} stats
+      </p>
       <Button
         className={styles.button}
         variant="icon"
