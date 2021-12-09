@@ -6,6 +6,8 @@ import {
   isRejected,
   isFulfilled,
 } from '@reduxjs/toolkit';
+import sortBy from 'lodash/sortBy';
+
 import { RequestStatus } from '../../store/types';
 import { generalState } from './types';
 import { generalService, HistoryParams, Params, DaoParams } from '../../api';
@@ -115,7 +117,9 @@ export const generalSlice = createSlice({
     );
 
     builder.addCase(getGeneralGroups.fulfilled, (state, { payload }) => {
-      state.generalGroups = payload.data;
+      state.generalGroups = {
+        metrics: sortBy(payload.data.metrics, ['timestamp']),
+      };
     });
 
     builder.addCase(
