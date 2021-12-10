@@ -51,6 +51,7 @@ export const NumberOfProposals: FC = () => {
           }),
         );
       } catch (error: unknown) {
+        // eslint-disable-next-line no-console
         console.error(error);
       }
     })();
@@ -61,7 +62,9 @@ export const NumberOfProposals: FC = () => {
   };
 
   const activityLeaderboardData = usePrepareLeaderboard({
-    leaderboard: activityProposalsLeaderboard,
+    leaderboard: activityProposalsLeaderboard?.metrics
+      ? activityProposalsLeaderboard.metrics
+      : null,
   });
 
   return (

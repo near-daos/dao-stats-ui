@@ -18,8 +18,8 @@ export type LeaderboardDataItem = {
   id: number;
   titleCell: TitleCellProps;
   line?: {
-    totalMetrics: TotalMetrics;
-    metrics: MetricItem[];
+    totalMetrics?: TotalMetrics;
+    metrics?: MetricItem[];
   };
   doubleLine?: {
     number: {
@@ -82,8 +82,8 @@ export const Leaderboard: FC<LeaderboardProps> = ({
               <>
                 <td className={styles.cell}>
                   <Amount
-                    count={row?.line?.totalMetrics.count || 0}
-                    growth={row?.line?.totalMetrics.growth || 0}
+                    count={row?.line?.totalMetrics?.count || 0}
+                    growth={row?.line?.totalMetrics?.growth || 0}
                   />
                 </td>
                 <td className={styles.cell}>

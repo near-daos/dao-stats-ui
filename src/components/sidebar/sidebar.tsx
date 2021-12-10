@@ -4,8 +4,6 @@ import clsx from 'clsx';
 
 import { NavigationInfo } from '../navigation-info';
 import { NavigationList } from '../navigation-list';
-import { useAppSelector } from '../../store';
-import { selectorSelectedContract } from '../../app/shared';
 import { useRoutes } from '../../hooks';
 
 import styles from './sidebar.module.scss';
@@ -16,7 +14,6 @@ export type SidebarProps = {
 };
 
 export const Sidebar: FC<SidebarProps> = ({ isOpened, setIsOpened }) => {
-  const selectedContract = useAppSelector(selectorSelectedContract);
   const history = useHistory();
   const location = useLocation();
   const routes = useRoutes();
@@ -61,13 +58,6 @@ export const Sidebar: FC<SidebarProps> = ({ isOpened, setIsOpened }) => {
         [styles.show]: isOpened,
       })}
     >
-      <NavigationInfo
-        title="Sputnik DAO"
-        description="Average values for all DAOs"
-        direction="left"
-        color="none"
-        className={styles.info}
-      />
       <NavigationList
         title="Overview"
         selectedValue={location.pathname}

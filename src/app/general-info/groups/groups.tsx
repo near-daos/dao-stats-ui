@@ -1,6 +1,7 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { ChartLine, Leaderboard, Tabs } from 'src/components';
 import { useParams } from 'react-router';
+import { usePrepareLeaderboard } from 'src/hooks';
 
 import { useAppDispatch, useAppSelector } from '../../../store';
 import {
@@ -48,26 +49,15 @@ export const Groups: FC = () => {
           }),
         );
       } catch (error: unknown) {
+        // eslint-disable-next-line no-console
         console.error(error);
       }
     })();
   }, [period, contract, dispatch]);
 
-  const groupsLeaderboardData = useMemo(
-    () =>
-      groupsLeaderboard?.metrics.map((groupsLeaderboardItem, index) => ({
-        id: index,
-        titleCell: {
-          label: groupsLeaderboardItem.dao,
-          domain: groupsLeaderboardItem.dao,
-        },
-        line: {
-          totalMetrics: groupsLeaderboardItem.activity,
-          metrics: groupsLeaderboardItem.overview,
-        },
-      })),
-    [groupsLeaderboard],
-  );
+  const groupsLeaderboardData = usePrepareLeaderboard({
+    leaderboard: groupsLeaderboard?.metrics ? groupsLeaderboard.metrics : null,
+  });
 
   return (
     <div className={styles.mainContent}>

@@ -1,18 +1,14 @@
 import React, { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
-import startCase from 'lodash/startCase';
 
-import { Tabs } from '../tabs';
 import { Dropdown, DropdownOption } from '../dropdown/dropdown';
 import { NavigationInfo } from '../navigation-info';
-import { useForbiddenRoutes, useOptionsForContract } from '../../hooks';
+import { useForbiddenRoutes } from '../../hooks';
 import { NETWORKS } from '../../constants';
 
 import { SvgIcon } from '../svgIcon/svgIcon';
 
 import styles from './header.module.scss';
-import { useAppSelector } from '../../store';
-import { selectorSelectedContract } from '../../app/shared';
 
 export type HeaderProps = {
   isOpened: boolean;
@@ -105,9 +101,6 @@ const dropdownOptions: DropdownOption[] = [
 
 export const Header: FC<HeaderProps> = ({ isOpened, setIsOpened }) => {
   const { isForbiddenHeader } = useForbiddenRoutes();
-  const selectedContract = useAppSelector(selectorSelectedContract);
-  const contractTabOptions = useOptionsForContract();
-
   const [dropdownValue, setDropDownValue] = useState<DropdownOption | null>(
     null,
   );
@@ -134,12 +127,6 @@ export const Header: FC<HeaderProps> = ({ isOpened, setIsOpened }) => {
           </button>
 
           <div className={styles.main}>
-            <Tabs
-              variant="medium"
-              options={contractTabOptions}
-              defaultValue={startCase(selectedContract?.contractId)}
-              className={styles.tabs}
-            />
             <Dropdown
               className={styles.search}
               options={dropdownOptions}

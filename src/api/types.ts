@@ -29,13 +29,16 @@ export type Proposals = {
   expired: number;
 };
 
-export type ProposalsLeaderboardItem = {
+export type LeaderboardItem = {
   dao: string;
-  proposalsByType: Proposals;
+  proposalsByType?: Proposals;
+  activity?: TotalMetrics;
+  overview?: MetricItem[];
 };
 
-export type ProposalsLeaderboard = {
-  leaderboard: ProposalsLeaderboardItem[];
+export type Leaderboard = {
+  leaderboard?: LeaderboardItem[];
+  metrics?: LeaderboardItem[];
 };
 
 export type DaoHistoryParams = DaoParams & History;
@@ -52,14 +55,4 @@ export type MetricItem = {
 
 export type Metrics = {
   metrics: MetricItem[];
-};
-
-export type LeaderboardItem = {
-  dao: string;
-  activity: TotalMetrics;
-  overview: MetricItem[];
-};
-
-export type Leaderboard = {
-  metrics: LeaderboardItem[];
 };
