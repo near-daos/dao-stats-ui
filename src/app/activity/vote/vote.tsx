@@ -77,7 +77,7 @@ export const Vote: FC = () => {
             setPeriod={setPeriod}
             lines={[
               {
-                name: 'Number of Proposals',
+                name: 'Vote through rate',
                 color: '#E33F84',
                 dataKey: 'count',
               },

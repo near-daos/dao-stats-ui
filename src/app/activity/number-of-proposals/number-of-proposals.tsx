@@ -60,7 +60,6 @@ export const NumberOfProposals: FC = () => {
     setActiveTab(value);
   };
 
-  const activityProposalsData = useFilterMetrics(period, activityProposals);
   const activityLeaderboardData = usePrepareLeaderboard({
     leaderboard: activityProposalsLeaderboard,
   });
@@ -76,9 +75,9 @@ export const NumberOfProposals: FC = () => {
         />
       </div>
       <div className={styles.chart}>
-        {activeTab === 'history-data' && activityProposalsData ? (
+        {activeTab === 'history-data' && activityProposals ? (
           <ChartLine
-            data={activityProposalsData}
+            data={activityProposals}
             period={period}
             setPeriod={setPeriod}
             lines={[

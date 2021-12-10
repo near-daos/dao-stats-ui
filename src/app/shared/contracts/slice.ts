@@ -13,7 +13,11 @@ const initialState: contractState = {
 
 export const getContracts = createAsyncThunk(
   'contracts/getContracts',
-  async () => contractsService.getContracts(),
+  async () => {
+    const response = await contractsService.getContracts();
+
+    return response.data;
+  },
 );
 
 export const setContract = createAction<Contract>('contracts/setContract');
@@ -29,7 +33,7 @@ export const contractsSlice = createSlice({
     builder.addCase(getContracts.fulfilled, (state, { payload }) => {
       state.loading = RequestStatus.SUCCESS;
       state.error = null;
-      state.contracts = payload.data;
+      state.contracts = payload;
     });
 
     builder.addCase(getContracts.rejected, (state, { error }) => {

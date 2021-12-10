@@ -1,27 +1,27 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import { LegendProps } from 'recharts';
+import startCase from 'lodash/startCase';
+import { LineItem } from 'src/components/charts/types';
 
 import { Dot } from '../svg/dot';
 import { RangeFilter, RangeFilterProps } from '../range-filter';
-import { COLORS } from '../constants';
 
 import styles from './custom-legend.module.scss';
 
 export interface CustomLegendProps extends LegendProps, RangeFilterProps {
-  lines?: string[];
+  lines?: LineItem[];
   onFilterSelect?: (disabled: string[]) => void;
 }
 
 export const CustomLegend: React.FC<CustomLegendProps> = ({
-  payload,
   period,
   onFilterSelect,
   setPeriod,
   lines = [],
 }) => {
   const [activeLines, setActiveLines] = useState<Set<string>>(
-    new Set(payload?.map((el) => el.value)),
+    new Set(lines.map((line) => line.dataKey)),
   );
 
   const handleClick = (value: string) => {
@@ -41,16 +41,18 @@ export const CustomLegend: React.FC<CustomLegendProps> = ({
   return (
     <div className={styles.legend}>
       <div className={styles.legendList}>
-        {payload?.map((entry, entryIndex) => (
+        {lines?.map((line) => (
           <button
             className={clsx(styles.legendListBar, {
-              [styles.disabled]: !activeLines.has(entry.value),
+              [styles.disabled]: !activeLines.has(line.dataKey),
             })}
-            key={`item-${entry.value}`}
-            onClick={() => handleClick(entry.value)}
+            key={`item-${line.dataKey}`}
+            onClick={() => handleClick(line.dataKey)}
           >
-            <Dot color={COLORS[entryIndex]} className={styles.legendListSvg} />
-            <span className={styles.legendListValue}>{lines[entryIndex]}</span>
+            <Dot color={line.color} className={styles.legendListSvg} />
+            <span className={styles.legendListValue}>
+              {startCase(line.dataKey)}
+            </span>
           </button>
         ))}
       </div>

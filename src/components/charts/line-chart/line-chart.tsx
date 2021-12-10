@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   LineChart,
   Line,
@@ -9,28 +9,18 @@ import {
   Legend,
 } from 'recharts';
 
-import { CustomLegend } from '../custom-legend';
+import { CustomLegend } from 'src/components/charts/custom-legend';
 import { ChartTooltip } from '../chart-tooltip';
 import { tickStyles } from '../constants';
-import { Metrics } from '../../../api';
-import {
-  getYTicks,
-  getYDomain,
-  tickXFormatter,
-  getXInterval,
-} from '../helpers';
+import { LineItem } from '../types';
 
-type LineItem = {
-  name: string;
-  color: string;
-  dataKey: string;
-};
+import { tickXFormatter, getXInterval } from '../helpers';
 
 type LineChartProps = {
   width?: number;
   height?: number;
   lines?: LineItem[];
-  data: Metrics | null;
+  data: any | null;
   period: string;
   setPeriod: (period: string) => void;
 };
@@ -43,6 +33,8 @@ export const ChartLine: React.FC<LineChartProps> = ({
   period,
   setPeriod,
 }) => {
+  const [filterLines, setFilterLines] = useState(lines);
+
   const renderActiveDot = ({
     cx,
     cy,
@@ -75,7 +67,7 @@ export const ChartLine: React.FC<LineChartProps> = ({
   );
 
   return (
-    <LineChart width={width} height={height} data={data?.metrics as any}>
+    <LineChart width={width} height={height} data={data?.metrics}>
       <CartesianGrid stroke="#393838" vertical={false} />
       <Legend
         align="left"
@@ -84,22 +76,26 @@ export const ChartLine: React.FC<LineChartProps> = ({
         iconType="circle"
         content={
           <CustomLegend
-            lines={lines.map((line) => line.name)}
+            lines={lines}
             period={period}
             setPeriod={(periodType) => setPeriod(periodType)}
+            onFilterSelect={(filteredNames) =>
+              setFilterLines(
+                lines.filter((filterLine) =>
+                  filteredNames.includes(filterLine.dataKey),
+                ),
+              )
+            }
           />
         }
       />
       <YAxis
         type="number"
         stroke="#393838"
-        dataKey="count"
         tickMargin={1}
         interval={0}
         tickLine={false}
         style={tickStyles}
-        ticks={getYTicks(data?.metrics || [])}
-        domain={getYDomain(data?.metrics || [])}
       />
       <XAxis
         interval={getXInterval(data?.metrics || [], period)}
@@ -112,13 +108,13 @@ export const ChartLine: React.FC<LineChartProps> = ({
         style={tickStyles}
         minTickGap={5}
       />
-      {lines.map((line) => (
+      {filterLines.map((filterLine) => (
         <Line
           strokeWidth={2}
           dot={false}
-          dataKey={line.dataKey}
-          stroke={line.color}
-          key={line.name}
+          dataKey={filterLine.dataKey}
+          stroke={filterLine.color}
+          key={filterLine.name}
           activeDot={renderActiveDot}
         />
       ))}
