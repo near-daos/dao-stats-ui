@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import { LegendProps } from 'recharts';
-import startCase from 'lodash/startCase';
 import { LineItem } from 'src/components/charts/types';
 
 import { Dot } from '../svg/dot';
@@ -50,9 +49,7 @@ export const CustomLegend: React.FC<CustomLegendProps> = ({
             onClick={() => handleClick(line.dataKey)}
           >
             <Dot color={line.color} className={styles.legendListSvg} />
-            <span className={styles.legendListValue}>
-              {startCase(line.dataKey)}
-            </span>
+            <span className={styles.legendListValue}>{line.name}</span>
           </button>
         ))}
       </div>
