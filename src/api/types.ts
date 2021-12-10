@@ -23,14 +23,14 @@ export type ProposalMetrics = {
 };
 
 export type Proposals = {
-  payout: 0;
-  councilMember: 0;
-  policyChange: 0;
-  expired: 0;
+  payout: number;
+  councilMember: number;
+  policyChange: number;
+  expired: number;
 };
 
 export type ProposalsLeaderboardItem = {
-  dao: 'string';
+  dao: string;
   proposalsByType: Proposals;
 };
 

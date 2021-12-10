@@ -235,7 +235,7 @@ const tableMock3: LeaderboardDataItem[] = [
       label: 'jonathan',
       domain: '.sputnikdao.near',
     },
-    stacked: [{ value: 70 }, { value: 28 }, { value: 1 }, { value: 1 }],
+    proposals: { councilMember: 0, payout: 0, policyChange: 0, expired: 0 },
   },
   {
     id: 2,
@@ -244,7 +244,7 @@ const tableMock3: LeaderboardDataItem[] = [
       label: 'JBN',
       domain: '.example.test',
     },
-    stacked: [{ value: 47 }, { value: 13 }, { value: 1 }, { value: 39 }],
+    proposals: { councilMember: 0, payout: 0, policyChange: 0, expired: 0 },
   },
   {
     id: 3,
@@ -253,7 +253,7 @@ const tableMock3: LeaderboardDataItem[] = [
       label: 'Oklahoma',
       domain: '.oklahoma.okh',
     },
-    stacked: [{ value: 96 }, { value: 3 }, { value: 1 }, { value: 1 }],
+    proposals: { councilMember: 0, payout: 0, policyChange: 0, expired: 0 },
   },
   {
     id: 4,
@@ -262,7 +262,7 @@ const tableMock3: LeaderboardDataItem[] = [
       label: 'ProfTool',
       domain: '.proftool.com',
     },
-    stacked: [{ value: 0 }, { value: 3 }, { value: 50 }, { value: 47 }],
+    proposals: { councilMember: 0, payout: 0, policyChange: 0, expired: 0 },
   },
 ];
 
@@ -761,15 +761,13 @@ export const UiKIt: FC = () => {
       <section className={styles.section}>
         <div className={styles.sectionHeader}>Stacked chart</div>
         <div className={styles.container}>
-          <StackedChart
-            data={[{ value: 10 }, { value: 50 }, { value: 25 }, { value: 15 }]}
-          />
+          {/* <StackedChart proposals={{}} /> */}
         </div>
       </section>
       <section className={styles.section}>
         <div className={styles.sectionHeader}>Leaderboard type 1</div>
         <div className={styles.container}>
-          <Leaderboard
+          {/* <Leaderboard
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
@@ -778,13 +776,13 @@ export const UiKIt: FC = () => {
             ]}
             type="line"
             dataRows={tableMock1}
-          />
+          /> */}
         </div>
       </section>
       <section className={styles.section}>
         <div className={styles.sectionHeader}>Leaderboard type 2</div>
         <div className={styles.container}>
-          <Leaderboard
+          {/* <Leaderboard
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
@@ -794,7 +792,7 @@ export const UiKIt: FC = () => {
             ]}
             type="doubleLine"
             dataRows={tableMock2}
-          />
+          /> */}
         </div>
       </section>
       <section className={styles.section}>
