@@ -61,9 +61,9 @@ export const NumberOfProposals: FC = () => {
   };
 
   const activityProposalsData = useFilterMetrics(period, activityProposals);
-  const activityLeaderboardData = usePrepareLeaderboard(
-    activityProposalsLeaderboard,
-  );
+  const activityLeaderboardData = usePrepareLeaderboard({
+    leaderboard: activityProposalsLeaderboard,
+  });
 
   return (
     <div className={styles.mainContent}>

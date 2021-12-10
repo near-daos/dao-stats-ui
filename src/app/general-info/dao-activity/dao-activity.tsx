@@ -55,7 +55,9 @@ export const DaoActivity: FC = () => {
     setActiveTab(value);
   };
 
-  const activityLeaderboardData = usePrepareLeaderboard(activityLeaderboard);
+  const activityLeaderboardData = usePrepareLeaderboard({
+    leaderboard: activityLeaderboard,
+  });
 
   return (
     <div className={styles.mainContent}>
