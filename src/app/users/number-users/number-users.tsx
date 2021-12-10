@@ -83,9 +83,7 @@ export const NumberUsers: FC = () => {
             data={users}
             period={period}
             setPeriod={setPeriod}
-            lines={[
-              { name: 'DAOs activity', color: '#E33F84', dataKey: 'count' },
-            ]}
+            lines={[{ name: 'Users', color: '#E33F84', dataKey: 'count' }]}
           />
         ) : null}
         {activeTab === 'leaderboard' && usersLeaderboardData ? (
@@ -93,7 +91,7 @@ export const NumberUsers: FC = () => {
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
-              { value: 'DAOs activity' },
+              { value: 'Users' },
               { value: 'Last 7 days', position: 'right' },
             ]}
             type="line"

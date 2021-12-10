@@ -41,14 +41,17 @@ export const Sidebar: FC<SidebarProps> = ({ isOpened, setIsOpened }) => {
     {
       label: 'Flow',
       value: routes.flow,
+      disabled: true,
     },
     {
       label: 'TVL',
       value: routes.tvl,
+      disabled: true,
     },
     {
       label: 'Tokens',
       value: routes.tokens,
+      disabled: true,
     },
   ];
 

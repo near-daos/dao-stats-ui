@@ -4,6 +4,7 @@ import { useParams } from 'react-router';
 import { ChartLine, Tabs, Leaderboard } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { getDateFromMow } from 'src/components/charts/helpers';
+import { usePrepareLeaderboard } from 'src/hooks';
 
 import {
   selectGeneralActivity,
@@ -54,21 +55,7 @@ export const DaoActivity: FC = () => {
     setActiveTab(value);
   };
 
-  const activityLeaderboardData = useMemo(
-    () =>
-      activityLeaderboard?.metrics.map((activityLeaderboardItem, index) => ({
-        id: index,
-        titleCell: {
-          label: activityLeaderboardItem.dao,
-          domain: activityLeaderboardItem.dao,
-        },
-        line: {
-          totalMetrics: activityLeaderboardItem.activity,
-          metrics: activityLeaderboardItem.overview,
-        },
-      })),
-    [activityLeaderboard],
-  );
+  const activityLeaderboardData = usePrepareLeaderboard(activityLeaderboard);
 
   return (
     <div className={styles.mainContent}>

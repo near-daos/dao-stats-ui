@@ -90,7 +90,11 @@ export const NumberInteractions: FC = () => {
             period={period}
             setPeriod={setPeriod}
             lines={[
-              { name: 'DAOs activity', color: '#E33F84', dataKey: 'count' },
+              {
+                name: 'Number of Interactions',
+                color: '#E33F84',
+                dataKey: 'count',
+              },
             ]}
           />
         ) : null}
@@ -99,7 +103,7 @@ export const NumberInteractions: FC = () => {
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
-              { value: 'DAOs activity' },
+              { value: 'Number of Interaction' },
               { value: 'Last 7 days', position: 'right' },
             ]}
             type="line"

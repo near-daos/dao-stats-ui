@@ -9,13 +9,14 @@ import { useAppDispatch, useAppSelector } from '../../../store';
 import { selectGeneralDaos } from '../selectors';
 
 import styles from './numbers-dao.module.scss';
+import { useFilterMetrics } from '../../../hooks';
 
 export const NumbersDao: FC = () => {
   const [period, setPeriod] = useState('1y');
 
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
-  const daosData = useAppSelector(selectGeneralDaos);
+  const daos = useAppSelector(selectGeneralDaos);
 
   useEffect(() => {
     (async () => {
@@ -29,23 +30,13 @@ export const NumbersDao: FC = () => {
     })();
   }, [period, contract, dispatch]);
 
-  const daos = useMemo(
-    () =>
-      daosData?.metrics
-        ? {
-            metrics: daosData?.metrics.filter(
-              (metric) => metric.timestamp > getDateFromMow(period),
-            ),
-          }
-        : null,
-    [daosData, period],
-  );
+  const daosData = useFilterMetrics(period, daos);
 
   return (
     <div className={styles.chart}>
       {daos ? (
         <ChartLine
-          data={daos}
+          data={daosData}
           period={period}
           setPeriod={setPeriod}
           lines={[

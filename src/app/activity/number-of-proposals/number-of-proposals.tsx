@@ -1,10 +1,21 @@
-import React, { FC, useState } from 'react';
-import { ChartLine, Tabs } from 'src/components';
-import { getRechartsData } from 'src/components/charts/rechartsData';
+import React, { FC, useEffect, useState } from 'react';
+import { ChartLine, Tabs, Leaderboard } from 'src/components';
+import { useParams } from 'react-router';
+import { useAppDispatch, useAppSelector } from 'src/store';
+import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
+
+import {
+  selectActivityProposals,
+  selectActivityProposalsLeaderboard,
+} from '../selectors';
+import {
+  getActivityProposals,
+  getActivityProposalsLeaderboard,
+} from '../slice';
+
+import { getDateFromMow } from '../../../components/charts/helpers';
 
 import styles from './number-of-proposals.module.scss';
-
-const rechartsData = getRechartsData();
 
 const tabOptions = [
   {
@@ -15,11 +26,44 @@ const tabOptions = [
 ];
 
 export const NumberOfProposals: FC = () => {
+  const [period, setPeriod] = useState('1y');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
+
+  const { contract } = useParams<{ contract: string }>();
+  const dispatch = useAppDispatch();
+  const activityProposalsLeaderboard = useAppSelector(
+    selectActivityProposalsLeaderboard,
+  );
+  const activityProposals = useAppSelector(selectActivityProposals);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        await dispatch(
+          getActivityProposals({
+            contract,
+            from: String(getDateFromMow(period)),
+          }),
+        );
+        await dispatch(
+          getActivityProposalsLeaderboard({
+            contract,
+          }),
+        );
+      } catch (error: unknown) {
+        console.error(error);
+      }
+    })();
+  }, [period, contract, dispatch]);
 
   const handleOnChange = (value: string) => {
     setActiveTab(value);
   };
+
+  const activityProposalsData = useFilterMetrics(period, activityProposals);
+  const activityLeaderboardData = usePrepareLeaderboard(
+    activityProposalsLeaderboard,
+  );
 
   return (
     <div className={styles.mainContent}>
@@ -32,8 +76,32 @@ export const NumberOfProposals: FC = () => {
         />
       </div>
       <div className={styles.chart}>
-        {activeTab === 'history-data' && 'chart'}
-        {activeTab === 'leaderboard' && 'leaderboard'}
+        {activeTab === 'history-data' && activityProposalsData ? (
+          <ChartLine
+            data={activityProposalsData}
+            period={period}
+            setPeriod={setPeriod}
+            lines={[
+              {
+                name: 'Number of Proposals',
+                color: '#E33F84',
+                dataKey: 'count',
+              },
+            ]}
+          />
+        ) : null}
+        {activeTab === 'leaderboard' && activityLeaderboardData ? (
+          <Leaderboard
+            headerCells={[
+              { value: '' },
+              { value: 'DAO Name' },
+              { value: 'DAOs activity' },
+              { value: 'Last 7 days', position: 'right' },
+            ]}
+            type="line"
+            dataRows={activityLeaderboardData}
+          />
+        ) : null}
       </div>
     </div>
   );
