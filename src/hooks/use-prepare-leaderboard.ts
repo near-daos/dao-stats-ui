@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Leaderboard } from 'src/api';
+import { Leaderboard, ProposalsLeaderboard } from 'src/api';
 import { LeaderboardDataItem } from '../components/leaderboard/leaderboard';
 
 type usePrepareLeaderboardProps = {

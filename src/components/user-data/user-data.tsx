@@ -22,7 +22,7 @@ export const UserData = ({ children }: UserDataProps) => {
         const response = await dispatch(getContracts());
         const rawData = unwrapResult(response);
 
-        dispatch(setContract(rawData.data[0]));
+        dispatch(setContract(rawData[0]));
       } catch (error: unknown) {
         console.error(error);
       }
