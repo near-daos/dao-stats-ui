@@ -36,63 +36,105 @@ const initialState: activityState = {
 
 export const getActivity = createAsyncThunk(
   'activity/getActivity',
-  async (params: Params) => activityService.getActivity(params),
+  async (params: Params) => {
+    const response = await activityService.getActivity(params);
+
+    return response.data;
+  },
 );
 
 export const getActivityProposals = createAsyncThunk(
   'activity/getActivityProposals',
-  async (params: HistoryParams) => activityService.getActivityProposals(params),
+  async (params: HistoryParams) => {
+    const response = await activityService.getActivityProposals(params);
+
+    return response.data;
+  },
 );
 
 export const getActivityProposalsLeaderboard = createAsyncThunk(
   'activity/getActivityProposalsLeaderboard',
-  async (params: Params) =>
-    activityService.getActivityProposalsLeaderboard(params),
+  async (params: Params) => {
+    const response = await activityService.getActivityProposalsLeaderboard(
+      params,
+    );
+
+    return response.data;
+  },
 );
 
 export const getActivityProposalsTypes = createAsyncThunk(
   'activity/getActivityProposalsTypes',
-  async (params: HistoryParams) =>
-    activityService.getActivityProposalsTypes(params),
+  async (params: HistoryParams) => {
+    const response = await activityService.getActivityProposalsTypes(params);
+
+    return response.data;
+  },
 );
 
 export const getActivityProposalsTypesLeaderboard = createAsyncThunk(
   'activity/getActivityProposalsTypesLeaderboard',
-  async (params: Params) =>
-    activityService.getActivityProposalsTypesLeaderboard(params),
+  async (params: Params) => {
+    const response = await activityService.getActivityProposalsTypesLeaderboard(
+      params,
+    );
+
+    return response.data;
+  },
 );
 
 export const getActivityRate = createAsyncThunk(
   'activity/getActivityRate',
-  async (params: HistoryParams) => activityService.getActivityRate(params),
+  async (params: HistoryParams) => {
+    const response = await activityService.getActivityRate(params);
+
+    return response.data;
+  },
 );
 
 export const getActivityRateLeaderboard = createAsyncThunk(
   'activity/getActivityRateLeaderboard',
-  async (params: Params) => activityService.getActivityRateLeaderboard(params),
+  async (params: Params) => {
+    const response = await activityService.getActivityRateLeaderboard(params);
+
+    return response.data;
+  },
 );
 
 export const getActivityDao = createAsyncThunk(
   'activity/getActivityDao',
-  async (params: DaoParams) => activityService.getActivityDao(params),
+  async (params: DaoParams) => {
+    const response = await activityService.getActivityDao(params);
+
+    return response.data;
+  },
 );
 
 export const getActivityDaoProposals = createAsyncThunk(
   'activity/getActivityDaoProposals',
-  async (params: DaoHistoryParams) =>
-    activityService.getActivityDaoProposals(params),
+  async (params: DaoHistoryParams) => {
+    const response = await activityService.getActivityDaoProposals(params);
+
+    return response.data;
+  },
 );
 
 export const getActivityDaoProposalsTypes = createAsyncThunk(
   'activity/getActivityDaoProposalsTypes',
-  async (params: DaoHistoryParams) =>
-    activityService.getActivityDaoProposalsTypes(params),
+  async (params: DaoHistoryParams) => {
+    const response = await activityService.getActivityDaoProposalsTypes(params);
+
+    return response.data;
+  },
 );
 
 export const getActivityDaoRate = createAsyncThunk(
   'activity/getActivityDaoRate',
-  async (params: DaoHistoryParams) =>
-    activityService.getActivityDaoRate(params),
+  async (params: DaoHistoryParams) => {
+    const response = await activityService.getActivityDaoRate(params);
+
+    return response.data;
+  },
 );
 
 const isPendingAction = isPending(
@@ -138,17 +180,17 @@ export const activitySlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getActivity.fulfilled, (state, { payload }) => {
-      state.activity = payload.data;
+      state.activity = payload;
     });
 
     builder.addCase(getActivityProposals.fulfilled, (state, { payload }) => {
-      state.activityProposals = payload.data;
+      state.activityProposals = payload;
     });
 
     builder.addCase(
       getActivityProposalsLeaderboard.fulfilled,
       (state, { payload }) => {
-        state.activityProposalsLeaderboard = payload.data;
+        state.activityProposalsLeaderboard = payload;
       },
     );
 
@@ -157,16 +199,10 @@ export const activitySlice = createSlice({
       (state, { payload }) => {
         state.activityProposalsTypes = {
           metrics: {
-            payout: sortBy(payload.data.metrics.payout, 'timestamp'),
-            councilMember: sortBy(
-              payload.data.metrics.councilMember,
-              'timestamp',
-            ),
-            policyChange: sortBy(
-              payload.data.metrics.policyChange,
-              'timestamp',
-            ),
-            expired: sortBy(payload.data.metrics.expired, 'timestamp'),
+            payout: sortBy(payload.metrics.payout, 'timestamp'),
+            councilMember: sortBy(payload.metrics.councilMember, 'timestamp'),
+            policyChange: sortBy(payload.metrics.policyChange, 'timestamp'),
+            expired: sortBy(payload.metrics.expired, 'timestamp'),
           },
         };
       },
@@ -174,38 +210,38 @@ export const activitySlice = createSlice({
     builder.addCase(
       getActivityProposalsTypesLeaderboard.fulfilled,
       (state, { payload }) => {
-        state.activityProposalsTypesLeaderboard = payload.data;
+        state.activityProposalsTypesLeaderboard = payload;
       },
     );
 
     builder.addCase(getActivityRate.fulfilled, (state, { payload }) => {
-      state.activityRate = payload.data;
+      state.activityRate = payload;
     });
 
     builder.addCase(
       getActivityRateLeaderboard.fulfilled,
       (state, { payload }) => {
-        state.activityRateLeaderboard = payload.data;
+        state.activityRateLeaderboard = payload;
       },
     );
 
     builder.addCase(getActivityDao.fulfilled, (state, { payload }) => {
-      state.activityDao = payload.data;
+      state.activityDao = payload;
     });
 
     builder.addCase(getActivityDaoProposals.fulfilled, (state, { payload }) => {
-      state.activityDaoProposals = payload.data;
+      state.activityDaoProposals = payload;
     });
 
     builder.addCase(
       getActivityDaoProposalsTypes.fulfilled,
       (state, { payload }) => {
-        state.activityDaoProposalsTypes = payload.data;
+        state.activityDaoProposalsTypes = payload;
       },
     );
 
     builder.addCase(getActivityDaoRate.fulfilled, (state, { payload }) => {
-      state.activityDaoRate = payload.data;
+      state.activityDaoRate = payload;
     });
 
     builder.addMatcher(isRejectedAction, (state, { error }) => {

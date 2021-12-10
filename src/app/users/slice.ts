@@ -30,39 +30,65 @@ const initialState: usersState = {
 
 export const getUsers = createAsyncThunk(
   'users/getUsers',
-  async (params: Params) => usersService.getUsers(params),
+  async (params: Params) => {
+    const response = await usersService.getUsers(params);
+
+    return response.data;
+  },
 );
 
 export const getUsersHistory = createAsyncThunk(
   'users/getUsersHistory',
-  async (params: HistoryParams) => usersService.getUsersHistory(params),
+  async (params: HistoryParams) => {
+    const response = await usersService.getUsersHistory(params);
+
+    return response.data;
+  },
 );
 
 export const getUsersDao = createAsyncThunk(
   'users/getUsersDao',
-  async (params: DaoParams) => usersService.getUsersDao(params),
+  async (params: DaoParams) => {
+    const response = await usersService.getUsersDao(params);
+
+    return response.data;
+  },
 );
 
 export const getUsersDaoHistory = createAsyncThunk(
   'users/getUsersDaoHistory',
-  async (params: DaoHistoryParams) => usersService.getUsersDaoHistory(params),
+  async (params: DaoHistoryParams) => {
+    const response = await usersService.getUsersDaoHistory(params);
+
+    return response.data;
+  },
 );
 
 export const getUsersLeaderboard = createAsyncThunk(
   'users/getUsersLeaderboard',
-  async (params: Params) => usersService.getUsersLeaderboard(params),
+  async (params: Params) => {
+    const response = await usersService.getUsersLeaderboard(params);
+
+    return response.data;
+  },
 );
 
 export const getUsersInteractionsHistory = createAsyncThunk(
   'users/getUsersInteractionsHistory',
-  async (params: HistoryParams) =>
-    usersService.getUsersInteractionsHistory(params),
+  async (params: HistoryParams) => {
+    const response = await usersService.getUsersInteractionsHistory(params);
+
+    return response.data;
+  },
 );
 
 export const getUsersInteractionsLeaderboard = createAsyncThunk(
   'users/getUsersInteractionsLeaderboard',
-  async (params: Params) =>
-    usersService.getUsersInteractionsLeaderboard(params),
+  async (params: Params) => {
+    const response = await usersService.getUsersInteractionsLeaderboard(params);
+
+    return response.data;
+  },
 );
 
 const isPendingAction = isPending(
@@ -99,36 +125,36 @@ export const usersSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getUsers.fulfilled, (state, { payload }) => {
-      state.users = payload.data;
+      state.users = payload;
     });
 
     builder.addCase(getUsersHistory.fulfilled, (state, { payload }) => {
-      state.history = payload.data;
+      state.history = payload;
     });
 
     builder.addCase(getUsersDao.fulfilled, (state, { payload }) => {
-      state.dao = payload.data;
+      state.dao = payload;
     });
 
     builder.addCase(getUsersDaoHistory.fulfilled, (state, { payload }) => {
-      state.daoHistory = payload.data;
+      state.daoHistory = payload;
     });
 
     builder.addCase(getUsersLeaderboard.fulfilled, (state, { payload }) => {
-      state.leaderboard = payload.data;
+      state.leaderboard = payload;
     });
 
     builder.addCase(
       getUsersInteractionsHistory.fulfilled,
       (state, { payload }) => {
-        state.usersInteractions = payload.data;
+        state.usersInteractions = payload;
       },
     );
 
     builder.addCase(
       getUsersInteractionsLeaderboard.fulfilled,
       (state, { payload }) => {
-        state.usersInteractionsLeaderboard = payload.data;
+        state.usersInteractionsLeaderboard = payload;
       },
     );
 

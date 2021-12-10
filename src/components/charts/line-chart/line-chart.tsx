@@ -98,7 +98,6 @@ export const ChartLine: React.FC<LineChartProps> = ({
         style={tickStyles}
       />
       <XAxis
-        interval={getXInterval(data?.metrics || [], period)}
         stroke="#393838"
         dataKey="timestamp"
         tickMargin={12}
@@ -110,6 +109,7 @@ export const ChartLine: React.FC<LineChartProps> = ({
       />
       {filterLines.map((filterLine) => (
         <Line
+          type="monotone"
           strokeWidth={2}
           dot={false}
           dataKey={filterLine.dataKey}

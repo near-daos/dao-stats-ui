@@ -7,6 +7,7 @@ import { NETWORKS } from '../../constants';
 import styles from './search.module.scss';
 
 export interface SearchProps {
+  disabled?: boolean;
   className?: string;
   classNameInput?: string;
   classNameIcon?: string;
@@ -24,6 +25,7 @@ export const Search: React.FC<SearchProps> = ({
   inputProps,
   setSearchType,
   searchType,
+  disabled,
 }) => (
   <div
     className={clsx(styles.root, className, {
@@ -36,6 +38,7 @@ export const Search: React.FC<SearchProps> = ({
       type="text"
       className={clsx(styles.input, classNameInput)}
       placeholder="Search by Dao Name"
+      disabled={disabled}
     />
     <label htmlFor="search" className={styles.inputLabel} />
 
