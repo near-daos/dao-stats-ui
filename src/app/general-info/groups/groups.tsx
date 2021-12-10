@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../../store';
 import {
   selectGeneralGroups,
   selectGeneralGroupsLeaderboard,
+  selectLoading,
 } from '../selectors';
 import { getGeneralGroupsLeaderboard, getGeneralGroups } from '../slice';
 import { getDateFromMow } from '../../../components/charts/helpers';
@@ -29,6 +30,7 @@ export const Groups: FC = () => {
   const dispatch = useAppDispatch();
   const groups = useAppSelector(selectGeneralGroups);
   const groupsLeaderboard = useAppSelector(selectGeneralGroupsLeaderboard);
+  const loading = useAppSelector(selectLoading);
 
   const handleOnChange = (value: string) => {
     setActiveTab(value);
@@ -69,6 +71,7 @@ export const Groups: FC = () => {
           onChange={handleOnChange}
         />
       </div>
+
       <div className={styles.chart}>
         {activeTab === 'history-data' && groups ? (
           <ChartLine

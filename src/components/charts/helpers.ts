@@ -74,27 +74,6 @@ export const yTickFormatter = (value: number): string => {
   return `${value}K`;
 };
 
-export const getXInterval = (metrics: MetricItem[], period: string) => {
-  const timestamps = metrics.map((metric) => metric.timestamp);
-
-  switch (period) {
-    case 'All':
-      return Math.floor(timestamps.length / 6);
-    case '1y':
-      return Math.floor(timestamps.length / 12);
-    case '6m':
-      return Math.floor(timestamps.length / 6);
-    case '3m':
-      return Math.floor(timestamps.length / 4);
-    case '1m':
-      return Math.floor(timestamps.length / 10);
-    case '7d':
-      return 1;
-    default:
-      return 1;
-  }
-};
-
 export const tickXFormatter = (value: number | string, period: string) => {
   if (value === 'auto') {
     return 'auto';

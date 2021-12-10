@@ -12,16 +12,25 @@
 }
 
 .content {
-  display: flex;
-  flex-direction: column;
+  display: block;
 }
 
 .label {
   @include title-3;
+  height: functions.calc-rem(24);
+
+  display: flex;
+  align-items: center;
+
   color: var(--white);
 }
 
 .domain {
   @include caption-2;
+  height: functions.calc-rem(24);
+
+  display: flex;
+  align-items: center;
+
   color: var(--color-grey-500);
 }

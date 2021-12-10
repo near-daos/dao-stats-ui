@@ -11,7 +11,8 @@ export const Amount: FC<TotalMetrics> = ({ count, growth }) => (
     <div className={styles.label}>{count}</div>
     <div
       className={clsx(styles.percentages, {
-        [styles.negativeGrowth]: growth <= 0,
+        [styles.negativeGrowth]: growth < 0,
+        [styles.zeroGrowth]: growth === 0,
       })}
     >
       <SvgIcon icon="stats" className={styles.icon} />

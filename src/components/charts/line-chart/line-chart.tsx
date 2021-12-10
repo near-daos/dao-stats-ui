@@ -14,7 +14,7 @@ import { ChartTooltip } from '../chart-tooltip';
 import { tickStyles } from '../constants';
 import { LineItem } from '../types';
 
-import { tickXFormatter, getXInterval } from '../helpers';
+import { tickXFormatter } from '../helpers';
 
 type LineChartProps = {
   width?: number;
@@ -105,7 +105,7 @@ export const ChartLine: React.FC<LineChartProps> = ({
         tickLine={false}
         tickFormatter={(value) => tickXFormatter(value, period)}
         style={tickStyles}
-        minTickGap={5}
+        minTickGap={50}
       />
       {filterLines.map((filterLine) => (
         <Line
