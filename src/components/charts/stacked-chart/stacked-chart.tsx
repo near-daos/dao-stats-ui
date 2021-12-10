@@ -2,23 +2,23 @@ import React, { FC } from 'react';
 import clsx from 'clsx';
 
 import { COLORS } from '../constants';
+import { Proposals } from '../../../api';
 
 import styles from './stacked-chart.module.scss';
 
-export type StackedChartItem = {
-  value: number;
-};
-
 export type StackedChartProps = {
-  data: StackedChartItem[];
+  proposals?: Proposals;
   className?: string;
 };
 
-export const StackedChart: FC<StackedChartProps> = ({ data, className }) => (
+export const StackedChart: FC<StackedChartProps> = ({
+  proposals = { payout: 0, councilMember: 0, policyChange: 0, expired: 0 },
+  className,
+}) => (
   <div className={clsx(styles.stackedChart, className)}>
     <div className={styles.barWrapper}>
-      {data.map(
-        ({ value }, index: number) =>
+      {Object.values(proposals)?.map(
+        (value, index: number) =>
           value !== 0 && (
             <div
               key={value}
@@ -29,7 +29,7 @@ export const StackedChart: FC<StackedChartProps> = ({ data, className }) => (
       )}
     </div>
     <div className={styles.valuesWrapper}>
-      {data.map(({ value }, index: number) => (
+      {Object.values(proposals).map((value, index: number) => (
         <div className={styles.valueContainer}>
           <div className={styles.dot} style={{ background: COLORS[index] }} />
           <div

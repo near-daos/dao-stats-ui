@@ -6,6 +6,8 @@ import {
   isRejected,
   isFulfilled,
 } from '@reduxjs/toolkit';
+import sortBy from 'lodash/sortBy';
+
 import { RequestStatus } from '../../store/types';
 import { activityState } from './types';
 import {
@@ -153,7 +155,26 @@ export const activitySlice = createSlice({
     builder.addCase(
       getActivityProposalsTypes.fulfilled,
       (state, { payload }) => {
-        state.activityProposalsTypes = payload.data;
+        state.activityProposalsTypes = {
+          metrics: {
+            payout: sortBy(payload.data.metrics.payout, 'timestamp'),
+            councilMember: sortBy(
+              payload.data.metrics.councilMember,
+              'timestamp',
+            ),
+            policyChange: sortBy(
+              payload.data.metrics.policyChange,
+              'timestamp',
+            ),
+            expired: sortBy(payload.data.metrics.expired, 'timestamp'),
+          },
+        };
+      },
+    );
+    builder.addCase(
+      getActivityProposalsTypesLeaderboard.fulfilled,
+      (state, { payload }) => {
+        state.activityProposalsTypesLeaderboard = payload.data;
       },
     );
 

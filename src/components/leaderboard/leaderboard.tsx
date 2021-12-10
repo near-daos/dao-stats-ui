@@ -1,9 +1,9 @@
 import React, { FC, HTMLProps } from 'react';
 import clsx from 'clsx';
 
-import { MetricItem, Metrics, TotalMetrics } from 'src/api';
+import { MetricItem, Proposals, TotalMetrics } from 'src/api';
 
-import { StackedChart, StackedChartItem, ChartTiny } from '../charts';
+import { StackedChart, ChartTiny } from '../charts';
 import { Amount } from './amount';
 import { TitleCell, TitleCellProps } from './title-cell';
 
@@ -31,7 +31,7 @@ export type LeaderboardDataItem = {
       metrics: MetricItem[];
     };
   };
-  stacked?: StackedChartItem[];
+  proposals?: Proposals;
 };
 
 interface LeaderboardProps extends HTMLProps<HTMLTableElement> {
@@ -122,7 +122,7 @@ export const Leaderboard: FC<LeaderboardProps> = ({
             {type === 'stacked' && (
               <>
                 <td className={styles.cell}>
-                  <StackedChart data={row?.stacked || []} />
+                  <StackedChart proposals={row?.proposals} />
                 </td>
               </>
             )}
