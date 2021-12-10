@@ -1,5 +1,15 @@
-import React, { FC } from 'react';
-import { Switch, Route, useLocation, useHistory } from 'react-router';
+import React, { FC, useEffect } from 'react';
+import {
+  Switch,
+  Route,
+  useLocation,
+  useHistory,
+  useParams,
+} from 'react-router';
+import { useRoutes } from 'src/hooks';
+import { useAppDispatch, useAppSelector } from 'src/store';
+import { getUsers } from './slice';
+import { selectorUsers } from './selectors';
 
 import { Page, WidgetTile, WidgetInfo } from '../../components';
 
@@ -13,39 +23,57 @@ import styles from './users.module.scss';
 export const Users: FC = () => {
   const location = useLocation();
   const history = useHistory();
+  const routes = useRoutes();
+  const { contract } = useParams<{ contract: string }>();
+  const dispatch = useAppDispatch();
+  const users = useAppSelector(selectorUsers);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        await dispatch(getUsers({ contract }));
+      } catch (error: unknown) {
+        console.error(error);
+      }
+    })();
+  }, [contract, dispatch]);
 
   return (
     <Page title="Users">
       <div className={styles.widgets}>
         <WidgetTile
           className={styles.widget}
-          active={location.pathname === ROUTES.users}
-          onClick={() => history.push(ROUTES.users)}
-        >
-          <WidgetInfo title="Users" number={1230} percentages={10} />
-        </WidgetTile>
-
-        <WidgetTile
-          className={styles.widget}
-          onClick={() => history.push(ROUTES.usersAverageCouncilSize)}
-          active={location.pathname === ROUTES.usersAverageCouncilSize}
+          active={location.pathname === routes.users}
+          onClick={() => history.push(routes.users)}
         >
           <WidgetInfo
-            title="Average council size"
-            number={456}
-            percentages={10}
+            title="Users"
+            number={users?.users.count}
+            percentages={users?.users.growth}
           />
         </WidgetTile>
 
+        {/* <WidgetTile
+          className={styles.widget}
+          onClick={() => history.push(routes.usersAverageCouncilSize)}
+          active={location.pathname === routes.usersAverageCouncilSize}
+        >
+          <WidgetInfo
+            title="Average council size"
+            number={users?.council.count}
+            percentages={users?.council.growth}
+          />
+        </WidgetTile> */}
+
         <WidgetTile
           className={styles.widget}
-          onClick={() => history.push(ROUTES.usersNumberInteractions)}
-          active={location.pathname === ROUTES.usersNumberInteractions}
+          onClick={() => history.push(routes.usersNumberInteractions)}
+          active={location.pathname === routes.usersNumberInteractions}
         >
           <WidgetInfo
             title="Number of Interactions"
-            number={1087}
-            percentages={10}
+            number={users?.interactions.count}
+            percentages={users?.interactions.growth}
           />
         </WidgetTile>
       </div>
