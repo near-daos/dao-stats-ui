@@ -26,38 +26,65 @@ const initialState: generalState = {
 
 export const getGeneral = createAsyncThunk(
   'general/getGeneral',
-  async (params: Params) => generalService.getGeneral(params),
+  async (params: Params) => {
+    const response = await generalService.getGeneral(params);
+
+    return response.data;
+  },
 );
 
 export const getGeneralDao = createAsyncThunk(
   'general/getGeneralDao',
-  async (params: DaoParams) => generalService.getGeneralDao(params),
+  async (params: DaoParams) => {
+    const response = await generalService.getGeneralDao(params);
+
+    return response.data;
+  },
 );
 
 export const getGeneralDaos = createAsyncThunk(
   'general/getGeneralDaos',
-  async (params: HistoryParams) => generalService.getGeneralDaos(params),
+  async (params: HistoryParams) => {
+    const response = await generalService.getGeneralDaos(params);
+
+    return response.data;
+  },
 );
 
 export const getGeneralActivity = createAsyncThunk(
   'general/getGeneralActivity',
-  async (params: HistoryParams) => generalService.getGeneralActivity(params),
+  async (params: HistoryParams) => {
+    const response = await generalService.getGeneralActivity(params);
+
+    return response.data;
+  },
 );
 
 export const getGeneralActivityLeaderboard = createAsyncThunk(
   'general/getGeneralActivityLeaderboard',
-  async (params: Params) =>
-    generalService.getGeneralActivityLeaderboard(params),
+  async (params: Params) => {
+    const response = await generalService.getGeneralActivityLeaderboard(params);
+
+    return response.data;
+  },
 );
 
 export const getGeneralGroups = createAsyncThunk(
   'general/getGeneralGroups',
-  async (params: HistoryParams) => generalService.getGeneralGroups(params),
+  async (params: HistoryParams) => {
+    const response = await generalService.getGeneralGroups(params);
+
+    return response.data;
+  },
 );
 
 export const getGeneralGroupsLeaderboard = createAsyncThunk(
   'general/getGeneralGroupsLeaderboard',
-  async (params: Params) => generalService.getGeneralGroupsLeaderboard(params),
+  async (params: Params) => {
+    const response = await generalService.getGeneralGroupsLeaderboard(params);
+
+    return response.data;
+  },
 );
 
 const isPendingAction = isPending(
@@ -94,38 +121,38 @@ export const generalSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getGeneral.fulfilled, (state, { payload }) => {
-      state.general = payload.data;
+      state.general = payload;
     });
 
     builder.addCase(getGeneralDao.fulfilled, (state, { payload }) => {
-      state.dao = payload.data;
+      state.dao = payload;
     });
 
     builder.addCase(getGeneralDaos.fulfilled, (state, { payload }) => {
-      state.generalDaos = payload.data;
+      state.generalDaos = payload;
     });
 
     builder.addCase(getGeneralActivity.fulfilled, (state, { payload }) => {
-      state.generalActivity = payload.data;
+      state.generalActivity = payload;
     });
 
     builder.addCase(
       getGeneralActivityLeaderboard.fulfilled,
       (state, { payload }) => {
-        state.generalActivityLeaderboard = payload.data;
+        state.generalActivityLeaderboard = payload;
       },
     );
 
     builder.addCase(getGeneralGroups.fulfilled, (state, { payload }) => {
       state.generalGroups = {
-        metrics: sortBy(payload.data.metrics, ['timestamp']),
+        metrics: sortBy(payload.metrics, ['timestamp']),
       };
     });
 
     builder.addCase(
       getGeneralGroupsLeaderboard.fulfilled,
       (state, { payload }) => {
-        state.generalGroupsLeaderboard = payload.data;
+        state.generalGroupsLeaderboard = payload;
       },
     );
 

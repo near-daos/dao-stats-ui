@@ -1,10 +1,11 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect, MouseEvent } from 'react';
 import startCase from 'lodash/startCase';
+import { useHistory } from 'react-router';
 
-import { Tabs, Search, Button } from '../../components';
+import { Search, Button } from '../../components';
 import { useAppSelector } from '../../store';
 import { selectorSelectedContract } from '../shared';
-import { useOptionsForContract, useRoutes } from '../../hooks';
+import { useRoutes } from '../../hooks';
 
 import { NETWORKS } from '../../constants';
 
@@ -12,9 +13,21 @@ import styles from './main-page.module.scss';
 
 export const MainPage: FC = () => {
   const [searchType, setSearchType] = useState<NETWORKS>(NETWORKS.Mainnet);
-  const contractTabOptions = useOptionsForContract();
   const selectedContract = useAppSelector(selectorSelectedContract);
   const routes = useRoutes();
+  const history = useHistory();
+
+  useEffect(() => {
+    const handleScroll = (event: any) => {
+      if (event.wheelDelta < 0) {
+        history.push(routes.generalInfo);
+      }
+    };
+
+    window.addEventListener('wheel', handleScroll);
+
+    return () => window.removeEventListener('wheel', handleScroll);
+  }, [history, routes.generalInfo]);
 
   return (
     <div className={styles.mainPage}>
@@ -27,12 +40,8 @@ export const MainPage: FC = () => {
         It uses the publicly available RPC and Indexer.
       </h2>
 
-      <Tabs
-        className={styles.tabs}
-        options={contractTabOptions}
-        defaultValue={startCase(selectedContract?.contractId)}
-      />
       <Search
+        disabled
         className={styles.search}
         searchType={searchType}
         setSearchType={(type) => setSearchType(type)}

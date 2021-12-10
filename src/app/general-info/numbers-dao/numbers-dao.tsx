@@ -21,14 +21,16 @@ export const NumbersDao: FC = () => {
   useEffect(() => {
     (async () => {
       try {
-        await dispatch(
-          getGeneralDaos({ contract, from: String(getDateFromMow(period)) }),
-        );
+        if (!daos) {
+          await dispatch(
+            getGeneralDaos({ contract, from: String(getDateFromMow(period)) }),
+          );
+        }
       } catch (error: unknown) {
         console.error(error);
       }
     })();
-  }, [period, contract, dispatch]);
+  }, [daos, period, contract, dispatch]);
 
   const daosData = useFilterMetrics(period, daos);
 
@@ -36,6 +38,7 @@ export const NumbersDao: FC = () => {
     <div className={styles.chart}>
       {daos ? (
         <ChartLine
+          key={period}
           data={daosData}
           period={period}
           setPeriod={setPeriod}

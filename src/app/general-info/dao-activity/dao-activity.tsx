@@ -32,25 +32,39 @@ export const DaoActivity: FC = () => {
   const activityLeaderboard = useAppSelector(selectGeneralActivityLeaderboard);
 
   useEffect(() => {
+    dispatch(
+      getGeneralActivity({
+        contract,
+        from: String(getDateFromMow(period)),
+      }),
+    );
+  }, [contract, dispatch, period]);
+
+  useEffect(() => {
     (async () => {
       try {
-        await dispatch(
-          getGeneralActivity({
-            contract,
-            from: String(getDateFromMow(period)),
-          }),
-        );
-        await dispatch(
-          getGeneralActivityLeaderboard({
-            contract,
-          }),
-        );
+        if (!activity) {
+          await dispatch(
+            getGeneralActivity({
+              contract,
+              from: String(getDateFromMow(period)),
+            }),
+          );
+        }
+
+        if (!activityLeaderboard) {
+          await dispatch(
+            getGeneralActivityLeaderboard({
+              contract,
+            }),
+          );
+        }
       } catch (error: unknown) {
         // eslint-disable-next-line no-console
         console.error(error);
       }
     })();
-  }, [period, contract, dispatch]);
+  });
 
   const handleOnChange = (value: string) => {
     setActiveTab(value);

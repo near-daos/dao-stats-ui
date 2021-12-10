@@ -5,6 +5,11 @@ import { RootState } from '../../store/root-reducer';
 
 const getState = (state: RootState) => state[generalSlice.name];
 
+export const selectLoading = createSelector(
+  (state: RootState) => getState(state).loading,
+  (data) => data,
+);
+
 export const selectGeneral = createSelector(
   (state: RootState) => getState(state).general,
   (data) => data,
