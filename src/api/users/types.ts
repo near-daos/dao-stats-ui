@@ -2,6 +2,6 @@ import { TotalMetrics } from '../types';
 
 export type Users = {
   users: TotalMetrics;
-  councilSize: TotalMetrics;
+  council: TotalMetrics;
   interactions: TotalMetrics;
 };

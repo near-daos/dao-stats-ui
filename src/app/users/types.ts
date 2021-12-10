@@ -4,9 +4,11 @@ import { Leaderboard, Metrics, Users } from '../../api';
 export type usersState = {
   users: Users | null;
   dao: Users | null;
-  history: Metrics;
-  daoHistory: Metrics;
-  leaderboard: Leaderboard;
+  history: Metrics | null;
+  daoHistory: Metrics | null;
+  leaderboard: Leaderboard | null;
+  usersInteractions: Metrics | null;
+  usersInteractionsLeaderboard: Leaderboard | null;
   loading: RequestStatus;
   error: unknown;
 };

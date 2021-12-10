@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import queryString from 'query-string';
 import { HttpService } from '../http-service';
 import { Users } from './types';
 import {
@@ -18,15 +19,15 @@ export class UsersService extends HttpService {
   async getUsersHistory(
     params: HistoryParams,
   ): Promise<AxiosResponse<Metrics>> {
-    return this.get(
-      `${params.contract}/users/history?from=${params.from}&to=${params.to}`,
-    );
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(`${params.contract}/users/users?${query}`);
   }
 
   async getUsersLeaderboard(
     params: Params,
   ): Promise<AxiosResponse<Leaderboard>> {
-    return this.get(`${params.contract}/users/leaderboard`);
+    return this.get(`${params.contract}/users/users/leaderboard`);
   }
 
   async getUsersDao(params: DaoParams): Promise<AxiosResponse<Users>> {
@@ -39,6 +40,20 @@ export class UsersService extends HttpService {
     return this.get(
       `${params.contract}/users/${params.dao}/history?from=${params.from}&to=${params.to}`,
     );
+  }
+
+  async getUsersInteractionsHistory(
+    params: HistoryParams,
+  ): Promise<AxiosResponse<Metrics>> {
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(`${params.contract}/users/interactions?${query}`);
+  }
+
+  async getUsersInteractionsLeaderboard(
+    params: Params,
+  ): Promise<AxiosResponse<Leaderboard>> {
+    return this.get(`${params.contract}/users/interactions/leaderboard`);
   }
 }
 

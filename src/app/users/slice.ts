@@ -22,6 +22,8 @@ const initialState: usersState = {
   history: { metrics: [] },
   daoHistory: { metrics: [] },
   leaderboard: { metrics: [] },
+  usersInteractions: { metrics: [] },
+  usersInteractionsLeaderboard: { metrics: [] },
   loading: RequestStatus.NOT_ASKED,
   error: null,
 };
@@ -51,12 +53,26 @@ export const getUsersLeaderboard = createAsyncThunk(
   async (params: Params) => usersService.getUsersLeaderboard(params),
 );
 
+export const getUsersInteractionsHistory = createAsyncThunk(
+  'users/getUsersInteractionsHistory',
+  async (params: HistoryParams) =>
+    usersService.getUsersInteractionsHistory(params),
+);
+
+export const getUsersInteractionsLeaderboard = createAsyncThunk(
+  'users/getUsersInteractionsLeaderboard',
+  async (params: Params) =>
+    usersService.getUsersInteractionsLeaderboard(params),
+);
+
 const isPendingAction = isPending(
   getUsers,
   getUsersHistory,
   getUsersDao,
   getUsersDaoHistory,
   getUsersLeaderboard,
+  getUsersInteractionsHistory,
+  getUsersInteractionsLeaderboard,
 );
 const isRejectedAction = isRejected(
   getUsers,
@@ -64,6 +80,8 @@ const isRejectedAction = isRejected(
   getUsersDao,
   getUsersDaoHistory,
   getUsersLeaderboard,
+  getUsersInteractionsHistory,
+  getUsersInteractionsLeaderboard,
 );
 const isFulfilledAction = isFulfilled(
   getUsers,
@@ -71,6 +89,8 @@ const isFulfilledAction = isFulfilled(
   getUsersDao,
   getUsersDaoHistory,
   getUsersLeaderboard,
+  getUsersInteractionsHistory,
+  getUsersInteractionsLeaderboard,
 );
 
 export const usersSlice = createSlice({
@@ -97,6 +117,20 @@ export const usersSlice = createSlice({
     builder.addCase(getUsersLeaderboard.fulfilled, (state, { payload }) => {
       state.leaderboard = payload.data;
     });
+
+    builder.addCase(
+      getUsersInteractionsHistory.fulfilled,
+      (state, { payload }) => {
+        state.usersInteractions = payload.data;
+      },
+    );
+
+    builder.addCase(
+      getUsersInteractionsLeaderboard.fulfilled,
+      (state, { payload }) => {
+        state.usersInteractionsLeaderboard = payload.data;
+      },
+    );
 
     builder.addMatcher(isRejectedAction, (state, { error }) => {
       state.loading = RequestStatus.FAILED;
