@@ -10,7 +10,13 @@
 }
 
 .widget {
-  margin: 0 0 functions.calc-rem(12.5) 0;
+  height: 100%;
+
+  margin: 0 0 functions.calc-rem(12) 0;
+
+  &:last-of-type {
+    margin: 0;
+  }
 }
 
 .mainContent {
