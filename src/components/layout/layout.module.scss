@@ -18,6 +18,8 @@
 
   @include media.desktop {
     padding: functions.calc-rem(48) 0 0;
+    width: functions.calc-rem(1216);
+    margin: 0 auto;
   }
 }
 

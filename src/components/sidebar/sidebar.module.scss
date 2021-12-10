@@ -27,10 +27,10 @@
   transform: translate(functions.calc-rem(-269), 0);
 
   @include media.desktop {
-    margin: 0 functions.calc-rem(24) 0 0;
     position: initial;
     background-color: initial;
     transform: initial;
+    padding-left: 0;
   }
 }
 

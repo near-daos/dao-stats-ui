@@ -85,7 +85,7 @@
   }
 
   @include media.desktop {
-    padding-right: 33%;
+    padding-right: 25%;
   }
 }
 
@@ -99,7 +99,7 @@
 
     position: absolute;
     top: 0;
-    right: 33%;
+    right: 24%;
 
     background: var(--color-grey-700);
 
@@ -148,7 +148,7 @@
 
     padding: functions.calc-rem(8) functions.calc-rem(12);
 
-    width: 33%;
+    width: 24%;
 
     border: 0;
   }
