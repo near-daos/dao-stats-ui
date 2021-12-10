@@ -1,10 +1,20 @@
 import { useMemo } from 'react';
-import { Leaderboard, ProposalsLeaderboard } from 'src/api';
-import { LeaderboardDataItem } from '../components/leaderboard/leaderboard';
+import { Leaderboard } from 'src/api';
+import { LeaderboardDataItem } from 'src/components/leaderboard/leaderboard';
+import { TitleCellProps } from '../components/leaderboard/title-cell';
 
 type usePrepareLeaderboardProps = {
   leaderboard: Leaderboard | null;
   type?: string;
+};
+
+const prepareTitle = (dao: string): TitleCellProps => {
+  const daoSplitted = dao.split('.');
+
+  return {
+    label: daoSplitted[0],
+    domain: daoSplitted.slice(1).join('.'),
+  };
 };
 
 export const usePrepareLeaderboard = ({
@@ -19,10 +29,7 @@ export const usePrepareLeaderboard = ({
     if (type === 'single') {
       return leaderboard.metrics.map((metric, index) => ({
         id: index,
-        titleCell: {
-          label: metric.dao,
-          domain: metric.dao,
-        },
+        titleCell: prepareTitle(metric.dao),
         line: {
           totalMetrics: metric.activity,
           metrics: metric.overview,

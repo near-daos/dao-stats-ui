@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { ChartLine, Tabs, Leaderboard } from 'src/components';
 import { useParams } from 'react-router';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
+import { usePrepareLeaderboard } from 'src/hooks';
 
 import {
   selectActivityProposals,
