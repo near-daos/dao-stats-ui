@@ -56,7 +56,9 @@ export const Vote: FC = () => {
 
   const activityRateData = useFilterMetrics(period, activityRate);
   const activityRateLeaderboardData = usePrepareLeaderboard({
-    leaderboard: activityRateLeaderboard,
+    leaderboard: activityRateLeaderboard?.metrics
+      ? activityRateLeaderboard.metrics
+      : null,
   });
 
   return (

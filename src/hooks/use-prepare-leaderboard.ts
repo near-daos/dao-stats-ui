@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
-import { Leaderboard } from 'src/api';
+import { LeaderboardItem, Proposals } from 'src/api';
 import { LeaderboardDataItem } from 'src/components/leaderboard/leaderboard';
 import { TitleCellProps } from '../components/leaderboard/title-cell';
 
 type usePrepareLeaderboardProps = {
-  leaderboard: Leaderboard | null;
+  leaderboard: LeaderboardItem[] | null;
   type?: string;
 };
 
@@ -17,23 +17,55 @@ const prepareTitle = (dao: string): TitleCellProps => {
   };
 };
 
+function percentage(partialValue: number, totalValue: number): number {
+  return parseInt(((100 * partialValue) / totalValue).toFixed(0), 10);
+}
+
+function prepareProposalsForChart(proposals?: Proposals): Proposals {
+  if (!proposals) {
+    return {
+      payout: 0,
+      councilMember: 0,
+      policyChange: 0,
+      expired: 0,
+    };
+  }
+
+  const totalValue = Object.values(proposals).reduce((a, b) => a + b);
+
+  return {
+    payout: percentage(proposals.payout, totalValue),
+    councilMember: percentage(proposals.councilMember, totalValue),
+    policyChange: percentage(proposals.policyChange, totalValue),
+    expired: percentage(proposals.expired, totalValue),
+  };
+}
+
 export const usePrepareLeaderboard = ({
   leaderboard,
   type = 'single',
 }: usePrepareLeaderboardProps): LeaderboardDataItem[] =>
   useMemo(() => {
-    if (!leaderboard?.metrics) {
+    if (!leaderboard) {
       return [];
     }
 
     if (type === 'single') {
-      return leaderboard.metrics.map((metric, index) => ({
+      return leaderboard.map((leaderboardItem, index) => ({
         id: index,
-        titleCell: prepareTitle(metric.dao),
+        titleCell: prepareTitle(leaderboardItem.dao),
         line: {
-          totalMetrics: metric.activity,
-          metrics: metric.overview,
+          totalMetrics: leaderboardItem?.activity,
+          metrics: leaderboardItem?.overview,
         },
+      }));
+    }
+
+    if (type === 'stacked') {
+      return leaderboard.map((leaderboardItem, index) => ({
+        id: index,
+        titleCell: prepareTitle(leaderboardItem.dao),
+        proposals: prepareProposalsForChart(leaderboardItem?.proposalsByType),
       }));
     }
 

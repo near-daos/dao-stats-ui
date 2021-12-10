@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState, useMemo } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
 import { ChartLine, Tabs, Leaderboard } from 'src/components';
@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../../store';
 import { selectUsersHistory, selectUsersLeaderboard } from '../selectors';
 
 import styles from './number-users.module.scss';
+import { usePrepareLeaderboard } from '../../../hooks';
 
 const tabOptions = [
   {
@@ -42,6 +43,7 @@ export const NumberUsers: FC = () => {
           }),
         );
       } catch (error: unknown) {
+        // eslint-disable-next-line no-console
         console.error(error);
       }
     })();
@@ -51,21 +53,9 @@ export const NumberUsers: FC = () => {
     setActiveTab(value);
   };
 
-  const usersLeaderboardData = useMemo(
-    () =>
-      usersLeaderboard?.metrics.map((usersLeaderboardItem, index) => ({
-        id: index,
-        titleCell: {
-          label: usersLeaderboardItem.dao,
-          domain: usersLeaderboardItem.dao,
-        },
-        line: {
-          totalMetrics: usersLeaderboardItem.activity,
-          metrics: usersLeaderboardItem.overview,
-        },
-      })),
-    [usersLeaderboard],
-  );
+  const usersLeaderboardData = usePrepareLeaderboard({
+    leaderboard: usersLeaderboard?.metrics ? usersLeaderboard.metrics : null,
+  });
 
   return (
     <div className={styles.mainContent}>

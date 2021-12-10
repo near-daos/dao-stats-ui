@@ -11,7 +11,6 @@ import {
   Metrics,
   Params,
   ProposalMetrics,
-  ProposalsLeaderboard,
 } from '../types';
 
 export class ActivityService extends HttpService {
@@ -43,7 +42,7 @@ export class ActivityService extends HttpService {
 
   async getActivityProposalsTypesLeaderboard(
     params: Params,
-  ): Promise<AxiosResponse<ProposalsLeaderboard>> {
+  ): Promise<AxiosResponse<Leaderboard>> {
     return this.get(`${params.contract}/activity/proposals-types/leaderboard`);
   }
 

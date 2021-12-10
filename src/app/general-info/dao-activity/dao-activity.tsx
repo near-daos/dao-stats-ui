@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState, useMemo } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
 import { ChartLine, Tabs, Leaderboard } from 'src/components';
@@ -46,6 +46,7 @@ export const DaoActivity: FC = () => {
           }),
         );
       } catch (error: unknown) {
+        // eslint-disable-next-line no-console
         console.error(error);
       }
     })();
@@ -56,7 +57,9 @@ export const DaoActivity: FC = () => {
   };
 
   const activityLeaderboardData = usePrepareLeaderboard({
-    leaderboard: activityLeaderboard,
+    leaderboard: activityLeaderboard?.metrics
+      ? activityLeaderboard.metrics
+      : null,
   });
 
   return (

@@ -2,7 +2,6 @@ import React, { FC, useEffect, useState, useMemo } from 'react';
 import { useParams } from 'react-router';
 import { ChartLine, Leaderboard, Tabs } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { usePrepareLeaderboard } from 'src/hooks';
 import merge from 'lodash/merge';
 
 import {
@@ -16,7 +15,7 @@ import {
 import { getDateFromMow } from '../../../components/charts/helpers';
 
 import styles from './proposals-type.module.scss';
-import { Proposals } from '../../../api';
+import { usePrepareLeaderboard } from '../../../hooks';
 
 const tabOptions = [
   {
@@ -52,6 +51,7 @@ export const ProposalsType: FC = () => {
           }),
         );
       } catch (error: unknown) {
+        // eslint-disable-next-line no-console
         console.error(error);
       }
     })();
@@ -80,37 +80,12 @@ export const ProposalsType: FC = () => {
     return { metrics: merge([], ...result) };
   }, [activityProposalsTypes]);
 
-  const activityProposalsTypesLeaderboardData = useMemo(() => {
-    if (!activityProposalsTypesLeaderboard?.leaderboard) {
-      return null;
-    }
-
-    function percentage(partialValue: number, totalValue: number): number {
-      return parseInt(((100 * partialValue) / totalValue).toFixed(0), 10);
-    }
-
-    function prepareProposalsForChart(proposals: Proposals): Proposals {
-      const totalValue = Object.values(proposals).reduce((a, b) => a + b);
-
-      return {
-        payout: percentage(proposals.payout, totalValue),
-        councilMember: percentage(proposals.councilMember, totalValue),
-        policyChange: percentage(proposals.policyChange, totalValue),
-        expired: percentage(proposals.expired, totalValue),
-      };
-    }
-
-    return activityProposalsTypesLeaderboard.leaderboard.map(
-      (leaderBoardItem, index) => ({
-        id: index,
-        titleCell: {
-          label: leaderBoardItem.dao,
-          domain: leaderBoardItem.dao,
-        },
-        proposals: prepareProposalsForChart(leaderBoardItem.proposalsByType),
-      }),
-    );
-  }, [activityProposalsTypesLeaderboard]);
+  const activityProposalsTypesLeaderboardData = usePrepareLeaderboard({
+    type: 'stacked',
+    leaderboard: activityProposalsTypesLeaderboard?.leaderboard
+      ? activityProposalsTypesLeaderboard.leaderboard
+      : null,
+  });
 
   return (
     <div className={styles.mainContent}>
