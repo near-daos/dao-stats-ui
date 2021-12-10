@@ -20,6 +20,7 @@
   @include media.desktop {
     position: initial;
     height: functions.calc-rem(88);
+    margin: 0 auto;
   }
 }
 
@@ -67,7 +68,7 @@
 }
 
 .search {
-  width: functions.calc-rem(587);
+  width: functions.calc-rem(759);
 }
 
 .logo {

@@ -133,12 +133,12 @@ export const Header: FC<HeaderProps> = ({ isOpened, setIsOpened }) => {
               value={dropdownValue}
               onChange={(selectedItem) => setDropDownValue(selectedItem)}
             />
-            <NavigationInfo
+            {/* <NavigationInfo
               className={styles.navigationInfo}
               title="Sputnik DAO"
               description="Average values for all DAOs"
               color="blue"
-            />
+            /> */}
           </div>
         </>
       ) : null}
