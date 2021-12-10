@@ -16,24 +16,22 @@ type WidgetInfoProps = {
 export const WidgetInfo: FC<WidgetInfoProps> = ({
   className,
   title,
-  percentages,
+  percentages = 0,
   number,
   icon,
 }) => (
   <div className={clsx(styles.widgetInfo, className)}>
     <div className={styles.top}>
       <div className={styles.title}>{title}</div>
-      {percentages ? (
-        <div
-          className={clsx(styles.percentages, {
-            [styles.negativeGrowth]: percentages < 0,
-            [styles.zeroGrowth]: percentages === 0,
-          })}
-        >
-          <SvgIcon icon="stats" className={styles.icon} />
-          {percentages}%
-        </div>
-      ) : null}
+      <div
+        className={clsx(styles.percentages, {
+          [styles.negativeGrowth]: percentages < 0,
+          [styles.zeroGrowth]: percentages === 0,
+        })}
+      >
+        <SvgIcon icon="stats" className={styles.icon} />
+        {percentages}%
+      </div>
     </div>
     {number ? (
       <div className={styles.number}>

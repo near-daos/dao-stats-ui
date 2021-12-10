@@ -17,6 +17,7 @@ export type NavigationListProps = {
 type NavigationItem = {
   value: string;
   label: string;
+  disabled?: boolean;
 };
 
 export const NavigationList: FC<NavigationListProps> = ({
@@ -34,7 +35,10 @@ export const NavigationList: FC<NavigationListProps> = ({
         <li
           key={option.value}
           className={clsx(
-            { [styles.active]: selectedValue?.startsWith(option.value) },
+            {
+              [styles.active]: selectedValue?.startsWith(option.value),
+              [styles.disabled]: option.disabled,
+            },
             styles.item,
           )}
           onClick={() => setIsOpened(false)}
@@ -44,6 +48,9 @@ export const NavigationList: FC<NavigationListProps> = ({
             className={styles.button}
           >
             {option.label}
+            {option.disabled ? (
+              <div className={styles.comingSoon}>(Coming soon)</div>
+            ) : null}
           </button>
         </li>
       ))}
