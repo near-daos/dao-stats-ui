@@ -18,6 +18,10 @@ import { AverageCouncilSize } from './average-council-size';
 import { NumberInteractions } from './number-interactions';
 import { NumberUsers } from './number-users';
 
+import { NumberUsersOfDao } from './number-users-of-dao';
+import { NumberUsersPerDao } from './number-users-per-dao';
+import { NumberInteractionsPerDao } from './number-interactions-per-dao';
+
 import styles from './users.module.scss';
 
 export const Users: FC = () => {
@@ -55,8 +59,8 @@ export const Users: FC = () => {
 
         <WidgetTile
           className={styles.widget}
-          onClick={() => history.push(routes.usersNumberInteractions)}
-          active={location.pathname === routes.usersNumberInteractions}
+          onClick={() => history.push(routes.usersOfDao)}
+          active={location.pathname === routes.usersOfDao}
         >
           <WidgetInfo
             title="Users that are member of a DAO"
@@ -67,8 +71,8 @@ export const Users: FC = () => {
 
         <WidgetTile
           className={styles.widget}
-          onClick={() => history.push(routes.users)}
-          active={location.pathname === routes.users}
+          onClick={() => history.push(routes.usersPerDao)}
+          active={location.pathname === routes.usersPerDao}
         >
           <WidgetInfo
             title="Average number of users per DAO"
@@ -103,8 +107,8 @@ export const Users: FC = () => {
 
         <WidgetTile
           className={styles.widget}
-          onClick={() => history.push(routes.users)}
-          active={location.pathname === routes.users}
+          onClick={() => history.push(routes.usersNumberInteractionsPerDao)}
+          active={location.pathname === routes.usersNumberInteractionsPerDao}
         >
           <WidgetInfo
             title="Average number of Interactions per DAO"
@@ -117,15 +121,21 @@ export const Users: FC = () => {
       <div className={styles.mainContent}>
         <Switch>
           <Route exact path={ROUTES.users} component={NumberUsers} />
+          <Route exact path={ROUTES.usersOfDao} component={NumberUsersOfDao} />
           <Route
             exact
-            path={ROUTES.usersAverageCouncilSize}
-            component={AverageCouncilSize}
+            path={ROUTES.usersPerDao}
+            component={NumberUsersPerDao}
           />
           <Route
             exact
             path={ROUTES.usersNumberInteractions}
             component={NumberInteractions}
+          />
+          <Route
+            exact
+            path={ROUTES.usersNumberInteractionsPerDao}
+            component={NumberInteractionsPerDao}
           />
         </Switch>
       </div>
