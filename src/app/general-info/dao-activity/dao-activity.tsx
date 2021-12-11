@@ -3,12 +3,12 @@ import { useParams } from 'react-router';
 
 import { ChartLine, Tabs, Leaderboard } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { getDateFromMow } from 'src/components/charts/helpers';
-import { usePrepareLeaderboard } from 'src/hooks';
+import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
 
 import {
   selectGeneralActivity,
   selectGeneralActivityLeaderboard,
+  selectLoading,
 } from '../selectors';
 import { getGeneralActivity, getGeneralActivityLeaderboard } from '../slice';
 
@@ -30,15 +30,9 @@ export const DaoActivity: FC = () => {
   const dispatch = useAppDispatch();
   const activity = useAppSelector(selectGeneralActivity);
   const activityLeaderboard = useAppSelector(selectGeneralActivityLeaderboard);
+  const loading = useAppSelector(selectLoading);
 
-  useEffect(() => {
-    dispatch(
-      getGeneralActivity({
-        contract,
-        from: String(getDateFromMow(period)),
-      }),
-    );
-  }, [contract, dispatch, period]);
+  console.log('loading', loading);
 
   useEffect(() => {
     (async () => {
@@ -47,12 +41,12 @@ export const DaoActivity: FC = () => {
           await dispatch(
             getGeneralActivity({
               contract,
-              from: String(getDateFromMow(period)),
             }),
           );
         }
 
         if (!activityLeaderboard) {
+          console.log('start activityLeaderboard');
           await dispatch(
             getGeneralActivityLeaderboard({
               contract,
@@ -76,6 +70,8 @@ export const DaoActivity: FC = () => {
       : null,
   });
 
+  const activityData = useFilterMetrics(period, activity);
+
   return (
     <div className={styles.mainContent}>
       <div className={styles.tabWrapper}>
@@ -87,9 +83,9 @@ export const DaoActivity: FC = () => {
         />
       </div>
       <div className={styles.chart}>
-        {activeTab === 'history-data' && activity ? (
+        {activeTab === 'history-data' && activityData ? (
           <ChartLine
-            data={activity}
+            data={activityData}
             period={period}
             setPeriod={setPeriod}
             lines={[

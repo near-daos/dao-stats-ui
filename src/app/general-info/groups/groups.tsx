@@ -1,16 +1,14 @@
 import React, { FC, useEffect, useState } from 'react';
 import { ChartLine, Leaderboard, Tabs } from 'src/components';
 import { useParams } from 'react-router';
-import { usePrepareLeaderboard } from 'src/hooks';
+import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
 
 import { useAppDispatch, useAppSelector } from '../../../store';
 import {
   selectGeneralGroups,
   selectGeneralGroupsLeaderboard,
-  selectLoading,
 } from '../selectors';
 import { getGeneralGroupsLeaderboard, getGeneralGroups } from '../slice';
-import { getDateFromMow } from '../../../components/charts/helpers';
 
 import styles from './groups.module.scss';
 
@@ -30,7 +28,6 @@ export const Groups: FC = () => {
   const dispatch = useAppDispatch();
   const groups = useAppSelector(selectGeneralGroups);
   const groupsLeaderboard = useAppSelector(selectGeneralGroupsLeaderboard);
-  const loading = useAppSelector(selectLoading);
 
   const handleOnChange = (value: string) => {
     setActiveTab(value);
@@ -39,27 +36,33 @@ export const Groups: FC = () => {
   useEffect(() => {
     (async () => {
       try {
-        await dispatch(
-          getGeneralGroups({
-            contract,
-            from: String(getDateFromMow(period)),
-          }),
-        );
-        await dispatch(
-          getGeneralGroupsLeaderboard({
-            contract,
-          }),
-        );
+        if (!groups) {
+          await dispatch(
+            getGeneralGroups({
+              contract,
+            }),
+          );
+        }
+
+        if (!groupsLeaderboard) {
+          await dispatch(
+            getGeneralGroupsLeaderboard({
+              contract,
+            }),
+          );
+        }
       } catch (error: unknown) {
         // eslint-disable-next-line no-console
         console.error(error);
       }
     })();
-  }, [period, contract, dispatch]);
+  }, [groups, groupsLeaderboard, period, contract, dispatch]);
 
   const groupsLeaderboardData = usePrepareLeaderboard({
     leaderboard: groupsLeaderboard?.metrics ? groupsLeaderboard.metrics : null,
   });
+
+  const groupsData = useFilterMetrics(period, groups);
 
   return (
     <div className={styles.mainContent}>
@@ -73,9 +76,9 @@ export const Groups: FC = () => {
       </div>
 
       <div className={styles.chart}>
-        {activeTab === 'history-data' && groups ? (
+        {activeTab === 'history-data' && groupsData ? (
           <ChartLine
-            data={groups}
+            data={groupsData}
             period={period}
             setPeriod={setPeriod}
             lines={[{ name: 'Groups', color: '#E33F84', dataKey: 'count' }]}

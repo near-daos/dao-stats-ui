@@ -58,6 +58,13 @@ export const Sidebar: FC<SidebarProps> = ({ isOpened, setIsOpened }) => {
         [styles.show]: isOpened,
       })}
     >
+      <NavigationInfo
+        className={styles.info}
+        title="Sputnik DAO"
+        description="Average values for all DAOs"
+        direction="left"
+        linePosition="start"
+      />
       <NavigationList
         title="Overview"
         selectedValue={location.pathname}
@@ -76,7 +83,6 @@ export const Sidebar: FC<SidebarProps> = ({ isOpened, setIsOpened }) => {
       />
       <div className={styles.navInfo}>
         <NavigationInfo
-          className={styles.navigationInfo}
           title="Sputnik DAO"
           description="Average values for all DAOs"
           color="blue"

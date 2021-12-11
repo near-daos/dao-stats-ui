@@ -1,6 +1,6 @@
 import { RouterState } from 'connected-react-router';
 import { CombinedState, combineReducers } from 'redux';
-
+import { LoadingState, loadingReducer } from './loading';
 import { activitySlice } from '../app/activity/slice';
 import { activityState } from '../app/activity/types';
 import { generalSlice } from '../app/general-info/slice';
@@ -13,6 +13,7 @@ import { contractsSlice } from '../app/shared/contracts/slice';
 import { routerReducer } from './history';
 
 export type RootState = CombinedState<{
+  loading: LoadingState;
   router: RouterState<unknown>;
   [activitySlice.name]: activityState;
   [generalSlice.name]: generalState;
@@ -21,6 +22,7 @@ export type RootState = CombinedState<{
 }>;
 
 export const rootReducer = combineReducers({
+  loading: loadingReducer,
   router: routerReducer,
   [activitySlice.name]: activitySlice.reducer,
   [generalSlice.name]: generalSlice.reducer,

@@ -1,10 +1,7 @@
 import React, { FC, useState } from 'react';
-import { ChartLine, Tabs } from 'src/components';
-import { getRechartsData } from 'src/components/charts/rechartsData';
+import { Tabs } from 'src/components';
 
 import styles from './average-council-size.module.scss';
-
-const rechartsData = getRechartsData();
 
 const tabOptions = [
   {

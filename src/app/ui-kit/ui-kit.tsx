@@ -21,211 +21,10 @@ import {
   WidgetInfo,
   WidgetTile,
 } from '../../components';
-import { NETWORKS } from '../../constants';
 import { getRechartsData, pieData } from '../../components/charts/rechartsData';
 import logo from '../../images/sputnik.png';
 
 import styles from './ui-kit.module.scss';
-
-const currentDate = new Date().getDate();
-
-const tableMock1: LeaderboardDataItem[] = [
-  {
-    id: 1,
-    titleCell: {
-      logo,
-      label: 'jonathan',
-      domain: '.sputnikdao.near',
-    },
-    line: {
-      totalMetrics: {
-        count: 10,
-        growth: 9200,
-      },
-      metrics: [
-        { timestamp: currentDate, count: 400 },
-        { timestamp: currentDate, count: 400 },
-      ],
-    },
-  },
-  {
-    id: 2,
-    titleCell: {
-      logo,
-      label: 'JBN',
-      domain: '.example.test',
-    },
-    line: {
-      totalMetrics: {
-        count: 10,
-        growth: 9200,
-      },
-      metrics: [
-        { timestamp: currentDate, count: 400 },
-        { timestamp: currentDate, count: 400 },
-      ],
-    },
-  },
-  {
-    id: 3,
-    titleCell: {
-      logo,
-      label: 'Oklahoma',
-      domain: '.oklahoma.okh',
-    },
-    line: {
-      totalMetrics: {
-        count: 10,
-        growth: 9200,
-      },
-      metrics: [
-        { timestamp: currentDate, count: 400 },
-        { timestamp: currentDate, count: 400 },
-      ],
-    },
-  },
-  {
-    id: 4,
-    titleCell: {
-      logo,
-      label: 'ProfTool',
-      domain: '.proftool.com',
-    },
-    line: {
-      totalMetrics: {
-        count: 10,
-        growth: 9200,
-      },
-      metrics: [
-        { timestamp: currentDate, count: 400 },
-        { timestamp: currentDate, count: 400 },
-      ],
-    },
-  },
-];
-
-const tableMock2: LeaderboardDataItem[] = [
-  {
-    id: 1,
-    titleCell: {
-      logo,
-      label: 'jonathan',
-      domain: '.sputnikdao.near',
-    },
-    doubleLine: {
-      number: {
-        totalMetrics: {
-          count: 10,
-          growth: 9200,
-        },
-        metrics: [
-          { timestamp: currentDate, count: 400 },
-          { timestamp: currentDate, count: 400 },
-        ],
-      },
-      vl: {
-        totalMetrics: {
-          count: 10,
-          growth: 9200,
-        },
-        metrics: [
-          { timestamp: currentDate, count: 400 },
-          { timestamp: currentDate, count: 400 },
-        ],
-      },
-    },
-  },
-  {
-    id: 2,
-    titleCell: {
-      logo,
-      label: 'JBN',
-      domain: '.example.test',
-    },
-    doubleLine: {
-      number: {
-        totalMetrics: {
-          count: 10,
-          growth: 9200,
-        },
-        metrics: [
-          { timestamp: currentDate, count: 400 },
-          { timestamp: currentDate, count: 400 },
-        ],
-      },
-      vl: {
-        totalMetrics: {
-          count: 10,
-          growth: 9200,
-        },
-        metrics: [
-          { timestamp: currentDate, count: 400 },
-          { timestamp: currentDate, count: 400 },
-        ],
-      },
-    },
-  },
-  {
-    id: 3,
-    titleCell: {
-      logo,
-      label: 'Oklahoma',
-      domain: '.oklahoma.okh',
-    },
-    doubleLine: {
-      number: {
-        totalMetrics: {
-          count: 10,
-          growth: 9200,
-        },
-        metrics: [
-          { timestamp: currentDate, count: 400 },
-          { timestamp: currentDate, count: 400 },
-        ],
-      },
-      vl: {
-        totalMetrics: {
-          count: 10,
-          growth: 9200,
-        },
-        metrics: [
-          { timestamp: currentDate, count: 400 },
-          { timestamp: currentDate, count: 400 },
-        ],
-      },
-    },
-  },
-  {
-    id: 4,
-    titleCell: {
-      logo,
-      label: 'ProfTool',
-      domain: '.proftool.com',
-    },
-    doubleLine: {
-      number: {
-        totalMetrics: {
-          count: 10,
-          growth: 9200,
-        },
-        metrics: [
-          { timestamp: currentDate, count: 400 },
-          { timestamp: currentDate, count: 400 },
-        ],
-      },
-      vl: {
-        totalMetrics: {
-          count: 10,
-          growth: 9200,
-        },
-        metrics: [
-          { timestamp: currentDate, count: 400 },
-          { timestamp: currentDate, count: 400 },
-        ],
-      },
-    },
-  },
-];
 
 const tableMock3: LeaderboardDataItem[] = [
   {
@@ -271,73 +70,53 @@ const options: DropdownOption[] = [
     id: '0',
     name: 'Fatima Sanders',
     link: 'Quisque libero lacus, varius et, euismod et, commodo at, libero.',
-    searchType: NETWORKS.Mainnet,
-    type: 'sputnik',
   },
   {
     id: '1',
     name: 'Xaviera Gibson',
     link:
       'Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus',
-    searchType: NETWORKS.Mainnet,
-    type: 'astro',
   },
   {
     id: '2',
     name: 'Anthony Hawkins',
     link: 'ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo',
-    searchType: NETWORKS.Mainnet,
-    type: 'sputnik',
   },
   {
     id: '3',
     name: 'Hadassah Harrington',
     link:
       'ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam auctor, velit',
-    searchType: NETWORKS.Mainnet,
-    type: 'sputnik',
   },
   {
     id: '4',
     name: 'Abel Knight',
     link: 'felis. Donec tempor, est ac mattis semper, dui lectus rutrum',
-    searchType: NETWORKS.Mainnet,
-    type: 'astro',
   },
   {
     id: '5',
     name: 'jonathan',
     link: 'jonathan.sputnikdao.near',
-    searchType: NETWORKS.Mainnet,
-    type: 'sputnik',
   },
   {
     id: '6',
     name: 'jonathan',
     link: 'jonathan.sputnikdao.near',
-    searchType: NETWORKS.Mainnet,
-    type: 'astro',
   },
   {
     id: '7',
     name: 'jonathan',
     link: 'jonathan.sputnikdao.near',
-    searchType: NETWORKS.Mainnet,
-    type: 'sputnik',
   },
   {
     id: '8',
     name: 'jonathan',
     link: 'jonathan.sputnikdao.near',
-    searchType: NETWORKS.Mainnet,
-    type: 'sputnik',
   },
   {
     id: '9',
     name: 'jonathan',
     link: 'jonathan.sputnikdao.near',
-    searchType: NETWORKS.Mainnet,
-    type: 'sputnik',
   },
 ];
 
@@ -527,7 +306,6 @@ export const leaderboardData = [
 ];
 
 export const UiKIt: FC = () => {
-  const [searchType, setSearchType] = useState<NETWORKS>(NETWORKS.Mainnet);
   const [dropdownValue, setDropDownValue] = useState<DropdownOption | null>(
     null,
   );
@@ -628,11 +406,7 @@ export const UiKIt: FC = () => {
         <div className={styles.sectionHeader}>Search</div>
         <div className={styles.container}>
           <div className={styles.column}>
-            <Search
-              inputProps={{ type: 'text' }}
-              searchType={searchType}
-              setSearchType={(type) => setSearchType(type)}
-            />
+            <Search inputProps={{ type: 'text' }} />
           </div>
         </div>
       </section>
