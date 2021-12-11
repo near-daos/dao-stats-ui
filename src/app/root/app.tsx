@@ -60,9 +60,16 @@ export const App: FC = () => (
                   path={ROUTES.usersAverageCouncilSize}
                   component={Users}
                 />
+                <Route exact path={ROUTES.usersOfDao} component={Users} />
+                <Route exact path={ROUTES.usersPerDao} component={Users} />
                 <Route
                   exact
                   path={ROUTES.usersNumberInteractions}
+                  component={Users}
+                />
+                <Route
+                  exact
+                  path={ROUTES.usersNumberInteractionsPerDao}
                   component={Users}
                 />
                 <Route exact path={ROUTES.activity} component={Activity} />
