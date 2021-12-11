@@ -7,10 +7,11 @@
 
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .widget {
-  margin: 0 0 functions.calc-rem(12.5) 0;
+  margin: 0 functions.calc-rem(12) functions.calc-rem(13) 0;
 
   &:last-child {
     margin-bottom: 0;
@@ -21,6 +22,8 @@
   width: functions.calc-rem(750);
 
   height: functions.calc-rem(556);
+
+  position: relative;
 
   background-color: var(--color-grey-900);
 

@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
-import { ChartLine, Leaderboard, Tabs } from 'src/components';
+import { ChartLine, Leaderboard, Loading, Tabs } from 'src/components';
 import { useParams } from 'react-router';
 import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
-
+import clsx from 'clsx';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import {
   selectGeneralGroups,
@@ -11,6 +11,8 @@ import {
 import { getGeneralGroupsLeaderboard, getGeneralGroups } from '../slice';
 
 import styles from './groups.module.scss';
+import { selectActionLoading } from '../../../store/loading';
+import { RequestStatus } from '../../../store/types';
 
 const tabOptions = [
   {
@@ -28,6 +30,12 @@ export const Groups: FC = () => {
   const dispatch = useAppDispatch();
   const groups = useAppSelector(selectGeneralGroups);
   const groupsLeaderboard = useAppSelector(selectGeneralGroupsLeaderboard);
+  const getGeneralGroupsLoading = useAppSelector(
+    selectActionLoading(getGeneralGroups.typePrefix),
+  );
+  const getGeneralGroupsLeaderboardLoading = useAppSelector(
+    selectActionLoading(getGeneralGroupsLeaderboard.typePrefix),
+  );
 
   const handleOnChange = (value: string) => {
     setActiveTab(value);
@@ -36,7 +44,10 @@ export const Groups: FC = () => {
   useEffect(() => {
     (async () => {
       try {
-        if (!groups) {
+        if (
+          (!groups || getGeneralGroupsLoading === RequestStatus.NOT_ASKED) &&
+          getGeneralGroupsLoading !== RequestStatus.PENDING
+        ) {
           await dispatch(
             getGeneralGroups({
               contract,
@@ -44,7 +55,11 @@ export const Groups: FC = () => {
           );
         }
 
-        if (!groupsLeaderboard) {
+        if (
+          (!groupsLeaderboard ||
+            getGeneralGroupsLoading === RequestStatus.NOT_ASKED) &&
+          getGeneralGroupsLeaderboardLoading !== RequestStatus.PENDING
+        ) {
           await dispatch(
             getGeneralGroupsLeaderboard({
               contract,
@@ -56,7 +71,15 @@ export const Groups: FC = () => {
         console.error(error);
       }
     })();
-  }, [groups, groupsLeaderboard, period, contract, dispatch]);
+  }, [
+    groups,
+    groupsLeaderboard,
+    period,
+    contract,
+    dispatch,
+    getGeneralGroupsLoading,
+    getGeneralGroupsLeaderboardLoading,
+  ]);
 
   const groupsLeaderboardData = usePrepareLeaderboard({
     leaderboard: groupsLeaderboard?.metrics ? groupsLeaderboard.metrics : null,
@@ -66,6 +89,16 @@ export const Groups: FC = () => {
 
   return (
     <div className={styles.mainContent}>
+      <div
+        className={clsx(styles.loading, {
+          [styles.showLoading]:
+            getGeneralGroupsLeaderboardLoading === RequestStatus.PENDING ||
+            getGeneralGroupsLoading === RequestStatus.PENDING,
+        })}
+      >
+        <Loading />
+      </div>
+
       <div className={styles.tabWrapper}>
         <Tabs
           variant="small"

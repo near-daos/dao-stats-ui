@@ -42,7 +42,6 @@ export const Activity: FC = () => {
     <Page title="Activity">
       <div className={styles.widgets}>
         <WidgetTile
-          short
           className={styles.widget}
           active={location.pathname === routes.activity}
           onClick={() => history.push(routes.activity)}
@@ -54,7 +53,6 @@ export const Activity: FC = () => {
           />
         </WidgetTile>
         <WidgetTile
-          short
           className={styles.widget}
           active={location.pathname === routes.activityVoteRate}
           onClick={() => history.push(routes.activityVoteRate)}

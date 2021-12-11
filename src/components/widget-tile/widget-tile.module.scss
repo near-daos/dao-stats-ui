@@ -6,8 +6,8 @@
   @extend %button-reset;
 
   width: functions.calc-rem(240);
-  min-height: functions.calc-rem(177);
-
+  height: 100%;
+  
   padding: functions.calc-rem(16) functions.calc-rem(20);
 
   flex-direction: column;
@@ -20,10 +20,7 @@
   text-align: left;
 
   transition: border-color 350ms;
-
-  &.short {
-    min-height: 0;
-  }
+  
 
   &:hover {
     border: functions.calc-rem(2) solid var(--color-chart-yellow);
@@ -32,4 +29,9 @@
 
 .active {
   border: functions.calc-rem(2) solid var(--color-blue-500);
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.3;
 }

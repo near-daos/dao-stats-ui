@@ -119,7 +119,7 @@ export const ChartLine: React.FC<LineChartProps> = ({
         />
       ))}
       <Tooltip
-        content={ChartTooltip}
+        content={<ChartTooltip lines={lines} />}
         cursor={{
           stroke: '#686767',
           strokeWidth: '0.5',

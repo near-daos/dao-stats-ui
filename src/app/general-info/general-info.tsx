@@ -30,12 +30,14 @@ export const GeneralInfo: FC = () => {
   useEffect(() => {
     (async () => {
       try {
-        await dispatch(getGeneral({ contract }));
+        if (!general) {
+          await dispatch(getGeneral({ contract }));
+        }
       } catch (error: unknown) {
         console.error(error);
       }
     })();
-  }, [contract, dispatch]);
+  }, [general, contract, dispatch]);
 
   return (
     <Page title="General info">
@@ -58,7 +60,7 @@ export const GeneralInfo: FC = () => {
           active={location.pathname === routes.generalInfoDaoActivity}
         >
           <WidgetInfo
-            title="DAOs activity"
+            title="Active DAOs"
             number={general?.activity?.count}
             percentages={general?.activity?.growth}
           />
@@ -73,6 +75,19 @@ export const GeneralInfo: FC = () => {
             title="Groups"
             number={general?.groups?.count}
             percentages={general?.groups?.growth}
+          />
+        </WidgetTile>
+
+        <WidgetTile
+          disabled
+          className={styles.widget}
+          onClick={() => history.push(routes.generalInfoDaoActivity)}
+          active={location.pathname === routes.generalInfoDaoActivity}
+        >
+          <WidgetInfo
+            title="Avg. Groups/DAO"
+            number={general?.activity?.count}
+            percentages={general?.activity?.growth}
           />
         </WidgetTile>
       </div>

@@ -18,7 +18,6 @@ export const Tvl: FC = () => {
     <Page title="TVL">
       <div className={styles.widgets}>
         <WidgetTile
-          short
           className={styles.widget}
           active={location.pathname === ROUTES.tvl}
           onClick={() => history.push(ROUTES.tvl)}
@@ -36,7 +35,6 @@ export const Tvl: FC = () => {
           />
         </WidgetTile>
         <WidgetTile
-          short
           className={styles.widget}
           active={location.pathname === ROUTES.tvlBounties}
           onClick={() => history.push(ROUTES.tvlBounties)}
@@ -50,7 +48,6 @@ export const Tvl: FC = () => {
           <WidgetInfo title="VL of Bounties" number={456} percentages={10} />
         </WidgetTile>
         <WidgetTile
-          short
           className={styles.widget}
           active={location.pathname === ROUTES.tvlNear}
           onClick={() => history.push(ROUTES.tvlNear)}
@@ -58,7 +55,6 @@ export const Tvl: FC = () => {
           <WidgetInfo title="TVL (NEAR)" number={16.193} percentages={10} />
         </WidgetTile>
         <WidgetTile
-          short
           className={styles.widget}
           active={location.pathname === ROUTES.tvlDao}
           onClick={() => history.push(ROUTES.tvlDao)}
