@@ -19,11 +19,11 @@ import {
 const initialState: usersState = {
   users: null,
   dao: null,
-  history: { metrics: [] },
-  daoHistory: { metrics: [] },
-  leaderboard: { metrics: [] },
-  usersInteractions: { metrics: [] },
-  usersInteractionsLeaderboard: { metrics: [] },
+  history: null,
+  daoHistory: null,
+  leaderboard: null,
+  usersInteractions: null,
+  usersInteractionsLeaderboard: null,
   loading: RequestStatus.NOT_ASKED,
   error: null,
 };

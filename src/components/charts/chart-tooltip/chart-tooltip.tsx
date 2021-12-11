@@ -6,9 +6,11 @@ import { format } from 'date-fns';
 import { Dot } from '../svg/dot';
 
 import styles from './chart-tooltip.module.scss';
+import { LineItem } from '../types';
 
 export interface ChartTooltipProps extends TooltipProps<number, string> {
   showArrow?: boolean;
+  lines?: LineItem[];
 }
 
 export const ChartTooltip: React.FC<ChartTooltipProps> = ({
@@ -19,6 +21,7 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
   coordinate,
   offset,
   showArrow,
+  lines,
 }) => {
   const [arrowPosition, setArrowPosition] = useState('');
   const rootRef = useRef<HTMLDivElement>(null);
@@ -57,10 +60,12 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
       <p className={styles.label}>
         {format(new Date(label), 'EEEE, LLL d, yyyy')}
       </p>
-      {payload.map((element) => (
+      {payload.map((element, elementIndex) => (
         <div key={`item-${element.dataKey}-${element.value}`}>
           <Dot color={element.color || ''} className={styles.dot} />
-          <span className={styles.name}>{element.name}:</span>
+          <span className={styles.name}>
+            {lines ? lines[elementIndex].name : element.name}:
+          </span>
           <span className={styles.value}>{element.value}</span>
         </div>
       ))}

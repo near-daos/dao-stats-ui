@@ -1,11 +1,8 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import Downshift, { GetItemPropsOptions } from 'downshift';
 import clsx from 'clsx';
 
 import { Search } from '../search/search';
-import astroImage from '../../images/astro.png';
-import sputnikImage from '../../images/sputnik.png';
-import { NETWORKS } from '../../constants';
 
 import styles from './dropdown.module.scss';
 
@@ -13,8 +10,6 @@ export type DropdownOption = {
   id: string;
   name: string;
   link: string;
-  searchType: NETWORKS;
-  type: 'sputnik' | 'astro';
 };
 
 export type DropdownProps = {
@@ -26,6 +21,7 @@ export type DropdownProps = {
   options: DropdownOption[];
   initialSelectedItem?: DropdownOption;
   value?: DropdownOption | null;
+  disabled?: boolean;
 };
 
 export const Dropdown: FC<DropdownProps> = ({
@@ -36,9 +32,8 @@ export const Dropdown: FC<DropdownProps> = ({
   options,
   initialSelectedItem = undefined,
   value,
+  disabled,
 }) => {
-  const [searchType, setSearchType] = useState<NETWORKS>(NETWORKS.Mainnet);
-
   const renderOptions = ({
     getItemProps,
     inputValue,
@@ -49,9 +44,8 @@ export const Dropdown: FC<DropdownProps> = ({
   }) => {
     const filteredOptions = options.filter(
       (option) =>
-        option.searchType === searchType &&
-        (option.name.toLowerCase().includes(inputValue?.toLowerCase() || '') ||
-          option.link.toLowerCase().includes(inputValue?.toLowerCase() || '')),
+        option.name.toLowerCase().includes(inputValue?.toLowerCase() || '') ||
+        option.link.toLowerCase().includes(inputValue?.toLowerCase() || ''),
     );
 
     if (filteredOptions.length > 0) {
@@ -69,13 +63,7 @@ export const Dropdown: FC<DropdownProps> = ({
                 className: styles.dropDownItem,
               })}
             >
-              <div className={styles.image}>
-                {option.type === 'astro' ? (
-                  <img src={astroImage} alt="astro" />
-                ) : (
-                  <img src={sputnikImage} alt="sputnik" />
-                )}
-              </div>
+              <div className={styles.image} />
               <span className={styles.name}>{option.name}</span>
               <span className={styles.link}>{option.link}</span>
             </li>
@@ -112,11 +100,7 @@ export const Dropdown: FC<DropdownProps> = ({
     >
       {({ getItemProps, getMenuProps, getInputProps, isOpen, inputValue }) => (
         <div className={clsx(styles.root, className)}>
-          <Search
-            inputProps={{ ...getInputProps() }}
-            setSearchType={setSearchType}
-            searchType={searchType}
-          />
+          <Search disabled={disabled} inputProps={{ ...getInputProps() }} />
           {isOpen ? (
             <div className={styles.overlayDropdown}>
               <div className={clsx(styles.dropdown, dropdownClassName)}>

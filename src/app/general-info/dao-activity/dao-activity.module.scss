@@ -17,3 +17,27 @@
   padding: functions.calc-rem(10) functions.calc-rem(30) functions.calc-rem(10)
     functions.calc-rem(20);
 }
+
+.loading {
+  width: 100%;
+  height: functions.calc-rem(556);
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: all linear 300ms;
+}
+
+.showLoading {
+  opacity: 1;
+  visibility: visible;
+}

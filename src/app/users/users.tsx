@@ -46,7 +46,6 @@ export const Users: FC = () => {
     <Page title="Users">
       <div className={styles.widgets}>
         <WidgetTile
-          short
           className={styles.widget}
           active={location.pathname === routes.users}
           onClick={() => history.push(routes.users)}
@@ -59,7 +58,6 @@ export const Users: FC = () => {
         </WidgetTile>
 
         <WidgetTile
-          short
           className={styles.widget}
           onClick={() => history.push(routes.usersOfDao)}
           active={location.pathname === routes.usersOfDao}
@@ -72,7 +70,6 @@ export const Users: FC = () => {
         </WidgetTile>
 
         <WidgetTile
-          short
           className={styles.widget}
           onClick={() => history.push(routes.usersPerDao)}
           active={location.pathname === routes.usersPerDao}
@@ -97,7 +94,6 @@ export const Users: FC = () => {
         </WidgetTile> */}
 
         <WidgetTile
-          short
           className={styles.widget}
           onClick={() => history.push(routes.usersNumberInteractions)}
           active={location.pathname === routes.usersNumberInteractions}
@@ -110,7 +106,6 @@ export const Users: FC = () => {
         </WidgetTile>
 
         <WidgetTile
-          short
           className={styles.widget}
           onClick={() => history.push(routes.usersNumberInteractionsPerDao)}
           active={location.pathname === routes.usersNumberInteractionsPerDao}

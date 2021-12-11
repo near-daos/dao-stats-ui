@@ -4,7 +4,7 @@
 
 .header {
   height: functions.calc-rem(64);
-  max-width: functions.calc-rem(1216);
+  max-width: 100%;
 
   position: sticky;
   top: 0;
@@ -18,9 +18,11 @@
   background: var(--color-brand);
 
   @include media.desktop {
-    position: initial;
     height: functions.calc-rem(88);
+    max-width: functions.calc-rem(1216);
     margin: 0 auto;
+
+    position: initial;
   }
 }
 
@@ -72,21 +74,32 @@
 }
 
 .logo {
-  margin-left: functions.calc-rem(2);
-  content: url('../../images/logo-mobile.svg');
+  @include media.desktop {
+    margin: 0 0 0 functions.calc-rem(12);
+  };
+}
+
+.desktopImage {
+  display: block;
 
   @include media.desktop {
-    content: url('../../images/daostats.svg');
+    display: none;
+  };
+}
 
-    margin-left: functions.calc-rem(12);
-  }
+.mobileImage {
+  display: none;
+
+  @include media.desktop {
+    display: block;
+  };
 }
 
 .title {
+  @include title-3;
   width: functions.calc-rem(144);
 
   text-align: center;
-  @include title-3;
 }
 
 .mobileIcon {

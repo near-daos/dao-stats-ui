@@ -1,6 +1,7 @@
 @use '../../styles/mixins';
 @use '../../styles/typography';
 @use '../../styles/functions';
+@use '../../styles/media';
 
 .title {
   @include typography.title-1;
@@ -14,4 +15,9 @@
 
 .content {
   display: flex;
+  flex-direction: column;
+  
+  @include media.desktop {
+    flex-direction: row;
+  }
 }

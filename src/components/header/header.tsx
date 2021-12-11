@@ -2,13 +2,14 @@ import React, { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Dropdown, DropdownOption } from '../dropdown/dropdown';
-import { NavigationInfo } from '../navigation-info';
 import { useForbiddenRoutes } from '../../hooks';
-import { NETWORKS } from '../../constants';
 
 import { SvgIcon } from '../svgIcon/svgIcon';
 
 import styles from './header.module.scss';
+
+import desktopLogo from '../../images/logo-mobile.svg';
+import mobileLogo from '../../images/daostats.svg';
 
 export type HeaderProps = {
   isOpened: boolean;
@@ -20,82 +21,53 @@ const dropdownOptions: DropdownOption[] = [
     id: '0',
     name: 'Fatima Sanders',
     link: 'Quisque libero lacus, varius et, euismod et, commodo at, libero.',
-    searchType: NETWORKS.Mainnet,
-    type: 'sputnik',
   },
   {
     id: '1',
     name: 'Xaviera Gibson',
     link:
       'Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus',
-    searchType: NETWORKS.Mainnet,
-
-    type: 'astro',
   },
   {
     id: '2',
     name: 'Anthony Hawkins',
     link: 'ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo',
-    searchType: NETWORKS.Mainnet,
-
-    type: 'sputnik',
   },
   {
     id: '3',
     name: 'Hadassah Harrington',
     link:
       'ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam auctor, velit',
-    searchType: NETWORKS.Mainnet,
-
-    type: 'sputnik',
   },
   {
     id: '4',
     name: 'Abel Knight',
     link: 'felis. Donec tempor, est ac mattis semper, dui lectus rutrum',
-    searchType: NETWORKS.Mainnet,
-
-    type: 'astro',
   },
   {
     id: '5',
     name: 'jonathan',
     link: 'jonathan.sputnikdao.near',
-    searchType: NETWORKS.Mainnet,
-
-    type: 'sputnik',
   },
   {
     id: '6',
     name: 'jonathan',
     link: 'jonathan.sputnikdao.near',
-    searchType: NETWORKS.Mainnet,
-
-    type: 'astro',
   },
   {
     id: '7',
     name: 'jonathan',
     link: 'jonathan.sputnikdao.near',
-    searchType: NETWORKS.Mainnet,
-
-    type: 'sputnik',
   },
   {
     id: '8',
     name: 'jonathan',
     link: 'jonathan.sputnikdao.near',
-    searchType: NETWORKS.Mainnet,
-
-    type: 'sputnik',
   },
   {
     id: '9',
     name: 'jonathan',
     link: 'jonathan.sputnikdao.near',
-    searchType: NETWORKS.Mainnet,
-
-    type: 'sputnik',
   },
 ];
 
@@ -108,7 +80,12 @@ export const Header: FC<HeaderProps> = ({ isOpened, setIsOpened }) => {
   return (
     <div className={styles.header}>
       <Link to="/" className={styles.logo}>
-        <img className={styles.logo} alt="" />
+        <img
+          className={styles.desktopImage}
+          src={desktopLogo}
+          alt="Dao Stats"
+        />
+        <img className={styles.mobileImage} src={mobileLogo} alt="Dao Stats" />
       </Link>
       {!isForbiddenHeader ? (
         <>
@@ -128,6 +105,7 @@ export const Header: FC<HeaderProps> = ({ isOpened, setIsOpened }) => {
 
           <div className={styles.main}>
             <Dropdown
+              disabled
               className={styles.search}
               options={dropdownOptions}
               value={dropdownValue}

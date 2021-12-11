@@ -2,7 +2,6 @@ import React, { InputHTMLAttributes } from 'react';
 import clsx from 'clsx';
 
 import { SvgIcon } from '../svgIcon/svgIcon';
-import { NETWORKS } from '../../constants';
 
 import styles from './search.module.scss';
 
@@ -13,8 +12,6 @@ export interface SearchProps {
   classNameIcon?: string;
   value?: string;
   inputProps?: Partial<InputHTMLAttributes<HTMLInputElement>>;
-  setSearchType: (network: NETWORKS) => void;
-  searchType: NETWORKS;
 }
 
 export const Search: React.FC<SearchProps> = ({
@@ -23,12 +20,11 @@ export const Search: React.FC<SearchProps> = ({
   classNameIcon,
   value = '',
   inputProps,
-  setSearchType,
-  searchType,
   disabled,
 }) => (
   <div
     className={clsx(styles.root, className, {
+      [styles.disabled]: disabled,
       [styles.forceActive]: value?.trim() !== '',
     })}
   >
@@ -36,7 +32,9 @@ export const Search: React.FC<SearchProps> = ({
       {...inputProps}
       id="search"
       type="text"
-      className={clsx(styles.input, classNameInput)}
+      className={clsx(styles.input, classNameInput, {
+        [styles.disabled]: disabled,
+      })}
       placeholder="Search by Dao Name"
       disabled={disabled}
     />
@@ -45,25 +43,25 @@ export const Search: React.FC<SearchProps> = ({
     <SvgIcon icon="search" className={clsx(styles.inputIcon, classNameIcon)} />
 
     <div className={styles.inputControl}>
-      <button
-        type="button"
+      <a
+        href={process.env.REACT_APP_MAINNET || '/'}
         className={clsx(styles.inputControlItem, {
-          [styles.active]: searchType === NETWORKS.Mainnet,
+          [styles.active]:
+            window.location.origin === process.env.REACT_APP_MAINNET,
         })}
-        onClick={() => setSearchType(NETWORKS.Mainnet)}
       >
         Mainnet
-      </button>
+      </a>
 
-      <button
-        type="button"
+      <a
+        href={process.env.REACT_APP_TESTNET || '/'}
         className={clsx(styles.inputControlItem, {
-          [styles.active]: searchType === NETWORKS.Testnet,
+          [styles.active]:
+            window.location.origin === process.env.REACT_APP_TESTNET,
         })}
-        onClick={() => setSearchType(NETWORKS.Testnet)}
       >
         Testnet
-      </button>
+      </a>
     </div>
   </div>
 );

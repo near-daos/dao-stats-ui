@@ -1,10 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-
-import { ChartLine, Tabs, Leaderboard } from 'src/components';
+import clsx from 'clsx';
+import { ChartLine, Leaderboard, Loading, Tabs } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { getDateFromMow } from 'src/components/charts/helpers';
-import { usePrepareLeaderboard } from 'src/hooks';
+import { selectActionLoading } from 'src/store/loading';
+import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
+import { RequestStatus } from '../../../store/types';
 
 import {
   selectGeneralActivity,
@@ -30,41 +31,45 @@ export const DaoActivity: FC = () => {
   const dispatch = useAppDispatch();
   const activity = useAppSelector(selectGeneralActivity);
   const activityLeaderboard = useAppSelector(selectGeneralActivityLeaderboard);
+  const getGeneralActivityLoading = useAppSelector(
+    selectActionLoading(getGeneralActivity.typePrefix),
+  );
+
+  const getGeneralActivityLeaderboardLoading = useAppSelector(
+    selectActionLoading(getGeneralActivityLeaderboard.typePrefix),
+  );
 
   useEffect(() => {
-    dispatch(
-      getGeneralActivity({
-        contract,
-        from: String(getDateFromMow(period)),
-      }),
-    );
-  }, [contract, dispatch, period]);
+    if (
+      (!activity || getGeneralActivityLoading === RequestStatus.NOT_ASKED) &&
+      getGeneralActivityLoading !== RequestStatus.PENDING
+    ) {
+      dispatch(
+        getGeneralActivity({
+          contract,
+        }),
+      ).catch((error) => console.log(error));
+    }
 
-  useEffect(() => {
-    (async () => {
-      try {
-        if (!activity) {
-          await dispatch(
-            getGeneralActivity({
-              contract,
-              from: String(getDateFromMow(period)),
-            }),
-          );
-        }
-
-        if (!activityLeaderboard) {
-          await dispatch(
-            getGeneralActivityLeaderboard({
-              contract,
-            }),
-          );
-        }
-      } catch (error: unknown) {
-        // eslint-disable-next-line no-console
-        console.error(error);
-      }
-    })();
-  });
+    if (
+      (!activityLeaderboard ||
+        getGeneralActivityLeaderboardLoading === RequestStatus.NOT_ASKED) &&
+      getGeneralActivityLeaderboardLoading !== RequestStatus.PENDING
+    ) {
+      dispatch(
+        getGeneralActivityLeaderboard({
+          contract,
+        }),
+      ).catch((error) => console.log(error));
+    }
+  }, [
+    dispatch,
+    contract,
+    activity,
+    getGeneralActivityLoading,
+    activityLeaderboard,
+    getGeneralActivityLeaderboardLoading,
+  ]);
 
   const handleOnChange = (value: string) => {
     setActiveTab(value);
@@ -76,8 +81,20 @@ export const DaoActivity: FC = () => {
       : null,
   });
 
+  const activityData = useFilterMetrics(period, activity);
+
   return (
     <div className={styles.mainContent}>
+      <div
+        className={clsx(styles.loading, {
+          [styles.showLoading]:
+            getGeneralActivityLoading === RequestStatus.PENDING ||
+            getGeneralActivityLeaderboardLoading === RequestStatus.PENDING,
+        })}
+      >
+        <Loading />
+      </div>
+
       <div className={styles.tabWrapper}>
         <Tabs
           variant="small"
@@ -87,13 +104,13 @@ export const DaoActivity: FC = () => {
         />
       </div>
       <div className={styles.chart}>
-        {activeTab === 'history-data' && activity ? (
+        {activeTab === 'history-data' && activityData ? (
           <ChartLine
-            data={activity}
+            data={activityData}
             period={period}
             setPeriod={setPeriod}
             lines={[
-              { name: 'DAOs activity', color: '#E33F84', dataKey: 'count' },
+              { name: 'Active DAOs', color: '#E33F84', dataKey: 'count' },
             ]}
           />
         ) : null}

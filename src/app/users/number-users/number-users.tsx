@@ -2,14 +2,13 @@ import React, { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
 import { ChartLine, Tabs, Leaderboard } from 'src/components';
-import { getDateFromMow } from 'src/components/charts/helpers';
 
 import { getUsersHistory, getUsersLeaderboard } from '../slice';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { selectUsersHistory, selectUsersLeaderboard } from '../selectors';
 
 import styles from './number-users.module.scss';
-import { usePrepareLeaderboard } from '../../../hooks';
+import { useFilterMetrics, usePrepareLeaderboard } from '../../../hooks';
 
 const tabOptions = [
   {
@@ -22,7 +21,6 @@ const tabOptions = [
 export const NumberUsers: FC = () => {
   const [period, setPeriod] = useState('1y');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
-
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
   const users = useAppSelector(selectUsersHistory);
@@ -34,7 +32,6 @@ export const NumberUsers: FC = () => {
         await dispatch(
           getUsersHistory({
             contract,
-            from: String(getDateFromMow(period)),
           }),
         );
         await dispatch(
@@ -47,7 +44,7 @@ export const NumberUsers: FC = () => {
         console.error(error);
       }
     })();
-  }, [period, contract, dispatch]);
+  }, [contract, dispatch]);
 
   const handleOnChange = (value: string) => {
     setActiveTab(value);
@@ -56,6 +53,8 @@ export const NumberUsers: FC = () => {
   const usersLeaderboardData = usePrepareLeaderboard({
     leaderboard: usersLeaderboard?.metrics ? usersLeaderboard.metrics : null,
   });
+
+  const usersData = useFilterMetrics(period, users);
 
   return (
     <div className={styles.mainContent}>
@@ -68,9 +67,9 @@ export const NumberUsers: FC = () => {
         />
       </div>
       <div className={styles.chart}>
-        {activeTab === 'history-data' && users ? (
+        {activeTab === 'history-data' && usersData ? (
           <ChartLine
-            data={users}
+            data={usersData}
             period={period}
             setPeriod={setPeriod}
             lines={[{ name: 'Users', color: '#E33F84', dataKey: 'count' }]}

@@ -5,22 +5,25 @@ import styles from './widget-tile.module.scss';
 type WidgetTileProps = {
   className?: string;
   active?: boolean;
-  short?: boolean;
   onClick?: () => void;
+  disabled?: boolean;
 };
 
 export const WidgetTile: FC<WidgetTileProps> = ({
   children,
   className,
-  short = false,
   active = false,
   onClick,
+  disabled,
 }) => (
   <button
     type="button"
     className={clsx(
       styles.widgetTile,
-      { [styles.active]: active, [styles.short]: short },
+      {
+        [styles.disabled]: disabled,
+        [styles.active]: active,
+      },
       className,
     )}
     onClick={onClick}
