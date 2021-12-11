@@ -42,14 +42,41 @@ export const Users: FC = () => {
     <Page title="Users">
       <div className={styles.widgets}>
         <WidgetTile
+          short
           className={styles.widget}
           active={location.pathname === routes.users}
           onClick={() => history.push(routes.users)}
         >
           <WidgetInfo
-            title="Users"
+            title="All users on a platfrom"
             number={users?.users.count}
             percentages={users?.users.growth}
+          />
+        </WidgetTile>
+
+        <WidgetTile
+          short
+          className={styles.widget}
+          onClick={() => history.push(routes.usersAverageCouncilSize)}
+          active={location.pathname === routes.usersAverageCouncilSize}
+        >
+          <WidgetInfo
+            title="Users that are member of a DAO"
+            number={4644}
+            percentages={10}
+          />
+        </WidgetTile>
+
+        <WidgetTile
+          short
+          className={styles.widget}
+          onClick={() => history.push(routes.usersAverageCouncilSize)}
+          active={location.pathname === routes.usersAverageCouncilSize}
+        >
+          <WidgetInfo
+            title="Average number of users per DAO"
+            number={46}
+            percentages={10}
           />
         </WidgetTile>
 
@@ -66,6 +93,7 @@ export const Users: FC = () => {
         </WidgetTile> */}
 
         <WidgetTile
+          short
           className={styles.widget}
           onClick={() => history.push(routes.usersNumberInteractions)}
           active={location.pathname === routes.usersNumberInteractions}
@@ -74,6 +102,19 @@ export const Users: FC = () => {
             title="Number of Interactions"
             number={users?.interactions.count}
             percentages={users?.interactions.growth}
+          />
+        </WidgetTile>
+
+        <WidgetTile
+          short
+          className={styles.widget}
+          onClick={() => history.push(routes.usersNumberInteractions)}
+          active={location.pathname === routes.usersNumberInteractions}
+        >
+          <WidgetInfo
+            title="Average number of Interactions per DAO"
+            number={1087}
+            percentages={10}
           />
         </WidgetTile>
       </div>
