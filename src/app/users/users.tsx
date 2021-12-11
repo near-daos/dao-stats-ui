@@ -57,8 +57,8 @@ export const Users: FC = () => {
         <WidgetTile
           short
           className={styles.widget}
-          onClick={() => history.push(routes.usersAverageCouncilSize)}
-          active={location.pathname === routes.usersAverageCouncilSize}
+          onClick={() => history.push(routes.usersNumberInteractions)}
+          active={location.pathname === routes.usersNumberInteractions}
         >
           <WidgetInfo
             title="Users that are member of a DAO"
@@ -70,8 +70,8 @@ export const Users: FC = () => {
         <WidgetTile
           short
           className={styles.widget}
-          onClick={() => history.push(routes.usersAverageCouncilSize)}
-          active={location.pathname === routes.usersAverageCouncilSize}
+          onClick={() => history.push(routes.users)}
+          active={location.pathname === routes.users}
         >
           <WidgetInfo
             title="Average number of users per DAO"
@@ -108,8 +108,8 @@ export const Users: FC = () => {
         <WidgetTile
           short
           className={styles.widget}
-          onClick={() => history.push(routes.usersNumberInteractions)}
-          active={location.pathname === routes.usersNumberInteractions}
+          onClick={() => history.push(routes.users)}
+          active={location.pathname === routes.users}
         >
           <WidgetInfo
             title="Average number of Interactions per DAO"
