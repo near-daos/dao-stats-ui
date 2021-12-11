@@ -7,7 +7,7 @@
 
   width: functions.calc-rem(240);
   height: 100%;
-  
+
   padding: functions.calc-rem(16) functions.calc-rem(20);
 
   flex-direction: column;
@@ -20,7 +20,6 @@
   text-align: left;
 
   transition: border-color 350ms;
-  
 
   &:hover {
     border: functions.calc-rem(2) solid var(--color-chart-yellow);
@@ -33,5 +32,6 @@
 
 .disabled {
   pointer-events: none;
+
   opacity: 0.3;
 }

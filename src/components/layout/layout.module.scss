@@ -3,43 +3,24 @@
 @use '../../styles/media';
 
 .layout {
+  width: 100%;
+  min-height: 100vh;
+
   padding: 0 functions.calc-rem(12);
 
-  @include media.desktop {
-    @include mixins.container;
-    min-height: 100vh;
-  }
 }
 
 .container {
-  padding: functions.calc-rem(20) 0 0;
+  @include mixins.container;
+  max-width: functions.calc-rem(1216);
+
+  padding: functions.calc-rem(48) 0 0;
+  margin: 0 auto;
 
   display: flex;
-
-  @include media.desktop {
-    padding: functions.calc-rem(48) 0 0;
-    width: functions.calc-rem(1216);
-    margin: 0 auto;
-  }
 }
 
 .page {
-  width: functions.calc-rem(1005);
-}
-
-.blur {
-  opacity: 0.3;
-  z-index: 2;
-
-  min-width: functions.calc-rem(320);
-  min-height: 100%;
-}
-.blur div {
-  pointer-events: none;
-}
-
-.fullWidth {
   width: 100%;
-
   margin: 0 auto;
 }

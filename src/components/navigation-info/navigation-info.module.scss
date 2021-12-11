@@ -8,7 +8,7 @@
   width: functions.calc-rem(169);
   height: functions.calc-rem(48);
 
-  padding: 0 functions.calc-rem(9);
+  padding: 0 functions.calc-rem(12);
 
   position: relative;
 
@@ -36,6 +36,7 @@
 .end {
   &::after {
     right: 0;
+
     border-top-right-radius: functions.calc-rem(4);
     border-bottom-right-radius: functions.calc-rem(4);
   }
@@ -44,6 +45,7 @@
 .start {
   &::after {
     left: 0;
+
     border-top-left-radius: functions.calc-rem(4);
     border-bottom-left-radius: functions.calc-rem(4);
   }
@@ -77,11 +79,15 @@
 .title {
   @include title-3();
   color: var(--white);
+
+  white-space: nowrap;
 }
 
 .description {
   @include caption-1();
   margin: functions.calc-rem(-3) 0 0 0;
-
+  
   color: var(--color-grey-300);
+
+  white-space: nowrap;
 }

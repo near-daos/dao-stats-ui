@@ -7,6 +7,7 @@ import {
   YAxis,
   Tooltip,
   Legend,
+  ResponsiveContainer,
 } from 'recharts';
 
 import { CustomLegend } from 'src/components/charts/custom-legend';
@@ -67,66 +68,68 @@ export const ChartLine: React.FC<LineChartProps> = ({
   );
 
   return (
-    <LineChart width={width} height={height} data={data?.metrics}>
-      <CartesianGrid stroke="#393838" vertical={false} />
-      <Legend
-        align="left"
-        verticalAlign="top"
-        height={50}
-        iconType="circle"
-        content={
-          <CustomLegend
-            lines={lines}
-            period={period}
-            setPeriod={(periodType) => setPeriod(periodType)}
-            onFilterSelect={(filteredNames) =>
-              setFilterLines(
-                lines.filter((filterLine) =>
-                  filteredNames.includes(filterLine.dataKey),
-                ),
-              )
-            }
-          />
-        }
-      />
-      <YAxis
-        type="number"
-        stroke="#393838"
-        tickMargin={1}
-        interval={0}
-        tickLine={false}
-        style={tickStyles}
-      />
-      <XAxis
-        stroke="#393838"
-        dataKey="timestamp"
-        tickMargin={12}
-        tickCount={6}
-        tickLine={false}
-        tickFormatter={(value) => tickXFormatter(value, period)}
-        style={tickStyles}
-        minTickGap={15}
-      />
-      {filterLines.map((filterLine) => (
-        <Line
-          type="monotone"
-          strokeWidth={2}
-          dot={false}
-          dataKey={filterLine.dataKey}
-          stroke={filterLine.color}
-          key={filterLine.name}
-          activeDot={renderActiveDot}
+    <ResponsiveContainer width="100%" height={500}>
+      <LineChart width={width} height={height} data={data?.metrics}>
+        <CartesianGrid stroke="#393838" vertical={false} />
+        <Legend
+          align="left"
+          verticalAlign="top"
+          height={50}
+          iconType="circle"
+          content={
+            <CustomLegend
+              lines={lines}
+              period={period}
+              setPeriod={(periodType) => setPeriod(periodType)}
+              onFilterSelect={(filteredNames) =>
+                setFilterLines(
+                  lines.filter((filterLine) =>
+                    filteredNames.includes(filterLine.dataKey),
+                  ),
+                )
+              }
+            />
+          }
         />
-      ))}
-      <Tooltip
-        content={<ChartTooltip lines={lines} />}
-        cursor={{
-          stroke: '#686767',
-          strokeWidth: '0.5',
-          strokeDasharray: '5,5',
-        }}
-      />
-    </LineChart>
+        <YAxis
+          type="number"
+          stroke="#393838"
+          tickMargin={1}
+          interval={0}
+          tickLine={false}
+          style={tickStyles}
+        />
+        <XAxis
+          stroke="#393838"
+          dataKey="timestamp"
+          tickMargin={12}
+          tickCount={6}
+          tickLine={false}
+          tickFormatter={(value) => tickXFormatter(value, period)}
+          style={tickStyles}
+          minTickGap={15}
+        />
+        {filterLines.map((filterLine) => (
+          <Line
+            type="monotone"
+            strokeWidth={2}
+            dot={false}
+            dataKey={filterLine.dataKey}
+            stroke={filterLine.color}
+            key={filterLine.name}
+            activeDot={renderActiveDot}
+          />
+        ))}
+        <Tooltip
+          content={<ChartTooltip lines={lines} />}
+          cursor={{
+            stroke: '#686767',
+            strokeWidth: '0.5',
+            strokeDasharray: '5,5',
+          }}
+        />
+      </LineChart>
+    </ResponsiveContainer>
   );
 };
 

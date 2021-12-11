@@ -3,7 +3,7 @@
 @use '../../styles/media';
 
 .mainPage {
-  width: functions.calc-rem(296);
+  width: 100%;
 
   margin: 0 auto;
 
@@ -14,6 +14,7 @@
 
   @include media.desktop {
     width: functions.calc-rem(700);
+
     padding: functions.calc-rem(104) 0 0 0;
   }
 }

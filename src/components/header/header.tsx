@@ -8,6 +8,9 @@ import { SvgIcon } from '../svgIcon/svgIcon';
 
 import styles from './header.module.scss';
 
+import desktopLogo from '../../images/logo-mobile.svg';
+import mobileLogo from '../../images/daostats.svg';
+
 export type HeaderProps = {
   isOpened: boolean;
   setIsOpened: (value: boolean) => void;
@@ -77,7 +80,12 @@ export const Header: FC<HeaderProps> = ({ isOpened, setIsOpened }) => {
   return (
     <div className={styles.header}>
       <Link to="/" className={styles.logo}>
-        <img className={styles.logo} alt="" />
+        <img
+          className={styles.desktopImage}
+          src={desktopLogo}
+          alt="Dao Stats"
+        />
+        <img className={styles.mobileImage} src={mobileLogo} alt="Dao Stats" />
       </Link>
       {!isForbiddenHeader ? (
         <>

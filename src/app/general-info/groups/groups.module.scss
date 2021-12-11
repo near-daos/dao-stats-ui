@@ -1,8 +1,7 @@
 @use 'src/styles/functions';
+@use 'src/styles/media';
 
 .mainContent {
-  width: functions.calc-rem(750);
-
   position: relative;
 }
 
@@ -16,8 +15,12 @@
 }
 
 .chart {
-  padding: functions.calc-rem(10) functions.calc-rem(30) functions.calc-rem(10)
+  padding: functions.calc-rem(10) functions.calc-rem(12) functions.calc-rem(10)
+    functions.calc-rem(12);
+  @include media.desktop {
+    padding: functions.calc-rem(10) functions.calc-rem(30) functions.calc-rem(10)
     functions.calc-rem(20);
+  }
 }
 
 .loading {
