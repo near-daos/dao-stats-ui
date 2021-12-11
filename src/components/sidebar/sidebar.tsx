@@ -30,7 +30,7 @@ export const Sidebar: FC<SidebarProps> = ({ isOpened, setIsOpened }) => {
       label: 'General Info',
       value: routes.generalInfo,
     },
-    { label: 'Users', value: routes.users },
+    { label: 'Users and Activity', value: routes.users },
     { label: 'Activity', value: routes.activity },
   ];
 
