@@ -5,6 +5,7 @@ import {
   useLocation,
   useHistory,
   useParams,
+  matchPath,
 } from 'react-router';
 import { useRoutes } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
@@ -49,8 +50,13 @@ export const Users: FC = () => {
       <Widgets>
         <WidgetTile
           className={styles.widget}
-          active={location.pathname === routes.users}
           onClick={() => history.push(routes.users)}
+          active={Boolean(
+            matchPath(location.pathname, {
+              path: ROUTES.users,
+              exact: true,
+            }),
+          )}
         >
           <WidgetInfo
             title="All users on a platfrom"
@@ -100,7 +106,12 @@ export const Users: FC = () => {
         <WidgetTile
           className={styles.widget}
           onClick={() => history.push(routes.usersNumberInteractions)}
-          active={location.pathname === routes.usersNumberInteractions}
+          active={Boolean(
+            matchPath(location.pathname, {
+              path: ROUTES.usersNumberInteractions,
+              exact: true,
+            }),
+          )}
         >
           <WidgetInfo
             title="Number of Interactions"
