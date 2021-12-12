@@ -68,7 +68,6 @@ export const ChartLine: React.FC<LineChartProps> = ({
   return (
     <ResponsiveContainer>
       <LineChart data={data?.metrics}>
-        <CartesianGrid stroke="#393838" vertical={false} />
         <Legend
           align="left"
           verticalAlign="top"
@@ -89,6 +88,7 @@ export const ChartLine: React.FC<LineChartProps> = ({
             />
           }
         />
+        <CartesianGrid stroke="#393838" vertical={false} />
         <YAxis
           type="number"
           stroke="#393838"
