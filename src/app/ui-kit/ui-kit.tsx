@@ -5,8 +5,8 @@ import {
   ChartBar,
   ChartLine,
   ChartPie,
-  Dropdown,
-  DropdownOption,
+  Autocomplete,
+  AutocompleteOption,
   Header,
   Leaderboard,
   LeaderboardDataItem,
@@ -65,7 +65,7 @@ const tableMock3: LeaderboardDataItem[] = [
   },
 ];
 
-const options: DropdownOption[] = [
+const options: AutocompleteOption[] = [
   {
     id: '0',
     name: 'Fatima Sanders',
@@ -306,7 +306,7 @@ export const leaderboardData = [
 ];
 
 export const UiKIt: FC = () => {
-  const [dropdownValue, setDropDownValue] = useState<DropdownOption | null>(
+  const [dropdownValue, setDropDownValue] = useState<AutocompleteOption | null>(
     null,
   );
 
@@ -413,7 +413,7 @@ export const UiKIt: FC = () => {
 
       <section className={styles.section}>
         <div className={styles.sectionHeader}>Dropdown</div>
-        <Dropdown
+        <Autocomplete
           options={options}
           value={dropdownValue}
           onChange={(selectedItem) => setDropDownValue(selectedItem)}

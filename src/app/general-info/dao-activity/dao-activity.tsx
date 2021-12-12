@@ -1,11 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import clsx from 'clsx';
-import { ChartLine, Leaderboard, Loading, Tabs } from 'src/components';
+
+import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
-import { RequestStatus } from '../../../store/types';
+import { isPending, isSuccess, isNotAsked } from 'src/utils';
 
 import {
   selectGeneralActivity,
@@ -13,7 +13,7 @@ import {
 } from '../selectors';
 import { getGeneralActivity, getGeneralActivityLeaderboard } from '../slice';
 
-import styles from './dao-activity.module.scss';
+import styles from '../general-info.module.scss';
 
 const tabOptions = [
   {
@@ -41,8 +41,8 @@ export const DaoActivity: FC = () => {
 
   useEffect(() => {
     if (
-      (!activity || getGeneralActivityLoading === RequestStatus.NOT_ASKED) &&
-      getGeneralActivityLoading !== RequestStatus.PENDING
+      (!activity || isNotAsked(getGeneralActivityLoading)) &&
+      !isPending(getGeneralActivityLoading)
     ) {
       dispatch(
         getGeneralActivity({
@@ -53,8 +53,8 @@ export const DaoActivity: FC = () => {
 
     if (
       (!activityLeaderboard ||
-        getGeneralActivityLeaderboardLoading === RequestStatus.NOT_ASKED) &&
-      getGeneralActivityLeaderboardLoading !== RequestStatus.PENDING
+        isNotAsked(getGeneralActivityLeaderboardLoading)) &&
+      !isPending(getGeneralActivityLeaderboardLoading)
     ) {
       dispatch(
         getGeneralActivityLeaderboard({
@@ -84,17 +84,13 @@ export const DaoActivity: FC = () => {
   const activityData = useFilterMetrics(period, activity);
 
   return (
-    <div className={styles.mainContent}>
-      <div
-        className={clsx(styles.loading, {
-          [styles.showLoading]:
-            getGeneralActivityLoading === RequestStatus.PENDING ||
-            getGeneralActivityLeaderboardLoading === RequestStatus.PENDING,
-        })}
-      >
-        <Loading />
-      </div>
-
+    <div className={styles.detailsContainer}>
+      <LoadingContainer
+        hide={
+          isSuccess(getGeneralActivityLoading) &&
+          isSuccess(getGeneralActivityLeaderboardLoading)
+        }
+      />
       <div className={styles.tabWrapper}>
         <Tabs
           variant="small"
@@ -103,7 +99,7 @@ export const DaoActivity: FC = () => {
           onChange={handleOnChange}
         />
       </div>
-      <div className={styles.chart}>
+      <div className={styles.metricsContainer}>
         {activeTab === 'history-data' && activityData ? (
           <ChartLine
             data={activityData}

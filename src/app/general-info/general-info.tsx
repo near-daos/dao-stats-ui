@@ -7,7 +7,7 @@ import {
   useHistory,
 } from 'react-router';
 
-import { Page, WidgetTile, WidgetInfo } from '../../components';
+import { Page, WidgetTile, WidgetInfo, Widgets } from '../../components';
 import { DaoActivity } from './dao-activity';
 import { NumbersDao } from './numbers-dao';
 import { Groups } from './groups';
@@ -41,7 +41,7 @@ export const GeneralInfo: FC = () => {
 
   return (
     <Page title="General info">
-      <div className={styles.widgets}>
+      <Widgets>
         <WidgetTile
           className={styles.widget}
           active={location.pathname === routes.generalInfo}
@@ -90,7 +90,7 @@ export const GeneralInfo: FC = () => {
             percentages={general?.activity?.growth}
           />
         </WidgetTile>
-      </div>
+      </Widgets>
 
       <div className={styles.mainContent}>
         <Switch>

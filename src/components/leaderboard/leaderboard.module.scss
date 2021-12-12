@@ -1,11 +1,19 @@
-@use '../../styles/functions';
-@import '../../styles/typography';
+@use 'src/styles/functions';
+@import 'src/styles/typography';
+@import 'src/styles/media';
 
 .tableWrapper {
   height: functions.calc-rem(490);
-  max-width: functions.calc-rem(750);
+  max-width: 100%;
 
   overflow-y: auto;
+  @include tablet-portrait {
+    max-width: 1000px;
+  }
+
+  @include tablet-landscape {
+    max-width: 100%;
+  }
 }
 
 .table {

@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Dropdown, DropdownOption } from '../dropdown/dropdown';
+import { Autocomplete, AutocompleteOption } from '../autocomplete/autocomplete';
 import { useForbiddenRoutes } from '../../hooks';
 
 import { SvgIcon } from '../svgIcon/svgIcon';
@@ -16,7 +16,7 @@ export type HeaderProps = {
   setIsOpened: (value: boolean) => void;
 };
 
-const dropdownOptions: DropdownOption[] = [
+const dropdownOptions: AutocompleteOption[] = [
   {
     id: '0',
     name: 'Fatima Sanders',
@@ -73,7 +73,7 @@ const dropdownOptions: DropdownOption[] = [
 
 export const Header: FC<HeaderProps> = ({ isOpened, setIsOpened }) => {
   const { isForbiddenHeader } = useForbiddenRoutes();
-  const [dropdownValue, setDropDownValue] = useState<DropdownOption | null>(
+  const [dropdownValue, setDropDownValue] = useState<AutocompleteOption | null>(
     null,
   );
 
@@ -104,7 +104,7 @@ export const Header: FC<HeaderProps> = ({ isOpened, setIsOpened }) => {
           </button>
 
           <div className={styles.main}>
-            <Dropdown
+            <Autocomplete
               disabled
               className={styles.search}
               options={dropdownOptions}

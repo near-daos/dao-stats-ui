@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { SvgIcon } from '../svgIcon/svgIcon';
 
 import styles from './search.module.scss';
+import { NetworkSwitcher } from '../network-switcher';
 
 export interface SearchProps {
   disabled?: boolean;
@@ -11,6 +12,7 @@ export interface SearchProps {
   classNameInput?: string;
   classNameIcon?: string;
   value?: string;
+  networkSwitcherClass?: string;
   inputProps?: Partial<InputHTMLAttributes<HTMLInputElement>>;
 }
 
@@ -21,6 +23,7 @@ export const Search: React.FC<SearchProps> = ({
   value = '',
   inputProps,
   disabled,
+  networkSwitcherClass,
 }) => (
   <div
     className={clsx(styles.root, className, {
@@ -42,27 +45,7 @@ export const Search: React.FC<SearchProps> = ({
 
     <SvgIcon icon="search" className={clsx(styles.inputIcon, classNameIcon)} />
 
-    <div className={styles.inputControl}>
-      <a
-        href={process.env.REACT_APP_MAINNET || '/'}
-        className={clsx(styles.inputControlItem, {
-          [styles.active]:
-            window.location.origin === process.env.REACT_APP_MAINNET,
-        })}
-      >
-        Mainnet
-      </a>
-
-      <a
-        href={process.env.REACT_APP_TESTNET || '/'}
-        className={clsx(styles.inputControlItem, {
-          [styles.active]:
-            window.location.origin === process.env.REACT_APP_TESTNET,
-        })}
-      >
-        Testnet
-      </a>
-    </div>
+    <NetworkSwitcher className={networkSwitcherClass} />
   </div>
 );
 
