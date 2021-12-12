@@ -68,7 +68,7 @@
 .switcherDesktop {
   display: none;
   @include media.desktop {
-    display: block;
+    display: flex;
   }
 }
 
