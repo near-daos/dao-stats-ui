@@ -7,6 +7,11 @@ export type Params = {
   contract: string;
 };
 
+export type Input = {
+  input: string;
+};
+
+export type InputParams = Params & Input;
 export type HistoryParams = Params & History;
 
 export type DaoParams = Params & {
@@ -42,6 +47,14 @@ export type Leaderboard = {
 };
 
 export type DaoHistoryParams = DaoParams & History;
+
+export type FoundDaos = {
+  createdAt: string;
+  dao: string;
+  contractId: string;
+  description: string | null;
+  metadata: string | null;
+};
 
 export type TotalMetrics = {
   count: number;

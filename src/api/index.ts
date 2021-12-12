@@ -4,3 +4,4 @@ export * from './general';
 export * from './governance';
 export * from './users';
 export * from './contracts';
+export * from './autocomplete';

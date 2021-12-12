@@ -65,60 +65,60 @@ const tableMock3: LeaderboardDataItem[] = [
   },
 ];
 
-const options: AutocompleteOption[] = [
-  {
-    id: '0',
-    name: 'Fatima Sanders',
-    link: 'Quisque libero lacus, varius et, euismod et, commodo at, libero.',
-  },
-  {
-    id: '1',
-    name: 'Xaviera Gibson',
-    link:
-      'Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus',
-  },
-  {
-    id: '2',
-    name: 'Anthony Hawkins',
-    link: 'ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo',
-  },
-  {
-    id: '3',
-    name: 'Hadassah Harrington',
-    link:
-      'ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam auctor, velit',
-  },
-  {
-    id: '4',
-    name: 'Abel Knight',
-    link: 'felis. Donec tempor, est ac mattis semper, dui lectus rutrum',
-  },
-  {
-    id: '5',
-    name: 'jonathan',
-    link: 'jonathan.sputnikdao.near',
-  },
-  {
-    id: '6',
-    name: 'jonathan',
-    link: 'jonathan.sputnikdao.near',
-  },
-  {
-    id: '7',
-    name: 'jonathan',
-    link: 'jonathan.sputnikdao.near',
-  },
-  {
-    id: '8',
-    name: 'jonathan',
-    link: 'jonathan.sputnikdao.near',
-  },
-  {
-    id: '9',
-    name: 'jonathan',
-    link: 'jonathan.sputnikdao.near',
-  },
-];
+// const options: AutocompleteOption[] = [
+//   {
+//     id: '0',
+//     name: 'Fatima Sanders',
+//     link: 'Quisque libero lacus, varius et, euismod et, commodo at, libero.',
+//   },
+//   {
+//     id: '1',
+//     name: 'Xaviera Gibson',
+//     link:
+//       'Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus',
+//   },
+//   {
+//     id: '2',
+//     name: 'Anthony Hawkins',
+//     link: 'ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo',
+//   },
+//   {
+//     id: '3',
+//     name: 'Hadassah Harrington',
+//     link:
+//       'ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam auctor, velit',
+//   },
+//   {
+//     id: '4',
+//     name: 'Abel Knight',
+//     link: 'felis. Donec tempor, est ac mattis semper, dui lectus rutrum',
+//   },
+//   {
+//     id: '5',
+//     name: 'jonathan',
+//     link: 'jonathan.sputnikdao.near',
+//   },
+//   {
+//     id: '6',
+//     name: 'jonathan',
+//     link: 'jonathan.sputnikdao.near',
+//   },
+//   {
+//     id: '7',
+//     name: 'jonathan',
+//     link: 'jonathan.sputnikdao.near',
+//   },
+//   {
+//     id: '8',
+//     name: 'jonathan',
+//     link: 'jonathan.sputnikdao.near',
+//   },
+//   {
+//     id: '9',
+//     name: 'jonathan',
+//     link: 'jonathan.sputnikdao.near',
+//   },
+// ];
 
 const navigationOptions = [
   {
@@ -413,7 +413,7 @@ export const UiKIt: FC = () => {
       <section className={styles.section}>
         <div className={styles.sectionHeader}>Dropdown</div>
         <Autocomplete
-          options={options}
+          // options={options}
           value={dropdownValue}
           onChange={(selectedItem) => setDropDownValue(selectedItem)}
         />

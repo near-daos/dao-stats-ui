@@ -1,15 +1,19 @@
-import React, { FC } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import Downshift, { GetItemPropsOptions } from 'downshift';
 import clsx from 'clsx';
-
+import { useAppDispatch, useAppSelector } from 'src/store';
 import { Search } from '../search/search';
-
 import styles from './autocomplete.module.scss';
+import { getAutocomplete } from './slice';
+import { selectAutocomplete } from './selectors';
+import { selectorContracts } from '../../app/shared/contracts';
 
 export type AutocompleteOption = {
-  id: string;
-  name: string;
-  link: string;
+  createdAt: string;
+  dao: string;
+  contractId: string;
+  description: string | null;
+  metadata: string | null;
 };
 
 export type AutocompleteProps = {
@@ -18,7 +22,7 @@ export type AutocompleteProps = {
   dropdownClassName?: string;
   onChange?: (selectedItem: AutocompleteOption | null) => void;
   placeholder?: string;
-  options: AutocompleteOption[];
+  // options?: AutocompleteOption[];
   initialSelectedItem?: AutocompleteOption;
   value?: AutocompleteOption | null;
   disabled?: boolean;
@@ -29,23 +33,44 @@ export const Autocomplete: FC<AutocompleteProps> = ({
   className,
   dropdownClassName,
   onChange = () => undefined,
-  options,
+  // options,
   initialSelectedItem = undefined,
   value,
   disabled,
 }) => {
+  const [searchDaoValue, setsearchDaoValue] = useState<string>('');
+  const getContract = useAppSelector(selectorContracts);
+  const dispatch = useAppDispatch();
+  const options = useAppSelector(selectAutocomplete) || [];
+
+  let contract;
+
+  if (getContract) {
+    contract = getContract[0].contractId;
+  }
+
+  useEffect(() => {
+    dispatch(
+      getAutocomplete({ contract: 'astro', input: searchDaoValue }),
+    ).catch((error: unknown) => console.error(error));
+  }, [contract, dispatch, searchDaoValue]);
+
   const renderOptions = ({
     getItemProps,
     inputValue,
   }: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     getItemProps: (options: GetItemPropsOptions<AutocompleteOption>) => any;
-    inputValue: null | string;
+    inputValue: string | null;
   }) => {
+    setsearchDaoValue(inputValue || '');
+
     const filteredOptions = options.filter(
-      (option) =>
-        option.name.toLowerCase().includes(inputValue?.toLowerCase() || '') ||
-        option.link.toLowerCase().includes(inputValue?.toLowerCase() || ''),
+      (option: AutocompleteOption) =>
+        option.dao.toLowerCase().includes(inputValue?.toLowerCase() || '') ||
+        option.description
+          ?.toLowerCase()
+          .includes(inputValue?.toLowerCase() || ''),
     );
 
     if (filteredOptions.length > 0) {
@@ -54,18 +79,18 @@ export const Autocomplete: FC<AutocompleteProps> = ({
           <li className={styles.foundTitle}>
             Found {filteredOptions.length} DAOs
           </li>
-          {filteredOptions.map((option, index) => (
+          {filteredOptions.map((option: AutocompleteOption, index: number) => (
             <li
               {...getItemProps({
-                key: option.id,
+                key: option.dao,
                 index,
                 item: option,
                 className: styles.dropDownItem,
               })}
             >
               <div className={styles.image} />
-              <span className={styles.name}>{option.name}</span>
-              <span className={styles.link}>{option.link}</span>
+              <span className={styles.name}>{option.dao}</span>
+              <span className={styles.link}>{option.description}</span>
             </li>
           ))}
         </>
@@ -88,17 +113,23 @@ export const Autocomplete: FC<AutocompleteProps> = ({
     <Downshift
       id={id}
       onChange={onChange}
-      itemToString={(item) => (item ? item.name : '')}
+      itemToString={(item) => (item ? item.dao : '')}
       initialSelectedItem={initialSelectedItem}
       selectedItem={value}
-      initialInputValue={value?.name}
+      initialInputValue={value?.dao}
       onInputValueChange={(inputValue) => {
         if (inputValue === '') {
           onChange(null);
         }
       }}
     >
-      {({ getItemProps, getMenuProps, getInputProps, isOpen, inputValue }) => (
+      {({
+        getItemProps,
+        getMenuProps,
+        getInputProps,
+        isOpen,
+        inputValue = '',
+      }) => (
         <div className={clsx(styles.root, className)}>
           <Search disabled={disabled} inputProps={{ ...getInputProps() }} />
           {isOpen ? (
