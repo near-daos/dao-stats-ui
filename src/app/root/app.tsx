@@ -46,7 +46,7 @@ export const App: FC = () => (
                 />
                 <Route
                   exact
-                  path={ROUTES.generalInfoDaoActivity}
+                  path={ROUTES.generalInfoActiveDao}
                   component={GeneralInfo}
                 />
                 <Route

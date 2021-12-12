@@ -16,8 +16,8 @@ const initialState: generalState = {
   general: null,
   dao: null,
   generalDaos: null,
-  generalActivity: null,
-  generalActivityLeaderboard: null,
+  generalActive: null,
+  generalActiveLeaderboard: null,
   generalGroups: null,
   generalGroupsLeaderboard: null,
   loading: RequestStatus.NOT_ASKED,
@@ -51,19 +51,19 @@ export const getGeneralDaos = createAsyncThunk(
   },
 );
 
-export const getGeneralActivity = createAsyncThunk(
-  'general/getGeneralActivity',
+export const getGeneralActive = createAsyncThunk(
+  'general/getGeneralActive',
   async (params: HistoryParams) => {
-    const response = await generalService.getGeneralActivity(params);
+    const response = await generalService.getGeneralActive(params);
 
     return response.data;
   },
 );
 
-export const getGeneralActivityLeaderboard = createAsyncThunk(
-  'general/getGeneralActivityLeaderboard',
+export const getGeneralActiveLeaderboard = createAsyncThunk(
+  'general/getGeneralActiveLeaderboard',
   async (params: Params) => {
-    const response = await generalService.getGeneralActivityLeaderboard(params);
+    const response = await generalService.getGeneralActiveLeaderboard(params);
 
     return response.data;
   },
@@ -89,8 +89,8 @@ export const getGeneralGroupsLeaderboard = createAsyncThunk(
 
 const isPendingAction = isPending(
   getGeneral,
-  getGeneralActivity,
-  getGeneralActivityLeaderboard,
+  getGeneralActive,
+  getGeneralActiveLeaderboard,
   getGeneralDao,
   getGeneralDaos,
   getGeneralGroups,
@@ -98,8 +98,8 @@ const isPendingAction = isPending(
 );
 const isRejectedAction = isRejected(
   getGeneral,
-  getGeneralActivity,
-  getGeneralActivityLeaderboard,
+  getGeneralActive,
+  getGeneralActiveLeaderboard,
   getGeneralDao,
   getGeneralDaos,
   getGeneralGroups,
@@ -107,8 +107,8 @@ const isRejectedAction = isRejected(
 );
 const isFulfilledAction = isFulfilled(
   getGeneral,
-  getGeneralActivity,
-  getGeneralActivityLeaderboard,
+  getGeneralActive,
+  getGeneralActiveLeaderboard,
   getGeneralDao,
   getGeneralDaos,
   getGeneralGroups,
@@ -132,14 +132,14 @@ export const generalSlice = createSlice({
       state.generalDaos = payload;
     });
 
-    builder.addCase(getGeneralActivity.fulfilled, (state, { payload }) => {
-      state.generalActivity = payload;
+    builder.addCase(getGeneralActive.fulfilled, (state, { payload }) => {
+      state.generalActive = payload;
     });
 
     builder.addCase(
-      getGeneralActivityLeaderboard.fulfilled,
+      getGeneralActiveLeaderboard.fulfilled,
       (state, { payload }) => {
-        state.generalActivityLeaderboard = payload;
+        state.generalActiveLeaderboard = payload;
       },
     );
 

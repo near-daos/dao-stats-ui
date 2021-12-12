@@ -37,12 +37,13 @@ p {
 
   font-size: inherit;
   font-family: inherit;
-  scrollbar-color: var(--color-grey-700) transparent;
+  scrollbar-color: red transparent;
   scrollbar-width: thin;
 }
 
 *::-webkit-scrollbar {
   width: functions.calc-rem(4); /* width of the entire scrollbar */
+  height: functions.calc-rem(4);
 }
 
 *::-webkit-scrollbar-track {
@@ -54,4 +55,8 @@ p {
 
   border: functions.calc-rem(3) solid transparent; /* creates padding around scroll thumb */
   border-radius: functions.calc-rem(7); /* roundness of the scroll thumb */
+}
+
+*::-webkit-scrollbar-corner {
+  background-color: transparent;
 }

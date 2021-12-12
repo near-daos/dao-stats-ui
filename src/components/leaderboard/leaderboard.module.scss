@@ -1,18 +1,23 @@
 @use 'src/styles/functions';
+@use 'src/styles/media';
+
 @import 'src/styles/typography';
-@import 'src/styles/media';
 
 .tableWrapper {
   height: functions.calc-rem(490);
   max-width: 100%;
 
   overflow-y: auto;
-  @include tablet-portrait {
-    max-width: 1000px;
+  @include media.mobile-only {
+    height: functions.calc-rem(290)
   }
 
-  @include tablet-landscape {
-    max-width: 100%;
+  @include media.tablet-portrait {
+    height: functions.calc-rem(290)
+  }
+
+  @include media.tablet-landscape {
+    height: functions.calc-rem(490);
   }
 }
 

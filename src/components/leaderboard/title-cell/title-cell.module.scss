@@ -2,6 +2,8 @@
 @import '../../../styles/typography';
 
 .titleCell {
+  padding: 0 functions.calc-rem(24) 0 0;
+
   display: flex;
 }
 

@@ -1,8 +1,10 @@
-@use '../../../styles/functions';
-@import '../../../styles/typography';
+@use 'src/styles/functions';
+@import 'src/styles/typography';
 
 .amount {
   @include title-3;
+  
+  padding: 0 functions.calc-rem(24) 0 0;
 }
 
 .label {

@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import clsx from 'clsx';
+import { Dropdown } from '../../dropdown';
 
 import styles from './range-filter.module.scss';
-import { Dropdown } from '../../dropdown';
 
 export type PeriodType = '7d' | '1m' | '3m' | '6m' | '1y' | 'All' | string;
 
@@ -16,26 +16,20 @@ export const RangeFilter: FC<RangeFilterProps> = ({
   periods = [],
   period,
   setPeriod,
-}) => {
-  console.log(
-    periods.map(() => ({
-      id: period,
-      value: period,
-      label: period,
-    })),
-  );
+}) => (
+  <div className={styles.list}>
+    <Dropdown
+      className={styles.dropdown}
+      onChange={(option) => setPeriod(option?.value || periods[0])}
+      options={periods.map((periodItem) => ({
+        id: periodItem,
+        value: periodItem,
+        label: periodItem,
+      }))}
+      initialSelectedItem={{ label: period, id: period, value: period }}
+    />
 
-  return (
-    <div className={styles.list}>
-      {/* <Dropdown
-        options={periods.map((periodItem) => ({
-          id: periodItem,
-          value: periodItem,
-          label: periodItem,
-        }))}
-        initialSelectedItem={{ label: period, id: period, value: period }}
-      /> */}
-
+    <div className={styles.periods}>
       {periods.map((periodItem) => (
         <button
           key={periodItem}
@@ -49,5 +43,5 @@ export const RangeFilter: FC<RangeFilterProps> = ({
         </button>
       ))}
     </div>
-  );
-};
+  </div>
+);
