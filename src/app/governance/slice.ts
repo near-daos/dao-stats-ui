@@ -221,7 +221,9 @@ export const governanceSlice = createSlice({
     );
 
     builder.addCase(getGovernanceVoteRate.fulfilled, (state, { payload }) => {
-      state.governanceVoteRate = payload;
+      state.governanceVoteRate = {
+        metrics: sortBy(payload.metrics, 'timestamp'),
+      };
     });
 
     builder.addCase(
