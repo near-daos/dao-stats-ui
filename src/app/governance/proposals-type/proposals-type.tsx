@@ -13,11 +13,12 @@ import {
   getGovernanceProposalsTypesLeaderboard,
 } from '../slice';
 
-import { usePrepareLeaderboard } from '../../../hooks';
+import { useFilterMetrics, usePrepareLeaderboard } from '../../../hooks';
 import { isNotAsked, isPending, isSuccess } from '../../../utils';
 import { selectActionLoading } from '../../../store/loading';
 
 import styles from '../governance.module.scss';
+import { MetricItem, Metrics } from '../../../api';
 
 const tabOptions = [
   {
@@ -48,36 +49,31 @@ export const ProposalsType: FC = () => {
   );
 
   useEffect(() => {
-    (async () => {
-      try {
-        if (
-          (!governanceProposalsTypes ||
-            isNotAsked(governanceProposalsTypesLoading)) &&
-          !isPending(governanceProposalsTypesLoading)
-        ) {
-          await dispatch(
-            getGovernanceProposalsTypes({
-              contract,
-            }),
-          );
-        }
-
-        if (
-          (!governanceProposalsTypesLeaderboard ||
-            isNotAsked(governanceProposalsTypesLeaderboardLoading)) &&
-          !isPending(governanceProposalsTypesLeaderboardLoading)
-        ) {
-          await dispatch(
-            getGovernanceProposalsTypesLeaderboard({
-              contract,
-            }),
-          );
-        }
-      } catch (error: unknown) {
+    if (
+      (!governanceProposalsTypes ||
+        isNotAsked(governanceProposalsTypesLoading)) &&
+      !isPending(governanceProposalsTypesLoading)
+    ) {
+      dispatch(
+        getGovernanceProposalsTypes({
+          contract,
+        }),
         // eslint-disable-next-line no-console
-        console.error(error);
-      }
-    })();
+      ).catch((error: unknown) => console.error(error));
+    }
+
+    if (
+      (!governanceProposalsTypesLeaderboard ||
+        isNotAsked(governanceProposalsTypesLeaderboardLoading)) &&
+      !isPending(governanceProposalsTypesLeaderboardLoading)
+    ) {
+      dispatch(
+        getGovernanceProposalsTypesLeaderboard({
+          contract,
+        }),
+        // eslint-disable-next-line no-console
+      ).catch((error: unknown) => console.error(error));
+    }
   }, [
     period,
     contract,
@@ -97,19 +93,59 @@ export const ProposalsType: FC = () => {
       return null;
     }
 
+    const findMaxData = (metrics: any) => {
+      let max = 0;
+      let maxData: MetricItem[] = [];
+      const result = { metrics: {} };
+
+      Object.values(metrics).forEach((value: any) => {
+        if (max <= value.length) {
+          maxData = value.map((valueItem: MetricItem) => ({
+            timestamp: valueItem.timestamp,
+            count: 0,
+          }));
+        }
+
+        max = Math.max(max, value.length);
+      });
+
+      Object.keys(metrics).forEach((key: string) => {
+        (result.metrics as any)[key] = maxData.map((maxDataItem) => {
+          const finded = (metrics as any)[key].find(
+            (item: MetricItem) => item.timestamp === maxDataItem.timestamp,
+          );
+
+          if (finded) {
+            return finded;
+          }
+
+          return maxDataItem;
+        });
+      });
+
+      return result;
+    };
+
+    const updatedMetrics = findMaxData(governanceProposalsTypes.metrics);
+
     const result: any[] = [];
 
-    Object.keys(governanceProposalsTypes.metrics).forEach((key) => {
+    Object.keys(updatedMetrics.metrics).forEach((key) => {
       result.push(
-        (governanceProposalsTypes.metrics as any)[key].map((value: any) => ({
+        (updatedMetrics.metrics as any)[key].map((value: any) => ({
           timestamp: value.timestamp,
-          [key]: value.value,
+          [key]: value.count,
         })),
       );
     });
 
     return { metrics: merge([], ...result) };
   }, [governanceProposalsTypes]);
+
+  const governanceProposalsTypesFilteredData = useFilterMetrics(
+    period,
+    governanceProposalsTypesData,
+  );
 
   const governanceProposalsTypesLeaderboardData = usePrepareLeaderboard({
     type: 'stacked',
@@ -135,31 +171,32 @@ export const ProposalsType: FC = () => {
         />
       </div>
       <div className={styles.metricsContainer}>
-        {activeTab === 'history-data' && governanceProposalsTypesData ? (
+        {activeTab === 'history-data' &&
+        governanceProposalsTypesFilteredData ? (
           <ChartLine
-            data={governanceProposalsTypesData}
+            data={governanceProposalsTypesFilteredData}
             period={period}
             setPeriod={setPeriod}
             lines={[
               {
-                name: 'Payout',
+                name: 'Governance',
                 color: '#E33F84',
-                dataKey: 'payout',
+                dataKey: 'governance',
               },
               {
-                name: 'Policy change',
-                color: '#5D75E9',
-                dataKey: 'policyChange',
-              },
-              {
-                name: 'Council member',
+                name: 'Financial',
                 color: '#8F40DD',
-                dataKey: 'councilMember',
+                dataKey: 'financial',
               },
               {
-                name: 'Expired',
+                name: 'Bounties',
+                color: '#5D75E9',
+                dataKey: 'bounties',
+              },
+              {
+                name: 'Members',
                 color: '#81CEEE',
-                dataKey: 'expired',
+                dataKey: 'members',
               },
             ]}
           />

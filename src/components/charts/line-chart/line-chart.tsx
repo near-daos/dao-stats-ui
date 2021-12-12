@@ -45,7 +45,7 @@ export const ChartLine: React.FC<LineChartProps> = ({
   }) => (
     <g>
       <line
-        x1={65}
+        x1={35}
         y1={cy}
         x2={width}
         y2={cy}
@@ -65,8 +65,6 @@ export const ChartLine: React.FC<LineChartProps> = ({
     </g>
   );
 
-  const legendHeight = lines.length > 3 ? 100 : 50;
-
   return (
     <ResponsiveContainer>
       <LineChart data={data?.metrics}>
@@ -74,7 +72,7 @@ export const ChartLine: React.FC<LineChartProps> = ({
         <Legend
           align="left"
           verticalAlign="top"
-          height={legendHeight}
+          height={50}
           iconType="circle"
           content={
             <CustomLegend

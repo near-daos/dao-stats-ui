@@ -43,35 +43,30 @@ export const NumberOfProposals: FC = () => {
   );
 
   useEffect(() => {
-    (async () => {
-      try {
-        if (
-          (!governanceProposals || isNotAsked(GovernanceProposalsLoading)) &&
-          !isPending(GovernanceProposalsLoading)
-        ) {
-          await dispatch(
-            getGovernanceProposals({
-              contract,
-            }),
-          );
-        }
-
-        if (
-          (!governanceProposalsLeaderboard ||
-            isNotAsked(governanceProposalsLeaderboardLoading)) &&
-          !isPending(governanceProposalsLeaderboardLoading)
-        ) {
-          await dispatch(
-            getGovernanceProposalsLeaderboard({
-              contract,
-            }),
-          );
-        }
-      } catch (error: unknown) {
+    if (
+      (!governanceProposals || isNotAsked(GovernanceProposalsLoading)) &&
+      !isPending(GovernanceProposalsLoading)
+    ) {
+      dispatch(
+        getGovernanceProposals({
+          contract,
+        }),
         // eslint-disable-next-line no-console
-        console.error(error);
-      }
-    })();
+      ).catch((error: unknown) => console.error(error));
+    }
+
+    if (
+      (!governanceProposalsLeaderboard ||
+        isNotAsked(governanceProposalsLeaderboardLoading)) &&
+      !isPending(governanceProposalsLeaderboardLoading)
+    ) {
+      dispatch(
+        getGovernanceProposalsLeaderboard({
+          contract,
+        }),
+        // eslint-disable-next-line no-console
+      ).catch((error: unknown) => console.error(error));
+    }
   }, [
     period,
     contract,
@@ -109,7 +104,7 @@ export const NumberOfProposals: FC = () => {
           onChange={handleOnChange}
         />
       </div>
-      <div className={styles.chart}>
+      <div className={styles.metricsContainer}>
         {activeTab === 'history-data' && governanceProposalsData ? (
           <ChartLine
             data={governanceProposalsData}
@@ -129,7 +124,7 @@ export const NumberOfProposals: FC = () => {
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
-              { value: 'DAOs activity' },
+              { value: 'Number of Proposals' },
               { value: 'Last 7 days', position: 'right' },
             ]}
             type="line"

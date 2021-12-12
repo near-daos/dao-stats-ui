@@ -14,7 +14,6 @@ import { selectorUsers } from './selectors';
 import { Page, WidgetTile, WidgetInfo, Widgets } from '../../components';
 
 import { ROUTES } from '../../constants';
-import { AverageCouncilSize } from './average-council-size';
 import { NumberInteractions } from './number-interactions';
 import { NumberUsers } from './number-users';
 
@@ -35,15 +34,18 @@ export const Users: FC = () => {
   useEffect(() => {
     (async () => {
       try {
-        await dispatch(getUsers({ contract }));
+        if (!users) {
+          await dispatch(getUsers({ contract }));
+        }
       } catch (error: unknown) {
+        // eslint-disable-next-line no-console
         console.error(error);
       }
     })();
-  }, [contract, dispatch]);
+  }, [contract, dispatch, users]);
 
   return (
-    <Page title="Users">
+    <Page title="Users and Activity">
       <Widgets>
         <WidgetTile
           className={styles.widget}

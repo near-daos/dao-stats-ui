@@ -5,9 +5,6 @@
 .layout {
   width: 100%;
   min-height: 100vh;
-
-  padding: 0 functions.calc-rem(12);
-
 }
 
 .container {
@@ -23,6 +20,6 @@
 .page {
   width: 100%;
 
-  padding: 0 0 functions.calc-rem(12) 0;
+  padding: 0 functions.calc-rem(12) functions.calc-rem(12);
   margin: 0 auto;
 }

@@ -6,14 +6,20 @@
 
   @include media.mobile-only {
     width: 100%;
+
+    margin: 0 0 functions.calc-rem(12) 0;
   }
 
   @include media.tablet-portrait {
     width: 49%;
+
+    margin: 0 0 functions.calc-rem(12) 0;
   }
 
   @include media.tablet-landscape {
     width: functions.calc-rem(240);
+
+    margin: 0 0 functions.calc-rem(24) 0;
   }
 
   @include media.desktop {
@@ -21,6 +27,7 @@
 
     margin: 0 functions.calc-rem(12) functions.calc-rem(12) 0;
   }
+
 
   &:last-child {
     @include media.desktop {
@@ -79,9 +86,9 @@
   height: 100%;
 
   padding: functions.calc-rem(10) functions.calc-rem(12) functions.calc-rem(10)
-    functions.calc-rem(12);
+  functions.calc-rem(12);
   @include media.desktop {
-    padding: functions.calc-rem(10) functions.calc-rem(30)
-      functions.calc-rem(10) functions.calc-rem(20);
+    padding: functions.calc-rem(10) functions.calc-rem(30) functions.calc-rem(10)
+    functions.calc-rem(20);
   }
 }

@@ -73,7 +73,13 @@ export const NumberUsersPerDao: FC = () => {
             data={users}
             period={period}
             setPeriod={setPeriod}
-            lines={[{ name: 'Users', color: '#E33F84', dataKey: 'count' }]}
+            lines={[
+              {
+                name: 'Number of interactions',
+                color: '#E33F84',
+                dataKey: 'count',
+              },
+            ]}
           />
         ) : null}
         {activeTab === 'leaderboard' && usersLeaderboardData ? (
@@ -81,7 +87,7 @@ export const NumberUsersPerDao: FC = () => {
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
-              { value: 'Users' },
+              { value: 'Number of interactions' },
               { value: 'Last 7 days', position: 'right' },
             ]}
             type="line"

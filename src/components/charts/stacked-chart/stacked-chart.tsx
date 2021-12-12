@@ -21,7 +21,8 @@ export const StackedChart: FC<StackedChartProps> = ({
         (value, index: number) =>
           value !== 0 && (
             <div
-              key={value}
+              // eslint-disable-next-line react/no-array-index-key
+              key={value + index}
               style={{ background: COLORS[index], width: `${value}%` }}
               className={styles.stack}
             />

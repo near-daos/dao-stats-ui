@@ -2,7 +2,6 @@ import React, { FC, useEffect, useState } from 'react';
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useParams } from 'react-router';
 import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
-import { getDateFromMow } from 'src/components/charts/helpers';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { selectActionLoading } from '../../../store/loading';
 import { isSuccess, isPending, isNotAsked } from '../../../utils';
@@ -54,7 +53,6 @@ export const NumberInteractionsPerDao: FC = () => {
           await dispatch(
             getUsersInteractionsHistory({
               contract,
-              from: String(getDateFromMow(period)),
             }),
           );
         }
@@ -98,7 +96,6 @@ export const NumberInteractionsPerDao: FC = () => {
           isSuccess(getUsersInteractionsLeaderboardLoading)
         }
       />
-
       <div className={styles.tabWrapper}>
         <Tabs
           variant="small"
@@ -107,14 +104,20 @@ export const NumberInteractionsPerDao: FC = () => {
           onChange={handleOnChange}
         />
       </div>
-
+      2222
       <div className={styles.metricsContainer}>
         {activeTab === 'history-data' && usersData ? (
           <ChartLine
             data={usersData}
             period={period}
             setPeriod={setPeriod}
-            lines={[{ name: 'Groups', color: '#E33F84', dataKey: 'count' }]}
+            lines={[
+              {
+                name: 'Number of interactions',
+                color: '#E33F84',
+                dataKey: 'count',
+              },
+            ]}
           />
         ) : null}
         {activeTab === 'leaderboard' && usersLeaderboardData ? (
@@ -122,7 +125,7 @@ export const NumberInteractionsPerDao: FC = () => {
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
-              { value: 'Groups' },
+              { value: 'Number of interactions' },
               { value: 'Last 7 days', position: 'right' },
             ]}
             type="line"

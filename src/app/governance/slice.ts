@@ -205,10 +205,10 @@ export const governanceSlice = createSlice({
       (state, { payload }) => {
         state.governanceProposalsTypes = {
           metrics: {
-            payout: sortBy(payload.metrics.payout, 'timestamp'),
-            councilMember: sortBy(payload.metrics.councilMember, 'timestamp'),
-            policyChange: sortBy(payload.metrics.policyChange, 'timestamp'),
-            expired: sortBy(payload.metrics.expired, 'timestamp'),
+            governance: sortBy(payload.metrics.governance, 'timestamp'),
+            financial: sortBy(payload.metrics.financial, 'timestamp'),
+            bounties: sortBy(payload.metrics.bounties, 'timestamp'),
+            members: sortBy(payload.metrics.members, 'timestamp'),
           },
         };
       },

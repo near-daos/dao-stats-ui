@@ -44,35 +44,30 @@ export const VoteRate: FC = () => {
   );
 
   useEffect(() => {
-    (async () => {
-      try {
-        if (
-          (!governanceVoteRate || isNotAsked(governanceVoteRateLoading)) &&
-          !isPending(governanceVoteRateLoading)
-        ) {
-          await dispatch(
-            getGovernanceVoteRate({
-              contract,
-            }),
-          );
-        }
-
-        if (
-          (!governanceVoteRateLeaderboard ||
-            isNotAsked(governanceVoteRateLeaderboardLoading)) &&
-          !isPending(governanceVoteRateLeaderboardLoading)
-        ) {
-          await dispatch(
-            getGovernanceVoteRateLeaderboard({
-              contract,
-            }),
-          );
-        }
-      } catch (error: unknown) {
+    if (
+      (!governanceVoteRate || isNotAsked(governanceVoteRateLoading)) &&
+      !isPending(governanceVoteRateLoading)
+    ) {
+      dispatch(
+        getGovernanceVoteRate({
+          contract,
+        }),
         // eslint-disable-next-line no-console
-        console.error(error);
-      }
-    })();
+      ).catch((error: unknown) => console.error(error));
+    }
+
+    if (
+      (!governanceVoteRateLeaderboard ||
+        isNotAsked(governanceVoteRateLeaderboardLoading)) &&
+      !isPending(governanceVoteRateLeaderboardLoading)
+    ) {
+      dispatch(
+        getGovernanceVoteRateLeaderboard({
+          contract,
+        }),
+        // eslint-disable-next-line no-console
+      ).catch((error: unknown) => console.error(error));
+    }
   }, [
     period,
     contract,

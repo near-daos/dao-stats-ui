@@ -114,7 +114,13 @@ export const NumberInteractions: FC = () => {
             data={usersData}
             period={period}
             setPeriod={setPeriod}
-            lines={[{ name: 'Groups', color: '#E33F84', dataKey: 'count' }]}
+            lines={[
+              {
+                name: 'Number of interactions',
+                color: '#E33F84',
+                dataKey: 'count',
+              },
+            ]}
           />
         ) : null}
         {activeTab === 'leaderboard' && usersLeaderboardData ? (
@@ -122,7 +128,7 @@ export const NumberInteractions: FC = () => {
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
-              { value: 'Groups' },
+              { value: 'Number of interactions' },
               { value: 'Last 7 days', position: 'right' },
             ]}
             type="line"

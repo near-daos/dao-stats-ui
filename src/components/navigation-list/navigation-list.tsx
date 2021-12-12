@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { FC } from 'react';
 import clsx from 'clsx';
 
@@ -11,7 +9,6 @@ export type NavigationListProps = {
   options: NavigationItem[];
   selectedValue?: string;
   onSelect: (value: string) => void;
-  setIsOpened: (value: boolean) => void;
 };
 
 type NavigationItem = {
@@ -26,7 +23,6 @@ export const NavigationList: FC<NavigationListProps> = ({
   options,
   selectedValue,
   onSelect,
-  setIsOpened,
 }) => (
   <div className={clsx(styles.navigationList, className)}>
     <div className={styles.title}>{title}</div>
@@ -41,7 +37,6 @@ export const NavigationList: FC<NavigationListProps> = ({
             },
             styles.item,
           )}
-          onClick={() => setIsOpened(false)}
         >
           <button
             onClick={() => onSelect(option.value)}

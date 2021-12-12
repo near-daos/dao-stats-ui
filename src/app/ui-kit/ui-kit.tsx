@@ -34,7 +34,7 @@ const tableMock3: LeaderboardDataItem[] = [
       label: 'jonathan',
       domain: '.sputnikdao.near',
     },
-    proposals: { councilMember: 0, payout: 0, policyChange: 0, expired: 0 },
+    proposals: { financial: 0, bounties: 0, members: 0, governance: 0 },
   },
   {
     id: 2,
@@ -43,7 +43,7 @@ const tableMock3: LeaderboardDataItem[] = [
       label: 'JBN',
       domain: '.example.test',
     },
-    proposals: { councilMember: 0, payout: 0, policyChange: 0, expired: 0 },
+    proposals: { financial: 0, bounties: 0, members: 0, governance: 0 },
   },
   {
     id: 3,
@@ -52,7 +52,7 @@ const tableMock3: LeaderboardDataItem[] = [
       label: 'Oklahoma',
       domain: '.oklahoma.okh',
     },
-    proposals: { councilMember: 0, payout: 0, policyChange: 0, expired: 0 },
+    proposals: { financial: 0, bounties: 0, members: 0, governance: 0 },
   },
   {
     id: 4,
@@ -61,7 +61,7 @@ const tableMock3: LeaderboardDataItem[] = [
       label: 'ProfTool',
       domain: '.proftool.com',
     },
-    proposals: { councilMember: 0, payout: 0, policyChange: 0, expired: 0 },
+    proposals: { financial: 0, bounties: 0, members: 0, governance: 0 },
   },
 ];
 
@@ -315,7 +315,7 @@ export const UiKIt: FC = () => {
       <section className={styles.section}>
         <div className={styles.sectionHeader}>Sidebar</div>
         <div className={styles.container}>
-          <Sidebar isOpened={false} setIsOpened={() => null} />
+          <Sidebar isOpen={false} setOpen={() => null} />
         </div>
       </section>
       <section className={styles.section}>
@@ -326,7 +326,6 @@ export const UiKIt: FC = () => {
             options={navigationOptions}
             selectedValue={navigationOptions[0].value}
             onSelect={() => null}
-            setIsOpened={() => null}
           />
         </div>
       </section>
@@ -364,7 +363,7 @@ export const UiKIt: FC = () => {
       </section>
       <section className={styles.section}>
         <div className={styles.sectionHeader}>Header</div>
-        <Header isOpened={false} setIsOpened={() => null} />
+        <Header isOpen={false} setOpen={() => null} />
       </section>
       <section className={styles.section}>
         <div className={styles.sectionHeader}>Icons</div>

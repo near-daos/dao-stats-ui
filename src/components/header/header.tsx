@@ -12,8 +12,8 @@ import desktopLogo from '../../images/logo-mobile.svg';
 import mobileLogo from '../../images/daostats.svg';
 
 export type HeaderProps = {
-  isOpened: boolean;
-  setIsOpened: (value: boolean) => void;
+  isOpen: boolean;
+  setOpen: (value: boolean) => void;
 };
 
 const dropdownOptions: AutocompleteOption[] = [
@@ -71,7 +71,7 @@ const dropdownOptions: AutocompleteOption[] = [
   },
 ];
 
-export const Header: FC<HeaderProps> = ({ isOpened, setIsOpened }) => {
+export const Header: FC<HeaderProps> = ({ isOpen, setOpen }) => {
   const { isForbiddenHeader } = useForbiddenRoutes();
   const [dropdownValue, setDropDownValue] = useState<AutocompleteOption | null>(
     null,
@@ -91,16 +91,18 @@ export const Header: FC<HeaderProps> = ({ isOpened, setIsOpened }) => {
         <>
           <div className={styles.headerControls}>
             <h1 className={styles.title}>Sputnik DAO</h1>
-            <button type="button" className={styles.mobileIcon}>
+            <h3 className={styles.description}>Average values for all DAOs</h3>
+
+            {/* <button type="button" className={styles.mobileIcon}>
               <SvgIcon icon="search" />
-            </button>
+            </button> */}
           </div>
           <button
             type="button"
             className={styles.mobileIcon}
-            onClick={() => setIsOpened(!isOpened)}
+            onClick={() => setOpen(!isOpen)}
           >
-            <SvgIcon icon={isOpened ? 'close' : 'burger'} />
+            <SvgIcon icon={isOpen ? 'close' : 'burger'} />
           </button>
 
           <div className={styles.main}>
