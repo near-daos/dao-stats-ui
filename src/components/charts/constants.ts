@@ -6,5 +6,3 @@ export const tickStyles = {
 };
 
 export const COLORS = ['#e33f84', '#8f40dd', '#5d75e9', '#81ceee'];
-
-export const PERIOD = [];

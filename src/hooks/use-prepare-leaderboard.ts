@@ -24,20 +24,20 @@ function percentage(partialValue: number, totalValue: number): number {
 function prepareProposalsForChart(proposals?: Proposals): Proposals {
   if (!proposals) {
     return {
-      payout: 0,
-      councilMember: 0,
-      policyChange: 0,
-      expired: 0,
+      governance: 0,
+      financial: 0,
+      bounties: 0,
+      members: 0,
     };
   }
 
   const totalValue = Object.values(proposals).reduce((a, b) => a + b);
 
   return {
-    payout: percentage(proposals.payout, totalValue),
-    councilMember: percentage(proposals.councilMember, totalValue),
-    policyChange: percentage(proposals.policyChange, totalValue),
-    expired: percentage(proposals.expired, totalValue),
+    governance: percentage(proposals.governance, totalValue),
+    financial: percentage(proposals.financial, totalValue),
+    bounties: percentage(proposals.bounties, totalValue),
+    members: percentage(proposals.members, totalValue),
   };
 }
 

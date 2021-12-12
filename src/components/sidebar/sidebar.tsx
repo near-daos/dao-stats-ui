@@ -9,20 +9,21 @@ import { useRoutes } from '../../hooks';
 import styles from './sidebar.module.scss';
 
 export type SidebarProps = {
-  isOpened: boolean;
-  setIsOpened: (value: boolean) => void;
+  isOpen: boolean;
+  setOpen: (value: boolean) => void;
 };
 
-export const Sidebar: FC<SidebarProps> = ({ isOpened, setIsOpened }) => {
+export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
   const history = useHistory();
   const location = useLocation();
   const routes = useRoutes();
 
   const handlerChangeActive = useCallback(
     (value: string) => {
+      setOpen(false);
       history.push(value);
     },
-    [history],
+    [history, setOpen],
   );
 
   const overviewItems = [
@@ -31,7 +32,7 @@ export const Sidebar: FC<SidebarProps> = ({ isOpened, setIsOpened }) => {
       value: routes.generalInfo,
     },
     { label: 'Users and Activity', value: routes.users },
-    { label: 'Activity', value: routes.activity },
+    { label: 'Governance', value: routes.governance },
   ];
 
   const financialItems = [
@@ -53,35 +54,35 @@ export const Sidebar: FC<SidebarProps> = ({ isOpened, setIsOpened }) => {
   ];
 
   return (
-    <div
-      className={clsx(styles.sidebar, {
-        [styles.show]: isOpened,
-      })}
-    >
-      <NavigationInfo
-        className={styles.info}
-        title="Sputnik DAO"
-        description="Average values for all DAOs"
-        direction="left"
-        linePosition="start"
-      />
-      <NavigationList
-        title="Overview"
-        selectedValue={location.pathname}
-        options={overviewItems}
-        onSelect={handlerChangeActive}
-        className={styles.list}
-        setIsOpened={setIsOpened}
-      />
-      <NavigationList
-        title="Financial"
-        selectedValue={location.pathname}
-        options={financialItems}
-        onSelect={handlerChangeActive}
-        className={styles.list}
-        setIsOpened={setIsOpened}
-      />
-      <div className={styles.navInfo}>
+    <>
+      <div
+        className={clsx(styles.sidebar, {
+          [styles.show]: isOpen,
+        })}
+      >
+        <NavigationInfo
+          className={styles.info}
+          title="Sputnik DAO"
+          description="Average values for all DAOs"
+          direction="left"
+          linePosition="start"
+        />
+        <NavigationList
+          title="Overview"
+          selectedValue={location.pathname}
+          options={overviewItems}
+          onSelect={handlerChangeActive}
+          className={styles.list}
+        />
+        <NavigationList
+          title="Financial"
+          selectedValue={location.pathname}
+          options={financialItems}
+          onSelect={handlerChangeActive}
+          className={styles.list}
+        />
+
+        {/* <div className={styles.navInfo}>
         <NavigationInfo
           title="Sputnik DAO"
           description="Average values for all DAOs"
@@ -89,7 +90,17 @@ export const Sidebar: FC<SidebarProps> = ({ isOpened, setIsOpened }) => {
           direction="left"
           linePosition="start"
         />
+      </div> */}
       </div>
-    </div>
+      {isOpen ? (
+        <button
+          type="button"
+          onClick={() => setOpen(false)}
+          className={styles.overlay}
+        >
+          {' '}
+        </button>
+      ) : null}
+    </>
   );
 };

@@ -20,18 +20,18 @@ export type DaoParams = Params & {
 
 export type ProposalMetrics = {
   metrics: {
-    payout: MetricItem[];
-    councilMember: MetricItem[];
-    policyChange: MetricItem[];
-    expired: MetricItem[];
+    financial: MetricItem[];
+    governance: MetricItem[];
+    bounties: MetricItem[];
+    members: MetricItem[];
   };
 };
 
 export type Proposals = {
-  payout: number;
-  councilMember: number;
-  policyChange: number;
-  expired: number;
+  bounties: number;
+  financial: number;
+  governance: number;
+  members: number;
 };
 
 export type LeaderboardItem = {

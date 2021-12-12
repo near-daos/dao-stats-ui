@@ -1,17 +1,18 @@
-@use '../../styles/functions';
-@use '../../styles/media';
+@use 'src/styles/helpers';
+@use 'src/styles/functions';
+@use 'src/styles/media';
 
 .sidebar {
   width: functions.calc-rem(269);
   height: 100%;
 
-  padding: 0 functions.calc-rem(20) functions.calc-rem(20);
+  padding: functions.calc-rem(20);
 
   position: fixed;
   top: 0;
   left: 0;
 
-  z-index: 3;
+  z-index: 11;
 
   display: flex;
 
@@ -57,4 +58,17 @@
 
 .list {
   margin: 0 0 functions.calc-rem(24);
+}
+
+.overlay {
+  @extend %button-reset;
+  width: 100%;
+  height: 100%;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+
+  background: rgba(0,0,0,0.7);
 }

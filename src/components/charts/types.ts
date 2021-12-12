@@ -1,5 +1,5 @@
 export type LineItem = {
   name: string;
-  color: string;
+  color?: string;
   dataKey: string;
 };

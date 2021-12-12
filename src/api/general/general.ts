@@ -15,16 +15,6 @@ export class GeneralService extends HttpService {
     return this.get(`${params.contract}/general`);
   }
 
-  async getGeneralDao(params: DaoParams): Promise<AxiosResponse<General>> {
-    return this.get(`${params.contract}/general/${params.dao}`);
-  }
-
-  async getGeneralDaos(params: HistoryParams): Promise<AxiosResponse<Metrics>> {
-    const query = queryString.stringify({ from: params.from, to: params.to });
-
-    return this.get(`${params.contract}/general/daos?${query}`);
-  }
-
   async getGeneralActive(
     params: HistoryParams,
   ): Promise<AxiosResponse<Metrics>> {
@@ -51,6 +41,16 @@ export class GeneralService extends HttpService {
     params: Params,
   ): Promise<AxiosResponse<Leaderboard>> {
     return this.get(`${params.contract}/general/groups/leaderboard`);
+  }
+
+  async getGeneralDao(params: DaoParams): Promise<AxiosResponse<General>> {
+    return this.get(`${params.contract}/general/${params.dao}`);
+  }
+
+  async getGeneralDaos(params: HistoryParams): Promise<AxiosResponse<Metrics>> {
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(`${params.contract}/general/daos?${query}`);
   }
 }
 

@@ -17,17 +17,21 @@
 
   background: var(--color-brand);
 
+  padding: 0 functions.calc-rem(12);
+  
   @include media.desktop {
     height: functions.calc-rem(88);
     max-width: functions.calc-rem(1216);
-    margin: 0 auto;
 
+    margin: 0 auto;
+  padding: 0;
     position: initial;
   }
 }
 
 .headerControls {
   display: flex;
+  flex-direction: column;
 }
 
 @keyframes hide {
@@ -99,7 +103,18 @@
   @include title-3;
   width: functions.calc-rem(144);
 
+  padding: 0;
+  
+  margin:0;
+
   text-align: center;
+}
+
+.description {
+  @include caption-1;
+  padding: 0;
+
+  margin:0;
 }
 
 .mobileIcon {
@@ -114,6 +129,7 @@
 }
 
 .title,
+.description,
 .mobileIcon {
   display: block;
 

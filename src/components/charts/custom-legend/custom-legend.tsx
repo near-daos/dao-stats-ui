@@ -7,6 +7,7 @@ import { Dot } from '../svg/dot';
 import { RangeFilter, RangeFilterProps } from '../range-filter';
 
 import styles from './custom-legend.module.scss';
+import { COLORS } from '../constants';
 
 export interface CustomLegendProps extends LegendProps, RangeFilterProps {
   lines?: LineItem[];
@@ -40,7 +41,7 @@ export const CustomLegend: React.FC<CustomLegendProps> = ({
   return (
     <div className={styles.legend}>
       <div className={styles.legendList}>
-        {lines?.map((line) => (
+        {lines?.map((line, lineIndex) => (
           <button
             className={clsx(styles.legendListBar, {
               [styles.disabled]: !activeLines.has(line.dataKey),
@@ -48,7 +49,10 @@ export const CustomLegend: React.FC<CustomLegendProps> = ({
             key={`item-${line.dataKey}`}
             onClick={() => handleClick(line.dataKey)}
           >
-            <Dot color={line.color} className={styles.legendListSvg} />
+            <Dot
+              color={line.color || COLORS[lineIndex]}
+              className={styles.legendListSvg}
+            />
             <span className={styles.legendListValue}>{line.name}</span>
           </button>
         ))}
