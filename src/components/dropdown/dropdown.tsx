@@ -31,46 +31,68 @@ export const Dropdown: FC<DropdownProps> = ({
   options,
   initialSelectedItem = undefined,
   value,
-}) => {
-  console.log('options', options);
+}) => (
+  <Downshift
+    id={id}
+    onChange={onChange}
+    itemToString={(item) => (item ? item.value : '')}
+    initialSelectedItem={initialSelectedItem}
+    selectedItem={value}
+    initialInputValue={value?.value}
+    onInputValueChange={(inputValue) => {
+      if (inputValue === '') {
+        onChange(null);
+      }
+    }}
+  >
+    {({
+      getMenuProps,
+      getToggleButtonProps,
+      isOpen,
+      selectedItem,
+      selectItem,
+    }) => (
+      <div className={clsx(styles.root, className)}>
+        <button
+          {...getToggleButtonProps()}
+          className={clsx(styles.selectedValue, { [styles.show]: isOpen })}
+        >
+          {selectedItem?.label || ''}
+        </button>
 
-  return (
-    <Downshift
-      id={id}
-      onChange={onChange}
-      itemToString={(item) => (item ? item.value : '')}
-      initialSelectedItem={initialSelectedItem}
-      selectedItem={value}
-      initialInputValue={value?.value}
-      onInputValueChange={(inputValue) => {
-        if (inputValue === '') {
-          onChange(null);
-        }
-      }}
-    >
-      {({ getMenuProps, getToggleButtonProps, isOpen, selectedItem }) => (
-        <div className={clsx(styles.root, className)}>
-          <button {...getToggleButtonProps()} className={styles.selectedValue}>
-            {selectedItem?.label || ''}
-          </button>
-          <SvgIcon
-            icon="dropdownArrow"
-            className={clsx(styles.arrow, { [styles.arrowUp]: isOpen })}
-          />
+        <SvgIcon
+          icon="dropdownArrow"
+          className={clsx(styles.arrow, { [styles.arrowOpen]: isOpen })}
+        />
 
+        {isOpen ? (
           <div className={styles.overlayDropdown}>
             <div className={clsx(styles.dropdown, dropdownClassName)}>
               <ul {...getMenuProps()} className={styles.dropDownMenu}>
                 {options.map((option) => (
-                  <li className={styles.dropDownItem} key={option.id}>
-                    {option.label}
+                  <li
+                    className={clsx(styles.dropDownItem, {
+                      [styles.active]: option.value === selectedItem?.value,
+                    })}
+                    key={option.id}
+                  >
+                    <button
+                      type="button"
+                      className={styles.dropDownItemButton}
+                      onClick={() => {
+                        selectItem(option);
+                        onChange(option);
+                      }}
+                    >
+                      {option.label}
+                    </button>
                   </li>
                 ))}
               </ul>
             </div>
           </div>
-        </div>
-      )}
-    </Downshift>
-  );
-};
+        ) : null}
+      </div>
+    )}
+  </Downshift>
+);

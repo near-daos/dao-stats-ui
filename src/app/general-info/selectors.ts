@@ -20,13 +20,13 @@ export const selectGeneralDaos = createSelector(
   (data) => data,
 );
 
-export const selectGeneralActivity = createSelector(
-  (state: RootState) => getState(state).generalActivity,
+export const selectGeneralActive = createSelector(
+  (state: RootState) => getState(state).generalActive,
   (data) => data,
 );
 
-export const selectGeneralActivityLeaderboard = createSelector(
-  (state: RootState) => getState(state).generalActivityLeaderboard,
+export const selectGeneralActiveLeaderboard = createSelector(
+  (state: RootState) => getState(state).generalActiveLeaderboard,
   (data) => data,
 );
 

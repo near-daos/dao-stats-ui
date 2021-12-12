@@ -8,7 +8,7 @@ import {
 } from 'react-router';
 
 import { Page, WidgetTile, WidgetInfo, Widgets } from '../../components';
-import { DaoActivity } from './dao-activity';
+import { ActiveDao } from './active-dao';
 import { NumbersDao } from './numbers-dao';
 import { Groups } from './groups';
 import { useRoutes } from '../../hooks';
@@ -34,6 +34,7 @@ export const GeneralInfo: FC = () => {
           await dispatch(getGeneral({ contract }));
         }
       } catch (error: unknown) {
+        // eslint-disable-next-line no-console
         console.error(error);
       }
     })();
@@ -56,8 +57,8 @@ export const GeneralInfo: FC = () => {
 
         <WidgetTile
           className={styles.widget}
-          onClick={() => history.push(routes.generalInfoDaoActivity)}
-          active={location.pathname === routes.generalInfoDaoActivity}
+          onClick={() => history.push(routes.generalInfoActiveDao)}
+          active={location.pathname === routes.generalInfoActiveDao}
         >
           <WidgetInfo
             title="Active DAOs"
@@ -78,12 +79,7 @@ export const GeneralInfo: FC = () => {
           />
         </WidgetTile>
 
-        <WidgetTile
-          disabled
-          className={styles.widget}
-          onClick={() => history.push(routes.generalInfoDaoActivity)}
-          active={location.pathname === routes.generalInfoDaoActivity}
-        >
+        <WidgetTile disabled className={styles.widget}>
           <WidgetInfo
             title="Avg. Groups/DAO"
             number={general?.activity?.count}
@@ -97,8 +93,8 @@ export const GeneralInfo: FC = () => {
           <Route exact path={ROUTES.generalInfo} component={NumbersDao} />
           <Route
             exact
-            path={ROUTES.generalInfoDaoActivity}
-            component={DaoActivity}
+            path={ROUTES.generalInfoActiveDao}
+            component={ActiveDao}
           />
           <Route exact path={ROUTES.generalInfoGroups} component={Groups} />
         </Switch>

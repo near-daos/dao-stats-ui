@@ -3,7 +3,7 @@ export const ROUTES = {
   uiKit: '/ui-kit',
   page404: '/404',
   generalInfo: '/:contract/general-info',
-  generalInfoDaoActivity: '/:contract/general-info/dao-activity',
+  generalInfoActiveDao: '/:contract/general-info/dao-active',
   generalInfoGroups: '/:contract/general-info/groups',
   users: '/:contract/users',
   usersOfDao: '/:contract/users/of-dao',

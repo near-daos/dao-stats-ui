@@ -25,18 +25,18 @@ export class GeneralService extends HttpService {
     return this.get(`${params.contract}/general/daos?${query}`);
   }
 
-  async getGeneralActivity(
+  async getGeneralActive(
     params: HistoryParams,
   ): Promise<AxiosResponse<Metrics>> {
     const query = queryString.stringify({ from: params.from, to: params.to });
 
-    return this.get(`${params.contract}/general/activity?${query}`);
+    return this.get(`${params.contract}/general/active?${query}`);
   }
 
-  async getGeneralActivityLeaderboard(
+  async getGeneralActiveLeaderboard(
     params: Params,
   ): Promise<AxiosResponse<Leaderboard>> {
-    return this.get(`${params.contract}/general/activity/leaderboard`);
+    return this.get(`${params.contract}/general/active/leaderboard`);
   }
 
   async getGeneralGroups(

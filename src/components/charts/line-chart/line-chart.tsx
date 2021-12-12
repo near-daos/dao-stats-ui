@@ -19,7 +19,6 @@ import { tickXFormatter } from '../helpers';
 
 type LineChartProps = {
   width?: number;
-  height?: number;
   lines?: LineItem[];
   data: any | null;
   period: string;
@@ -30,7 +29,6 @@ export const ChartLine: React.FC<LineChartProps> = ({
   lines = [],
   data = { metrics: [] },
   width = 685,
-  height = 500,
   period,
   setPeriod,
 }) => {
@@ -67,14 +65,16 @@ export const ChartLine: React.FC<LineChartProps> = ({
     </g>
   );
 
+  const legendHeight = lines.length > 3 ? 100 : 50;
+
   return (
-    <ResponsiveContainer width="100%" height={500}>
-      <LineChart width={width} height={height} data={data?.metrics}>
+    <ResponsiveContainer>
+      <LineChart data={data?.metrics}>
         <CartesianGrid stroke="#393838" vertical={false} />
         <Legend
           align="left"
           verticalAlign="top"
-          height={50}
+          height={legendHeight}
           iconType="circle"
           content={
             <CustomLegend
@@ -98,6 +98,7 @@ export const ChartLine: React.FC<LineChartProps> = ({
           interval={0}
           tickLine={false}
           style={tickStyles}
+          width={30}
         />
         <XAxis
           stroke="#393838"
