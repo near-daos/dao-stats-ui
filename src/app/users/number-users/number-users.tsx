@@ -1,14 +1,14 @@
 import React, { FC, useEffect, useState } from 'react';
+import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useParams } from 'react-router';
-
-import { ChartLine, Tabs, Leaderboard } from 'src/components';
-
-import { getUsersHistory, getUsersLeaderboard } from '../slice';
+import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from '../../../store';
+import { selectActionLoading } from '../../../store/loading';
+import { isSuccess, isPending, isNotAsked } from '../../../utils';
+import { getUsersHistory, getUsersLeaderboard } from '../slice';
 import { selectUsersHistory, selectUsersLeaderboard } from '../selectors';
 
-import styles from './number-users.module.scss';
-import { useFilterMetrics, usePrepareLeaderboard } from '../../../hooks';
+import styles from '../users.module.scss';
 
 const tabOptions = [
   {
@@ -20,35 +20,62 @@ const tabOptions = [
 
 export const NumberUsers: FC = () => {
   const [period, setPeriod] = useState('1y');
+
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
+
   const users = useAppSelector(selectUsersHistory);
   const usersLeaderboard = useAppSelector(selectUsersLeaderboard);
+  const getUsersNumberLoading = useAppSelector(
+    selectActionLoading(getUsersHistory.typePrefix),
+  );
+  const getUsersNumberLeaderboardLoading = useAppSelector(
+    selectActionLoading(getUsersLeaderboard.typePrefix),
+  );
+
+  const handleOnChange = (value: string) => {
+    setActiveTab(value);
+  };
 
   useEffect(() => {
     (async () => {
       try {
-        await dispatch(
-          getUsersHistory({
-            contract,
-          }),
-        );
-        await dispatch(
-          getUsersLeaderboard({
-            contract,
-          }),
-        );
+        if (
+          (!users || isNotAsked(getUsersNumberLoading)) &&
+          !isPending(getUsersNumberLoading)
+        ) {
+          await dispatch(
+            getUsersHistory({
+              contract,
+            }),
+          );
+        }
+
+        if (
+          (!usersLeaderboard || isNotAsked(getUsersNumberLeaderboardLoading)) &&
+          !isPending(getUsersNumberLeaderboardLoading)
+        ) {
+          await dispatch(
+            getUsersLeaderboard({
+              contract,
+            }),
+          );
+        }
       } catch (error: unknown) {
         // eslint-disable-next-line no-console
         console.error(error);
       }
     })();
-  }, [contract, dispatch]);
-
-  const handleOnChange = (value: string) => {
-    setActiveTab(value);
-  };
+  }, [
+    users,
+    usersLeaderboard,
+    period,
+    contract,
+    dispatch,
+    getUsersNumberLoading,
+    getUsersNumberLeaderboardLoading,
+  ]);
 
   const usersLeaderboardData = usePrepareLeaderboard({
     leaderboard: usersLeaderboard?.metrics ? usersLeaderboard.metrics : null,
@@ -57,7 +84,14 @@ export const NumberUsers: FC = () => {
   const usersData = useFilterMetrics(period, users);
 
   return (
-    <div className={styles.mainContent}>
+    <div className={styles.detailsContainer}>
+      <LoadingContainer
+        hide={
+          isSuccess(getUsersNumberLoading) &&
+          isSuccess(getUsersNumberLeaderboardLoading)
+        }
+      />
+
       <div className={styles.tabWrapper}>
         <Tabs
           variant="small"
@@ -66,13 +100,14 @@ export const NumberUsers: FC = () => {
           onChange={handleOnChange}
         />
       </div>
-      <div className={styles.chart}>
+
+      <div className={styles.metricsContainer}>
         {activeTab === 'history-data' && usersData ? (
           <ChartLine
             data={usersData}
             period={period}
             setPeriod={setPeriod}
-            lines={[{ name: 'Users', color: '#E33F84', dataKey: 'count' }]}
+            lines={[{ name: 'Groups', color: '#E33F84', dataKey: 'count' }]}
           />
         ) : null}
         {activeTab === 'leaderboard' && usersLeaderboardData ? (
@@ -80,7 +115,7 @@ export const NumberUsers: FC = () => {
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
-              { value: 'Users' },
+              { value: 'Groups' },
               { value: 'Last 7 days', position: 'right' },
             ]}
             type="line"

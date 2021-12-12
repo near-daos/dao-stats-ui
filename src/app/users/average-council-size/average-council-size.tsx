@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import { Tabs } from 'src/components';
 
-import styles from './average-council-size.module.scss';
+import styles from '../users.module.scss';
 
 const tabOptions = [
   {
