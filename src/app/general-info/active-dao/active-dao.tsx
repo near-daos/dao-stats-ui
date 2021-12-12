@@ -8,10 +8,10 @@ import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
 import { isPending, isSuccess, isNotAsked } from 'src/utils';
 
 import {
-  selectGeneralActivity,
-  selectGeneralActivityLeaderboard,
+  selectGeneralActive,
+  selectGeneralActiveLeaderboard,
 } from '../selectors';
-import { getGeneralActivity, getGeneralActivityLeaderboard } from '../slice';
+import { getGeneralActive, getGeneralActiveLeaderboard } from '../slice';
 
 import styles from '../general-info.module.scss';
 
@@ -23,52 +23,52 @@ const tabOptions = [
   { label: 'Leaderboard', value: 'leaderboard' },
 ];
 
-export const DaoActivity: FC = () => {
+export const ActiveDao: FC = () => {
   const [period, setPeriod] = useState('1y');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
 
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
-  const activity = useAppSelector(selectGeneralActivity);
-  const activityLeaderboard = useAppSelector(selectGeneralActivityLeaderboard);
-  const getGeneralActivityLoading = useAppSelector(
-    selectActionLoading(getGeneralActivity.typePrefix),
+  const active = useAppSelector(selectGeneralActive);
+  const activeLeaderboard = useAppSelector(selectGeneralActiveLeaderboard);
+  const getGeneralActiveLoading = useAppSelector(
+    selectActionLoading(getGeneralActive.typePrefix),
   );
-
-  const getGeneralActivityLeaderboardLoading = useAppSelector(
-    selectActionLoading(getGeneralActivityLeaderboard.typePrefix),
+  const getGeneralActiveLeaderboardLoading = useAppSelector(
+    selectActionLoading(getGeneralActiveLeaderboard.typePrefix),
   );
 
   useEffect(() => {
     if (
-      (!activity || isNotAsked(getGeneralActivityLoading)) &&
-      !isPending(getGeneralActivityLoading)
+      (!active || isNotAsked(getGeneralActiveLoading)) &&
+      !isPending(getGeneralActiveLoading)
     ) {
       dispatch(
-        getGeneralActivity({
+        getGeneralActive({
           contract,
         }),
-      ).catch((error) => console.log(error));
+        // eslint-disable-next-line no-console
+      ).catch((error: unknown) => console.error(error));
     }
 
     if (
-      (!activityLeaderboard ||
-        isNotAsked(getGeneralActivityLeaderboardLoading)) &&
-      !isPending(getGeneralActivityLeaderboardLoading)
+      (!activeLeaderboard || isNotAsked(getGeneralActiveLeaderboardLoading)) &&
+      !isPending(getGeneralActiveLeaderboardLoading)
     ) {
       dispatch(
-        getGeneralActivityLeaderboard({
+        getGeneralActiveLeaderboard({
           contract,
         }),
-      ).catch((error) => console.log(error));
+        // eslint-disable-next-line no-console
+      ).catch((error: unknown) => console.error(error));
     }
   }, [
     dispatch,
     contract,
-    activity,
-    getGeneralActivityLoading,
-    activityLeaderboard,
-    getGeneralActivityLeaderboardLoading,
+    active,
+    getGeneralActiveLoading,
+    activeLeaderboard,
+    getGeneralActiveLeaderboardLoading,
   ]);
 
   const handleOnChange = (value: string) => {
@@ -76,19 +76,17 @@ export const DaoActivity: FC = () => {
   };
 
   const activityLeaderboardData = usePrepareLeaderboard({
-    leaderboard: activityLeaderboard?.metrics
-      ? activityLeaderboard.metrics
-      : null,
+    leaderboard: activeLeaderboard?.metrics ? activeLeaderboard.metrics : null,
   });
 
-  const activityData = useFilterMetrics(period, activity);
+  const activeData = useFilterMetrics(period, active);
 
   return (
     <div className={styles.detailsContainer}>
       <LoadingContainer
         hide={
-          isSuccess(getGeneralActivityLoading) &&
-          isSuccess(getGeneralActivityLeaderboardLoading)
+          isSuccess(getGeneralActiveLoading) &&
+          isSuccess(getGeneralActiveLeaderboardLoading)
         }
       />
       <div className={styles.tabWrapper}>
@@ -100,9 +98,9 @@ export const DaoActivity: FC = () => {
         />
       </div>
       <div className={styles.metricsContainer}>
-        {activeTab === 'history-data' && activityData ? (
+        {activeTab === 'history-data' && activeData ? (
           <ChartLine
-            data={activityData}
+            data={activeData}
             period={period}
             setPeriod={setPeriod}
             lines={[

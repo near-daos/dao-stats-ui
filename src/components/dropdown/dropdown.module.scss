@@ -7,21 +7,22 @@
   position: relative;
 
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
 .overlayDropdown {
-  width: 100%;
+  width: functions.calc-rem(37);
 
   position: absolute;
   top: 100%;
 
   left: 0;
-  z-index: 100;
+  z-index: 2;
 
-  background: var(--color-grey-900);
+  background-color: var(--color-grey-900);
+  
+  border-radius: 2px;
 }
 
 .dropdown {
@@ -32,24 +33,28 @@
 .dropDownMenu {
   padding: 0;
   margin: 0;
-
-  list-style: none;
   
   background: var(--color-grey-900);
+
+  list-style: none;
 }
 
 .dropDownItem {
-  @include body-2;
   width: 100%;
   height: functions.calc-rem(32);
 
-  text-align: center;
   display: flex;
+  justify-content: center;
   align-items: center;
+
+  text-align: center;
   
   cursor: pointer;
+  
+  &.active {
+    background: var(--color-grey-700);
+  }
 }
-
 
 .selectedValueContainer {
   display: flex;
@@ -59,8 +64,6 @@
 .selectedValue {
   @extend %button-reset;
   @include body-2;
-  
-  
   width: functions.calc-rem(37);
   height: functions.calc-rem(32);
 
@@ -70,13 +73,28 @@
 
   color: var(--white);
 
+  background-color: transparent;
+  
+  border-radius: 2px;
+
   text-align: center;
+  
+  &.show {
+    background-color: var(--color-grey-700);
+  }
 }
 
 .arrow {
   color: var(--white);
-  svg {
-    fill: var(--white);
-    color: var(--white);
-  }
+
+  transform: rotate(180deg);
+}
+
+.arrowOpen {
+  transform: rotate(0deg);
+}
+
+.dropDownItemButton {
+  @extend %button-reset;
+  @include body-2;
 }

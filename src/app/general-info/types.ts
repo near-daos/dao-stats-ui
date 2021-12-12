@@ -5,8 +5,8 @@ export type generalState = {
   general: General | null;
   dao: General | null;
   generalDaos: Metrics | null;
-  generalActivity: Metrics | null;
-  generalActivityLeaderboard: Leaderboard | null;
+  generalActive: Metrics | null;
+  generalActiveLeaderboard: Leaderboard | null;
   generalGroups: Metrics | null;
   generalGroupsLeaderboard: Leaderboard | null;
   loading: RequestStatus;
