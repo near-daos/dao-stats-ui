@@ -1,5 +1,7 @@
 import { RouterState } from 'connected-react-router';
 import { CombinedState, combineReducers } from 'redux';
+import { autocompleteSlice } from 'src/components/autocomplete/slice';
+import { autocompleteState } from 'src/components/autocomplete/types';
 import { LoadingState, loadingReducer } from './loading';
 import { activitySlice } from '../app/activity/slice';
 import { activityState } from '../app/activity/types';
@@ -19,6 +21,7 @@ export type RootState = CombinedState<{
   [generalSlice.name]: generalState;
   [usersSlice.name]: usersState;
   [contractsSlice.name]: contractState;
+  [autocompleteSlice.name]: autocompleteState;
 }>;
 
 export const rootReducer = combineReducers({
@@ -28,4 +31,5 @@ export const rootReducer = combineReducers({
   [generalSlice.name]: generalSlice.reducer,
   [usersSlice.name]: usersSlice.reducer,
   [contractsSlice.name]: contractsSlice.reducer,
+  [autocompleteSlice.name]: autocompleteSlice.reducer,
 });
