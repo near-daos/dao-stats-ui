@@ -1,5 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import {
+  matchPath,
   Route,
   Switch,
   useHistory,
@@ -52,7 +53,12 @@ export const Governance: FC = () => {
       <Widgets>
         <WidgetTile
           className={styles.widget}
-          active={location.pathname === routes.governance}
+          active={Boolean(
+            matchPath(location.pathname, {
+              path: ROUTES.governance,
+              exact: true,
+            }),
+          )}
           onClick={() => history.push(routes.governance)}
         >
           <WidgetInfo
@@ -63,7 +69,12 @@ export const Governance: FC = () => {
         </WidgetTile>
         <WidgetTile
           className={styles.widget}
-          active={location.pathname === routes.governanceVoteRate}
+          active={Boolean(
+            matchPath(location.pathname, {
+              path: ROUTES.governanceVoteRate,
+              exact: true,
+            }),
+          )}
           onClick={() => history.push(routes.governanceVoteRate)}
         >
           <WidgetInfo
@@ -74,7 +85,12 @@ export const Governance: FC = () => {
         </WidgetTile>
         <WidgetTile
           className={styles.widget}
-          active={location.pathname === routes.governanceProposalType}
+          active={Boolean(
+            matchPath(location.pathname, {
+              path: ROUTES.governanceProposalType,
+              exact: true,
+            }),
+          )}
           onClick={() => history.push(routes.governanceProposalType)}
         >
           <ChartPie

@@ -5,6 +5,7 @@ import {
   useLocation,
   useParams,
   useHistory,
+  matchPath,
 } from 'react-router';
 
 import { Page, WidgetTile, WidgetInfo, Widgets } from '../../components';
@@ -45,7 +46,12 @@ export const GeneralInfo: FC = () => {
       <Widgets>
         <WidgetTile
           className={styles.widget}
-          active={location.pathname === routes.generalInfo}
+          active={Boolean(
+            matchPath(location.pathname, {
+              path: ROUTES.generalInfo,
+              exact: true,
+            }),
+          )}
           onClick={() => history.push(routes.generalInfo)}
         >
           <WidgetInfo
@@ -58,7 +64,12 @@ export const GeneralInfo: FC = () => {
         <WidgetTile
           className={styles.widget}
           onClick={() => history.push(routes.generalInfoActiveDao)}
-          active={location.pathname === routes.generalInfoActiveDao}
+          active={Boolean(
+            matchPath(location.pathname, {
+              path: ROUTES.generalInfoActiveDao,
+              exact: true,
+            }),
+          )}
         >
           <WidgetInfo
             title="Active DAOs"
@@ -70,7 +81,12 @@ export const GeneralInfo: FC = () => {
         <WidgetTile
           className={styles.widget}
           onClick={() => history.push(routes.generalInfoGroups)}
-          active={location.pathname === routes.generalInfoGroups}
+          active={Boolean(
+            matchPath(location.pathname, {
+              path: ROUTES.generalInfoGroups,
+              exact: true,
+            }),
+          )}
         >
           <WidgetInfo
             title="Groups"
