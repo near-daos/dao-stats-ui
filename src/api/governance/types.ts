@@ -1,6 +1,6 @@
 import { Proposals, TotalMetrics } from '../types';
 
-export type Activity = {
+export type Governance = {
   proposals: TotalMetrics;
   proposalsByType: Proposals;
   voteRate: TotalMetrics;

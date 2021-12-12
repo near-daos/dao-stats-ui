@@ -27,6 +27,7 @@ export const NumbersDao: FC = () => {
       !isPending(getGeneralDaosLoading)
     ) {
       dispatch(getGeneralDaos({ contract })).catch((error: unknown) =>
+        // eslint-disable-next-line no-console
         console.error(error),
       );
     }

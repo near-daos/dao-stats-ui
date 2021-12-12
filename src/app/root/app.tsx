@@ -15,7 +15,7 @@ import {
   MainPage,
   GeneralInfo,
   Users,
-  Activity,
+  Governance,
   Flow,
   Tvl,
   Tokens,
@@ -72,16 +72,16 @@ export const App: FC = () => (
                   path={ROUTES.usersNumberInteractionsPerDao}
                   component={Users}
                 />
-                <Route exact path={ROUTES.activity} component={Activity} />
+                <Route exact path={ROUTES.governance} component={Governance} />
                 <Route
                   exact
-                  path={ROUTES.activityProposalType}
-                  component={Activity}
+                  path={ROUTES.governanceProposalType}
+                  component={Governance}
                 />
                 <Route
                   exact
-                  path={ROUTES.activityVoteRate}
-                  component={Activity}
+                  path={ROUTES.governanceVoteRate}
+                  component={Governance}
                 />
                 <Route exact path={ROUTES.flow} component={Flow} />
                 <Route exact path={ROUTES.flowTransactions} component={Flow} />

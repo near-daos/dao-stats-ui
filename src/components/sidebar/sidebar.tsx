@@ -31,7 +31,7 @@ export const Sidebar: FC<SidebarProps> = ({ isOpened, setIsOpened }) => {
       value: routes.generalInfo,
     },
     { label: 'Users and Activity', value: routes.users },
-    { label: 'Activity', value: routes.activity },
+    { label: 'Governance', value: routes.governance },
   ];
 
   const financialItems = [
