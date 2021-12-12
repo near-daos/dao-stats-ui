@@ -117,7 +117,8 @@
   height: functions.calc-rem(24);
 
   position: absolute;
-  top: functions.calc-rem(62);
+  top: functions.calc-rem(12);
+
   left: functions.calc-rem(12);
   z-index: 0;
 
@@ -125,9 +126,6 @@
 
   transition: color ease-in-out 300ms;
 
-  @include media.desktop {
-    top: functions.calc-rem(12);
-  }
 }
 
 .inputControl {

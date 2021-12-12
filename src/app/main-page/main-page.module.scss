@@ -64,3 +64,17 @@
 .button {
   margin: 0 auto functions.calc-rem(12);
 }
+
+.switcherDesktop {
+  display: none;
+  @include media.desktop {
+    display: block;
+  }
+}
+
+.switcherMobile {
+  display: flex;
+  @include media.desktop {
+    display: none;
+  }
+}

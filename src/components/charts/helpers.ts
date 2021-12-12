@@ -35,7 +35,6 @@ export const filterDataByRange = (range: string, data: any): any[] => {
     case '1m':
       return data.last30days;
     case '7d':
-      return data.last7days;
     default:
       return data.last7days;
   }
@@ -74,22 +73,21 @@ export const yTickFormatter = (value: number): string => {
   return `${value}K`;
 };
 
-export const tickXFormatter = (value: number | string, period: string) => {
+export const tickXFormatter = (
+  value: number | string,
+  period: string,
+): string => {
   if (value === 'auto') {
     return 'auto';
   }
 
   switch (period) {
     case 'All':
-      return format(new Date(value), 'LLL');
     case '1y':
       return format(new Date(value), 'LLL');
     case '6m':
-      return format(new Date(value), 'd LLL');
     case '3m':
-      return format(new Date(value), 'd LLL');
     case '1m':
-      return format(new Date(value), 'd LLL');
     case '7d':
     default:
       return format(new Date(value), 'd LLL');

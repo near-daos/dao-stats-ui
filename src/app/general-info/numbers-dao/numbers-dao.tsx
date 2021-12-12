@@ -1,17 +1,16 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import clsx from 'clsx';
 
-import { ChartLine, Loading } from 'src/components';
+import { ChartLine, LoadingContainer } from 'src/components';
 import { useFilterMetrics } from 'src/hooks';
 
 import { getGeneralDaos } from '../slice';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { selectGeneralDaos } from '../selectors';
-import { RequestStatus } from '../../../store/types';
 import { selectActionLoading } from '../../../store/loading';
+import { isSuccess, isNotAsked, isPending } from '../../../utils';
 
-import styles from './numbers-dao.module.scss';
+import styles from '../general-info.module.scss';
 
 export const NumbersDao: FC = () => {
   const [period, setPeriod] = useState('1y');
@@ -23,29 +22,25 @@ export const NumbersDao: FC = () => {
   );
 
   useEffect(() => {
-    if (!daos) {
+    if (
+      (!daos || isNotAsked(getGeneralDaosLoading)) &&
+      !isPending(getGeneralDaosLoading)
+    ) {
       dispatch(getGeneralDaos({ contract })).catch((error: unknown) =>
         console.error(error),
       );
     }
-  }, [daos, contract, dispatch]);
+  }, [daos, contract, dispatch, getGeneralDaosLoading]);
 
   const daosData = useFilterMetrics(period, daos);
 
   return (
     <>
-      <div
-        className={clsx(styles.loading, {
-          [styles.showLoading]: getGeneralDaosLoading === RequestStatus.PENDING,
-        })}
-      >
-        <Loading />
-      </div>
+      <LoadingContainer hide={isSuccess(getGeneralDaosLoading)} />
 
-      <div className={styles.chart}>
-        {daos ? (
+      <div className={styles.metricsContainer}>
+        {daosData ? (
           <ChartLine
-            key={period}
             data={daosData}
             period={period}
             setPeriod={setPeriod}

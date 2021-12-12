@@ -2,7 +2,7 @@ import React, { FC, useEffect } from 'react';
 import startCase from 'lodash/startCase';
 import { useHistory } from 'react-router';
 
-import { Search, Button } from '../../components';
+import { Search, Button, NetworkSwitcher } from '../../components';
 import { useAppSelector } from '../../store';
 import { selectorSelectedContract } from '../shared';
 import { useRoutes } from '../../hooks';
@@ -17,7 +17,7 @@ export const MainPage: FC = () => {
   useEffect(() => {
     const handleScroll = (event: any) => {
       if (event.wheelDelta < 0) {
-        history.push(routes.generalInfo);
+        // history.push(routes.generalInfo);
       }
     };
 
@@ -34,7 +34,13 @@ export const MainPage: FC = () => {
 
       <h2 className={styles.subTitle}>From a community for the communities!</h2>
 
-      <Search disabled className={styles.search} />
+      <NetworkSwitcher className={styles.switcherMobile} />
+
+      <Search
+        disabled
+        className={styles.search}
+        networkSwitcherClass={styles.switcherDesktop}
+      />
 
       <p className={styles.info}>
         {startCase(selectedContract?.contractId)} stats

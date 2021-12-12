@@ -1,8 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
-import { ChartLine, Leaderboard, Loading, Tabs } from 'src/components';
+import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useParams } from 'react-router';
 import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
-import clsx from 'clsx';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import {
   selectGeneralGroups,
@@ -10,9 +9,10 @@ import {
 } from '../selectors';
 import { getGeneralGroupsLeaderboard, getGeneralGroups } from '../slice';
 
-import styles from './groups.module.scss';
 import { selectActionLoading } from '../../../store/loading';
-import { RequestStatus } from '../../../store/types';
+import { isSuccess, isPending, isNotAsked } from '../../../utils';
+
+import styles from '../general-info.module.scss';
 
 const tabOptions = [
   {
@@ -45,8 +45,8 @@ export const Groups: FC = () => {
     (async () => {
       try {
         if (
-          (!groups || getGeneralGroupsLoading === RequestStatus.NOT_ASKED) &&
-          getGeneralGroupsLoading !== RequestStatus.PENDING
+          (!groups || isNotAsked(getGeneralGroupsLoading)) &&
+          !isPending(getGeneralGroupsLoading)
         ) {
           await dispatch(
             getGeneralGroups({
@@ -56,9 +56,8 @@ export const Groups: FC = () => {
         }
 
         if (
-          (!groupsLeaderboard ||
-            getGeneralGroupsLoading === RequestStatus.NOT_ASKED) &&
-          getGeneralGroupsLeaderboardLoading !== RequestStatus.PENDING
+          (!groupsLeaderboard || isNotAsked(getGeneralGroupsLoading)) &&
+          !isPending(getGeneralGroupsLeaderboardLoading)
         ) {
           await dispatch(
             getGeneralGroupsLeaderboard({
@@ -88,16 +87,13 @@ export const Groups: FC = () => {
   const groupsData = useFilterMetrics(period, groups);
 
   return (
-    <div className={styles.mainContent}>
-      <div
-        className={clsx(styles.loading, {
-          [styles.showLoading]:
-            getGeneralGroupsLeaderboardLoading === RequestStatus.PENDING ||
-            getGeneralGroupsLoading === RequestStatus.PENDING,
-        })}
-      >
-        <Loading />
-      </div>
+    <div className={styles.detailsContainer}>
+      <LoadingContainer
+        hide={
+          isSuccess(getGeneralGroupsLoading) &&
+          isSuccess(getGeneralGroupsLeaderboardLoading)
+        }
+      />
 
       <div className={styles.tabWrapper}>
         <Tabs
@@ -108,7 +104,7 @@ export const Groups: FC = () => {
         />
       </div>
 
-      <div className={styles.chart}>
+      <div className={styles.metricsContainer}>
         {activeTab === 'history-data' && groupsData ? (
           <ChartLine
             data={groupsData}

@@ -12,7 +12,7 @@ type UserDataProps = {
   children: (loadingContracts: string) => ReactElement;
 };
 
-export const UserData = ({ children }: UserDataProps) => {
+export const UserData = ({ children }: UserDataProps): ReactElement => {
   const loadingContracts = useAppSelector(selectorContractsLoadingState);
   const dispatch = useAppDispatch();
 
@@ -24,6 +24,7 @@ export const UserData = ({ children }: UserDataProps) => {
 
         dispatch(setContract(rawData[0]));
       } catch (error: unknown) {
+        // eslint-disable-next-line no-console
         console.error(error);
       }
     })();

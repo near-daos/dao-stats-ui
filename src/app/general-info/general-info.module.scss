@@ -1,31 +1,26 @@
 @use '../../styles/functions';
 @use '../../styles/media';
 
-.widgets {
-  width: 100%;
-
-  margin: 0;
-
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  @include media.desktop {
-    width: functions.calc-rem(240);
-
-    margin: 0 functions.calc-rem(15) 0 0;
-
-    flex-direction: column;
-    flex-wrap: nowrap;
-  }
-}
-
 .widget {
-  margin: 0 functions.calc-rem(12) functions.calc-rem(24) 0;
+  margin: 0;
+  
+  @include media.mobile-only {
+    width: 100%;
+  }
+  
+  @include media.tablet-portrait { 
+    width: 49%;
+  }
+
+  @include media.tablet-landscape {
+    width: functions.calc-rem(240);
+  }
 
   @include media.desktop {
     margin: 0 functions.calc-rem(12) functions.calc-rem(12) 0;
+    width: functions.calc-rem(240);
   }
+
   
   &:last-child {
     @include media.desktop {
@@ -47,5 +42,30 @@
 
   @include media.desktop {
     width: functions.calc-rem(750);
+  }
+}
+
+.detailsContainer {
+  width: 100%;
+  @include media.desktop {
+    width: functions.calc-rem(750);
+  }
+}
+
+.tabWrapper {
+  height: functions.calc-rem(40);
+
+  padding-left: functions.calc-rem(30);
+  padding-top: functions.calc-rem(10);
+
+  border-bottom: functions.calc-rem(1) solid var(--color-grey-700);
+}
+
+.metricsContainer {
+  padding: functions.calc-rem(10) functions.calc-rem(12) functions.calc-rem(10)
+  functions.calc-rem(12);
+  @include media.desktop {
+    padding: functions.calc-rem(10) functions.calc-rem(30) functions.calc-rem(10)
+    functions.calc-rem(20);
   }
 }
