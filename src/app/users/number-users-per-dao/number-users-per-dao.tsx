@@ -8,7 +8,7 @@ import { getUsersHistory, getUsersLeaderboard } from '../slice';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { selectUsersHistory, selectUsersLeaderboard } from '../selectors';
 
-import styles from './number-users-per-dao.module.scss';
+import styles from '../users.module.scss';
 import { usePrepareLeaderboard } from '../../../hooks';
 
 const tabOptions = [

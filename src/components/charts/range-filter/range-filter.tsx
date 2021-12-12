@@ -16,18 +16,9 @@ export const RangeFilter: FC<RangeFilterProps> = ({
   periods = [],
   period,
   setPeriod,
-}) => {
-  console.log(
-    periods.map(() => ({
-      id: period,
-      value: period,
-      label: period,
-    })),
-  );
-
-  return (
-    <div className={styles.list}>
-      {/* <Dropdown
+}) => (
+  <div className={styles.list}>
+    {/* <Dropdown
         options={periods.map((periodItem) => ({
           id: periodItem,
           value: periodItem,
@@ -36,18 +27,17 @@ export const RangeFilter: FC<RangeFilterProps> = ({
         initialSelectedItem={{ label: period, id: period, value: period }}
       /> */}
 
-      {periods.map((periodItem) => (
-        <button
-          key={periodItem}
-          type="button"
-          className={clsx(styles.button, {
-            [styles.active]: period === periodItem,
-          })}
-          onClick={() => setPeriod(periodItem)}
-        >
-          {periodItem}
-        </button>
-      ))}
-    </div>
-  );
-};
+    {periods.map((periodItem) => (
+      <button
+        key={periodItem}
+        type="button"
+        className={clsx(styles.button, {
+          [styles.active]: period === periodItem,
+        })}
+        onClick={() => setPeriod(periodItem)}
+      >
+        {periodItem}
+      </button>
+    ))}
+  </div>
+);

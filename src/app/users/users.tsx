@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from 'src/store';
 import { getUsers } from './slice';
 import { selectorUsers } from './selectors';
 
-import { Page, WidgetTile, WidgetInfo } from '../../components';
+import { Page, WidgetTile, WidgetInfo, Widgets } from '../../components';
 
 import { ROUTES } from '../../constants';
 import { AverageCouncilSize } from './average-council-size';
@@ -44,7 +44,7 @@ export const Users: FC = () => {
 
   return (
     <Page title="Users">
-      <div className={styles.widgets}>
+      <Widgets>
         <WidgetTile
           className={styles.widget}
           active={location.pathname === routes.users}
@@ -58,6 +58,7 @@ export const Users: FC = () => {
         </WidgetTile>
 
         <WidgetTile
+          disabled
           className={styles.widget}
           onClick={() => history.push(routes.usersOfDao)}
           active={location.pathname === routes.usersOfDao}
@@ -70,6 +71,7 @@ export const Users: FC = () => {
         </WidgetTile>
 
         <WidgetTile
+          disabled
           className={styles.widget}
           onClick={() => history.push(routes.usersPerDao)}
           active={location.pathname === routes.usersPerDao}
@@ -109,6 +111,7 @@ export const Users: FC = () => {
           className={styles.widget}
           onClick={() => history.push(routes.usersNumberInteractionsPerDao)}
           active={location.pathname === routes.usersNumberInteractionsPerDao}
+          disabled
         >
           <WidgetInfo
             title="Average number of Interactions per DAO"
@@ -116,7 +119,7 @@ export const Users: FC = () => {
             percentages={10}
           />
         </WidgetTile>
-      </div>
+      </Widgets>
 
       <div className={styles.mainContent}>
         <Switch>
