@@ -17,7 +17,7 @@ export const MainPage: FC = () => {
   useEffect(() => {
     const handleScroll = (event: any) => {
       if (event.wheelDelta < 0) {
-        // history.push(routes.generalInfo);
+        history.push(routes.generalInfo);
       }
     };
 
