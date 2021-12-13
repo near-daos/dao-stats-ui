@@ -2,7 +2,7 @@ import { TotalMetrics } from '../types';
 
 export type Users = {
   users: TotalMetrics;
-  avgDaoUsers: TotalMetrics;
+  averageUsers: TotalMetrics;
   interactions: TotalMetrics;
-  avgDaoInteractions: TotalMetrics;
+  averageInteractions: TotalMetrics;
 };

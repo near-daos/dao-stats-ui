@@ -85,8 +85,8 @@ export const Users: FC = () => {
         >
           <WidgetInfo
             title="Average number of users per DAO"
-            number={users?.avgDaoUsers.count}
-            percentages={users?.avgDaoUsers.growth}
+            number={users?.averageUsers.count}
+            percentages={users?.averageUsers.growth}
           />
         </WidgetTile>
 
@@ -114,8 +114,8 @@ export const Users: FC = () => {
         >
           <WidgetInfo
             title="Average number of Interactions per DAO"
-            number={users?.avgDaoInteractions.count}
-            percentages={users?.avgDaoInteractions.growth}
+            number={users?.averageInteractions.count}
+            percentages={users?.averageInteractions.growth}
           />
         </WidgetTile>
       </Widgets>
