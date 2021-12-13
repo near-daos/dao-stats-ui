@@ -4,8 +4,8 @@ import clsx from 'clsx';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { Search } from '../search/search';
 import styles from './autocomplete.module.scss';
-import { getAutocomplete } from './slice';
-import { selectAutocomplete } from './selectors';
+import { getDao } from '../../app/shared/daos/slice';
+import { selectDao } from '../../app/shared/daos/selectors';
 import { selectorContracts } from '../../app/shared/contracts';
 
 export type AutocompleteOption = {
@@ -41,7 +41,7 @@ export const Autocomplete: FC<AutocompleteProps> = ({
   const [searchDaoValue, setsearchDaoValue] = useState<string>('');
   const getContract = useAppSelector(selectorContracts);
   const dispatch = useAppDispatch();
-  const options = useAppSelector(selectAutocomplete) || [];
+  const options = useAppSelector(selectDao) || [];
 
   let contract;
 
@@ -51,7 +51,7 @@ export const Autocomplete: FC<AutocompleteProps> = ({
 
   useEffect(() => {
     dispatch(
-      getAutocomplete({ contract: 'astro', input: searchDaoValue }),
+      getDao({ contract: 'astro', input: searchDaoValue }),
     ).catch((error: unknown) => console.error(error));
   }, [contract, dispatch, searchDaoValue]);
 
@@ -65,21 +65,11 @@ export const Autocomplete: FC<AutocompleteProps> = ({
   }) => {
     setsearchDaoValue(inputValue || '');
 
-    const filteredOptions = options.filter(
-      (option: AutocompleteOption) =>
-        option.dao.toLowerCase().includes(inputValue?.toLowerCase() || '') ||
-        option.description
-          ?.toLowerCase()
-          .includes(inputValue?.toLowerCase() || ''),
-    );
-
-    if (filteredOptions.length > 0) {
+    if (options?.length > 0) {
       return (
         <>
-          <li className={styles.foundTitle}>
-            Found {filteredOptions.length} DAOs
-          </li>
-          {filteredOptions.map((option: AutocompleteOption, index: number) => (
+          <li className={styles.foundTitle}>Found {options?.length} DAOs</li>
+          {options?.map((option: AutocompleteOption, index: number) => (
             <li
               {...getItemProps({
                 key: option.dao,
