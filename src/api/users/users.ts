@@ -55,6 +55,22 @@ export class UsersService extends HttpService {
   ): Promise<AxiosResponse<Leaderboard>> {
     return this.get(`${params.contract}/users/interactions/leaderboard`);
   }
+
+  async getUsersAveragePerDaoHistory(
+    params: HistoryParams,
+  ): Promise<AxiosResponse<Metrics>> {
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(`${params.contract}/users/average?${query}`);
+  }
+
+  async getUsersInteractionsPerDaoHistory(
+    params: HistoryParams,
+  ): Promise<AxiosResponse<Metrics>> {
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(`${params.contract}/users/interactions-average?${query}`);
+  }
 }
 
 export const usersService = new UsersService();

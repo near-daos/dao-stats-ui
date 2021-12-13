@@ -1,100 +1,64 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
-import { ChartLine, Tabs, Leaderboard } from 'src/components';
-import { getDateFromMow } from 'src/components/charts/helpers';
-
-import { getUsersHistory, getUsersLeaderboard } from '../slice';
+import { ChartLine, LoadingContainer } from 'src/components';
+import { isNotAsked, isSuccess } from 'src/utils';
+import { isPending } from '@reduxjs/toolkit';
+import { useFilterMetrics } from 'src/hooks';
+import { getUsersAveragePerDaoHistory } from '../slice';
 import { useAppDispatch, useAppSelector } from '../../../store';
-import { selectUsersHistory, selectUsersLeaderboard } from '../selectors';
+import { selectActionLoading } from '../../../store/loading';
+import { selectUsersAveragePerDaoHistory } from '../selectors';
 
 import styles from '../users.module.scss';
-import { usePrepareLeaderboard } from '../../../hooks';
-
-const tabOptions = [
-  {
-    label: 'History data',
-    value: 'history-data',
-  },
-  { label: 'Leaderboard', value: 'leaderboard' },
-];
 
 export const NumberUsersPerDao: FC = () => {
   const [period, setPeriod] = useState('1y');
-  const [activeTab, setActiveTab] = useState(tabOptions[0].value);
 
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
-  const users = useAppSelector(selectUsersHistory);
-  const usersLeaderboard = useAppSelector(selectUsersLeaderboard);
+  const users = useAppSelector(selectUsersAveragePerDaoHistory);
+  const getUsersLoading = useAppSelector(
+    selectActionLoading(getUsersAveragePerDaoHistory.typePrefix),
+  );
 
   useEffect(() => {
     (async () => {
-      try {
-        await dispatch(
-          getUsersHistory({
-            contract,
-            from: String(getDateFromMow(period)),
-          }),
-        );
-        await dispatch(
-          getUsersLeaderboard({
+      if (
+        (!users || isNotAsked(getUsersLoading)) &&
+        !isPending(getUsersLoading)
+      ) {
+        dispatch(
+          getUsersAveragePerDaoHistory({
             contract,
           }),
         );
-      } catch (error: unknown) {
-        // eslint-disable-next-line no-console
-        console.error(error);
       }
     })();
-  }, [period, contract, dispatch]);
+  }, [users, getUsersLoading, contract, dispatch]);
 
-  const handleOnChange = (value: string) => {
-    setActiveTab(value);
-  };
-
-  const usersLeaderboardData = usePrepareLeaderboard({
-    leaderboard: usersLeaderboard?.metrics ? usersLeaderboard.metrics : null,
-  });
+  const daosData = useFilterMetrics(period, users);
 
   return (
-    <div className={styles.mainContent}>
-      <div className={styles.tabWrapper}>
-        <Tabs
-          variant="small"
-          options={tabOptions}
-          className={styles.tabs}
-          onChange={handleOnChange}
-        />
-      </div>
-      <div className={styles.chart}>
-        {activeTab === 'history-data' && users ? (
+    <>
+      <LoadingContainer hide={isSuccess(getUsersLoading)} />
+
+      <div className={styles.metricsContainer}>
+        {daosData ? (
           <ChartLine
-            data={users}
+            data={daosData}
             period={period}
             setPeriod={setPeriod}
             lines={[
               {
-                name: 'Number of interactions',
+                name: 'Average Users per DAO',
                 color: '#E33F84',
                 dataKey: 'count',
               },
             ]}
           />
         ) : null}
-        {activeTab === 'leaderboard' && usersLeaderboardData ? (
-          <Leaderboard
-            headerCells={[
-              { value: '' },
-              { value: 'DAO Name' },
-              { value: 'Number of interactions' },
-              { value: 'Last 7 days', position: 'right' },
-            ]}
-            type="line"
-            dataRows={usersLeaderboardData}
-          />
-        ) : null}
       </div>
-    </div>
+    </>
   );
 };
