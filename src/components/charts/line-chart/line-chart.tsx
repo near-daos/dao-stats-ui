@@ -65,6 +65,12 @@ export const ChartLine: React.FC<LineChartProps> = ({
     </g>
   );
 
+  // waiting to fix bug - https://github.com/recharts/recharts/issues/2704
+  React.useEffect(() => {
+    // dispatch it once mounted
+    window.dispatchEvent(new Event('resize'));
+  }, []);
+
   return (
     <ResponsiveContainer>
       <LineChart data={data?.metrics}>
