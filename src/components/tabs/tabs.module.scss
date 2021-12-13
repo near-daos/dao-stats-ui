@@ -1,11 +1,12 @@
 @use '../../styles/functions';
+@use '../../styles/media';
 @import '../../styles/typography';
 @import '../../styles/helpers';
 
 .tabsWrapper {
-  --line-height: 4px;
+  --line-height: #{functions.calc-rem(4)};
   --line-color: transparent;
-  --padding-bottom: 10px;
+  --padding-bottom: #{functions.calc-rem(10)};
 
   width: fit-content;
 
@@ -16,10 +17,8 @@
 }
 
 .tab {
-  @include title-1;
+  @include title-3;
   @extend %button-reset;
-
-  height: 100%;
 
   padding-bottom: var(--padding-bottom);
   margin: 0 functions.calc-rem(24) 0 0;
@@ -37,7 +36,7 @@
     background-color: var(--line-color);
     content: '';
 
-    border-radius: 4px;
+    border-radius: functions.calc-rem(4);
 
     transition: background-color 350ms;
   }
@@ -49,18 +48,22 @@
   &:last-child {
     margin: 0;
   }
+
+  @include media.desktop {
+    @include title-1;
+  }
 }
 
 .medium,
 .small {
-  --padding-bottom: 6px;
+  --padding-bottom: #{functions.calc-rem(6)};
   .tab {
     @include title-3;
   }
 }
 
 .small {
-  --line-height: 2px;
+  --line-height: #{functions.calc-rem(2)};
 }
 
 .active {

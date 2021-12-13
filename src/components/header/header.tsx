@@ -1,119 +1,127 @@
 import React, { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Tabs } from '../tabs';
-import { Dropdown, DropdownOption } from '../dropdown/dropdown';
-import { NavigationInfo } from '../navigation-info/navigation-info';
+import { Autocomplete, AutocompleteOption } from '../autocomplete/autocomplete';
+import { useForbiddenRoutes } from '../../hooks';
 
-import logo from '../../images/daostats.svg';
+import { SvgIcon } from '../svgIcon/svgIcon';
 
 import styles from './header.module.scss';
 
-const tabOptions = [
-  {
-    label: 'Sputnik DAO',
-    value: 'sputnik',
-  },
-  { label: 'Astro', value: 'astro' },
-];
+import desktopLogo from '../../images/logo-mobile.svg';
+import mobileLogo from '../../images/daostats.svg';
 
-const dropdownOptions: DropdownOption[] = [
-  {
-    id: '0',
-    name: 'Fatima Sanders',
-    link: 'Quisque libero lacus, varius et, euismod et, commodo at, libero.',
-    searchType: 'testnet',
-    type: 'sputnik',
-  },
-  {
-    id: '1',
-    name: 'Xaviera Gibson',
-    link:
-      'Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus',
-    searchType: 'testnet',
-    type: 'astro',
-  },
-  {
-    id: '2',
-    name: 'Anthony Hawkins',
-    link: 'ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo',
-    searchType: 'mainnet',
-    type: 'sputnik',
-  },
-  {
-    id: '3',
-    name: 'Hadassah Harrington',
-    link:
-      'ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam auctor, velit',
-    searchType: 'mainnet',
-    type: 'sputnik',
-  },
-  {
-    id: '4',
-    name: 'Abel Knight',
-    link: 'felis. Donec tempor, est ac mattis semper, dui lectus rutrum',
-    searchType: 'mainnet',
-    type: 'astro',
-  },
-  {
-    id: '5',
-    name: 'jonathan',
-    link: 'jonathan.sputnikdao.near',
-    searchType: 'mainnet',
-    type: 'sputnik',
-  },
-  {
-    id: '6',
-    name: 'jonathan',
-    link: 'jonathan.sputnikdao.near',
-    searchType: 'mainnet',
-    type: 'astro',
-  },
-  {
-    id: '7',
-    name: 'jonathan',
-    link: 'jonathan.sputnikdao.near',
-    searchType: 'mainnet',
-    type: 'sputnik',
-  },
-  {
-    id: '8',
-    name: 'jonathan',
-    link: 'jonathan.sputnikdao.near',
-    searchType: 'mainnet',
-    type: 'sputnik',
-  },
-  {
-    id: '9',
-    name: 'jonathan',
-    link: 'jonathan.sputnikdao.near',
-    searchType: 'mainnet',
-    type: 'sputnik',
-  },
-];
+export type HeaderProps = {
+  isOpen: boolean;
+  setOpen: (value: boolean) => void;
+};
 
-export const Header: FC = () => {
-  const [dropdownValue, setDropDownValue] = useState<DropdownOption | null>(
+// const dropdownOptions: AutocompleteOption[] = [
+//   {
+//     id: '0',
+//     name: 'Fatima Sanders',
+//     link: 'Quisque libero lacus, varius et, euismod et, commodo at, libero.',
+//   },
+//   {
+//     id: '1',
+//     name: 'Xaviera Gibson',
+//     link:
+//       'Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus',
+//   },
+//   {
+//     id: '2',
+//     name: 'Anthony Hawkins',
+//     link: 'ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo',
+//   },
+//   {
+//     id: '3',
+//     name: 'Hadassah Harrington',
+//     link:
+//       'ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam auctor, velit',
+//   },
+//   {
+//     id: '4',
+//     name: 'Abel Knight',
+//     link: 'felis. Donec tempor, est ac mattis semper, dui lectus rutrum',
+//   },
+//   {
+//     id: '5',
+//     name: 'jonathan',
+//     link: 'jonathan.sputnikdao.near',
+//   },
+//   {
+//     id: '6',
+//     name: 'jonathan',
+//     link: 'jonathan.sputnikdao.near',
+//   },
+//   {
+//     id: '7',
+//     name: 'jonathan',
+//     link: 'jonathan.sputnikdao.near',
+//   },
+//   {
+//     id: '8',
+//     name: 'jonathan',
+//     link: 'jonathan.sputnikdao.near',
+//   },
+//   {
+//     id: '9',
+//     name: 'jonathan',
+//     link: 'jonathan.sputnikdao.near',
+//   },
+// ];
+
+export const Header: FC<HeaderProps> = ({ isOpen, setOpen }) => {
+  const { isForbiddenHeader } = useForbiddenRoutes();
+  const [dropdownValue, setDropDownValue] = useState<AutocompleteOption | null>(
     null,
   );
 
   return (
     <div className={styles.header}>
       <Link to="/" className={styles.logo}>
-        <img src={logo} alt="" />
-      </Link>
-      <div className={styles.center}>
-        <Tabs variant="medium" options={tabOptions} className={styles.tabs} />
-        <Dropdown
-          options={dropdownOptions}
-          value={dropdownValue}
-          onChange={(selectedItem) => setDropDownValue(selectedItem)}
+        <img
+          className={styles.desktopImage}
+          src={desktopLogo}
+          alt="Dao Stats"
         />
-      </div>
-      <NavigationInfo
-        title="Sputnik DAO"
-        description="Average values for all DAOs"
-      />
+        <img className={styles.mobileImage} src={mobileLogo} alt="Dao Stats" />
+      </Link>
+      {!isForbiddenHeader ? (
+        <>
+          <div className={styles.headerControls}>
+            <h1 className={styles.title}>Sputnik DAO</h1>
+            <h3 className={styles.description}>Average values for all DAOs</h3>
+
+            {/* <button type="button" className={styles.mobileIcon}>
+              <SvgIcon icon="search" />
+            </button> */}
+          </div>
+          <button
+            type="button"
+            className={styles.mobileIcon}
+            onClick={() => setOpen(!isOpen)}
+          >
+            <SvgIcon icon={isOpen ? 'close' : 'burger'} />
+          </button>
+
+          <div className={styles.main}>
+            <Autocomplete
+              disabled
+              className={styles.search}
+              // options={dropdownOptions}
+              value={dropdownValue}
+              onChange={(selectedItem) => setDropDownValue(selectedItem)}
+            />
+            {/* <NavigationInfo
+              className={styles.navigationInfo}
+              title="Sputnik DAO"
+              description="Average values for all DAOs"
+              color="blue"
+            /> */}
+          </div>
+        </>
+      ) : null}
     </div>
   );
 };

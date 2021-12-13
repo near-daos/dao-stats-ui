@@ -1,0 +1,43 @@
+@use '../../../styles/functions';
+@import '../../../styles/typography';
+
+.titleCell {
+  padding: 0 functions.calc-rem(24) 0 0;
+
+  display: flex;
+}
+
+.logo {
+  width: functions.calc-rem(40);
+
+  margin-right: functions.calc-rem(8);
+}
+
+.content {
+  display: block;
+}
+
+.label {
+  @include title-3;
+  height: functions.calc-rem(24);
+
+  display: flex;
+  align-items: center;
+
+  color: var(--white);
+
+  white-space: nowrap;
+}
+
+.domain {
+  @include caption-2;
+  height: functions.calc-rem(24);
+
+  display: flex;
+  align-items: center;
+
+  color: var(--color-grey-500);
+
+
+  white-space: nowrap;
+}

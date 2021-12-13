@@ -3,60 +3,49 @@ import clsx from 'clsx';
 
 import { SvgIcon } from '../svgIcon/svgIcon';
 
-import s from './search.module.scss';
+import styles from './search.module.scss';
+import { NetworkSwitcher } from '../network-switcher';
 
 export interface SearchProps {
+  disabled?: boolean;
   className?: string;
+  classNameInput?: string;
+  classNameIcon?: string;
   value?: string;
+  networkSwitcherClass?: string;
   inputProps?: Partial<InputHTMLAttributes<HTMLInputElement>>;
-  setSearchType: (type: 'mainnet' | 'testnet') => void;
-  searchType: 'mainnet' | 'testnet';
 }
 
 export const Search: React.FC<SearchProps> = ({
   className,
-  value,
+  classNameInput,
+  classNameIcon,
+  value = '',
   inputProps,
-  setSearchType,
-  searchType,
+  disabled,
+  networkSwitcherClass,
 }) => (
   <div
-    className={clsx(s.inputWrapper, className, {
-      [s.forceActive]: value?.trim() !== '',
+    className={clsx(styles.root, className, {
+      [styles.disabled]: disabled,
+      [styles.forceActive]: value?.trim() !== '',
     })}
   >
     <input
       {...inputProps}
       id="search"
       type="text"
-      className={s.input}
-      placeholder="Search"
+      className={clsx(styles.input, classNameInput, {
+        [styles.disabled]: disabled,
+      })}
+      placeholder="Search by Dao Name"
+      disabled={disabled}
     />
-    <label htmlFor="search" className={s.inputLabel} />
+    <label htmlFor="search" className={styles.inputLabel} />
 
-    <SvgIcon icon="search" className={s.inputIcon} />
+    <SvgIcon icon="search" className={clsx(styles.inputIcon, classNameIcon)} />
 
-    <div className={s.inputControl}>
-      <button
-        type="button"
-        className={clsx(s.inputControlItem, {
-          [s.active]: searchType === 'mainnet',
-        })}
-        onClick={() => setSearchType('mainnet')}
-      >
-        Mainnet
-      </button>
-
-      <button
-        type="button"
-        className={clsx(s.inputControlItem, {
-          [s.active]: searchType === 'testnet',
-        })}
-        onClick={() => setSearchType('testnet')}
-      >
-        Testnet
-      </button>
-    </div>
+    <NetworkSwitcher className={networkSwitcherClass} />
   </div>
 );
 

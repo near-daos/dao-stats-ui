@@ -1,0 +1,61 @@
+@use 'src/styles/functions';
+@use 'src/styles/media';
+@import 'src/styles/typography';
+@import 'src/styles/helpers';
+
+.legend {
+  padding-bottom: functions.calc-rem(15);
+  margin: 0;
+
+  display: flex;
+
+  justify-content: space-between;
+  @include media.desktop {
+    margin-left: functions.calc-rem(10);
+  }
+}
+
+.legendList {
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  flex-wrap: wrap;
+
+  text-align: left;
+
+  list-style: none;
+}
+
+.legendListBar {
+  padding: functions.calc-rem(4) functions.calc-rem(8);
+  margin-right: functions.calc-rem(8);
+
+  display: flex;
+  align-items: center;
+
+  background: unset;
+
+  border: unset;
+  border-radius: functions.calc-rem(2);
+
+  transition: filter 0.2s ease-out, background-color 0.2s ease-out;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--color-grey-600);
+  }
+}
+
+.legendListSvg {
+  margin-right: functions.calc-rem(6);
+}
+
+.legendListValue {
+  @include title-3;
+}
+
+.disabled {
+  filter: opacity(0.3);
+}

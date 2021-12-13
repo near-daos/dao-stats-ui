@@ -1,0 +1,25 @@
+@use '../../styles/functions';
+@use '../../styles/mixins';
+@use '../../styles/media';
+
+.layout {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.container {
+  @include mixins.container;
+  max-width: functions.calc-rem(1216);
+
+  padding: functions.calc-rem(48) 0 0;
+  margin: 0 auto;
+
+  display: flex;
+}
+
+.page {
+  width: 100%;
+
+  padding: 0 functions.calc-rem(12) functions.calc-rem(12);
+  margin: 0 auto;
+}

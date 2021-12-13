@@ -1,0 +1,54 @@
+@use '../../styles/functions';
+@use '../../styles/typography';
+@use '../../styles/media';
+
+.page404 {
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+
+  text-align: center;
+
+  padding: functions.calc-rem(70) 0 0;
+
+  @include media.desktop {
+    padding: functions.calc-rem(148) 0 0;
+  }
+}
+
+.image {
+  width: functions.calc-rem(214);
+
+  margin: 0 auto functions.calc-rem(32);
+
+  @include media.desktop {
+    width: functions.calc-rem(434);
+  }
+}
+
+.title {
+  @include typography.heading-2;
+
+  margin-top: 0;
+  margin-bottom: functions.calc-rem(12);
+
+  @include media.desktop {
+    @include typography.heading-1;
+    margin-bottom: functions.calc-rem(12);
+  }
+}
+
+.subTitle {
+  @include typography.body-2;
+  margin: 0 0 functions.calc-rem(24);
+
+  @include media.desktop {
+    @include typography.body-1;
+    margin: 0 0 functions.calc-rem(32);
+  }
+}
+
+.button {
+  margin: 0 auto functions.calc-rem(12);
+}

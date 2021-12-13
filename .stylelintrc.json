@@ -17,7 +17,15 @@
       {
         "groupName": "dimensions",
         "emptyLineBefore": "always",
-        "properties": ["box-sizing", "width", "height", "min-width", "min-height", "max-width", "max-height"]
+        "properties": [
+          "box-sizing",
+          "width",
+          "height",
+          "min-width",
+          "min-height",
+          "max-width",
+          "max-height"
+        ]
       },
       {
         "groupName": "margin & padding",
@@ -206,7 +214,12 @@
       {
         "groupName": "lists",
         "emptyLineBefore": "always",
-        "properties": ["list-style", "list-style-position", "list-style-type", "list-style-image"]
+        "properties": [
+          "list-style",
+          "list-style-position",
+          "list-style-type",
+          "list-style-image"
+        ]
       },
       {
         "groupName": "transform",
@@ -248,12 +261,22 @@
     "at-rule-no-unknown": [
       true,
       {
-        "ignoreAtRules": ["function", "if", "each", "include", "extend", "mixin", "return", "for", "value", "use"]
+        "ignoreAtRules": [
+          "function",
+          "if",
+          "each",
+          "include",
+          "extend",
+          "mixin",
+          "return",
+          "for",
+          "value",
+          "use"
+        ]
       }
     ],
     "block-no-empty": true,
     "color-no-invalid-hex": true,
-    "color-no-hex": true,
     "comment-no-empty": true,
     "declaration-block-no-duplicate-properties": [
       true,
@@ -268,7 +291,6 @@
     "function-linear-gradient-no-nonstandard-direction": true,
     "keyframe-declaration-no-important": true,
     "media-feature-name-no-unknown": true,
-    "no-descending-specificity": true,
     "no-duplicate-at-import-rules": true,
     "no-duplicate-selectors": true,
     "no-invalid-double-slash-comments": true,

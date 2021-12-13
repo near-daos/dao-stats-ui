@@ -3,7 +3,6 @@
 
 .root {
   @extend %title-3;
-  width: 100%;
 
   padding: functions.calc-rem(10) functions.calc-rem(22);
 
@@ -13,7 +12,7 @@
 
   background-color: transparent;
 
-  border: 2px solid var(--color-yellow-500);
+  border: functions.calc-rem(2) solid var(--color-yellow-600);
   border-radius: functions.calc-rem(8);
   outline: none;
 
@@ -26,13 +25,13 @@
   user-select: none;
 
   &:hover {
-    background-color: var(--color-yellow-500);
+    background-color: var(--color-yellow-600);
   }
 
   &:active {
-    background-color: var(--color-yellow-600);
+    background-color: var(--color-yellow-500);
 
-    border: 2px solid var(--color-yellow-600);
+    border: functions.calc-rem(2) solid var(--color-yellow-500);
   }
 
   &[disabled] {

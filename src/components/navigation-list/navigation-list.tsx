@@ -6,21 +6,22 @@ import styles from './navigation-list.module.scss';
 export type NavigationListProps = {
   className?: string;
   title: string;
-  options: Option[];
-  selectedOption?: Option;
+  options: NavigationItem[];
+  selectedValue?: string;
   onSelect: (value: string) => void;
 };
 
-type Option = {
+type NavigationItem = {
   value: string;
   label: string;
+  disabled?: boolean;
 };
 
 export const NavigationList: FC<NavigationListProps> = ({
   className,
   title,
   options,
-  selectedOption,
+  selectedValue,
   onSelect,
 }) => (
   <div className={clsx(styles.navigationList, className)}>
@@ -30,7 +31,10 @@ export const NavigationList: FC<NavigationListProps> = ({
         <li
           key={option.value}
           className={clsx(
-            { [styles.active]: selectedOption?.value === option.value },
+            {
+              [styles.active]: selectedValue?.startsWith(option.value),
+              [styles.disabled]: option.disabled,
+            },
             styles.item,
           )}
         >
@@ -39,6 +43,9 @@ export const NavigationList: FC<NavigationListProps> = ({
             className={styles.button}
           >
             {option.label}
+            {option.disabled ? (
+              <div className={styles.comingSoon}>(Coming soon)</div>
+            ) : null}
           </button>
         </li>
       ))}

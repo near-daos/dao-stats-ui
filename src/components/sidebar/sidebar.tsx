@@ -1,75 +1,106 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useCallback } from 'react';
+import { useHistory, useLocation } from 'react-router';
+import clsx from 'clsx';
 
 import { NavigationInfo } from '../navigation-info';
 import { NavigationList } from '../navigation-list';
+import { useRoutes } from '../../hooks';
 
 import styles from './sidebar.module.scss';
 
-const overviewData = {
-  title: 'Overview',
-  options: [
-    {
-      label: 'General Info',
-      value: 'general-info',
-    },
-    { label: 'Users', value: 'users' },
-    { label: 'Activity', value: 'activity' },
-  ],
+export type SidebarProps = {
+  isOpen: boolean;
+  setOpen: (value: boolean) => void;
 };
 
-const financialData = {
-  title: 'Financial',
-  options: [
+export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
+  const history = useHistory();
+  const location = useLocation();
+  const routes = useRoutes();
+
+  const handlerChangeActive = useCallback(
+    (value: string) => {
+      setOpen(false);
+      history.push(value);
+    },
+    [history, setOpen],
+  );
+
+  const overviewItems = [
+    {
+      label: 'General Info',
+      value: routes.generalInfo,
+    },
+    { label: 'Users and Activity', value: routes.users },
+    { label: 'Governance', value: routes.governance },
+  ];
+
+  const financialItems = [
     {
       label: 'Flow',
-      value: 'flow',
+      value: routes.flow,
+      disabled: true,
     },
     {
       label: 'TVL',
-      value: 'tvl',
+      value: routes.tvl,
+      disabled: true,
     },
     {
-      label: 'Token',
-      value: 'token',
+      label: 'Tokens',
+      value: routes.tokens,
+      disabled: true,
     },
-  ],
-};
-
-export const Sidebar: FC = () => {
-  const [active, setActive] = useState(overviewData.options[0]);
-
-  const handlerChangeActive = (value: string) => {
-    const newActiveElement =
-      overviewData.options.find((option) => option.value === value) ||
-      financialData.options.find((option) => option.value === value);
-
-    if (newActiveElement) {
-      setActive(newActiveElement);
-    }
-  };
+  ];
 
   return (
-    <div className={styles.sidebar}>
-      <NavigationInfo
-        title="Sputnik DAO"
-        description="Average values for all DAOs"
-        direction="left"
-        className={styles.info}
-      />
-      <NavigationList
-        title={overviewData.title}
-        selectedOption={active}
-        options={overviewData.options}
-        onSelect={handlerChangeActive}
-        className={styles.list}
-      />
-      <NavigationList
-        title={financialData.title}
-        selectedOption={active}
-        options={financialData.options}
-        onSelect={handlerChangeActive}
-        className={styles.list}
-      />
-    </div>
+    <>
+      <div
+        className={clsx(styles.sidebar, {
+          [styles.show]: isOpen,
+        })}
+      >
+        <NavigationInfo
+          className={styles.info}
+          title="Sputnik DAO"
+          description="Average values for all DAOs"
+          direction="left"
+          linePosition="start"
+        />
+        <NavigationList
+          title="Overview"
+          selectedValue={location.pathname}
+          options={overviewItems}
+          onSelect={handlerChangeActive}
+          className={styles.list}
+        />
+        <NavigationList
+          title="Financial"
+          selectedValue={location.pathname}
+          options={financialItems}
+          onSelect={handlerChangeActive}
+          className={styles.list}
+        />
+
+        {/* <div className={styles.navInfo}>
+        <NavigationInfo
+          title="Sputnik DAO"
+          description="Average values for all DAOs"
+          color="blue"
+          direction="left"
+          linePosition="start"
+        />
+      </div> */}
+      </div>
+      {isOpen ? (
+        <button
+          type="button"
+          onClick={() => setOpen(false)}
+          className={styles.overlay}
+        >
+          {' '}
+        </button>
+      ) : null}
+    </>
   );
 };

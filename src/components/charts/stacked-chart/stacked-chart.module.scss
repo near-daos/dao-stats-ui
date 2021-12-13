@@ -1,0 +1,76 @@
+@use '../../../styles/functions';
+@import '../../../styles/typography';
+@import '../../../styles/helpers';
+
+.stackedChart {
+  width: 100%;
+  height: functions.calc-rem(4);
+  min-width: functions.calc-rem(411);
+
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.valuesWrapper {
+  width: 100%;
+
+  margin-top: functions.calc-rem(8);
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.valueContainer {
+  margin-right: functions.calc-rem(24);
+
+  display: flex;
+  align-items: center;
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.dot {
+  width: functions.calc-rem(8);
+  height: functions.calc-rem(8);
+
+  margin-right: functions.calc-rem(6);
+
+  flex-shrink: 0;
+
+  border-radius: 100%;
+}
+
+.value {
+  @include title-4;
+  color: var(--white);
+}
+
+.barWrapper {
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+
+  background: var(--color-grey-500);
+
+  border-radius: functions.calc-rem(4);
+}
+
+.stack {
+  height: functions.calc-rem(6);
+
+  &:first-child {
+    border-top-left-radius: functions.calc-rem(4);
+    border-bottom-left-radius: functions.calc-rem(4);
+  }
+
+  &:last-child {
+    border-top-right-radius: functions.calc-rem(4);
+    border-bottom-right-radius: functions.calc-rem(4);
+  }
+}

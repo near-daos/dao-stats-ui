@@ -1,8 +1,8 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, createSelectorHook } from 'react-redux';
 
 import { configureStore } from '@reduxjs/toolkit';
 
-import { rootReducer } from './root-reducer';
+import { rootReducer, RootState } from './root-reducer';
 import { routerMiddleware } from './history';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -23,3 +23,4 @@ export const store = createStore();
 export type AppState = ReturnType<typeof rootReducer>;
 export type AppDispatch = ReturnType<typeof createStore>['dispatch'];
 export const useAppDispatch = (): AppDispatch => useDispatch<AppDispatch>();
+export const useAppSelector = createSelectorHook<RootState>();

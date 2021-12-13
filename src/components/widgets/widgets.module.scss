@@ -1,0 +1,23 @@
+@use '../../styles/functions';
+@use '../../styles/media';
+
+.widgets {
+  width: 100%;
+
+  margin: 0 0 functions.calc-rem(12);
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  // gap: 12px;
+
+  @include media.desktop {
+    width: functions.calc-rem(240);
+
+    margin: 0 functions.calc-rem(15) 0 0;
+
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+}

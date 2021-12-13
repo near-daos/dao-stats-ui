@@ -1,8 +1,55 @@
-@use '../../styles/functions';
+@use 'src/styles/helpers';
+@use 'src/styles/functions';
+@use 'src/styles/media';
 
 .sidebar {
+  width: functions.calc-rem(269);
+  height: 100%;
+
+  padding: functions.calc-rem(20);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  z-index: 11;
+
   display: flex;
+
   flex-direction: column;
+
+  opacity: 1;
+
+  background-color: var(--color-grey-800);
+
+  border-top-right-radius: functions.calc-rem(8);
+  border-bottom-right-radius: functions.calc-rem(8);
+
+  transform: translate(functions.calc-rem(-269), 0);
+
+  transition: transform 0.3s ease-in-out;
+
+  @include media.desktop {
+    padding-left: 0;
+
+    position: initial;
+
+    background-color: initial;
+
+    transform: initial;
+  }
+}
+
+.show {
+  transform: translate(0, 0);
+}
+
+.navInfo {
+  margin-top: functions.calc-rem(108);
+
+  @include media.desktop {
+    display: none;
+  }
 }
 
 .info {
@@ -11,4 +58,17 @@
 
 .list {
   margin: 0 0 functions.calc-rem(24);
+}
+
+.overlay {
+  @extend %button-reset;
+  width: 100%;
+  height: 100%;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+
+  background: rgba(0,0,0,0.7);
 }

@@ -1,0 +1,63 @@
+@use 'src/styles/functions';
+@use 'src/styles/media';
+
+@import 'src/styles/typography';
+@import 'src/styles/helpers';
+
+.list {
+  display: flex;
+}
+
+.periods {
+  display: none;
+  @include media.desktop {
+    display: flex;
+  }
+}
+
+.button {
+  @extend %button-reset;
+  @include title-4;
+  width: functions.calc-rem(40);
+  height: functions.calc-rem(32);
+
+  padding: functions.calc-rem(6) functions.calc-rem(12);
+  margin-right: functions.calc-rem(6);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--color-grey-300);
+
+  border-radius: functions.calc-rem(4);
+
+  text-align: center;
+
+  transition: background ease-in-out 300ms, color ease-in-out 300ms;
+  
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:hover {
+    color: var(--white);
+    background: var(--color-grey-600);
+  }
+
+  &:active {
+    background: var(--color-grey-500);
+  }
+}
+
+.active {
+  color: var(--white);
+  background: var(--color-grey-700);
+}
+
+.dropdown {
+  display: flex;
+  @include media.desktop {
+    display: none;
+  }
+}

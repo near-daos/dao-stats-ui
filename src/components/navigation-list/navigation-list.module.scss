@@ -1,10 +1,13 @@
 @use '../../styles/functions';
+@use '../../styles/media';
 @import '../../styles/typography';
 @import '../../styles/helpers';
 
 .navigationList {
   --background-color: transparent;
   --line-color: transparent;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 
   display: flex;
   flex-direction: column;
@@ -29,12 +32,35 @@
 }
 
 .item {
-  border-radius: 4px;
+  border-radius: functions.calc-rem(4);
+
+  &:active {
+    --line-color: var(--color-yellow-600);
+    --background-color: var(--color-grey-900);
+  }
+
+  @include media.desktop {
+    &:hover {
+      --line-color: var(--color-yellow-600);
+      --background-color: rgba(255, 255, 255, 0.03);
+    }
+  }
 }
 
 .active {
   --line-color: var(--color-blue-500);
-  --background-color: var(--color-grey-900);
+  --background-color: rgba(255, 255, 255, 0.03);
+}
+
+.disabled {
+  pointer-events: none;
+}
+
+.comingSoon {
+  @include title-5();
+  margin-left: functions.calc-rem(10);
+
+  color: var(--color-grey-300);
 }
 
 .button {
@@ -49,25 +75,29 @@
 
   display: flex;
   align-items: center;
+  justify-content: space-between;
+
 
   color: var(--white);
 
   background-color: var(--background-color);
 
+  transition: background-color ease-in-out 300ms;
+
   &::after {
-    width: 4px;
+    width: functions.calc-rem(4);
     height: 100%;
 
     position: absolute;
     top: 0;
     left: 0;
 
-    display: flex;
-
     background-color: var(--line-color);
 
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
+    border-top-left-radius: functions.calc-rem(4);
+    border-bottom-left-radius: functions.calc-rem(4);
     content: '';
+
+    transition: background-color ease-in-out 300ms;
   }
 }

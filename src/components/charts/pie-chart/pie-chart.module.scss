@@ -1,0 +1,59 @@
+@use '../../../styles/functions';
+@import '../../../styles/typography';
+@import '../../../styles/helpers';
+
+.root {
+  * {
+    cursor: pointer;
+  }
+}
+
+.legend {
+  margin: 0 0 functions.calc-rem(12) 0;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
+}
+
+.legendTitle {
+  @include title-4;
+  margin: 0 0 functions.calc-rem(8) 0;
+
+  color: var(--color-grey-300);
+}
+
+.legendList {
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  text-align: left;
+
+  list-style: none;
+}
+
+.legendItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.legendIcon {
+  margin-right: functions.calc-rem(8);
+}
+
+.legendLabel {
+  @include body-2;
+
+  color: var(--color-grey-100);
+}
+
+.legendValue {
+  @include title-3;
+
+  color: var(--white);
+}

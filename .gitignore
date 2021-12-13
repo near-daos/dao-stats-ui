@@ -57,3 +57,7 @@ public/sprite-icons.svg
 
 # IDE
 .vscode
+
+# Envs
+.env
+.env.producation

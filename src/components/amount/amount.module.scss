@@ -1,0 +1,27 @@
+@use '../../styles/typography';
+@use '../../styles/functions';
+@import '../../styles/typography';
+
+.amount {
+  @include title-3;
+}
+
+.label {
+  color: var(--white);
+}
+
+.percentages {
+  @include title-4;
+  display: flex;
+  align-items: center;
+
+  color: var(--color-success-tint);
+}
+
+.negativeGrowth {
+  color: var(--color-error-pure);
+
+  .icon {
+    transform: rotate(180deg);
+  }
+}

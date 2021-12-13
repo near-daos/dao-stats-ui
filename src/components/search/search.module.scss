@@ -1,109 +1,167 @@
 @use '../../styles/functions';
+@use '../../styles/media';
 @import '../../styles/typography';
 @import '../../styles/helpers';
 
-.inputWrapper {
+.root {
   width: 100%;
-  height: 48px;
-  min-width: 563px;
 
   position: relative;
 
   display: flex;
+
+  flex-direction: column-reverse;
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
 
   background: transparent;
+
+  @include media.desktop {
+    flex-direction: initial;
+  }
+}
+
+.disabled {
+  display: block;
+}
+
+.forceActive {
+  input {
+    border: functions.calc-rem(1) solid var(--color-yellow-600);
+    outline: functions.calc-rem(1) solid var(--color-yellow-600);
+  }
+
+  label {
+    width: functions.calc-rem(2);
+
+    background: var(--color-yellow-600);
+  }
 }
 
 .input {
+  @include body-2;
   width: 100%;
   height: 100%;
 
-  padding: functions.calc-rem(12) 33% functions.calc-rem(12)
+  padding: functions.calc-rem(12) 5% functions.calc-rem(12)
     functions.calc-rem(44);
 
   position: relative;
 
   background: transparent;
 
-  border: 2px solid var(--color-grey-700);
-  border-radius: 8px;
-  outline: 0;
+  border: functions.calc-rem(1) solid var(--color-grey-700);
+  border-radius: functions.calc-rem(8);
+  outline: functions.calc-rem(1) solid transparent;
 
-  &:hover,
-  &:active {
-    border: 2px solid var(--color-yellow-600);
+  transition: outline-color ease-in-out 300ms, border ease-in-out 300ms;
+
+  &:hover:not(.disabled),
+  &:active:not(.disabled) {
+    border: functions.calc-rem(1) solid var(--color-yellow-600);
+    outline: functions.calc-rem(1) solid var(--color-yellow-600);
 
     + label {
+      width: functions.calc-rem(2);
+
       background: var(--color-yellow-600);
+    }
+
+    ~ svg {
+      color: var(--color-grey-400);
     }
   }
 
   &:focus {
-    border: 2px solid var(--color-blue-500);
+    border: functions.calc-rem(1) solid var(--color-blue-500);
+    outline: functions.calc-rem(1) solid var(--color-blue-500);
 
     + label {
+      width: functions.calc-rem(2);
+
       background: var(--color-blue-500);
     }
+
+    ~ svg {
+      color: var(--color-grey-400);
+    }
+  }
+
+  @include media.desktop {
+    padding-right: 25%;
   }
 }
 
 .inputLabel {
-  width: 2px;
-  height: 100%;
+  display: none;
 
-  position: absolute;
-  top: 0;
-  right: 33%;
+  @include media.desktop {
+    width: functions.calc-rem(1);
+    height: 100%;
 
-  background: var(--color-grey-700);
-}
+    position: absolute;
+    top: 0;
+    right: 24%;
 
-.forceActive {
-  input {
-    border: 2px solid var(--color-yellow-600);
-  }
+    display: block;
 
-  label {
-    background: var(--color-yellow-600);
+    background: var(--color-grey-700);
+
+    transition: background ease-in-out 300ms, width ease-in-out 300ms;
   }
 }
 
 .inputIcon {
-  width: 24px;
-  height: 24px;
+  width: functions.calc-rem(24);
+  height: functions.calc-rem(24);
 
   position: absolute;
-  top: 12px;
-  left: 12px;
+  top: functions.calc-rem(12);
+
+  left: functions.calc-rem(12);
   z-index: 0;
 
   color: var(--color-grey-600);
+
+  transition: color ease-in-out 300ms;
+
 }
 
 .inputControl {
-  width: 33%;
+  box-sizing: border-box;
+  width: 100%;
   height: 100%;
 
-  padding: functions.calc-rem(8) functions.calc-rem(12);
-
-  position: absolute;
-  top: 0;
-  right: 0;
+  padding: functions.calc-rem(3);
+  margin-bottom: 12px;
 
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
+
+  border: functions.calc-rem(1) solid #393838;
+  border-radius: functions.calc-rem(8);
+
+  @include media.desktop {
+    width: 24%;
+
+    padding: functions.calc-rem(8) functions.calc-rem(12);
+
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    border: 0;
+  }
 }
 
 .inputControlItem {
   @extend %button-reset;
   @include title-4;
-  width: 75px;
-  height: 32px;
+  width: functions.calc-rem(140);
+  height: functions.calc-rem(32);
 
   padding: functions.calc-rem(6) functions.calc-rem(12);
 
@@ -112,17 +170,28 @@
   justify-content: center;
   align-items: center;
 
+  text-decoration: none;
+  
   color: var(--color-grey-300);
   background: transparent;
 
-  border-radius: 4px;
+  border-radius: functions.calc-rem(4);
 
   text-align: center;
 
-  cursor: pointer;
+  transition: color ease-in-out 300ms, background ease-in-out 300ms;
+
+  &:hover {
+    color: var(--white);
+    background: var(--color-grey-700);
+  }
 
   &:nth-child(2) {
-    margin-left: 8px;
+    margin-left: functions.calc-rem(8);
+  }
+
+  @include media.desktop {
+    width: functions.calc-rem(75);
   }
 }
 

@@ -1,0 +1,62 @@
+@use '../../styles/functions';
+@import '../../styles/typography';
+@import '../../styles/helpers';
+
+.widgetInfo {
+  width: 100%;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  @include title-4;
+  color: var(--color-grey-300);
+}
+
+.percentages {
+  @include title-4;
+  display: flex;
+  align-items: center;
+
+  color: var(--color-success-tint);
+  .icon {
+    color: var(--color-success-tint);
+  }
+}
+
+.zeroGrowth {
+  color: var(--color-grey-300);
+
+  .icon {
+    display: none;
+  }
+}
+
+.negativeGrowth {
+  color: var(--color-error-pure);
+
+  .icon {
+    color: var(--color-error-pure);
+
+    transform: rotate(180deg);
+  }
+}
+
+.number {
+  @include heading-2;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  width: functions.calc-rem(20);
+  height: functions.calc-rem(20);
+
+  margin-left: functions.calc-rem(8);
+
+  color: var(--color-grey-100);
+}

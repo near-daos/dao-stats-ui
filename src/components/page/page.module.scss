@@ -1,0 +1,23 @@
+@use '../../styles/mixins';
+@use '../../styles/typography';
+@use '../../styles/functions';
+@use '../../styles/media';
+
+.title {
+  @include typography.title-1;
+  margin: 0 0 functions.calc-rem(16);
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  
+  @include media.desktop {
+    flex-direction: row;
+  }
+}
