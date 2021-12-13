@@ -48,7 +48,7 @@ export type Leaderboard = {
 
 export type DaoHistoryParams = DaoParams & History;
 
-export type FoundDaos = {
+export type Dao = {
   createdAt: string;
   dao: string;
   contractId: string;
