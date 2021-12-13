@@ -1,5 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
+console.log(process.env.REACT_APP_API_ENDPOINT);
+
 const BASE_URL = `${process.env.REACT_APP_API_ENDPOINT}/api/v1`;
 
 export class HttpService {

@@ -10,6 +10,7 @@ import styles from './header.module.scss';
 
 import desktopLogo from '../../images/logo-mobile.svg';
 import mobileLogo from '../../images/daostats.svg';
+import { NetworkSwitcher } from '../network-switcher';
 
 export type HeaderProps = {
   isOpen: boolean;
@@ -89,14 +90,13 @@ export const Header: FC<HeaderProps> = ({ isOpen, setOpen }) => {
       </Link>
       {!isForbiddenHeader ? (
         <>
-          <div className={styles.headerControls}>
+          {/* <div className={styles.headerControls}>
             <h1 className={styles.title}>Sputnik DAO</h1>
             <h3 className={styles.description}>Average values for all DAOs</h3>
 
-            {/* <button type="button" className={styles.mobileIcon}>
+            <button type="button" className={styles.mobileIcon}>
               <SvgIcon icon="search" />
-            </button> */}
-          </div>
+            </button>          </div> */}
           <button
             type="button"
             className={styles.mobileIcon}
@@ -106,14 +106,15 @@ export const Header: FC<HeaderProps> = ({ isOpen, setOpen }) => {
           </button>
 
           <div className={styles.main}>
-            <Autocomplete
+            <NetworkSwitcher />
+            {/* <Autocomplete
               disabled
               className={styles.search}
               // options={dropdownOptions}
               value={dropdownValue}
               onChange={(selectedItem) => setDropDownValue(selectedItem)}
             />
-            {/* <NavigationInfo
+             <NavigationInfo
               className={styles.navigationInfo}
               title="Sputnik DAO"
               description="Average values for all DAOs"
