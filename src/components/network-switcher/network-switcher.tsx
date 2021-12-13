@@ -23,7 +23,8 @@ export const NetworkSwitcher: FC<NetworkSwitcherProps> = ({ className }) => (
     <a
       href={process.env.REACT_APP_TESTNET || '/'}
       className={clsx(styles.networkItem, {
-        [styles.active]: true,
+        [styles.active]:
+          window.location.origin === process.env.REACT_APP_TESTNET,
       })}
     >
       Testnet
