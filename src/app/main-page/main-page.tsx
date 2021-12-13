@@ -17,7 +17,7 @@ export const MainPage: FC = () => {
   useEffect(() => {
     const handleScroll = (event: any) => {
       if (event.wheelDelta < 0) {
-        // history.push(routes.generalInfo);
+        history.push(routes.generalInfo);
       }
     };
 
@@ -34,13 +34,13 @@ export const MainPage: FC = () => {
 
       <h2 className={styles.subTitle}>From a community for the communities!</h2>
 
-     {/* <NetworkSwitcher className={styles.switcherMobile} />
+      <NetworkSwitcher className={styles.switcher} />
 
-      <Search
+      {/* <Search
         disabled
         className={styles.search}
         networkSwitcherClass={styles.switcherDesktop}
-      />
+      /> */}
 
       <p className={styles.info}>
         {startCase(selectedContract?.contractId)} stats
@@ -49,7 +49,7 @@ export const MainPage: FC = () => {
         className={styles.button}
         variant="icon"
         href={routes.generalInfo}
-      /> */}
+      />
     </div>
   );
 };

@@ -60,4 +60,5 @@ public/sprite-icons.svg
 
 # Envs
 .env
+.env.development
 .env.production

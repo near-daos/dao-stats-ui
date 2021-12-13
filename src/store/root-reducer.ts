@@ -1,8 +1,8 @@
 import { RouterState } from 'connected-react-router';
 import { CombinedState, combineReducers } from 'redux';
 
-import { autocompleteSlice } from 'src/components/autocomplete/slice';
-import { autocompleteState } from 'src/components/autocomplete/types';
+import { daoSlice } from 'src/app/shared/daos/slice';
+import { daoState } from 'src/app/shared/daos/types';
 import { governanceSlice } from 'src/app/governance/slice';
 import { governanceState } from 'src/app/governance/types';
 import { generalSlice } from 'src/app/general-info/slice';
@@ -25,7 +25,7 @@ export type RootState = CombinedState<{
   [usersSlice.name]: usersState;
   [contractsSlice.name]: contractState;
   [flowSlice.name]: flowState;
-  [autocompleteSlice.name]: autocompleteState;
+  [daoSlice.name]: daoState;
 }>;
 
 export const rootReducer = combineReducers({
@@ -36,5 +36,5 @@ export const rootReducer = combineReducers({
   [usersSlice.name]: usersSlice.reducer,
   [contractsSlice.name]: contractsSlice.reducer,
   [flowSlice.name]: flowSlice.reducer,
-  [autocompleteSlice.name]: autocompleteSlice.reducer,
+  [daoSlice.name]: daoSlice.reducer,
 });
