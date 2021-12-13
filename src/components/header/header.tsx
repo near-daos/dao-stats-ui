@@ -107,7 +107,7 @@ export const Header: FC<HeaderProps> = ({ isOpen, setOpen }) => {
 
           <div className={styles.main}>
             <Autocomplete
-              disabled
+              // disabled
               className={styles.search}
               // options={dropdownOptions}
               value={dropdownValue}
