@@ -96,11 +96,7 @@ export const GeneralInfo: FC = () => {
         </WidgetTile>
 
         <WidgetTile disabled className={styles.widget}>
-          <WidgetInfo
-            title="Avg. Groups/DAO"
-            number={general?.activity?.count}
-            percentages={general?.activity?.growth}
-          />
+          <WidgetInfo title="Avg. Groups/DAO" number={0} percentages={0} />
         </WidgetTile>
       </Widgets>
 
