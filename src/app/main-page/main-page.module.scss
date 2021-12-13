@@ -51,8 +51,12 @@
 .search {
   margin: 0 0 functions.calc-rem(34);
 
+  display: none;
+
   @include media.desktop {
     margin-bottom: functions.calc-rem(120);
+
+    display: flex;
   }
 }
 
@@ -65,16 +69,6 @@
   margin: 0 auto functions.calc-rem(12);
 }
 
-.switcherDesktop {
-  display: none;
-  @include media.desktop {
-    display: flex;
-  }
-}
-
-.switcherMobile {
-  display: flex;
-  @include media.desktop {
-    display: none;
-  }
+.switcher {
+  margin: 0 auto functions.calc-rem(130);
 }

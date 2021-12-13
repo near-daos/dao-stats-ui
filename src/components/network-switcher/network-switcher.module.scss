@@ -6,30 +6,13 @@
 .networks {
   box-sizing: border-box;
   width: 100%;
-  height: 100%;
-
-  padding: functions.calc-rem(3);
-  margin-bottom: 12px;
 
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
 
-  border: functions.calc-rem(1) solid #393838;
   border-radius: functions.calc-rem(8);
-
-  @include media.desktop {
-    width: 24%;
-
-    padding: functions.calc-rem(8) functions.calc-rem(12);
-
-    position: absolute;
-    top: 0;
-    right: 0;
-
-    border: 0;
-  }
 }
 
 .networkItem {
@@ -45,14 +28,14 @@
   justify-content: center;
   align-items: center;
 
-  text-decoration: none;
-
   color: var(--color-grey-300);
   background: transparent;
 
   border-radius: functions.calc-rem(4);
 
   text-align: center;
+
+  text-decoration: none;
 
   transition: color ease-in-out 300ms, background ease-in-out 300ms;
 
