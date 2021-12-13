@@ -24,6 +24,8 @@ const initialState: usersState = {
   leaderboard: null,
   usersInteractions: null,
   usersInteractionsLeaderboard: null,
+  usersAveragePerDaoHistory: null,
+  usersInteractionsPerDaoHistory: null,
   loading: RequestStatus.NOT_ASKED,
   error: null,
 };
@@ -91,6 +93,26 @@ export const getUsersInteractionsLeaderboard = createAsyncThunk(
   },
 );
 
+export const getUsersAveragePerDaoHistory = createAsyncThunk(
+  'users/getUsersAveragePerDaoHistory',
+  async (params: HistoryParams) => {
+    const response = await usersService.getUsersAveragePerDaoHistory(params);
+
+    return response.data;
+  },
+);
+
+export const getUsersInteractionsPerDaoHistory = createAsyncThunk(
+  'users/getUsersInteractionsPerDaoHistory',
+  async (params: HistoryParams) => {
+    const response = await usersService.getUsersInteractionsPerDaoHistory(
+      params,
+    );
+
+    return response.data;
+  },
+);
+
 const isPendingAction = isPending(
   getUsers,
   getUsersHistory,
@@ -99,6 +121,8 @@ const isPendingAction = isPending(
   getUsersLeaderboard,
   getUsersInteractionsHistory,
   getUsersInteractionsLeaderboard,
+  getUsersAveragePerDaoHistory,
+  getUsersInteractionsPerDaoHistory,
 );
 const isRejectedAction = isRejected(
   getUsers,
@@ -108,6 +132,8 @@ const isRejectedAction = isRejected(
   getUsersLeaderboard,
   getUsersInteractionsHistory,
   getUsersInteractionsLeaderboard,
+  getUsersAveragePerDaoHistory,
+  getUsersInteractionsPerDaoHistory,
 );
 const isFulfilledAction = isFulfilled(
   getUsers,
@@ -117,6 +143,8 @@ const isFulfilledAction = isFulfilled(
   getUsersLeaderboard,
   getUsersInteractionsHistory,
   getUsersInteractionsLeaderboard,
+  getUsersAveragePerDaoHistory,
+  getUsersInteractionsPerDaoHistory,
 );
 
 export const usersSlice = createSlice({
@@ -155,6 +183,20 @@ export const usersSlice = createSlice({
       getUsersInteractionsLeaderboard.fulfilled,
       (state, { payload }) => {
         state.usersInteractionsLeaderboard = payload;
+      },
+    );
+
+    builder.addCase(
+      getUsersAveragePerDaoHistory.fulfilled,
+      (state, { payload }) => {
+        state.usersAveragePerDaoHistory = payload;
+      },
+    );
+
+    builder.addCase(
+      getUsersInteractionsPerDaoHistory.fulfilled,
+      (state, { payload }) => {
+        state.usersInteractionsPerDaoHistory = payload;
       },
     );
 
