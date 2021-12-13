@@ -4,6 +4,7 @@
 @import 'src/styles/helpers';
 
 .legend {
+  padding-bottom: functions.calc-rem(15);
   margin: 0;
 
   display: flex;
