@@ -73,8 +73,8 @@ export const Users: FC = () => {
         >
           <WidgetInfo
             title="Users that are member of a DAO"
-            number={4644}
-            percentages={10}
+            number={0}
+            percentages={0}
           />
         </WidgetTile>
 
