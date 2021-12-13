@@ -65,10 +65,13 @@ export const ChartLine: React.FC<LineChartProps> = ({
     </g>
   );
 
-  // waiting to fix bug - https://github.com/recharts/recharts/issues/2704
+  // HOTFIX, waiting to fix bug from lib - https://github.com/recharts/recharts/issues/2704
   React.useEffect(() => {
-    // dispatch it once mounted
-    window.dispatchEvent(new Event('resize'));
+    const id = setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+    }, 1000);
+
+    return () => clearTimeout(id);
   }, []);
 
   return (
