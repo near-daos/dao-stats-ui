@@ -13,7 +13,8 @@ export const NetworkSwitcher: FC<NetworkSwitcherProps> = ({ className }) => (
       href={process.env.REACT_APP_MAINNET || '/'}
       className={clsx(styles.networkItem, {
         [styles.active]:
-          window.location.origin === process.env.REACT_APP_MAINNET,
+          window.location.origin === process.env.REACT_APP_MAINNET ||
+          window.location.origin === 'https://daostats.io',
       })}
     >
       Mainnet
@@ -22,8 +23,7 @@ export const NetworkSwitcher: FC<NetworkSwitcherProps> = ({ className }) => (
     <a
       href={process.env.REACT_APP_TESTNET || '/'}
       className={clsx(styles.networkItem, {
-        [styles.active]:
-          window.location.origin === process.env.REACT_APP_TESTNET,
+        [styles.active]: true,
       })}
     >
       Testnet
