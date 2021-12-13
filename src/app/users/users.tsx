@@ -79,29 +79,16 @@ export const Users: FC = () => {
         </WidgetTile>
 
         <WidgetTile
-          disabled
           className={styles.widget}
           onClick={() => history.push(routes.usersPerDao)}
           active={location.pathname === routes.usersPerDao}
         >
           <WidgetInfo
             title="Average number of users per DAO"
-            number={46}
-            percentages={10}
+            number={users?.avgDaoUsers.count}
+            percentages={users?.avgDaoUsers.growth}
           />
         </WidgetTile>
-
-        {/* <WidgetTile
-          className={styles.widget}
-          onClick={() => history.push(routes.usersAverageCouncilSize)}
-          active={location.pathname === routes.usersAverageCouncilSize}
-        >
-          <WidgetInfo
-            title="Average council size"
-            number={users?.council.count}
-            percentages={users?.council.growth}
-          />
-        </WidgetTile> */}
 
         <WidgetTile
           className={styles.widget}
@@ -124,12 +111,11 @@ export const Users: FC = () => {
           className={styles.widget}
           onClick={() => history.push(routes.usersNumberInteractionsPerDao)}
           active={location.pathname === routes.usersNumberInteractionsPerDao}
-          disabled
         >
           <WidgetInfo
             title="Average number of Interactions per DAO"
-            number={1087}
-            percentages={10}
+            number={users?.avgDaoInteractions.count}
+            percentages={users?.avgDaoInteractions.growth}
           />
         </WidgetTile>
       </Widgets>

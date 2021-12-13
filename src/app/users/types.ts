@@ -9,6 +9,8 @@ export type usersState = {
   leaderboard: Leaderboard | null;
   usersInteractions: Metrics | null;
   usersInteractionsLeaderboard: Leaderboard | null;
+  usersAveragePerDaoHistory: Metrics | null;
+  usersInteractionsPerDaoHistory: Metrics | null;
   loading: RequestStatus;
   error: unknown;
 };

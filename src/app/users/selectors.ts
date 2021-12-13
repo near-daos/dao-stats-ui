@@ -39,3 +39,13 @@ export const selectUsersInteractionLeaderboard = createSelector(
   (state: RootState) => getState(state).usersInteractionsLeaderboard,
   (data) => data,
 );
+
+export const selectUsersAveragePerDaoHistory = createSelector(
+  (state: RootState) => getState(state).usersAveragePerDaoHistory,
+  (data) => data,
+);
+
+export const selectUsersInteractionsPerDaoHistory = createSelector(
+  (state: RootState) => getState(state).usersInteractionsPerDaoHistory,
+  (data) => data,
+);
