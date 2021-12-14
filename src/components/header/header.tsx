@@ -1,7 +1,6 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Autocomplete, AutocompleteOption } from '../autocomplete/autocomplete';
 import { useForbiddenRoutes } from '../../hooks';
 
 import { SvgIcon } from '../svgIcon/svgIcon';
@@ -17,66 +16,8 @@ export type HeaderProps = {
   setOpen: (value: boolean) => void;
 };
 
-// const dropdownOptions: AutocompleteOption[] = [
-//   {
-//     id: '0',
-//     name: 'Fatima Sanders',
-//     link: 'Quisque libero lacus, varius et, euismod et, commodo at, libero.',
-//   },
-//   {
-//     id: '1',
-//     name: 'Xaviera Gibson',
-//     link:
-//       'Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus',
-//   },
-//   {
-//     id: '2',
-//     name: 'Anthony Hawkins',
-//     link: 'ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo',
-//   },
-//   {
-//     id: '3',
-//     name: 'Hadassah Harrington',
-//     link:
-//       'ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam auctor, velit',
-//   },
-//   {
-//     id: '4',
-//     name: 'Abel Knight',
-//     link: 'felis. Donec tempor, est ac mattis semper, dui lectus rutrum',
-//   },
-//   {
-//     id: '5',
-//     name: 'jonathan',
-//     link: 'jonathan.sputnikdao.near',
-//   },
-//   {
-//     id: '6',
-//     name: 'jonathan',
-//     link: 'jonathan.sputnikdao.near',
-//   },
-//   {
-//     id: '7',
-//     name: 'jonathan',
-//     link: 'jonathan.sputnikdao.near',
-//   },
-//   {
-//     id: '8',
-//     name: 'jonathan',
-//     link: 'jonathan.sputnikdao.near',
-//   },
-//   {
-//     id: '9',
-//     name: 'jonathan',
-//     link: 'jonathan.sputnikdao.near',
-//   },
-// ];
-
 export const Header: FC<HeaderProps> = ({ isOpen, setOpen }) => {
-  const { isForbiddenHeader } = useForbiddenRoutes();
-  const [dropdownValue, setDropDownValue] = useState<AutocompleteOption | null>(
-    null,
-  );
+  const { isForbiddenHeader, isForbiddenFooter } = useForbiddenRoutes();
 
   return (
     <div className={styles.header}>
@@ -90,36 +31,18 @@ export const Header: FC<HeaderProps> = ({ isOpen, setOpen }) => {
       </Link>
       {!isForbiddenHeader ? (
         <>
-          {/* <div className={styles.headerControls}>
-            <h1 className={styles.title}>Sputnik DAO</h1>
-            <h3 className={styles.description}>Average values for all DAOs</h3>
-
-            <button type="button" className={styles.mobileIcon}>
-              <SvgIcon icon="search" />
-            </button>          </div> */}
-          <button
-            type="button"
-            className={styles.mobileIcon}
-            onClick={() => setOpen(!isOpen)}
-          >
-            <SvgIcon icon={isOpen ? 'close' : 'burger'} />
-          </button>
+          {!isForbiddenFooter ? (
+            <button
+              type="button"
+              className={styles.mobileIcon}
+              onClick={() => setOpen(!isOpen)}
+            >
+              <SvgIcon icon={isOpen ? 'close' : 'burger'} />
+            </button>
+          ) : null}
 
           <div className={styles.main}>
             <NetworkSwitcher />
-            {/* <Autocomplete
-              disabled
-              className={styles.search}
-              // options={dropdownOptions}
-              value={dropdownValue}
-              onChange={(selectedItem) => setDropDownValue(selectedItem)}
-            />
-             <NavigationInfo
-              className={styles.navigationInfo}
-              title="Sputnik DAO"
-              description="Average values for all DAOs"
-              color="blue"
-            /> */}
           </div>
         </>
       ) : null}

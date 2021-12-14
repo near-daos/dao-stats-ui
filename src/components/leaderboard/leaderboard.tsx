@@ -21,6 +21,11 @@ export type LeaderboardDataItem = {
     totalMetrics?: TotalMetrics;
     metrics?: MetricItem[];
   };
+  voteRate?: {
+    proposals?: TotalMetrics;
+    voteRate?: TotalMetrics;
+    metrics?: MetricItem[];
+  };
   doubleLine?: {
     number: {
       totalMetrics: TotalMetrics;
@@ -40,7 +45,7 @@ interface LeaderboardProps extends HTMLProps<HTMLTableElement> {
   tableClassName?: string;
   dataRows: LeaderboardDataItem[];
   tableBodyClassName?: string;
-  type: 'line' | 'doubleLine' | 'stacked';
+  type: 'line' | 'doubleLine' | 'stacked' | 'voteRate';
 }
 
 export const Leaderboard: FC<LeaderboardProps> = ({
@@ -88,6 +93,25 @@ export const Leaderboard: FC<LeaderboardProps> = ({
                 </td>
                 <td className={styles.cell}>
                   <ChartTiny rightAlign data={row?.line?.metrics || []} />
+                </td>
+              </>
+            )}
+            {type === 'voteRate' && (
+              <>
+                <td className={styles.cell}>
+                  <Amount
+                    count={row?.voteRate?.proposals?.count || 0}
+                    growth={row?.voteRate?.proposals?.growth || 0}
+                  />
+                </td>
+                <td className={styles.cell}>
+                  <Amount
+                    count={row?.voteRate?.voteRate?.count || 0}
+                    growth={row?.voteRate?.voteRate?.growth || 0}
+                  />
+                </td>
+                <td className={styles.cell}>
+                  <ChartTiny rightAlign data={row?.voteRate?.metrics || []} />
                 </td>
               </>
             )}

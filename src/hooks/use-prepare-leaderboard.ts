@@ -61,6 +61,18 @@ export const usePrepareLeaderboard = ({
       }));
     }
 
+    if (type === 'voteRate') {
+      return leaderboard.map((leaderboardItem, index) => ({
+        id: index,
+        titleCell: prepareTitle(leaderboardItem.dao),
+        voteRate: {
+          voteRate: leaderboardItem?.voteRate,
+          proposals: leaderboardItem?.proposals,
+          metrics: leaderboardItem?.overview,
+        },
+      }));
+    }
+
     if (type === 'stacked') {
       return leaderboard.map((leaderboardItem, index) => ({
         id: index,

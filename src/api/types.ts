@@ -37,6 +37,8 @@ export type Proposals = {
 export type LeaderboardItem = {
   dao: string;
   proposalsByType?: Proposals;
+  proposals?: TotalMetrics;
+  voteRate?: TotalMetrics;
   activity?: TotalMetrics;
   overview?: MetricItem[];
 };

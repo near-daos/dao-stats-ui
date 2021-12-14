@@ -3,8 +3,6 @@ import React, { FC, useState } from 'react';
 import {
   Button,
   ChartBar,
-  ChartLine,
-  ChartPie,
   Autocomplete,
   AutocompleteOption,
   Header,
@@ -15,13 +13,12 @@ import {
   NavigationList,
   Search,
   Sidebar,
-  StackedChart,
   SvgIcon,
   Tabs,
   WidgetInfo,
   WidgetTile,
 } from '../../components';
-import { getRechartsData, pieData } from '../../components/charts/rechartsData';
+import { getRechartsData } from '../../components/charts/rechartsData';
 import logo from '../../images/sputnik.png';
 
 import styles from './ui-kit.module.scss';

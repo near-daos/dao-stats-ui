@@ -84,6 +84,7 @@ export const VoteRate: FC = () => {
 
   const governanceVoteRateData = useFilterMetrics(period, governanceVoteRate);
   const governanceVoteRateLeaderboardData = usePrepareLeaderboard({
+    type: 'voteRate',
     leaderboard: governanceVoteRateLeaderboard?.metrics
       ? governanceVoteRateLeaderboard.metrics
       : null,
@@ -125,10 +126,11 @@ export const VoteRate: FC = () => {
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
+              { value: '# of Proposals' },
               { value: 'Vote through rate' },
               { value: 'Last 7 days', position: 'right' },
             ]}
-            type="line"
+            type="voteRate"
             dataRows={governanceVoteRateLeaderboardData}
           />
         ) : null}
