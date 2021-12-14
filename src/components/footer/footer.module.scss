@@ -6,19 +6,21 @@
   height: functions.calc-rem(64);
   max-width: 100%;
 
+  padding: 0 functions.calc-rem(12);
+
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   background: var(--color-brand);
 
-  padding: 0 functions.calc-rem(12);
-
   @include media.desktop {
     max-width: functions.calc-rem(1216);
-
-    margin: functions.calc-rem(130) auto 0;
+    
     padding: 0;
+
+    margin: functions.calc-rem(-64) auto 0;
+
     position: initial;
   }
 }
@@ -37,6 +39,7 @@
 }
 
 .links a {
-  text-decoration: none;
   padding-right: functions.calc-rem(18);
+
+  text-decoration: none;
 }
