@@ -1,7 +1,6 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Autocomplete, AutocompleteOption } from '../autocomplete/autocomplete';
 import { useForbiddenRoutes } from '../../hooks';
 
 import { SvgIcon } from '../svgIcon/svgIcon';
@@ -19,9 +18,6 @@ export type HeaderProps = {
 
 export const Header: FC<HeaderProps> = ({ isOpen, setOpen }) => {
   const { isForbiddenHeader, isForbiddenFooter } = useForbiddenRoutes();
-  const [dropdownValue, setDropDownValue] = useState<AutocompleteOption | null>(
-    null,
-  );
 
   return (
     <div className={styles.header}>
@@ -35,13 +31,6 @@ export const Header: FC<HeaderProps> = ({ isOpen, setOpen }) => {
       </Link>
       {!isForbiddenHeader ? (
         <>
-          {/* <div className={styles.headerControls}>
-            <h1 className={styles.title}>Sputnik DAO</h1>
-            <h3 className={styles.description}>Average values for all DAOs</h3>
-
-            <button type="button" className={styles.mobileIcon}>
-              <SvgIcon icon="search" />
-            </button>          </div> */}
           {!isForbiddenFooter ? (
             <button
               type="button"
@@ -54,19 +43,6 @@ export const Header: FC<HeaderProps> = ({ isOpen, setOpen }) => {
 
           <div className={styles.main}>
             <NetworkSwitcher />
-            {/* <Autocomplete
-              disabled
-              className={styles.search}
-              // options={dropdownOptions}
-              value={dropdownValue}
-              onChange={(selectedItem) => setDropDownValue(selectedItem)}
-            />
-             <NavigationInfo
-              className={styles.navigationInfo}
-              title="Sputnik DAO"
-              description="Average values for all DAOs"
-              color="blue"
-            /> */}
           </div>
         </>
       ) : null}

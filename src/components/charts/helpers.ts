@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { subYears, subMonths, subDays, startOfDay, format } from 'date-fns';
 import { MetricItem } from '../../api';
 
@@ -6,7 +7,6 @@ export const getDateFromMow = (range: string): number | string => {
 
   switch (range) {
     case 'All':
-      // todo temporary solution
       return subYears(currentDateStartedFromDay, 30).getTime();
     case '1y':
       return subYears(currentDateStartedFromDay, 1).getTime();

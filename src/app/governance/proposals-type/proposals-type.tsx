@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FC, useEffect, useState, useMemo } from 'react';
 import { useParams } from 'react-router';
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
@@ -18,7 +19,7 @@ import { isNotAsked, isPending, isSuccess } from '../../../utils';
 import { selectActionLoading } from '../../../store/loading';
 
 import styles from '../governance.module.scss';
-import { MetricItem, Metrics } from '../../../api';
+import { MetricItem } from '../../../api';
 
 const tabOptions = [
   {
