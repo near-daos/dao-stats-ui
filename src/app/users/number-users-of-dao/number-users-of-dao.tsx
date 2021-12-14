@@ -2,18 +2,18 @@ import React, { FC, useEffect, useState } from 'react';
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useParams } from 'react-router';
 import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
-import { getDateFromMow } from 'src/components/charts/helpers';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { selectActionLoading } from '../../../store/loading';
 import { isSuccess, isPending, isNotAsked } from '../../../utils';
 import {
-  getUsersInteractionsHistory,
-  getUsersInteractionsLeaderboard,
+  getUsersMembersOfDaoHistory,
+  getUsersMembersOfDaoLeaderboard,
 } from '../slice';
 import {
-  selectUsersInteractionHistory,
-  selectUsersInteractionLeaderboard,
+  selectUsersMembersOfDaoHistory,
+  selectUsersMembersOfDaoLeaderboard,
 } from '../selectors';
+
 import styles from '../users.module.scss';
 
 const tabOptions = [
@@ -31,13 +31,13 @@ export const NumberUsersOfDao: FC = () => {
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
 
-  const users = useAppSelector(selectUsersInteractionHistory);
-  const usersLeaderboard = useAppSelector(selectUsersInteractionLeaderboard);
-  const getUsersInteractionsLoading = useAppSelector(
-    selectActionLoading(getUsersInteractionsHistory.typePrefix),
+  const users = useAppSelector(selectUsersMembersOfDaoHistory);
+  const usersLeaderboard = useAppSelector(selectUsersMembersOfDaoLeaderboard);
+  const getUsersNumberLoading = useAppSelector(
+    selectActionLoading(getUsersMembersOfDaoHistory.typePrefix),
   );
-  const getUsersInteractionsLeaderboardLoading = useAppSelector(
-    selectActionLoading(getUsersInteractionsLeaderboard.typePrefix),
+  const getUsersNumberLeaderboardLoading = useAppSelector(
+    selectActionLoading(getUsersMembersOfDaoLeaderboard.typePrefix),
   );
 
   const handleOnChange = (value: string) => {
@@ -48,23 +48,22 @@ export const NumberUsersOfDao: FC = () => {
     (async () => {
       try {
         if (
-          (!users || isNotAsked(getUsersInteractionsLoading)) &&
-          !isPending(getUsersInteractionsLoading)
+          (!users || isNotAsked(getUsersNumberLoading)) &&
+          !isPending(getUsersNumberLoading)
         ) {
           await dispatch(
-            getUsersInteractionsHistory({
+            getUsersMembersOfDaoHistory({
               contract,
-              from: String(getDateFromMow(period)),
             }),
           );
         }
 
         if (
-          (!users || isNotAsked(getUsersInteractionsLeaderboardLoading)) &&
-          !isPending(getUsersInteractionsLeaderboardLoading)
+          (!usersLeaderboard || isNotAsked(getUsersNumberLeaderboardLoading)) &&
+          !isPending(getUsersNumberLeaderboardLoading)
         ) {
           await dispatch(
-            getUsersInteractionsLeaderboard({
+            getUsersMembersOfDaoLeaderboard({
               contract,
             }),
           );
@@ -80,8 +79,8 @@ export const NumberUsersOfDao: FC = () => {
     period,
     contract,
     dispatch,
-    getUsersInteractionsLoading,
-    getUsersInteractionsLeaderboardLoading,
+    getUsersNumberLoading,
+    getUsersNumberLeaderboardLoading,
   ]);
 
   const usersLeaderboardData = usePrepareLeaderboard({
@@ -94,11 +93,10 @@ export const NumberUsersOfDao: FC = () => {
     <div className={styles.detailsContainer}>
       <LoadingContainer
         hide={
-          isSuccess(getUsersInteractionsLoading) &&
-          isSuccess(getUsersInteractionsLeaderboardLoading)
+          isSuccess(getUsersNumberLoading) &&
+          isSuccess(getUsersNumberLeaderboardLoading)
         }
       />
-
       <div className={styles.tabWrapper}>
         <Tabs
           variant="small"
@@ -114,13 +112,7 @@ export const NumberUsersOfDao: FC = () => {
             data={usersData}
             period={period}
             setPeriod={setPeriod}
-            lines={[
-              {
-                name: 'Number of interactions',
-                color: '#E33F84',
-                dataKey: 'count',
-              },
-            ]}
+            lines={[{ name: 'Users', color: '#E33F84', dataKey: 'count' }]}
           />
         ) : null}
         {activeTab === 'leaderboard' && usersLeaderboardData ? (
@@ -128,7 +120,7 @@ export const NumberUsersOfDao: FC = () => {
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
-              { value: 'Number of interactions' },
+              { value: 'Members' },
               { value: 'Last 7 days', position: 'right' },
             ]}
             type="line"

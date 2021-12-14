@@ -11,6 +11,8 @@ export type usersState = {
   usersInteractionsLeaderboard: Leaderboard | null;
   usersAveragePerDaoHistory: Metrics | null;
   usersInteractionsPerDaoHistory: Metrics | null;
+  usersMembersOfDaoHistory: Metrics | null;
+  usersMembersOfDaoLeaderboard: Leaderboard | null;
   loading: RequestStatus;
   error: unknown;
 };
