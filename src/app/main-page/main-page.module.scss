@@ -52,7 +52,7 @@
   margin: 0 0 functions.calc-rem(34);
 
   display: none;
-  
+
   @include media.desktop {
     margin-bottom: functions.calc-rem(120);
 
@@ -71,4 +71,9 @@
 
 .switcher {
   margin: 0 auto functions.calc-rem(130);
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
 }

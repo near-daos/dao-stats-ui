@@ -1,0 +1,42 @@
+@use '../../styles/functions';
+@use '../../styles/media';
+@import '../../styles/typography';
+
+.footer {
+  height: functions.calc-rem(64);
+  max-width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background: var(--color-brand);
+
+  padding: 0 functions.calc-rem(12);
+
+  @include media.desktop {
+    max-width: functions.calc-rem(1216);
+
+    margin: functions.calc-rem(130) auto 0;
+    padding: 0;
+    position: initial;
+  }
+}
+
+.links,
+.aboutUs {
+  @include caption-1;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.aboutUs {
+  min-width: functions.calc-rem(32);
+}
+
+.links a {
+  text-decoration: none;
+  padding-right: functions.calc-rem(18);
+}
