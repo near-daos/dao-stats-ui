@@ -66,15 +66,14 @@ export const Users: FC = () => {
         </WidgetTile>
 
         <WidgetTile
-          disabled
           className={styles.widget}
           onClick={() => history.push(routes.usersOfDao)}
           active={location.pathname === routes.usersOfDao}
         >
           <WidgetInfo
             title="Users that are member of a DAO"
-            number={0}
-            percentages={0}
+            number={users?.members?.count}
+            percentages={users?.members?.growth}
           />
         </WidgetTile>
 
