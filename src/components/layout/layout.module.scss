@@ -1,6 +1,6 @@
-@use '../../styles/functions';
-@use '../../styles/mixins';
-@use '../../styles/media';
+@use 'src/styles/functions';
+@use 'src/styles/mixins';
+@use 'src/styles/media';
 
 .layout {
   width: 100%;
@@ -15,6 +15,8 @@
   margin: 0 auto;
 
   display: flex;
+
+  min-height: calc(100vh - 88px);
 }
 
 .page {
