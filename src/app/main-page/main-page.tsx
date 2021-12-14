@@ -19,7 +19,7 @@ export const MainPage: FC = () => {
     // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     const handleScroll = (event: any) => {
       if (event.wheelDelta < 0) {
-        // history.push(routes.generalInfo);
+        history.push(routes.generalInfo);
       }
     };
 
