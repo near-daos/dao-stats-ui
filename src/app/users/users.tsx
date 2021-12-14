@@ -60,8 +60,8 @@ export const Users: FC = () => {
         >
           <WidgetInfo
             title="All users on a platfrom"
-            number={users?.users.count}
-            percentages={users?.users.growth}
+            number={users?.users?.count}
+            percentages={users?.users?.growth}
           />
         </WidgetTile>
 
@@ -85,8 +85,8 @@ export const Users: FC = () => {
         >
           <WidgetInfo
             title="Average number of users per DAO"
-            number={users?.averageUsers.count}
-            percentages={users?.averageUsers.growth}
+            number={users?.averageUsers?.count}
+            percentages={users?.averageUsers?.growth}
           />
         </WidgetTile>
 
@@ -102,8 +102,8 @@ export const Users: FC = () => {
         >
           <WidgetInfo
             title="Number of Interactions"
-            number={users?.interactions.count}
-            percentages={users?.interactions.growth}
+            number={users?.interactions?.count}
+            percentages={users?.interactions?.growth}
           />
         </WidgetTile>
 
@@ -114,8 +114,8 @@ export const Users: FC = () => {
         >
           <WidgetInfo
             title="Average number of Interactions per DAO"
-            number={users?.averageInteractions.count}
-            percentages={users?.averageInteractions.growth}
+            number={users?.averageInteractions?.count}
+            percentages={users?.averageInteractions?.growth}
           />
         </WidgetTile>
       </Widgets>
