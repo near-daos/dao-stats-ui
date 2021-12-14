@@ -72,3 +72,8 @@
 .switcher {
   margin: 0 auto functions.calc-rem(130);
 }
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import {
   LineChart,
@@ -64,15 +65,6 @@ export const ChartLine: React.FC<LineChartProps> = ({
       />
     </g>
   );
-
-  // HOTFIX, waiting to fix bug from lib - https://github.com/recharts/recharts/issues/2704
-  React.useEffect(() => {
-    const id = setTimeout(() => {
-      window.dispatchEvent(new Event('resize'));
-    }, 1000);
-
-    return () => clearTimeout(id);
-  }, []);
 
   return (
     <ResponsiveContainer>
