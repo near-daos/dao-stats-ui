@@ -1,6 +1,6 @@
-@use '../../styles/functions';
-@use '../../styles/mixins';
-@use '../../styles/media';
+@use 'src/styles/functions';
+@use 'src/styles/mixins';
+@use 'src/styles/media';
 
 .layout {
   width: 100%;
@@ -9,6 +9,8 @@
 
 .container {
   @include mixins.container;
+
+  min-height: calc(100vh - 88px);
   max-width: functions.calc-rem(1216);
 
   padding: functions.calc-rem(48) 0 0;

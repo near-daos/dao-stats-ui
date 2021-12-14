@@ -10,11 +10,27 @@ export const Footer: FC = () => {
   return isForbiddenFooter ? (
     <div className={styles.footer}>
       <div className={styles.links}>
-        <a href="https://github.com/near-daos/dao-stats-ui">
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://github.com/near-daos/dao-stats-ui"
+        >
           <img className={styles.image} src={gitHub} alt="Git Hub" /> Git Hub
         </a>
-        <a href="https://testnet.api.daostats.io/docs">Testnet Docs</a>
-        <a href="https://mainnet.api.daostats.io/docs">Mainnet Docs</a>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://testnet.api.daostats.io/docs"
+        >
+          Testnet Docs
+        </a>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://mainnet.api.daostats.io/docs"
+        >
+          Mainnet Docs
+        </a>
       </div>
       <div className={styles.aboutUs}>
         By{' '}
