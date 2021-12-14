@@ -3,6 +3,7 @@ import clsx from 'clsx';
 
 import { Header } from '../header';
 import { Sidebar } from '../sidebar';
+import { Footer } from '../footer';
 import { useForbiddenRoutes } from '../../hooks';
 
 import styles from './layout.module.scss';
@@ -27,6 +28,7 @@ export const Layout: FC = ({ children }) => {
           {children}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { Search, Button, NetworkSwitcher } from '../../components';
 import { useAppSelector } from '../../store';
 import { selectorSelectedContract } from '../shared';
 import { useRoutes } from '../../hooks';
+import { infinity } from '../../icons';
 
 import styles from './main-page.module.scss';
 
@@ -29,12 +30,15 @@ export const MainPage: FC = () => {
   return (
     <div className={styles.mainPage}>
       <h1 className={styles.title}>
-        A simple dashboard to get insights about different DAOs and Platforms
+        A simple dashboard to get insights about different DAOs
       </h1>
 
-      <h2 className={styles.subTitle}>From a community for the communities!</h2>
+      <h2 className={styles.subTitle}>
+        For <img className={styles.image} src={infinity} alt="Error 404" />{' '}
+        communities
+      </h2>
 
-      <NetworkSwitcher className={styles.switcher} />
+      {/* <NetworkSwitcher className={styles.switcher} /> */}
 
       {/* <Search
         disabled
@@ -43,7 +47,7 @@ export const MainPage: FC = () => {
       /> */}
 
       <p className={styles.info}>
-        {startCase(selectedContract?.contractId)} stats
+        {startCase(selectedContract?.contractId)} DAO
       </p>
       <Button
         className={styles.button}
