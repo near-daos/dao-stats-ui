@@ -2,7 +2,7 @@ import React, { FC, useEffect } from 'react';
 import startCase from 'lodash/startCase';
 import { useHistory } from 'react-router';
 
-import { Search, Button, NetworkSwitcher } from '../../components';
+import { Button } from '../../components';
 import { useAppSelector } from '../../store';
 import { selectorSelectedContract } from '../shared';
 import { useRoutes } from '../../hooks';
@@ -37,14 +37,6 @@ export const MainPage: FC = () => {
         For <img className={styles.image} src={infinity} alt="Error 404" />{' '}
         communities
       </h2>
-
-      {/* <NetworkSwitcher className={styles.switcher} /> */}
-
-      {/* <Search
-        disabled
-        className={styles.search}
-        networkSwitcherClass={styles.switcherDesktop}
-      /> */}
 
       <p className={styles.info}>
         {startCase(selectedContract?.contractId)} DAO
