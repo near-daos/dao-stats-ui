@@ -30,6 +30,20 @@ export class UsersService extends HttpService {
     return this.get(`${params.contract}/users/users/leaderboard`);
   }
 
+  async getUsersMembersOfDaoHistory(
+    params: HistoryParams,
+  ): Promise<AxiosResponse<Metrics>> {
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(`${params.contract}/users/members?${query}`);
+  }
+
+  async getUsersMembersOfDaoLeaderboard(
+    params: Params,
+  ): Promise<AxiosResponse<Leaderboard>> {
+    return this.get(`${params.contract}/users/members/leaderboard`);
+  }
+
   async getUsersDao(params: DaoParams): Promise<AxiosResponse<Users>> {
     return this.get(`${params.contract}/users/${params.dao}`);
   }
