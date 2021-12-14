@@ -61,7 +61,7 @@ export class UsersService extends HttpService {
   ): Promise<AxiosResponse<Metrics>> {
     const query = queryString.stringify({ from: params.from, to: params.to });
 
-    return this.get(`${params.contract}/users/average?${query}`);
+    return this.get(`${params.contract}/users/average-users?${query}`);
   }
 
   async getUsersInteractionsPerDaoHistory(
@@ -69,7 +69,7 @@ export class UsersService extends HttpService {
   ): Promise<AxiosResponse<Metrics>> {
     const query = queryString.stringify({ from: params.from, to: params.to });
 
-    return this.get(`${params.contract}/users/interactions-average?${query}`);
+    return this.get(`${params.contract}/users/average-interactions?${query}`);
   }
 }
 
