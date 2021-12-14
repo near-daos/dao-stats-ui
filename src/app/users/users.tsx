@@ -72,8 +72,8 @@ export const Users: FC = () => {
         >
           <WidgetInfo
             title="Users that are member of a DAO"
-            number={users?.members.count}
-            percentages={users?.members.growth}
+            number={users?.members?.count}
+            percentages={users?.members?.growth}
           />
         </WidgetTile>
 
