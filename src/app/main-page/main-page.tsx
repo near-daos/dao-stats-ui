@@ -16,6 +16,7 @@ export const MainPage: FC = () => {
   const history = useHistory();
 
   useEffect(() => {
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     const handleScroll = (event: any) => {
       if (event.wheelDelta < 0) {
         history.push(routes.generalInfo);

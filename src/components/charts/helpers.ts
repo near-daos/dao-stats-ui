@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { subYears, subMonths, subDays, startOfDay, format } from 'date-fns';
 import { MetricItem } from '../../api';
 

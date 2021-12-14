@@ -2,11 +2,12 @@ import React, { FC, useState, useEffect } from 'react';
 import Downshift, { GetItemPropsOptions } from 'downshift';
 import clsx from 'clsx';
 import { useAppDispatch, useAppSelector } from 'src/store';
+import { selectorContracts } from 'src/app/shared/contracts';
+
 import { Search } from '../search/search';
 import styles from './autocomplete.module.scss';
 import { getDao } from '../../app/shared/daos/slice';
 import { selectDao } from '../../app/shared/daos/selectors';
-import { selectorContracts } from '../../app/shared/contracts';
 
 export type AutocompleteOption = {
   createdAt: string;
@@ -52,6 +53,7 @@ export const Autocomplete: FC<AutocompleteProps> = ({
   useEffect(() => {
     dispatch(
       getDao({ contract: 'astro', input: searchDaoValue }),
+      // eslint-disable-next-line no-console
     ).catch((error: unknown) => console.error(error));
   }, [contract, dispatch, searchDaoValue]);
 
