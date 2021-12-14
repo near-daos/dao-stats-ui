@@ -112,7 +112,7 @@ export const NumberUsersOfDao: FC = () => {
             data={usersData}
             period={period}
             setPeriod={setPeriod}
-            lines={[{ name: 'Users', color: '#E33F84', dataKey: 'count' }]}
+            lines={[{ name: 'Members', color: '#E33F84', dataKey: 'count' }]}
           />
         ) : null}
         {activeTab === 'leaderboard' && usersLeaderboardData ? (
