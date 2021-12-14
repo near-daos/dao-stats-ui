@@ -6,6 +6,7 @@ import {
   isRejected,
   isFulfilled,
 } from '@reduxjs/toolkit';
+import sortBy from 'lodash/sortBy';
 import { RequestStatus } from '../../store/types';
 import { usersState } from './types';
 import {
@@ -26,6 +27,8 @@ const initialState: usersState = {
   usersInteractionsLeaderboard: null,
   usersAveragePerDaoHistory: null,
   usersInteractionsPerDaoHistory: null,
+  usersMembersOfDaoHistory: null,
+  usersMembersOfDaoLeaderboard: null,
   loading: RequestStatus.NOT_ASKED,
   error: null,
 };
@@ -113,6 +116,24 @@ export const getUsersInteractionsPerDaoHistory = createAsyncThunk(
   },
 );
 
+export const getUsersMembersOfDaoHistory = createAsyncThunk(
+  'users/getUsersMembersOfDaoHistory',
+  async (params: HistoryParams) => {
+    const response = await usersService.getUsersMembersOfDaoHistory(params);
+
+    return response.data;
+  },
+);
+
+export const getUsersMembersOfDaoLeaderboard = createAsyncThunk(
+  'users/getUsersMembersOfDaoLeaderboard',
+  async (params: Params) => {
+    const response = await usersService.getUsersMembersOfDaoLeaderboard(params);
+
+    return response.data;
+  },
+);
+
 const isPendingAction = isPending(
   getUsers,
   getUsersHistory,
@@ -123,6 +144,8 @@ const isPendingAction = isPending(
   getUsersInteractionsLeaderboard,
   getUsersAveragePerDaoHistory,
   getUsersInteractionsPerDaoHistory,
+  getUsersMembersOfDaoHistory,
+  getUsersMembersOfDaoLeaderboard,
 );
 const isRejectedAction = isRejected(
   getUsers,
@@ -134,6 +157,8 @@ const isRejectedAction = isRejected(
   getUsersInteractionsLeaderboard,
   getUsersAveragePerDaoHistory,
   getUsersInteractionsPerDaoHistory,
+  getUsersMembersOfDaoHistory,
+  getUsersMembersOfDaoLeaderboard,
 );
 const isFulfilledAction = isFulfilled(
   getUsers,
@@ -145,6 +170,8 @@ const isFulfilledAction = isFulfilled(
   getUsersInteractionsLeaderboard,
   getUsersAveragePerDaoHistory,
   getUsersInteractionsPerDaoHistory,
+  getUsersMembersOfDaoHistory,
+  getUsersMembersOfDaoLeaderboard,
 );
 
 export const usersSlice = createSlice({
@@ -197,6 +224,22 @@ export const usersSlice = createSlice({
       getUsersInteractionsPerDaoHistory.fulfilled,
       (state, { payload }) => {
         state.usersInteractionsPerDaoHistory = payload;
+      },
+    );
+
+    builder.addCase(
+      getUsersMembersOfDaoHistory.fulfilled,
+      (state, { payload }) => {
+        state.usersMembersOfDaoHistory = {
+          metrics: sortBy(payload.metrics, 'timestamp'),
+        };
+      },
+    );
+
+    builder.addCase(
+      getUsersMembersOfDaoLeaderboard.fulfilled,
+      (state, { payload }) => {
+        state.usersMembersOfDaoLeaderboard = payload;
       },
     );
 

@@ -49,3 +49,13 @@ export const selectUsersInteractionsPerDaoHistory = createSelector(
   (state: RootState) => getState(state).usersInteractionsPerDaoHistory,
   (data) => data,
 );
+
+export const selectUsersMembersOfDaoHistory = createSelector(
+  (state: RootState) => getState(state).usersMembersOfDaoHistory,
+  (data) => data,
+);
+
+export const selectUsersMembersOfDaoLeaderboard = createSelector(
+  (state: RootState) => getState(state).usersMembersOfDaoLeaderboard,
+  (data) => data,
+);
