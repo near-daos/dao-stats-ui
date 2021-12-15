@@ -9,6 +9,7 @@ export type generalState = {
   generalActiveLeaderboard: Leaderboard | null;
   generalGroups: Metrics | null;
   generalGroupsLeaderboard: Leaderboard | null;
+  averageGroups: Metrics | null;
   loading: RequestStatus;
   error: unknown;
 };
