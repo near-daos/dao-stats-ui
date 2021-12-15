@@ -7,10 +7,12 @@ import {
   isFulfilled,
 } from '@reduxjs/toolkit';
 import sortBy from 'lodash/sortBy';
+import { eachDayOfInterval, startOfDay, subYears } from 'date-fns';
 
 import { RequestStatus } from '../../store/types';
 import { generalState } from './types';
 import { generalService, HistoryParams, Params, DaoParams } from '../../api';
+import { buildMetrics } from '../../utils';
 
 const initialState: generalState = {
   general: null,
@@ -20,6 +22,7 @@ const initialState: generalState = {
   generalActiveLeaderboard: null,
   generalGroups: null,
   generalGroupsLeaderboard: null,
+  averageGroups: null,
   loading: RequestStatus.NOT_ASKED,
   error: null,
 };
@@ -87,6 +90,15 @@ export const getGeneralGroupsLeaderboard = createAsyncThunk(
   },
 );
 
+export const getGeneralAverageGroups = createAsyncThunk(
+  'general/getGeneralAverageGroups',
+  async (params: Params) => {
+    const response = await generalService.getGeneralAverageGroups(params);
+
+    return response.data;
+  },
+);
+
 const isPendingAction = isPending(
   getGeneral,
   getGeneralActive,
@@ -95,6 +107,7 @@ const isPendingAction = isPending(
   getGeneralDaos,
   getGeneralGroups,
   getGeneralGroupsLeaderboard,
+  getGeneralAverageGroups,
 );
 const isRejectedAction = isRejected(
   getGeneral,
@@ -104,6 +117,7 @@ const isRejectedAction = isRejected(
   getGeneralDaos,
   getGeneralGroups,
   getGeneralGroupsLeaderboard,
+  getGeneralAverageGroups,
 );
 const isFulfilledAction = isFulfilled(
   getGeneral,
@@ -113,6 +127,7 @@ const isFulfilledAction = isFulfilled(
   getGeneralDaos,
   getGeneralGroups,
   getGeneralGroupsLeaderboard,
+  getGeneralAverageGroups,
 );
 
 export const generalSlice = createSlice({
@@ -155,6 +170,10 @@ export const generalSlice = createSlice({
         state.generalGroupsLeaderboard = payload;
       },
     );
+
+    builder.addCase(getGeneralAverageGroups.fulfilled, (state, { payload }) => {
+      state.averageGroups = payload;
+    });
 
     builder.addMatcher(isRejectedAction, (state, { error }) => {
       state.loading = RequestStatus.FAILED;
