@@ -5,6 +5,7 @@ export const ROUTES = {
   generalInfo: '/:contract/general-info',
   generalInfoActiveDao: '/:contract/general-info/dao-active',
   generalInfoGroups: '/:contract/general-info/groups',
+  generalInfoAverageGroups: '/:contract/general-info/average-groups',
   users: '/:contract/users',
   usersOfDao: '/:contract/users/of-dao',
   usersPerDao: '/:contract/users/per-dao',

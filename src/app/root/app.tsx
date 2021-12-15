@@ -54,6 +54,11 @@ export const App: FC = () => (
                   path={ROUTES.generalInfoGroups}
                   component={GeneralInfo}
                 />
+                <Route
+                  exact
+                  path={ROUTES.generalInfoAverageGroups}
+                  component={GeneralInfo}
+                />
                 <Route exact path={ROUTES.users} component={Users} />
                 <Route
                   exact

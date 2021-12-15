@@ -43,6 +43,12 @@ export class GeneralService extends HttpService {
     return this.get(`${params.contract}/general/groups/leaderboard`);
   }
 
+  async getGeneralAverageGroups(
+    params: Params,
+  ): Promise<AxiosResponse<Metrics>> {
+    return this.get(`${params.contract}/general/average-groups`);
+  }
+
   async getGeneralDao(params: DaoParams): Promise<AxiosResponse<General>> {
     return this.get(`${params.contract}/general/${params.dao}`);
   }
