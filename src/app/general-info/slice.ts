@@ -7,10 +7,12 @@ import {
   isFulfilled,
 } from '@reduxjs/toolkit';
 import sortBy from 'lodash/sortBy';
+import { eachDayOfInterval, startOfDay, subYears } from 'date-fns';
 
 import { RequestStatus } from '../../store/types';
 import { generalState } from './types';
 import { generalService, HistoryParams, Params, DaoParams } from '../../api';
+import { buildMetrics } from '../../utils';
 
 const initialState: generalState = {
   general: null,
