@@ -19,6 +19,7 @@ import { selectGeneral } from './selectors';
 import { ROUTES } from '../../constants';
 
 import styles from './general-info.module.scss';
+import { AverageGroups } from './average-groups';
 
 export const GeneralInfo: FC = () => {
   const location = useLocation();
@@ -95,8 +96,21 @@ export const GeneralInfo: FC = () => {
           />
         </WidgetTile>
 
-        <WidgetTile disabled className={styles.widget}>
-          <WidgetInfo title="Avg. Groups/DAO" number={0} percentages={0} />
+        <WidgetTile
+          className={styles.widget}
+          onClick={() => history.push(routes.generalInfoAverageGroups)}
+          active={Boolean(
+            matchPath(location.pathname, {
+              path: ROUTES.generalInfoAverageGroups,
+              exact: true,
+            }),
+          )}
+        >
+          <WidgetInfo
+            title="Avg. Groups/DAO"
+            number={general?.averageGroups?.count}
+            percentages={general?.averageGroups?.growth}
+          />
         </WidgetTile>
       </Widgets>
 
@@ -109,6 +123,11 @@ export const GeneralInfo: FC = () => {
             component={ActiveDao}
           />
           <Route exact path={ROUTES.generalInfoGroups} component={Groups} />
+          <Route
+            exact
+            path={ROUTES.generalInfoAverageGroups}
+            component={AverageGroups}
+          />
         </Switch>
       </div>
     </Page>

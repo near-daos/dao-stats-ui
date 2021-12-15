@@ -4,4 +4,5 @@ export type General = {
   dao: TotalMetrics;
   activity: TotalMetrics;
   groups: TotalMetrics;
+  averageGroups: TotalMetrics;
 };

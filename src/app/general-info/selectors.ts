@@ -39,3 +39,8 @@ export const selectGeneralGroupsLeaderboard = createSelector(
   (state: RootState) => getState(state).generalGroupsLeaderboard,
   (data) => data,
 );
+
+export const selectGeneralAverageGroups = createSelector(
+  (state: RootState) => getState(state).averageGroups,
+  (data) => data,
+);

@@ -32,14 +32,19 @@ export const Footer: FC = () => {
           Mainnet Docs
         </a>
       </div>
-      <div className={styles.aboutUs}>
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href="https://magicpowered.io"
+        className={styles.aboutUs}
+      >
         By{' '}
         <img
           className={styles.image}
           src={magicPoweredLogo}
           alt="MagicPowered Logo"
         />
-      </div>
+      </a>
     </div>
   ) : null;
 };
