@@ -8,17 +8,18 @@ import {
   matchPath,
 } from 'react-router';
 
-import { Page, WidgetTile, WidgetInfo, Widgets } from '../../components';
+import { getGeneral } from 'src/app/shared/general/slice';
+import { selectGeneral } from 'src/app/shared/general/selectors';
+import { Page, WidgetTile, WidgetInfo, Widgets } from 'src/components';
+import { useRoutes } from 'src/hooks';
+import { useAppDispatch, useAppSelector } from 'src/store';
+import { ROUTES } from 'src/constants';
+
+import styles from 'src/styles/page.module.scss';
+
 import { ActiveDao } from './active-dao';
 import { NumbersDao } from './numbers-dao';
 import { Groups } from './groups';
-import { useRoutes } from '../../hooks';
-import { useAppDispatch, useAppSelector } from '../../store';
-import { getGeneral } from './slice';
-import { selectGeneral } from './selectors';
-import { ROUTES } from '../../constants';
-
-import styles from './general-info.module.scss';
 import { AverageGroups } from './average-groups';
 
 export const GeneralInfo: FC = () => {

@@ -10,10 +10,13 @@ import { isPending, isSuccess, isNotAsked } from 'src/utils';
 import {
   selectGeneralActive,
   selectGeneralActiveLeaderboard,
-} from '../selectors';
-import { getGeneralActive, getGeneralActiveLeaderboard } from '../slice';
+} from 'src/app/shared/general/selectors';
+import {
+  getGeneralActive,
+  getGeneralActiveLeaderboard,
+} from 'src/app/shared/general/slice';
 
-import styles from '../general-info.module.scss';
+import styles from 'src/styles/page.module.scss';
 
 const tabOptions = [
   {

@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
+import { RootState } from 'src/store/root-reducer';
 
 import { generalSlice } from './slice';
-import { RootState } from '../../store/root-reducer';
 
 const getState = (state: RootState) => state[generalSlice.name];
 
@@ -42,5 +42,10 @@ export const selectGeneralGroupsLeaderboard = createSelector(
 
 export const selectGeneralAverageGroups = createSelector(
   (state: RootState) => getState(state).averageGroups,
+  (data) => data,
+);
+
+export const selectGeneralDao = createSelector(
+  (state: RootState) => getState(state).dao,
   (data) => data,
 );

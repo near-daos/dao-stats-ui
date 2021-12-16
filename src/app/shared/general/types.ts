@@ -1,5 +1,5 @@
-import { RequestStatus } from '../../store/types';
-import { Metrics, Leaderboard, General } from '../../api';
+import { RequestStatus } from 'src/store/types';
+import { Metrics, Leaderboard, General } from 'src/api';
 
 export type generalState = {
   general: General | null;

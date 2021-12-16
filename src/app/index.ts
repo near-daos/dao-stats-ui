@@ -7,3 +7,4 @@ export * from './governance';
 export * from './flow';
 export * from './tokens';
 export * from './tvl';
+export * from './general-info-dao';
