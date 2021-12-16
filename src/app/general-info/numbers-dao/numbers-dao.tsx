@@ -3,14 +3,13 @@ import { useParams } from 'react-router';
 
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useFilterMetrics } from 'src/hooks';
+import { getGeneralDaos } from 'src/app/shared/general/slice';
+import { selectGeneralDaos } from 'src/app/shared/general/selectors';
+import { useAppDispatch, useAppSelector } from 'src/store';
+import { selectActionLoading } from 'src/store/loading';
+import { isSuccess, isNotAsked, isPending } from 'src/utils';
 
-import { getGeneralDaos } from '../slice';
-import { useAppDispatch, useAppSelector } from '../../../store';
-import { selectGeneralDaos } from '../selectors';
-import { selectActionLoading } from '../../../store/loading';
-import { isSuccess, isNotAsked, isPending } from '../../../utils';
-
-import styles from '../general-info.module.scss';
+import styles from 'src/styles/page.module.scss';
 
 export const NumbersDao: FC = () => {
   const [period, setPeriod] = useState('1y');

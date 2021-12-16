@@ -1,10 +1,13 @@
-@use '../../styles/functions';
-@use '../../styles/media';
-@import '../../styles/typography';
+@use 'src/styles/functions';
+@use 'src/styles/media';
+@import 'src/styles/typography';
 
 .header {
+  width: 100%;
   height: functions.calc-rem(64);
   max-width: 100%;
+
+  padding: 0 functions.calc-rem(12);
 
   position: sticky;
   top: 0;
@@ -17,14 +20,14 @@
 
   background: var(--color-brand);
 
-  padding: 0 functions.calc-rem(12);
-  
   @include media.desktop {
     height: functions.calc-rem(88);
     max-width: functions.calc-rem(1216);
 
+    padding: 0;
+
     margin: 0 auto;
-  padding: 0;
+
     position: initial;
   }
 }
@@ -80,7 +83,7 @@
 .logo {
   @include media.desktop {
     margin: 0 0 0 functions.calc-rem(12);
-  };
+  }
 }
 
 .desktopImage {
@@ -88,7 +91,7 @@
 
   @include media.desktop {
     display: none;
-  };
+  }
 }
 
 .mobileImage {
@@ -96,7 +99,7 @@
 
   @include media.desktop {
     display: block;
-  };
+  }
 }
 
 .title {
@@ -104,8 +107,8 @@
   width: functions.calc-rem(144);
 
   padding: 0;
-  
-  margin:0;
+
+  margin: 0;
 
   text-align: center;
 }
@@ -114,7 +117,7 @@
   @include caption-1;
   padding: 0;
 
-  margin:0;
+  margin: 0;
 }
 
 .mobileIcon {

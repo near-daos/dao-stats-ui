@@ -67,7 +67,7 @@ export const ChartLine: React.FC<LineChartProps> = ({
   );
 
   return (
-    <ResponsiveContainer>
+    <ResponsiveContainer debounce={1}>
       <LineChart data={data?.metrics}>
         <Legend
           align="left"
@@ -106,7 +106,7 @@ export const ChartLine: React.FC<LineChartProps> = ({
           tickLine={false}
           tickFormatter={(value) => tickXFormatter(value, period)}
           style={tickStyles}
-          minTickGap={15}
+          domain={['auto', 'auto']}
         />
         {filterLines.map((filterLine) => (
           <Line

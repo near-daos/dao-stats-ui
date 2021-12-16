@@ -17,7 +17,7 @@ export type HeaderProps = {
 };
 
 export const Header: FC<HeaderProps> = ({ isOpen, setOpen }) => {
-  const { isForbiddenHeader, isForbiddenFooter } = useForbiddenRoutes();
+  const { isForbiddenHeader } = useForbiddenRoutes();
 
   return (
     <div className={styles.header}>
@@ -31,15 +31,13 @@ export const Header: FC<HeaderProps> = ({ isOpen, setOpen }) => {
       </Link>
       {!isForbiddenHeader ? (
         <>
-          {!isForbiddenFooter ? (
-            <button
-              type="button"
-              className={styles.mobileIcon}
-              onClick={() => setOpen(!isOpen)}
-            >
-              <SvgIcon icon={isOpen ? 'close' : 'burger'} />
-            </button>
-          ) : null}
+          <button
+            type="button"
+            className={styles.mobileIcon}
+            onClick={() => setOpen(!isOpen)}
+          >
+            <SvgIcon icon={isOpen ? 'close' : 'burger'} />
+          </button>
 
           <div className={styles.main}>
             <NetworkSwitcher />

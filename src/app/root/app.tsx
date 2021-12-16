@@ -19,6 +19,7 @@ import {
   Flow,
   Tvl,
   Tokens,
+  GeneralInfoDao,
 } from '..';
 import { Layout, Loading, UserData } from '../../components';
 import { RequestStatus } from '../../store/types';
@@ -58,6 +59,11 @@ export const App: FC = () => (
                   exact
                   path={ROUTES.generalInfoAverageGroups}
                   component={GeneralInfo}
+                />
+                <Route
+                  exact
+                  path={ROUTES.generalInfoDao}
+                  component={GeneralInfoDao}
                 />
                 <Route exact path={ROUTES.users} component={Users} />
                 <Route

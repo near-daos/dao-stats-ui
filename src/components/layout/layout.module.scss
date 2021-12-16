@@ -5,18 +5,24 @@
 .layout {
   width: 100%;
   min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .container {
   @include mixins.container;
+
+  min-height: calc(100vh - 124px);
   max-width: functions.calc-rem(1216);
 
   padding: functions.calc-rem(48) 0 0;
   margin: 0 auto;
 
   display: flex;
-
-  min-height: calc(100vh - 88px);
+  @include media.desktop {
+    min-height: calc(100vh - 156px);
+  }
 }
 
 .page {
@@ -25,7 +31,7 @@
   padding: 0 functions.calc-rem(12) functions.calc-rem(12);
 
   margin: 0 auto;
-  
+
   @include media.desktop {
     padding: 0 0 functions.calc-rem(12);
   }

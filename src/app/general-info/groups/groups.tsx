@@ -1,18 +1,21 @@
 import React, { FC, useEffect, useState } from 'react';
-import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useParams } from 'react-router';
+
+import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
-import { useAppDispatch, useAppSelector } from '../../../store';
+import { useAppDispatch, useAppSelector } from 'src/store';
 import {
   selectGeneralGroups,
   selectGeneralGroupsLeaderboard,
-} from '../selectors';
-import { getGeneralGroupsLeaderboard, getGeneralGroups } from '../slice';
+} from 'src/app/shared/general/selectors';
+import {
+  getGeneralGroupsLeaderboard,
+  getGeneralGroups,
+} from 'src/app/shared/general/slice';
+import { selectActionLoading } from 'src/store/loading';
+import { isSuccess, isPending, isNotAsked } from 'src/utils';
 
-import { selectActionLoading } from '../../../store/loading';
-import { isSuccess, isPending, isNotAsked } from '../../../utils';
-
-import styles from '../general-info.module.scss';
+import styles from 'src/styles/page.module.scss';
 
 const tabOptions = [
   {
