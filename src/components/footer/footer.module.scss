@@ -1,12 +1,14 @@
-@use '../../styles/functions';
-@use '../../styles/media';
-@import '../../styles/typography';
+@use 'src/styles/functions';
+@use 'src/styles/media';
+@import 'src/styles/typography';
 
 .footer {
-  height: functions.calc-rem(64);
+  width: 100%;
+  height: functions.calc-rem(60);
   max-width: 100%;
 
   padding: 0 functions.calc-rem(12);
+  margin: auto;
 
   display: flex;
   justify-content: space-between;
@@ -17,9 +19,7 @@
   @include media.desktop {
     max-width: functions.calc-rem(1216);
 
-    padding: 0;
-
-    margin: functions.calc-rem(-64) auto 0;
+    padding: 0 0 0 functions.calc-rem(12);
 
     position: initial;
   }
@@ -32,6 +32,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  text-decoration: none;
 }
 
 .aboutUs {
@@ -42,4 +44,14 @@
   padding-right: functions.calc-rem(18);
 
   text-decoration: none;
+}
+
+.link {
+  display: flex;
+
+  align-items: center;
+}
+
+.linkText {
+  margin-left: functions.calc-rem(4);
 }

@@ -16,6 +16,7 @@ type LeaderboardHeaderCellProps = {
 
 export type LeaderboardDataItem = {
   id: number;
+  dao?: string;
   titleCell: TitleCellProps;
   line?: {
     totalMetrics?: TotalMetrics;
@@ -46,6 +47,7 @@ interface LeaderboardProps extends HTMLProps<HTMLTableElement> {
   dataRows: LeaderboardDataItem[];
   tableBodyClassName?: string;
   type: 'line' | 'doubleLine' | 'stacked' | 'voteRate';
+  onRowClick?: (row: LeaderboardDataItem) => void;
 }
 
 export const Leaderboard: FC<LeaderboardProps> = ({
@@ -55,6 +57,7 @@ export const Leaderboard: FC<LeaderboardProps> = ({
   headerCells,
   dataRows,
   type = 'line',
+  onRowClick,
 }) => (
   <div className={clsx(styles.tableWrapper, className)}>
     <table
@@ -78,7 +81,15 @@ export const Leaderboard: FC<LeaderboardProps> = ({
       </thead>
       <tbody className={clsx(styles.tableBody, tableBodyClassName)}>
         {dataRows.map((row, index) => (
-          <tr key={row.id} className={styles.row}>
+          <tr
+            key={row.id}
+            className={clsx(styles.row, { [styles.pointer]: onRowClick })}
+            onClick={() => {
+              if (onRowClick) {
+                onRowClick(row);
+              }
+            }}
+          >
             <td className={styles.cell}>{index + 1}</td>
             <td className={styles.cell}>
               <TitleCell {...row.titleCell} />

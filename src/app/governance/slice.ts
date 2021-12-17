@@ -7,6 +7,7 @@ import {
   isFulfilled,
 } from '@reduxjs/toolkit';
 import sortBy from 'lodash/sortBy';
+import { buildMetrics } from 'src/utils';
 
 import { RequestStatus } from '../../store/types';
 import { governanceState } from './types';
@@ -190,7 +191,7 @@ export const governanceSlice = createSlice({
     });
 
     builder.addCase(getGovernanceProposals.fulfilled, (state, { payload }) => {
-      state.governanceProposals = payload;
+      state.governanceProposals = { metrics: buildMetrics(payload.metrics) };
     });
 
     builder.addCase(
@@ -205,10 +206,16 @@ export const governanceSlice = createSlice({
       (state, { payload }) => {
         state.governanceProposalsTypes = {
           metrics: {
-            governance: sortBy(payload.metrics.governance, 'timestamp'),
-            financial: sortBy(payload.metrics.financial, 'timestamp'),
-            bounties: sortBy(payload.metrics.bounties, 'timestamp'),
-            members: sortBy(payload.metrics.members, 'timestamp'),
+            governance: buildMetrics(
+              sortBy(payload.metrics.governance, 'timestamp'),
+            ),
+            financial: buildMetrics(
+              sortBy(payload.metrics.financial, 'timestamp'),
+            ),
+            bounties: buildMetrics(
+              sortBy(payload.metrics.bounties, 'timestamp'),
+            ),
+            members: buildMetrics(sortBy(payload.metrics.members, 'timestamp')),
           },
         };
       },
@@ -222,7 +229,7 @@ export const governanceSlice = createSlice({
 
     builder.addCase(getGovernanceVoteRate.fulfilled, (state, { payload }) => {
       state.governanceVoteRate = {
-        metrics: sortBy(payload.metrics, 'timestamp'),
+        metrics: buildMetrics(sortBy(payload.metrics, 'timestamp')),
       };
     });
 
@@ -240,7 +247,9 @@ export const governanceSlice = createSlice({
     builder.addCase(
       getGovernanceDaoProposals.fulfilled,
       (state, { payload }) => {
-        state.governanceDaoProposals = payload;
+        state.governanceDaoProposals = {
+          metrics: buildMetrics(payload.metrics),
+        };
       },
     );
 
@@ -254,7 +263,9 @@ export const governanceSlice = createSlice({
     builder.addCase(
       getGovernanceDaoVoteRate.fulfilled,
       (state, { payload }) => {
-        state.governanceDaoVoteRate = payload;
+        state.governanceDaoVoteRate = {
+          metrics: buildMetrics(payload.metrics),
+        };
       },
     );
 

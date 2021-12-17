@@ -4,9 +4,11 @@ import clsx from 'clsx';
 
 import { NavigationInfo } from '../navigation-info';
 import { NavigationList } from '../navigation-list';
-import { useRoutes } from '../../hooks';
+import { useForbiddenRoutes, useRoutes } from '../../hooks';
 
 import styles from './sidebar.module.scss';
+import { useAppSelector } from '../../store';
+import { selectorSelectedContract } from '../../app/shared';
 
 export type SidebarProps = {
   isOpen: boolean;
@@ -14,9 +16,11 @@ export type SidebarProps = {
 };
 
 export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
+  const selectedContract = useAppSelector(selectorSelectedContract);
   const history = useHistory();
   const location = useLocation();
   const routes = useRoutes();
+  const { isForbiddenSidebar } = useForbiddenRoutes();
 
   const handlerChangeActive = useCallback(
     (value: string) => {
@@ -58,12 +62,13 @@ export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
       <div
         className={clsx(styles.sidebar, {
           [styles.show]: isOpen,
+          [styles.hideOnDesktopMainPage]: isForbiddenSidebar,
         })}
       >
         <NavigationInfo
           className={styles.info}
-          title="Sputnik DAO"
-          description="Average values for all DAOs"
+          title={`${(selectedContract?.contractId || '').toUpperCase()} DAO`}
+          description={selectedContract?.contractName || ''}
           direction="left"
           linePosition="start"
         />
@@ -81,16 +86,6 @@ export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
           onSelect={handlerChangeActive}
           className={styles.list}
         />
-
-        {/* <div className={styles.navInfo}>
-        <NavigationInfo
-          title="Sputnik DAO"
-          description="Average values for all DAOs"
-          color="blue"
-          direction="left"
-          linePosition="start"
-        />
-      </div> */}
       </div>
       {isOpen ? (
         <button

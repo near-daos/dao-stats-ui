@@ -15,7 +15,7 @@ export const Tvl: FC = () => {
   const history = useHistory();
 
   return (
-    <Page title="TVL">
+    <Page>
       <div className={styles.widgets}>
         <WidgetTile
           className={styles.widget}

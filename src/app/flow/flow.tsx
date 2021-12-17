@@ -13,7 +13,7 @@ export const Flow: FC = () => {
   const history = useHistory();
 
   return (
-    <Page title="Flow">
+    <Page>
       <div className={styles.widgets}>
         <WidgetTile
           className={styles.widget}

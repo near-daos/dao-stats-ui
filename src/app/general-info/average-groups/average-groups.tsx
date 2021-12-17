@@ -2,14 +2,13 @@ import React, { FC, useEffect, useState } from 'react';
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useParams } from 'react-router';
 import { useFilterMetrics } from 'src/hooks';
-import { useAppDispatch, useAppSelector } from '../../../store';
-import { selectGeneralAverageGroups } from '../selectors';
-import { getGeneralAverageGroups } from '../slice';
+import { useAppDispatch, useAppSelector } from 'src/store';
+import { selectGeneralAverageGroups } from 'src/app/shared/general/selectors';
+import { getGeneralAverageGroups } from 'src/app/shared/general/slice';
+import { selectActionLoading } from 'src/store/loading';
+import { isSuccess, isPending, isNotAsked } from 'src/utils';
 
-import { selectActionLoading } from '../../../store/loading';
-import { isSuccess, isPending, isNotAsked } from '../../../utils';
-
-import styles from '../general-info.module.scss';
+import styles from 'src/styles/page.module.scss';
 
 export const AverageGroups: FC = () => {
   const [period, setPeriod] = useState('1y');

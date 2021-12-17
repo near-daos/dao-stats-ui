@@ -1,6 +1,6 @@
-@use '../../styles/mixins';
-@use '../../styles/functions';
-@import '../../styles/typography';
+@use 'src/styles/mixins';
+@use 'src/styles/functions';
+@import 'src/styles/typography';
 
 .root {
   position: relative;

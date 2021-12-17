@@ -6,7 +6,7 @@ import { useAppSelector } from '../store';
 import { selectorSelectedContract } from '../app/shared';
 import { ROUTES } from '../constants';
 
-export const useRoutes = (): { [key: string]: string } => {
+export const useRoutes = (dao?: string): { [key: string]: string } => {
   const selectedContract = useAppSelector(selectorSelectedContract);
 
   return useMemo(() => {
@@ -16,10 +16,12 @@ export const useRoutes = (): { [key: string]: string } => {
       set(
         result,
         key,
-        get(ROUTES, key).replace(':contract', selectedContract?.contractId),
+        get(ROUTES, key)
+          .replace(':contract', selectedContract?.contractId)
+          .replace(':dao', dao || ''),
       );
     });
 
     return result;
-  }, [selectedContract]);
+  }, [selectedContract, dao]);
 };
