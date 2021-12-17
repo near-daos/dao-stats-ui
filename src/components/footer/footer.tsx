@@ -19,17 +19,17 @@ export const Footer: FC = () => (
         className={styles.link}
         target="_blank"
         rel="noreferrer"
-        href={process.env.REACT_APP_API_DOCS_TESTNET}
+        href="https://mainnet.api.daostats.io/docs/"
       >
-        Testnet Docs
+        Mainnet Docs
       </a>
       <a
         className={styles.link}
         target="_blank"
         rel="noreferrer"
-        href={process.env.REACT_APP_API_DOCS_MAINNET}
+        href="https://testnet.api.daostats.io/docs/"
       >
-        Mainnet Docs
+        Testnet Docs
       </a>
     </div>
     <a
