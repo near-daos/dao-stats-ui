@@ -13,7 +13,7 @@ export const Tokens: FC = () => {
   const history = useHistory();
 
   return (
-    <Page title="Tokens">
+    <Page>
       <div className={styles.widgets}>
         <WidgetTile
           className={styles.widget}

@@ -1,6 +1,6 @@
-@use '../../styles/functions';
-@import '../../styles/typography';
-@import '../../styles/helpers';
+@use 'src/styles/functions';
+@import 'src/styles/typography';
+@import 'src/styles/helpers';
 
 .navigationInfo {
   --line-color: transparent;
@@ -86,7 +86,7 @@
 .description {
   @include caption-1();
   margin: functions.calc-rem(-3) 0 0 0;
-  
+
   color: var(--color-grey-300);
 
   white-space: nowrap;

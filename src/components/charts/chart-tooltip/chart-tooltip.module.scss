@@ -1,5 +1,5 @@
-@use '../../../styles/functions';
-@use '../../../styles/typography';
+@use 'src/styles/functions';
+@use 'src/styles/typography';
 
 .tooltip {
   padding: functions.calc-rem(12) functions.calc-rem(16);

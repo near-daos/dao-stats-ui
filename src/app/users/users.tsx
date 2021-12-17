@@ -46,7 +46,7 @@ export const Users: FC = () => {
   }, [contract, dispatch, users]);
 
   return (
-    <Page title="Users and Activity">
+    <Page>
       <Widgets>
         <WidgetTile
           className={styles.widget}

@@ -49,7 +49,7 @@ export const Governance: FC = () => {
   }, [governance, contract, dispatch]);
 
   return (
-    <Page title="Governance">
+    <Page>
       <Widgets>
         <WidgetTile
           className={styles.widget}

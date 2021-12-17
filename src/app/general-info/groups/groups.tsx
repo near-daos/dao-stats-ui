@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import React, { FC, useCallback, useEffect, useState } from 'react';
+import { useParams, generatePath, useHistory } from 'react-router';
 
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
@@ -16,6 +16,7 @@ import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isPending, isNotAsked } from 'src/utils';
 
 import styles from 'src/styles/page.module.scss';
+import { ROUTES } from '../../../constants';
 
 const tabOptions = [
   {
@@ -27,7 +28,7 @@ const tabOptions = [
 
 export const Groups: FC = () => {
   const [period, setPeriod] = useState('1y');
-
+  const history = useHistory();
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
@@ -89,6 +90,15 @@ export const Groups: FC = () => {
 
   const groupsData = useFilterMetrics(period, groups);
 
+  const goToSingleDao = useCallback(
+    (row) => {
+      history.push(
+        generatePath(ROUTES.generalInfoDao, { contract, dao: row.dao }),
+      );
+    },
+    [contract, history],
+  );
+
   return (
     <div className={styles.detailsContainer}>
       <LoadingContainer
@@ -118,6 +128,7 @@ export const Groups: FC = () => {
         ) : null}
         {activeTab === 'leaderboard' && groupsLeaderboardData ? (
           <Leaderboard
+            onRowClick={goToSingleDao}
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
