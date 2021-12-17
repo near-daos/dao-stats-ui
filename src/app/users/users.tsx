@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useMemo } from 'react';
 import {
   Switch,
   Route,
@@ -9,10 +9,17 @@ import {
 } from 'react-router';
 import { useRoutes } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
+
+import {
+  Page,
+  WidgetTile,
+  WidgetInfo,
+  Widgets,
+  Breadcrumbs,
+} from 'src/components';
+
 import { getUsers } from './slice';
 import { selectorUsers } from './selectors';
-
-import { Page, WidgetTile, WidgetInfo, Widgets } from '../../components';
 
 import { ROUTES } from '../../constants';
 import { NumberInteractions } from './number-interactions';
@@ -45,101 +52,118 @@ export const Users: FC = () => {
     })();
   }, [contract, dispatch, users]);
 
+  const breadcrumbs = useMemo(
+    () => [
+      {
+        url: routes.users,
+        name: 'Users and Activity',
+      },
+    ],
+    [routes],
+  );
+
   return (
-    <Page>
-      <Widgets>
-        <WidgetTile
-          className={styles.widget}
-          onClick={() => history.push(routes.users)}
-          active={Boolean(
-            matchPath(location.pathname, {
-              path: ROUTES.users,
-              exact: true,
-            }),
-          )}
-        >
-          <WidgetInfo
-            title="All users on a platfrom"
-            number={users?.users?.count}
-            percentages={users?.users?.growth}
-          />
-        </WidgetTile>
+    <>
+      <Breadcrumbs elements={breadcrumbs} className={styles.breadcrumbs} />
+      <Page>
+        <Widgets>
+          <WidgetTile
+            className={styles.widget}
+            onClick={() => history.push(routes.users)}
+            active={Boolean(
+              matchPath(location.pathname, {
+                path: ROUTES.users,
+                exact: true,
+              }),
+            )}
+          >
+            <WidgetInfo
+              title="All users on a platfrom"
+              number={users?.users?.count}
+              percentages={users?.users?.growth}
+            />
+          </WidgetTile>
 
-        <WidgetTile
-          className={styles.widget}
-          onClick={() => history.push(routes.usersOfDao)}
-          active={location.pathname === routes.usersOfDao}
-        >
-          <WidgetInfo
-            title="Users that are member of a DAO"
-            number={users?.members?.count}
-            percentages={users?.members?.growth}
-          />
-        </WidgetTile>
+          <WidgetTile
+            className={styles.widget}
+            onClick={() => history.push(routes.usersOfDao)}
+            active={location.pathname === routes.usersOfDao}
+          >
+            <WidgetInfo
+              title="Users that are member of a DAO"
+              number={users?.members?.count}
+              percentages={users?.members?.growth}
+            />
+          </WidgetTile>
 
-        <WidgetTile
-          className={styles.widget}
-          onClick={() => history.push(routes.usersPerDao)}
-          active={location.pathname === routes.usersPerDao}
-        >
-          <WidgetInfo
-            title="Average number of users per DAO"
-            number={users?.averageUsers?.count}
-            percentages={users?.averageUsers?.growth}
-          />
-        </WidgetTile>
+          <WidgetTile
+            className={styles.widget}
+            onClick={() => history.push(routes.usersPerDao)}
+            active={location.pathname === routes.usersPerDao}
+          >
+            <WidgetInfo
+              title="Average number of users per DAO"
+              number={users?.averageUsers?.count}
+              percentages={users?.averageUsers?.growth}
+            />
+          </WidgetTile>
 
-        <WidgetTile
-          className={styles.widget}
-          onClick={() => history.push(routes.usersNumberInteractions)}
-          active={Boolean(
-            matchPath(location.pathname, {
-              path: ROUTES.usersNumberInteractions,
-              exact: true,
-            }),
-          )}
-        >
-          <WidgetInfo
-            title="Number of Interactions"
-            number={users?.interactions?.count}
-            percentages={users?.interactions?.growth}
-          />
-        </WidgetTile>
+          <WidgetTile
+            className={styles.widget}
+            onClick={() => history.push(routes.usersNumberInteractions)}
+            active={Boolean(
+              matchPath(location.pathname, {
+                path: ROUTES.usersNumberInteractions,
+                exact: true,
+              }),
+            )}
+          >
+            <WidgetInfo
+              title="Number of Interactions"
+              number={users?.interactions?.count}
+              percentages={users?.interactions?.growth}
+            />
+          </WidgetTile>
 
-        <WidgetTile
-          className={styles.widget}
-          onClick={() => history.push(routes.usersNumberInteractionsPerDao)}
-          active={location.pathname === routes.usersNumberInteractionsPerDao}
-        >
-          <WidgetInfo
-            title="Average number of Interactions per DAO"
-            number={users?.averageInteractions?.count}
-            percentages={users?.averageInteractions?.growth}
-          />
-        </WidgetTile>
-      </Widgets>
+          <WidgetTile
+            className={styles.widget}
+            onClick={() => history.push(routes.usersNumberInteractionsPerDao)}
+            active={location.pathname === routes.usersNumberInteractionsPerDao}
+          >
+            <WidgetInfo
+              title="Average number of Interactions per DAO"
+              number={users?.averageInteractions?.count}
+              percentages={users?.averageInteractions?.growth}
+            />
+          </WidgetTile>
+        </Widgets>
 
-      <div className={styles.mainContent}>
-        <Switch>
-          <Route exact path={ROUTES.users} component={NumberUsers} />
-          <Route exact path={ROUTES.usersOfDao} component={NumberUsersOfDao} />
-          <Route
-            exact
-            path={ROUTES.usersPerDao}
-            component={NumberUsersPerDao}
-          />
-          <Route
-            exact
-            path={ROUTES.usersNumberInteractions}
-            component={NumberInteractions}
-          />
-          <Route
-            exact
-            path={ROUTES.usersNumberInteractionsPerDao}
-            component={NumberInteractionsPerDao}
-          />
-        </Switch>
-      </div>
-    </Page>
+        <div className={styles.mainContent}>
+          <Switch>
+            <Route exact path={ROUTES.users} component={NumberUsers} />
+            <Route
+              exact
+              path={ROUTES.usersOfDao}
+              component={NumberUsersOfDao}
+            />
+            <Route
+              exact
+              path={ROUTES.usersPerDao}
+              component={NumberUsersPerDao}
+            />
+            <Route
+              exact
+              path={ROUTES.usersNumberInteractions}
+              component={NumberInteractions}
+            />
+            <Route
+              exact
+              path={ROUTES.usersNumberInteractionsPerDao}
+              component={NumberInteractionsPerDao}
+            />
+          </Switch>
+        </div>
+      </Page>
+    </>
   );
 };

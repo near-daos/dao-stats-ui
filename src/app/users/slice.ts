@@ -7,6 +7,8 @@ import {
   isFulfilled,
 } from '@reduxjs/toolkit';
 import sortBy from 'lodash/sortBy';
+import { buildMetrics } from '../../utils';
+
 import { RequestStatus } from '../../store/types';
 import { usersState } from './types';
 import {
@@ -184,7 +186,9 @@ export const usersSlice = createSlice({
     });
 
     builder.addCase(getUsersHistory.fulfilled, (state, { payload }) => {
-      state.history = payload;
+      state.history = {
+        metrics: buildMetrics(payload.metrics),
+      };
     });
 
     builder.addCase(getUsersDao.fulfilled, (state, { payload }) => {
@@ -192,7 +196,9 @@ export const usersSlice = createSlice({
     });
 
     builder.addCase(getUsersDaoHistory.fulfilled, (state, { payload }) => {
-      state.daoHistory = payload;
+      state.daoHistory = {
+        metrics: buildMetrics(payload.metrics),
+      };
     });
 
     builder.addCase(getUsersLeaderboard.fulfilled, (state, { payload }) => {
@@ -202,7 +208,9 @@ export const usersSlice = createSlice({
     builder.addCase(
       getUsersInteractionsHistory.fulfilled,
       (state, { payload }) => {
-        state.usersInteractions = payload;
+        state.usersInteractions = {
+          metrics: buildMetrics(payload.metrics),
+        };
       },
     );
 
@@ -216,14 +224,18 @@ export const usersSlice = createSlice({
     builder.addCase(
       getUsersAveragePerDaoHistory.fulfilled,
       (state, { payload }) => {
-        state.usersAveragePerDaoHistory = payload;
+        state.usersAveragePerDaoHistory = {
+          metrics: buildMetrics(payload.metrics),
+        };
       },
     );
 
     builder.addCase(
       getUsersInteractionsPerDaoHistory.fulfilled,
       (state, { payload }) => {
-        state.usersInteractionsPerDaoHistory = payload;
+        state.usersInteractionsPerDaoHistory = {
+          metrics: buildMetrics(payload.metrics),
+        };
       },
     );
 
@@ -231,7 +243,7 @@ export const usersSlice = createSlice({
       getUsersMembersOfDaoHistory.fulfilled,
       (state, { payload }) => {
         state.usersMembersOfDaoHistory = {
-          metrics: sortBy(payload.metrics, 'timestamp'),
+          metrics: buildMetrics(sortBy(payload.metrics, 'timestamp')),
         };
       },
     );
