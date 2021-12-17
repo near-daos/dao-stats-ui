@@ -41,7 +41,7 @@ export const Flow: FC = () => {
   }, [contract, dispatch, flow]);
 
   return (
-    <Page title="Flow">
+    <Page>
       <div className={styles.widgets}>
         <WidgetTile
           className={styles.widget}

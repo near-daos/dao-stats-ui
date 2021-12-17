@@ -1,5 +1,5 @@
-@use '../../styles/functions';
-@import '../../styles/typography';
+@use 'src/styles/functions';
+@import 'src/styles/typography';
 
 .root {
   @extend %title-3;

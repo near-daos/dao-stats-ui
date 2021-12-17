@@ -28,7 +28,6 @@
     margin: 0 functions.calc-rem(12) functions.calc-rem(12) 0;
   }
 
-
   &:last-child {
     @include media.desktop {
       margin-bottom: 0;
@@ -86,9 +85,13 @@
   height: 100%;
 
   padding: functions.calc-rem(10) functions.calc-rem(12) functions.calc-rem(10)
-  functions.calc-rem(12);
+    functions.calc-rem(12);
   @include media.desktop {
-    padding: functions.calc-rem(10) functions.calc-rem(30) functions.calc-rem(10)
-    functions.calc-rem(20);
+    padding: functions.calc-rem(10) functions.calc-rem(30)
+      functions.calc-rem(10) functions.calc-rem(20);
   }
+}
+
+.breadcrumbs {
+  margin: functions.calc-rem(16) 0 functions.calc-rem(10);
 }

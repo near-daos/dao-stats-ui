@@ -1,14 +1,13 @@
 import { createSelector } from '@reduxjs/toolkit';
+import { RootState } from 'src/store/root-reducer';
 
-import { generalSlice } from './slice';
-import { RootState } from '../../store/root-reducer';
+import {
+  generalDaoAdapter,
+  generalDaoGroupsAdapter,
+  generalSlice,
+} from './slice';
 
 const getState = (state: RootState) => state[generalSlice.name];
-
-export const selectLoading = createSelector(
-  (state: RootState) => getState(state).loading,
-  (data) => data,
-);
 
 export const selectGeneral = createSelector(
   (state: RootState) => getState(state).general,
@@ -44,3 +43,21 @@ export const selectGeneralAverageGroups = createSelector(
   (state: RootState) => getState(state).averageGroups,
   (data) => data,
 );
+
+const {
+  selectById: selectGeneralDaoGroupsItem,
+} = generalDaoGroupsAdapter.getSelectors(
+  (state: RootState) => state[generalSlice.name].generalDaoGroups,
+);
+
+export const selectGeneralDaoGroupsById = (id: string | undefined) => (
+  state: RootState,
+) => (id ? selectGeneralDaoGroupsItem(state, id) : null);
+
+const { selectById: selectGeneralDaoItem } = generalDaoAdapter.getSelectors(
+  (state: RootState) => state[generalSlice.name].generalDao,
+);
+
+export const selectGeneralDaoById = (id: string | undefined) => (
+  state: RootState,
+) => (id ? selectGeneralDaoItem(state, id) : null);
