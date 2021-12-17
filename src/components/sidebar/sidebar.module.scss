@@ -44,6 +44,14 @@
   transform: translate(0, 0);
 }
 
+.hideOnDesktopMainPage {
+  display: flex;
+
+  @include media.desktop {
+    display: none;
+  }
+}
+
 .navInfo {
   margin-top: functions.calc-rem(108);
 
@@ -70,5 +78,5 @@
   left: 0;
   z-index: 2;
 
-  background: rgba(0,0,0,0.7);
+  background: rgba(0, 0, 0, 0.7);
 }

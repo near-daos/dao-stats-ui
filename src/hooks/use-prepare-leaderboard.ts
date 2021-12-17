@@ -53,6 +53,7 @@ export const usePrepareLeaderboard = ({
     if (type === 'single') {
       return leaderboard.map((leaderboardItem, index) => ({
         id: index,
+        dao: leaderboardItem.dao,
         titleCell: prepareTitle(leaderboardItem.dao),
         line: {
           totalMetrics: leaderboardItem?.activity,
@@ -64,6 +65,7 @@ export const usePrepareLeaderboard = ({
     if (type === 'voteRate') {
       return leaderboard.map((leaderboardItem, index) => ({
         id: index,
+        dao: leaderboardItem.dao,
         titleCell: prepareTitle(leaderboardItem.dao),
         voteRate: {
           voteRate: leaderboardItem?.voteRate,
@@ -76,6 +78,7 @@ export const usePrepareLeaderboard = ({
     if (type === 'stacked') {
       return leaderboard.map((leaderboardItem, index) => ({
         id: index,
+        dao: leaderboardItem.dao,
         titleCell: prepareTitle(leaderboardItem.dao),
         proposals: prepareProposalsForChart(leaderboardItem?.proposalsByType),
       }));

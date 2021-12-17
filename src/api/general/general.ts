@@ -8,6 +8,7 @@ import {
   DaoParams,
   HistoryParams,
   Leaderboard,
+  DaoHistoryParams,
 } from '../types';
 
 export class GeneralService extends HttpService {
@@ -57,6 +58,14 @@ export class GeneralService extends HttpService {
     const query = queryString.stringify({ from: params.from, to: params.to });
 
     return this.get(`${params.contract}/general/daos?${query}`);
+  }
+
+  async getGeneralDaoGroups(
+    params: DaoHistoryParams,
+  ): Promise<AxiosResponse<Metrics>> {
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(`${params.contract}/general/${params.dao}/groups?${query}`);
   }
 }
 

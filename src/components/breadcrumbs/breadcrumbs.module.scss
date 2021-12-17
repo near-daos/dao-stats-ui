@@ -1,0 +1,13 @@
+@use 'src/styles/typography';
+@use 'src/styles/functions';
+
+.breadcrumbs {
+  @include typography.title-1;
+  margin: 0 0 functions.calc-rem(16);
+}
+
+.link {
+  margin-right: functions.calc-rem(12);
+
+  text-decoration: none;
+}

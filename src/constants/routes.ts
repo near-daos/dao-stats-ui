@@ -3,6 +3,7 @@ export const ROUTES = {
   uiKit: '/ui-kit',
   page404: '/404',
   generalInfo: '/:contract/general-info',
+  generalInfoDao: '/:contract/general-info/:dao',
   generalInfoActiveDao: '/:contract/general-info/dao-active',
   generalInfoGroups: '/:contract/general-info/groups',
   generalInfoAverageGroups: '/:contract/general-info/average-groups',
@@ -31,4 +32,3 @@ export const SIDEBAR_FORBIDDEN_ROUTES = [
   ROUTES.page404,
   ROUTES.uiKit,
 ];
-export const FOOTER_FORBIDDEN_ROUTES = [ROUTES.index];
