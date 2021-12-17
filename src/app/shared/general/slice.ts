@@ -2,26 +2,35 @@
 import {
   createSlice,
   createAsyncThunk,
-  isPending,
   isRejected,
   isFulfilled,
+  createEntityAdapter,
 } from '@reduxjs/toolkit';
 import sortBy from 'lodash/sortBy';
-import { generalService, HistoryParams, Params, DaoParams } from 'src/api';
-import { RequestStatus } from 'src/store/types';
+import {
+  generalService,
+  HistoryParams,
+  Params,
+  DaoParams,
+  DaoHistoryParams,
+} from 'src/api';
+import { buildMetrics } from 'src/utils';
 
-import { generalState } from './types';
+import { generalState, MetricsEntity, GeneralDaoEntity } from './types';
+
+export const generalDaoGroupsAdapter = createEntityAdapter<MetricsEntity>();
+export const generalDaoAdapter = createEntityAdapter<GeneralDaoEntity>();
 
 const initialState: generalState = {
   general: null,
-  dao: null,
   generalDaos: null,
   generalActive: null,
   generalActiveLeaderboard: null,
   generalGroups: null,
   generalGroupsLeaderboard: null,
   averageGroups: null,
-  loading: RequestStatus.NOT_ASKED,
+  generalDao: generalDaoAdapter.getInitialState(),
+  generalDaoGroups: generalDaoGroupsAdapter.getInitialState(),
   error: null,
 };
 
@@ -39,7 +48,7 @@ export const getGeneralDao = createAsyncThunk(
   async (params: DaoParams) => {
     const response = await generalService.getGeneralDao(params);
 
-    return response.data;
+    return { id: params.dao, ...response.data };
   },
 );
 
@@ -97,15 +106,13 @@ export const getGeneralAverageGroups = createAsyncThunk(
   },
 );
 
-const isPendingAction = isPending(
-  getGeneral,
-  getGeneralActive,
-  getGeneralActiveLeaderboard,
-  getGeneralDao,
-  getGeneralDaos,
-  getGeneralGroups,
-  getGeneralGroupsLeaderboard,
-  getGeneralAverageGroups,
+export const getGeneralDaoGroups = createAsyncThunk(
+  'general/getGeneralDaoGroups',
+  async (params: DaoHistoryParams) => {
+    const response = await generalService.getGeneralDaoGroups(params);
+
+    return { id: params.dao, metrics: response.data.metrics };
+  },
 );
 const isRejectedAction = isRejected(
   getGeneral,
@@ -116,6 +123,7 @@ const isRejectedAction = isRejected(
   getGeneralGroups,
   getGeneralGroupsLeaderboard,
   getGeneralAverageGroups,
+  getGeneralDaoGroups,
 );
 const isFulfilledAction = isFulfilled(
   getGeneral,
@@ -126,6 +134,7 @@ const isFulfilledAction = isFulfilled(
   getGeneralGroups,
   getGeneralGroupsLeaderboard,
   getGeneralAverageGroups,
+  getGeneralDaoGroups,
 );
 
 export const generalSlice = createSlice({
@@ -138,15 +147,15 @@ export const generalSlice = createSlice({
     });
 
     builder.addCase(getGeneralDao.fulfilled, (state, { payload }) => {
-      state.dao = payload;
+      generalDaoAdapter.upsertOne(state.generalDao, payload);
     });
 
     builder.addCase(getGeneralDaos.fulfilled, (state, { payload }) => {
-      state.generalDaos = payload;
+      state.generalDaos = { metrics: buildMetrics(payload.metrics) };
     });
 
     builder.addCase(getGeneralActive.fulfilled, (state, { payload }) => {
-      state.generalActive = payload;
+      state.generalActive = { metrics: buildMetrics(payload.metrics) };
     });
 
     builder.addCase(
@@ -158,7 +167,7 @@ export const generalSlice = createSlice({
 
     builder.addCase(getGeneralGroups.fulfilled, (state, { payload }) => {
       state.generalGroups = {
-        metrics: sortBy(payload.metrics, ['timestamp']),
+        metrics: buildMetrics(sortBy(payload.metrics, ['timestamp'])),
       };
     });
 
@@ -170,20 +179,21 @@ export const generalSlice = createSlice({
     );
 
     builder.addCase(getGeneralAverageGroups.fulfilled, (state, { payload }) => {
-      state.averageGroups = payload;
+      state.averageGroups = { metrics: buildMetrics(payload.metrics) };
+    });
+
+    builder.addCase(getGeneralDaoGroups.fulfilled, (state, { payload }) => {
+      generalDaoGroupsAdapter.upsertOne(state.generalDaoGroups, {
+        id: payload.id,
+        metrics: buildMetrics(payload.metrics),
+      });
     });
 
     builder.addMatcher(isRejectedAction, (state, { error }) => {
-      state.loading = RequestStatus.FAILED;
       state.error = error.message;
     });
 
-    builder.addMatcher(isPendingAction, (state) => {
-      state.loading = RequestStatus.PENDING;
-    });
-
     builder.addMatcher(isFulfilledAction, (state) => {
-      state.loading = RequestStatus.SUCCESS;
       state.error = null;
     });
   },

@@ -1,7 +1,7 @@
-@use '../../styles/functions';
-@use '../../styles/media';
-@import '../../styles/typography';
-@import '../../styles/helpers';
+@use 'src/styles/functions';
+@use 'src/styles/media';
+@import 'src/styles/typography';
+@import 'src/styles/helpers';
 
 .root {
   width: 100%;
@@ -11,7 +11,7 @@
   display: flex;
 
   flex-direction: column-reverse;
-  flex-flow: row nowrap;
+  flex-wrap: nowrap;
   justify-content: flex-start;
   align-items: center;
 
@@ -125,7 +125,6 @@
   color: var(--color-grey-600);
 
   transition: color ease-in-out 300ms;
-
 }
 
 .inputControl {
@@ -170,14 +169,13 @@
   justify-content: center;
   align-items: center;
 
-  text-decoration: none;
-  
   color: var(--color-grey-300);
   background: transparent;
 
   border-radius: functions.calc-rem(4);
 
   text-align: center;
+  text-decoration: none;
 
   transition: color ease-in-out 300ms, background ease-in-out 300ms;
 

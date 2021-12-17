@@ -4,7 +4,7 @@ import { Metrics } from 'src/api';
 
 export const useFilterMetrics = (
   period: string,
-  metricsData: Metrics | null,
+  metricsData?: Metrics | null,
 ): Metrics | null =>
   useMemo(
     () =>

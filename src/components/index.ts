@@ -19,3 +19,4 @@ export * from './network-switcher';
 export * from './loading-container';
 export * from './widgets';
 export * from './dropdown';
+export * from './breadcrumbs';

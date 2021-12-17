@@ -1,72 +1,94 @@
-import React, { FC, useEffect } from 'react';
-import { useLocation, useParams, useHistory, matchPath } from 'react-router';
+import React, { FC, useEffect, useMemo } from 'react';
+import {
+  useLocation,
+  useParams,
+  useHistory,
+  matchPath,
+  Switch,
+  Route,
+  generatePath,
+} from 'react-router';
 
 import { getGeneralDao } from 'src/app/shared/general/slice';
-import { selectGeneralDao } from 'src/app/shared/general/selectors';
-import { Page, WidgetTile, WidgetInfo, Widgets } from 'src/components';
+import { selectGeneralDaoById } from 'src/app/shared/general/selectors';
+import {
+  Page,
+  WidgetTile,
+  WidgetInfo,
+  Widgets,
+  Breadcrumbs,
+} from 'src/components';
 import { useRoutes } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { ROUTES } from 'src/constants';
-
 import styles from 'src/styles/page.module.scss';
+
+import { Groups } from './groups';
 
 export const GeneralInfoDao: FC = () => {
   const location = useLocation();
   const history = useHistory();
+  const { contract, dao } = useParams<{ dao: string; contract: string }>();
   const routes = useRoutes();
-  const { contract } = useParams<{ contract: string }>();
+
   const dispatch = useAppDispatch();
-  const generalDao = useAppSelector(selectGeneralDao);
+  const generalDao = useAppSelector(selectGeneralDaoById(dao));
 
   useEffect(() => {
-    (async () => {
-      try {
-        if (!generalDao) {
-          await dispatch(getGeneralDao({ contract, dao: 'sputnik-dao.near' }));
-        }
-      } catch (error: unknown) {
+    if (!generalDao) {
+      dispatch(getGeneralDao({ contract, dao })).catch((error: unknown) => {
         // eslint-disable-next-line no-console
         console.error(error);
-      }
-    })();
-  }, [generalDao, contract, dispatch]);
+      });
+    }
+  }, [generalDao, contract, dao, dispatch]);
+
+  const breadcrumbs = useMemo(
+    () => [
+      {
+        url: routes.generalInfo,
+        name: 'General Info',
+      },
+      {
+        url: routes.generalInfoDao,
+        name: dao,
+      },
+    ],
+    [dao, routes],
+  );
 
   return (
-    <Page title="General info Dao">
-      <Widgets>
-        <WidgetTile
-          className={styles.widget}
-          active={Boolean(
-            matchPath(location.pathname, {
-              path: ROUTES.generalInfo,
-              exact: true,
-            }),
-          )}
-          onClick={() => history.push(routes.generalInfo)}
-        >
-          <WidgetInfo
-            title="Dao activity"
-            number={generalDao?.dao?.count}
-            percentages={generalDao?.dao?.growth}
-          />
-        </WidgetTile>
-        <WidgetTile
-          className={styles.widget}
-          active={Boolean(
-            matchPath(location.pathname, {
-              path: ROUTES.generalInfo,
-              exact: true,
-            }),
-          )}
-          onClick={() => history.push(routes.generalInfo)}
-        >
-          <WidgetInfo
-            title="Groups"
-            number={generalDao?.groups?.count}
-            percentages={generalDao?.groups?.growth}
-          />
-        </WidgetTile>
-      </Widgets>
-    </Page>
+    <>
+      <Breadcrumbs elements={breadcrumbs} className={styles.breadcrumbs} />
+      <Page>
+        <Widgets>
+          <WidgetTile
+            className={styles.widget}
+            active={Boolean(
+              matchPath(location.pathname, {
+                path: ROUTES.generalInfoDao,
+                exact: true,
+              }),
+            )}
+            onClick={() =>
+              history.push(
+                generatePath(ROUTES.generalInfoDao, { contract, dao }),
+              )
+            }
+          >
+            <WidgetInfo
+              title="Groups"
+              number={generalDao?.groups?.count}
+              percentages={generalDao?.groups?.growth}
+            />
+          </WidgetTile>
+        </Widgets>
+        <div className={styles.mainContent}>
+          <Switch>
+            <Route exact path={ROUTES.generalInfoDao} component={Groups} />
+          </Switch>
+        </div>
+      </Page>
+    </>
   );
 };

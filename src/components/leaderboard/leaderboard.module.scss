@@ -9,11 +9,11 @@
 
   overflow-y: auto;
   @include media.mobile-only {
-    height: functions.calc-rem(290)
+    height: functions.calc-rem(290);
   }
 
   @include media.tablet-portrait {
-    height: functions.calc-rem(290)
+    height: functions.calc-rem(290);
   }
 
   @include media.tablet-landscape {
@@ -78,4 +78,8 @@
   display: flex;
   justify-content: flex-start;
   gap: functions.calc-rem(32);
+}
+
+.pointer {
+  cursor: pointer;
 }
