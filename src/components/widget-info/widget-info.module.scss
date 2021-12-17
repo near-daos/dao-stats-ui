@@ -52,6 +52,20 @@
   align-items: center;
 }
 
+.totalIn {
+  @include heading-2;
+  display: flex;
+  align-items: center;
+  color: var(--color-success-tint);
+}
+
+.totalOut {
+  @include heading-2;
+  display: flex;
+  align-items: center;
+  color: var(--color-error-pure);
+}
+
 .icon {
   width: functions.calc-rem(20);
   height: functions.calc-rem(20);

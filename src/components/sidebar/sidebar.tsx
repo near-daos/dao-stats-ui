@@ -39,7 +39,7 @@ export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
     {
       label: 'Flow',
       value: routes.flow,
-      disabled: true,
+      disabled: false,
     },
     {
       label: 'TVL',
