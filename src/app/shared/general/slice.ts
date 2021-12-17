@@ -14,6 +14,7 @@ import {
   DaoParams,
   DaoHistoryParams,
 } from 'src/api';
+import { buildMetrics } from 'src/utils';
 
 import { generalState, MetricsEntity, GeneralDaoEntity } from './types';
 
@@ -150,11 +151,11 @@ export const generalSlice = createSlice({
     });
 
     builder.addCase(getGeneralDaos.fulfilled, (state, { payload }) => {
-      state.generalDaos = payload;
+      state.generalDaos = { metrics: buildMetrics(payload.metrics) };
     });
 
     builder.addCase(getGeneralActive.fulfilled, (state, { payload }) => {
-      state.generalActive = payload;
+      state.generalActive = { metrics: buildMetrics(payload.metrics) };
     });
 
     builder.addCase(
@@ -166,7 +167,7 @@ export const generalSlice = createSlice({
 
     builder.addCase(getGeneralGroups.fulfilled, (state, { payload }) => {
       state.generalGroups = {
-        metrics: sortBy(payload.metrics, ['timestamp']),
+        metrics: buildMetrics(sortBy(payload.metrics, ['timestamp'])),
       };
     });
 
@@ -178,11 +179,14 @@ export const generalSlice = createSlice({
     );
 
     builder.addCase(getGeneralAverageGroups.fulfilled, (state, { payload }) => {
-      state.averageGroups = payload;
+      state.averageGroups = { metrics: buildMetrics(payload.metrics) };
     });
 
     builder.addCase(getGeneralDaoGroups.fulfilled, (state, { payload }) => {
-      generalDaoGroupsAdapter.upsertOne(state.generalDaoGroups, payload);
+      generalDaoGroupsAdapter.upsertOne(state.generalDaoGroups, {
+        id: payload.id,
+        metrics: buildMetrics(payload.metrics),
+      });
     });
 
     builder.addMatcher(isRejectedAction, (state, { error }) => {

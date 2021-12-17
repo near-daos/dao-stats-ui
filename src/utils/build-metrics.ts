@@ -12,5 +12,7 @@ export const buildMetrics = (metrics: MetricItem[]) => {
   return eachDayOfInterval({
     start: oneYearFromCurrentDate,
     end: new Date((metrics[0] || { timestamp: currentDay }).timestamp),
-  }).map((date) => ({ timestamp: date.getTime(), count: 0 }));
+  })
+    .map((date) => ({ timestamp: date.getTime(), count: 0 }))
+    .concat(metrics);
 };
