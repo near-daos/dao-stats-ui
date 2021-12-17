@@ -7,6 +7,8 @@ import { NavigationList } from '../navigation-list';
 import { useForbiddenRoutes, useRoutes } from '../../hooks';
 
 import styles from './sidebar.module.scss';
+import { useAppSelector } from '../../store';
+import { selectorSelectedContract } from '../../app/shared';
 
 export type SidebarProps = {
   isOpen: boolean;
@@ -14,6 +16,7 @@ export type SidebarProps = {
 };
 
 export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
+  const selectedContract = useAppSelector(selectorSelectedContract);
   const history = useHistory();
   const location = useLocation();
   const routes = useRoutes();
@@ -64,8 +67,8 @@ export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
       >
         <NavigationInfo
           className={styles.info}
-          title="Sputnik DAO"
-          description="Average values for all DAOs"
+          title={`${(selectedContract?.contractId || '').toUpperCase()} DAO`}
+          description={selectedContract?.contractName || ''}
           direction="left"
           linePosition="start"
         />
