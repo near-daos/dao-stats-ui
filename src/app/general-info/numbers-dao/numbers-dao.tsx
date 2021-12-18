@@ -22,7 +22,7 @@ export const NumbersDao: FC = () => {
 
   useEffect(() => {
     if (
-      (!daos || isNotAsked(getGeneralDaosLoading)) &&
+      isNotAsked(getGeneralDaosLoading) &&
       !isPending(getGeneralDaosLoading)
     ) {
       dispatch(getGeneralDaos({ contract })).catch((error: unknown) =>
@@ -30,7 +30,7 @@ export const NumbersDao: FC = () => {
         console.error(error),
       );
     }
-  }, [daos, contract, dispatch, getGeneralDaosLoading]);
+  }, [contract, dispatch, getGeneralDaosLoading]);
 
   const daosData = useFilterMetrics(period, daos);
 

@@ -1,10 +1,14 @@
 import React, { FC, useEffect, useState } from 'react';
-import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useParams } from 'react-router';
+
+import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
-import { useAppDispatch, useAppSelector } from '../../../store';
-import { selectActionLoading } from '../../../store/loading';
-import { isSuccess, isPending, isNotAsked } from '../../../utils';
+import { useAppDispatch, useAppSelector } from 'src/store';
+import { selectActionLoading } from 'src/store/loading';
+import { isSuccess, isPending, isNotAsked } from 'src/utils';
+
+import styles from 'src/styles/page.module.scss';
+
 import {
   getUsersMembersOfDaoHistory,
   getUsersMembersOfDaoLeaderboard,
@@ -13,8 +17,6 @@ import {
   selectUsersMembersOfDaoHistory,
   selectUsersMembersOfDaoLeaderboard,
 } from '../selectors';
-
-import styles from '../users.module.scss';
 
 const tabOptions = [
   {
@@ -45,38 +47,34 @@ export const NumberUsersOfDao: FC = () => {
   };
 
   useEffect(() => {
-    (async () => {
-      try {
-        if (
-          (!users || isNotAsked(getUsersNumberLoading)) &&
-          !isPending(getUsersNumberLoading)
-        ) {
-          await dispatch(
-            getUsersMembersOfDaoHistory({
-              contract,
-            }),
-          );
-        }
-
-        if (
-          (!usersLeaderboard || isNotAsked(getUsersNumberLeaderboardLoading)) &&
-          !isPending(getUsersNumberLeaderboardLoading)
-        ) {
-          await dispatch(
-            getUsersMembersOfDaoLeaderboard({
-              contract,
-            }),
-          );
-        }
-      } catch (error: unknown) {
+    if (
+      isNotAsked(getUsersNumberLoading) &&
+      !isPending(getUsersNumberLoading)
+    ) {
+      dispatch(
+        getUsersMembersOfDaoHistory({
+          contract,
+        }),
+      ).catch((error: unknown) => {
         // eslint-disable-next-line no-console
         console.error(error);
-      }
-    })();
+      });
+    }
+
+    if (
+      isNotAsked(getUsersNumberLeaderboardLoading) &&
+      !isPending(getUsersNumberLeaderboardLoading)
+    ) {
+      dispatch(
+        getUsersMembersOfDaoLeaderboard({
+          contract,
+        }),
+      ).catch((error: unknown) => {
+        // eslint-disable-next-line no-console
+        console.error(error);
+      });
+    }
   }, [
-    users,
-    usersLeaderboard,
-    period,
     contract,
     dispatch,
     getUsersNumberLoading,

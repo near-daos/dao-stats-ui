@@ -1,8 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
-import { useParams } from 'react-router';
+import { selectActionLoading } from 'src/store/loading';
+import { isNotAsked, isPending, isSuccess } from 'src/utils';
+
+import styles from 'src/styles/page.module.scss';
 
 import {
   selectGovernanceVoteRate,
@@ -12,10 +17,6 @@ import {
   getGovernanceVoteRate,
   getGovernanceVoteRateLeaderboard,
 } from '../slice';
-import { selectActionLoading } from '../../../store/loading';
-import { isNotAsked, isPending, isSuccess } from '../../../utils';
-
-import styles from '../governance.module.scss';
 
 const tabOptions = [
   {
@@ -45,7 +46,7 @@ export const VoteRate: FC = () => {
 
   useEffect(() => {
     if (
-      (!governanceVoteRate || isNotAsked(governanceVoteRateLoading)) &&
+      isNotAsked(governanceVoteRateLoading) &&
       !isPending(governanceVoteRateLoading)
     ) {
       dispatch(
@@ -57,8 +58,7 @@ export const VoteRate: FC = () => {
     }
 
     if (
-      (!governanceVoteRateLeaderboard ||
-        isNotAsked(governanceVoteRateLeaderboardLoading)) &&
+      isNotAsked(governanceVoteRateLeaderboardLoading) &&
       !isPending(governanceVoteRateLeaderboardLoading)
     ) {
       dispatch(
@@ -69,12 +69,9 @@ export const VoteRate: FC = () => {
       ).catch((error: unknown) => console.error(error));
     }
   }, [
-    period,
     contract,
     dispatch,
-    governanceVoteRate,
     governanceVoteRateLoading,
-    governanceVoteRateLeaderboard,
     governanceVoteRateLeaderboardLoading,
   ]);
 

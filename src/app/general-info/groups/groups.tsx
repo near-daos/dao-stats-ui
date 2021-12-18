@@ -46,38 +46,34 @@ export const Groups: FC = () => {
   };
 
   useEffect(() => {
-    (async () => {
-      try {
-        if (
-          (!groups || isNotAsked(getGeneralGroupsLoading)) &&
-          !isPending(getGeneralGroupsLoading)
-        ) {
-          await dispatch(
-            getGeneralGroups({
-              contract,
-            }),
-          );
-        }
-
-        if (
-          (!groupsLeaderboard || isNotAsked(getGeneralGroupsLoading)) &&
-          !isPending(getGeneralGroupsLeaderboardLoading)
-        ) {
-          await dispatch(
-            getGeneralGroupsLeaderboard({
-              contract,
-            }),
-          );
-        }
-      } catch (error: unknown) {
+    if (
+      isNotAsked(getGeneralGroupsLoading) &&
+      !isPending(getGeneralGroupsLoading)
+    ) {
+      dispatch(
+        getGeneralGroups({
+          contract,
+        }),
+      ).catch((error: unknown) => {
         // eslint-disable-next-line no-console
         console.error(error);
-      }
-    })();
+      });
+    }
+
+    if (
+      isNotAsked(getGeneralGroupsLoading) &&
+      !isPending(getGeneralGroupsLeaderboardLoading)
+    ) {
+      dispatch(
+        getGeneralGroupsLeaderboard({
+          contract,
+        }),
+      ).catch((error: unknown) => {
+        // eslint-disable-next-line no-console
+        console.error(error);
+      });
+    }
   }, [
-    groups,
-    groupsLeaderboard,
-    period,
     contract,
     dispatch,
     getGeneralGroupsLoading,

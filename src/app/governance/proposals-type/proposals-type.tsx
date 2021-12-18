@@ -1,9 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FC, useEffect, useState, useMemo } from 'react';
+import merge from 'lodash/merge';
 import { useParams } from 'react-router';
+
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import merge from 'lodash/merge';
+import { MetricItem } from 'src/api';
+import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
+import { isNotAsked, isPending, isSuccess } from 'src/utils';
+import { selectActionLoading } from 'src/store/loading';
+
+import styles from 'src/styles/page.module.scss';
 
 import {
   selectGovernanceProposalsTypes,
@@ -13,13 +20,6 @@ import {
   getGovernanceProposalsTypes,
   getGovernanceProposalsTypesLeaderboard,
 } from '../slice';
-
-import { useFilterMetrics, usePrepareLeaderboard } from '../../../hooks';
-import { isNotAsked, isPending, isSuccess } from '../../../utils';
-import { selectActionLoading } from '../../../store/loading';
-
-import styles from '../governance.module.scss';
-import { MetricItem } from '../../../api';
 
 const tabOptions = [
   {

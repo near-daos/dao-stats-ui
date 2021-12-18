@@ -2,22 +2,20 @@
 import {
   createSlice,
   createAsyncThunk,
-  isPending,
   isRejected,
   isFulfilled,
 } from '@reduxjs/toolkit';
 import sortBy from 'lodash/sortBy';
 import { buildMetrics } from 'src/utils';
-
-import { RequestStatus } from '../../store/types';
-import { governanceState } from './types';
 import {
   governanceService,
   HistoryParams,
   Params,
   DaoParams,
   DaoHistoryParams,
-} from '../../api';
+} from 'src/api';
+
+import { governanceState } from './types';
 
 const initialState: governanceState = {
   governance: null,
@@ -31,7 +29,6 @@ const initialState: governanceState = {
   governanceDaoProposals: null,
   governanceDaoProposalsTypes: null,
   governanceDaoVoteRate: null,
-  loading: RequestStatus.NOT_ASKED,
   error: null,
 };
 
@@ -144,18 +141,6 @@ export const getGovernanceDaoVoteRate = createAsyncThunk(
   },
 );
 
-const isPendingAction = isPending(
-  getGovernance,
-  getGovernanceProposals,
-  getGovernanceProposalsLeaderboard,
-  getGovernanceProposalsTypes,
-  getGovernanceVoteRate,
-  getGovernanceVoteRateLeaderboard,
-  getGovernanceDao,
-  getGovernanceDaoProposals,
-  getGovernanceDaoProposalsTypes,
-  getGovernanceDaoVoteRate,
-);
 const isRejectedAction = isRejected(
   getGovernance,
   getGovernanceProposals,
@@ -270,16 +255,10 @@ export const governanceSlice = createSlice({
     );
 
     builder.addMatcher(isRejectedAction, (state, { error }) => {
-      state.loading = RequestStatus.FAILED;
       state.error = error.message;
     });
 
-    builder.addMatcher(isPendingAction, (state) => {
-      state.loading = RequestStatus.PENDING;
-    });
-
     builder.addMatcher(isFulfilledAction, (state) => {
-      state.loading = RequestStatus.SUCCESS;
       state.error = null;
     });
   },

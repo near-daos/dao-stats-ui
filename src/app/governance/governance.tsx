@@ -18,6 +18,7 @@ import {
   Widgets,
   Breadcrumbs,
 } from 'src/components';
+import styles from 'src/styles/page.module.scss';
 
 import { NumberOfProposals } from './number-of-proposals';
 import { ProposalsType } from './proposals-type';
@@ -25,8 +26,6 @@ import { VoteRate } from './vote-rate';
 
 import { selectGovernance } from './selectors';
 import { getGovernance } from './slice';
-
-import styles from './governance.module.scss';
 
 export const Governance: FC = () => {
   const location = useLocation();

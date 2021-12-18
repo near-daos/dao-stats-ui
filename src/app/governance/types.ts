@@ -1,5 +1,4 @@
-import { RequestStatus } from '../../store/types';
-import { Metrics, Governance, Leaderboard, ProposalMetrics } from '../../api';
+import { Metrics, Governance, Leaderboard, ProposalMetrics } from 'src/api';
 
 export type governanceState = {
   governance: Governance | null;
@@ -13,6 +12,5 @@ export type governanceState = {
   governanceDaoProposals: Metrics | null;
   governanceDaoProposalsTypes: ProposalMetrics | null;
   governanceDaoVoteRate: Metrics | null;
-  loading: RequestStatus;
   error: unknown;
 };

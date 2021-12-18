@@ -17,6 +17,7 @@ import {
   Widgets,
   Breadcrumbs,
 } from 'src/components';
+import styles from 'src/styles/page.module.scss';
 
 import { getUsers } from './slice';
 import { selectorUsers } from './selectors';
@@ -28,8 +29,6 @@ import { NumberUsers } from './number-users';
 import { NumberUsersOfDao } from './number-users-of-dao';
 import { NumberUsersPerDao } from './number-users-per-dao';
 import { NumberInteractionsPerDao } from './number-interactions-per-dao';
-
-import styles from './users.module.scss';
 
 export const Users: FC = () => {
   const location = useLocation();
