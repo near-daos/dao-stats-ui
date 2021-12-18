@@ -43,7 +43,7 @@ export const ActiveDao: FC = () => {
 
   useEffect(() => {
     if (
-      (!active || isNotAsked(getGeneralActiveLoading)) &&
+      isNotAsked(getGeneralActiveLoading) &&
       !isPending(getGeneralActiveLoading)
     ) {
       dispatch(
@@ -55,7 +55,7 @@ export const ActiveDao: FC = () => {
     }
 
     if (
-      (!activeLeaderboard || isNotAsked(getGeneralActiveLeaderboardLoading)) &&
+      isNotAsked(getGeneralActiveLeaderboardLoading) &&
       !isPending(getGeneralActiveLeaderboardLoading)
     ) {
       dispatch(
@@ -68,9 +68,7 @@ export const ActiveDao: FC = () => {
   }, [
     dispatch,
     contract,
-    active,
     getGeneralActiveLoading,
-    activeLeaderboard,
     getGeneralActiveLeaderboardLoading,
   ]);
 

@@ -2,15 +2,15 @@ import React, { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
 import { ChartLine, LoadingContainer } from 'src/components';
-import { isNotAsked, isSuccess } from 'src/utils';
-import { isPending } from '@reduxjs/toolkit';
+import { isNotAsked, isSuccess, isPending } from 'src/utils';
 import { useFilterMetrics } from 'src/hooks';
-import { getUsersInteractionsPerDaoHistory } from '../slice';
-import { useAppDispatch, useAppSelector } from '../../../store';
-import { selectActionLoading } from '../../../store/loading';
-import { selectUsersInteractionsPerDaoHistory } from '../selectors';
+import { useAppDispatch, useAppSelector } from 'src/store';
+import { selectActionLoading } from 'src/store/loading';
 
-import styles from '../users.module.scss';
+import styles from 'src/styles/page.module.scss';
+
+import { getUsersInteractionsPerDaoHistory } from '../slice';
+import { selectUsersInteractionsPerDaoHistory } from '../selectors';
 
 export const NumberInteractionsPerDao: FC = () => {
   const [period, setPeriod] = useState('1y');
@@ -23,30 +23,28 @@ export const NumberInteractionsPerDao: FC = () => {
   );
 
   useEffect(() => {
-    (async () => {
-      if (
-        (!users || isNotAsked(getUsersLoading)) &&
-        !isPending(getUsersLoading)
-      ) {
-        dispatch(
-          getUsersInteractionsPerDaoHistory({
-            contract,
-          }),
-        );
-      }
-    })();
-  }, [users, getUsersLoading, contract, dispatch]);
+    if (isNotAsked(getUsersLoading) && !isPending(getUsersLoading)) {
+      dispatch(
+        getUsersInteractionsPerDaoHistory({
+          contract,
+        }),
+      ).catch((error: unknown) => {
+        // eslint-disable-next-line no-console
+        console.error(error);
+      });
+    }
+  }, [getUsersLoading, contract, dispatch]);
 
-  const daosData = useFilterMetrics(period, users);
+  const usersData = useFilterMetrics(period, users);
 
   return (
     <>
       <LoadingContainer hide={isSuccess(getUsersLoading)} />
 
       <div className={styles.metricsContainer}>
-        {daosData ? (
+        {usersData ? (
           <ChartLine
-            data={daosData}
+            data={usersData}
             period={period}
             setPeriod={setPeriod}
             lines={[

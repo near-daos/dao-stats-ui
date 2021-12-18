@@ -21,7 +21,7 @@ export const AverageGroups: FC = () => {
 
   useEffect(() => {
     if (
-      (!averageGroups || isNotAsked(generalAverageGroupsLoading)) &&
+      isNotAsked(generalAverageGroupsLoading) &&
       !isPending(generalAverageGroupsLoading)
     ) {
       dispatch(
@@ -33,7 +33,7 @@ export const AverageGroups: FC = () => {
         console.error(error);
       });
     }
-  }, [period, contract, dispatch, averageGroups, generalAverageGroupsLoading]);
+  }, [contract, dispatch, generalAverageGroupsLoading]);
 
   const averageGroupsData = useFilterMetrics(period, averageGroups);
 

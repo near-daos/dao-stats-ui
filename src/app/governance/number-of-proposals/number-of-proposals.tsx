@@ -3,6 +3,10 @@ import { ChartLine, Tabs, Leaderboard, LoadingContainer } from 'src/components';
 import { useParams } from 'react-router';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
+import { isNotAsked, isPending, isSuccess } from 'src/utils';
+import { selectActionLoading } from 'src/store/loading';
+
+import styles from 'src/styles/page.module.scss';
 
 import {
   selectGovernanceProposals,
@@ -12,10 +16,6 @@ import {
   getGovernanceProposals,
   getGovernanceProposalsLeaderboard,
 } from '../slice';
-import { isNotAsked, isPending, isSuccess } from '../../../utils';
-import { selectActionLoading } from '../../../store/loading';
-
-import styles from '../governance.module.scss';
 
 const tabOptions = [
   {
@@ -38,14 +38,14 @@ export const NumberOfProposals: FC = () => {
   const governanceProposalsLeaderboardLoading = useAppSelector(
     selectActionLoading(getGovernanceProposalsLeaderboard.typePrefix),
   );
-  const GovernanceProposalsLoading = useAppSelector(
+  const governanceProposalsLoading = useAppSelector(
     selectActionLoading(getGovernanceProposals.typePrefix),
   );
 
   useEffect(() => {
     if (
-      (!governanceProposals || isNotAsked(GovernanceProposalsLoading)) &&
-      !isPending(GovernanceProposalsLoading)
+      isNotAsked(governanceProposalsLoading) &&
+      !isPending(governanceProposalsLoading)
     ) {
       dispatch(
         getGovernanceProposals({
@@ -56,8 +56,7 @@ export const NumberOfProposals: FC = () => {
     }
 
     if (
-      (!governanceProposalsLeaderboard ||
-        isNotAsked(governanceProposalsLeaderboardLoading)) &&
+      isNotAsked(governanceProposalsLeaderboardLoading) &&
       !isPending(governanceProposalsLeaderboardLoading)
     ) {
       dispatch(
@@ -68,12 +67,9 @@ export const NumberOfProposals: FC = () => {
       ).catch((error: unknown) => console.error(error));
     }
   }, [
-    period,
     contract,
     dispatch,
-    governanceProposals,
-    GovernanceProposalsLoading,
-    governanceProposalsLeaderboard,
+    governanceProposalsLoading,
     governanceProposalsLeaderboardLoading,
   ]);
 
@@ -92,7 +88,7 @@ export const NumberOfProposals: FC = () => {
     <div className={styles.detailsContainer}>
       <LoadingContainer
         hide={
-          isSuccess(GovernanceProposalsLoading) &&
+          isSuccess(governanceProposalsLoading) &&
           isSuccess(governanceProposalsLeaderboardLoading)
         }
       />

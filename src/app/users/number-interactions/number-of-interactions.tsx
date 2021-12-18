@@ -1,11 +1,14 @@
 import React, { FC, useEffect, useState } from 'react';
-import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useParams } from 'react-router';
+
+import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
-import { getDateFromMow } from 'src/components/charts/helpers';
-import { useAppDispatch, useAppSelector } from '../../../store';
-import { selectActionLoading } from '../../../store/loading';
-import { isSuccess, isPending, isNotAsked } from '../../../utils';
+import { useAppDispatch, useAppSelector } from 'src/store';
+import { selectActionLoading } from 'src/store/loading';
+import { isSuccess, isPending, isNotAsked } from 'src/utils';
+
+import styles from 'src/styles/page.module.scss';
+
 import {
   getUsersInteractionsHistory,
   getUsersInteractionsLeaderboard,
@@ -14,7 +17,6 @@ import {
   selectUsersInteractionHistory,
   selectUsersInteractionLeaderboard,
 } from '../selectors';
-import styles from '../users.module.scss';
 
 const tabOptions = [
   {
@@ -45,39 +47,34 @@ export const NumberInteractions: FC = () => {
   };
 
   useEffect(() => {
-    (async () => {
-      try {
-        if (
-          (!users || isNotAsked(getUsersInteractionsLoading)) &&
-          !isPending(getUsersInteractionsLoading)
-        ) {
-          await dispatch(
-            getUsersInteractionsHistory({
-              contract,
-              from: String(getDateFromMow(period)),
-            }),
-          );
-        }
-
-        if (
-          (!users || isNotAsked(getUsersInteractionsLeaderboardLoading)) &&
-          !isPending(getUsersInteractionsLeaderboardLoading)
-        ) {
-          await dispatch(
-            getUsersInteractionsLeaderboard({
-              contract,
-            }),
-          );
-        }
-      } catch (error: unknown) {
+    if (
+      isNotAsked(getUsersInteractionsLoading) &&
+      !isPending(getUsersInteractionsLoading)
+    ) {
+      dispatch(
+        getUsersInteractionsHistory({
+          contract,
+        }),
+      ).catch((error: unknown) => {
         // eslint-disable-next-line no-console
         console.error(error);
-      }
-    })();
+      });
+    }
+
+    if (
+      isNotAsked(getUsersInteractionsLeaderboardLoading) &&
+      !isPending(getUsersInteractionsLeaderboardLoading)
+    ) {
+      dispatch(
+        getUsersInteractionsLeaderboard({
+          contract,
+        }),
+      ).catch((error: unknown) => {
+        // eslint-disable-next-line no-console
+        console.error(error);
+      });
+    }
   }, [
-    users,
-    usersLeaderboard,
-    period,
     contract,
     dispatch,
     getUsersInteractionsLoading,

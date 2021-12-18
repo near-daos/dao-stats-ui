@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectGeneralDaoGroupsById } from 'src/app/shared/general/selectors';
 import { getGeneralDaoGroups } from 'src/app/shared/general/slice';
 import { selectActionLoading } from 'src/store/loading';
-import { isSuccess, isPending, isNotAsked } from 'src/utils';
+import { isSuccess, isPending } from 'src/utils';
 
 import styles from 'src/styles/page.module.scss';
 
@@ -21,24 +21,17 @@ export const Groups: FC = () => {
   );
 
   useEffect(() => {
-    (async () => {
-      try {
-        if (
-          (!groups || isNotAsked(getGeneralDaoGroupsLoading)) &&
-          !isPending(getGeneralDaoGroupsLoading)
-        ) {
-          await dispatch(
-            getGeneralDaoGroups({
-              contract,
-              dao,
-            }),
-          );
-        }
-      } catch (error: unknown) {
+    if (!groups && !isPending(getGeneralDaoGroupsLoading)) {
+      dispatch(
+        getGeneralDaoGroups({
+          contract,
+          dao,
+        }),
+      ).catch((error: unknown) => {
         // eslint-disable-next-line no-console
         console.error(error);
-      }
-    })();
+      });
+    }
   }, [contract, dao, dispatch, getGeneralDaoGroupsLoading, groups]);
 
   const groupsData = useFilterMetrics(period, groups);
