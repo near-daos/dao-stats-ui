@@ -86,7 +86,12 @@ export const Users: FC = () => {
           <WidgetTile
             className={styles.widget}
             onClick={() => history.push(routes.usersOfDao)}
-            active={location.pathname === routes.usersOfDao}
+            active={Boolean(
+              matchPath(location.pathname, {
+                path: ROUTES.usersOfDao,
+                exact: true,
+              }),
+            )}
           >
             <WidgetInfo
               title="Users that are member of a DAO"
@@ -98,7 +103,12 @@ export const Users: FC = () => {
           <WidgetTile
             className={styles.widget}
             onClick={() => history.push(routes.usersPerDao)}
-            active={location.pathname === routes.usersPerDao}
+            active={Boolean(
+              matchPath(location.pathname, {
+                path: ROUTES.usersPerDao,
+                exact: true,
+              }),
+            )}
           >
             <WidgetInfo
               title="Average number of users per DAO"
@@ -127,7 +137,12 @@ export const Users: FC = () => {
           <WidgetTile
             className={styles.widget}
             onClick={() => history.push(routes.usersNumberInteractionsPerDao)}
-            active={location.pathname === routes.usersNumberInteractionsPerDao}
+            active={Boolean(
+              matchPath(location.pathname, {
+                path: ROUTES.usersNumberInteractionsPerDao,
+                exact: true,
+              }),
+            )}
           >
             <WidgetInfo
               title="Average number of Interactions per DAO"
