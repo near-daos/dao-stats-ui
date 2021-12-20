@@ -14,9 +14,10 @@ import {
   DaoParams,
   DaoHistoryParams,
   usersService,
+  MetricsEntity,
 } from 'src/api';
 
-import { UsersDaoEntity, MetricsEntity, usersState } from './types';
+import { UsersDaoEntity, usersState } from './types';
 
 export const usersDaoAdapter = createEntityAdapter<UsersDaoEntity>();
 export const usersDaoUsersAdapter = createEntityAdapter<MetricsEntity>();

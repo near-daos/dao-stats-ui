@@ -71,3 +71,7 @@ export type MetricItem = {
 export type Metrics = {
   metrics: MetricItem[];
 };
+
+export type MetricsEntity = Metrics & {
+  id: string;
+};

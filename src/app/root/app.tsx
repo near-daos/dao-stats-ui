@@ -20,6 +20,7 @@ import {
   Tvl,
   Tokens,
   GeneralInfoDao,
+  UsersDao,
 } from '..';
 import { Layout, Loading, UserData } from '../../components';
 import { RequestStatus } from '../../store/types';
@@ -87,6 +88,19 @@ export const App: FC = () => (
                   path={ROUTES.usersAverageInteractions}
                   component={Users}
                 />
+
+                <Route exact path={ROUTES.usersDao} component={UsersDao} />
+                <Route
+                  exact
+                  path={ROUTES.usersMembersDao}
+                  component={UsersDao}
+                />
+                <Route
+                  exact
+                  path={ROUTES.usersInteractionsDao}
+                  component={UsersDao}
+                />
+
                 <Route exact path={ROUTES.governance} component={Governance} />
                 <Route
                   exact

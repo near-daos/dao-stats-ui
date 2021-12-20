@@ -13,10 +13,11 @@ import {
   Params,
   DaoParams,
   DaoHistoryParams,
+  MetricsEntity,
 } from 'src/api';
 import { buildMetrics } from 'src/utils';
 
-import { generalState, MetricsEntity, GeneralDaoEntity } from './types';
+import { generalState, GeneralDaoEntity } from './types';
 
 export const generalDaoGroupsAdapter = createEntityAdapter<MetricsEntity>();
 export const generalDaoActivityAdapter = createEntityAdapter<MetricsEntity>();

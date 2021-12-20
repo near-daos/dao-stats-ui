@@ -1,5 +1,5 @@
 import { EntityState } from '@reduxjs/toolkit';
-import { Metrics, Leaderboard, General } from 'src/api';
+import { MetricsEntity, Metrics, Leaderboard, General } from 'src/api';
 
 export type generalState = {
   general: General | null;
@@ -13,10 +13,6 @@ export type generalState = {
   generalDaoGroups: EntityState<MetricsEntity>;
   generalDaoActivity: EntityState<MetricsEntity>;
   error: unknown;
-};
-
-export type MetricsEntity = Metrics & {
-  id: string;
 };
 
 export type GeneralDaoEntity = General & {
