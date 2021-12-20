@@ -1,4 +1,5 @@
 import { Leaderboard, Metrics, Users } from 'src/api';
+import { EntityState } from '@reduxjs/toolkit';
 
 export type usersState = {
   users: Users | null;
@@ -10,9 +11,17 @@ export type usersState = {
   usersInteractions: Metrics | null;
   usersInteractionsLeaderboard: Leaderboard | null;
   usersAverageInteractions: Metrics | null;
-  usersDao: Users | null;
-  usersDaoUsers: Metrics | null;
-  usersDaoMembers: Metrics | null;
-  usersDaoInteractions: Metrics | null;
+  usersDao: EntityState<UsersDaoEntity>;
+  usersDaoUsers: EntityState<MetricsEntity>;
+  usersDaoMembers: EntityState<MetricsEntity>;
+  usersDaoInteractions: EntityState<MetricsEntity>;
   error: unknown;
+};
+
+export type MetricsEntity = Metrics & {
+  id: string;
+};
+
+export type UsersDaoEntity = Users & {
+  id: string;
 };

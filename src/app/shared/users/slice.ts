@@ -4,6 +4,7 @@ import {
   createAsyncThunk,
   isRejected,
   isFulfilled,
+  createEntityAdapter,
 } from '@reduxjs/toolkit';
 import sortBy from 'lodash/sortBy';
 import { buildMetrics } from 'src/utils';
@@ -15,7 +16,12 @@ import {
   usersService,
 } from 'src/api';
 
-import { usersState } from './types';
+import { UsersDaoEntity, MetricsEntity, usersState } from './types';
+
+export const usersDaoAdapter = createEntityAdapter<UsersDaoEntity>();
+export const usersDaoUsersAdapter = createEntityAdapter<MetricsEntity>();
+export const usersDaoMembersAdapter = createEntityAdapter<MetricsEntity>();
+export const usersDaoInteractionsAdapter = createEntityAdapter<MetricsEntity>();
 
 const initialState: usersState = {
   users: null,
@@ -27,10 +33,10 @@ const initialState: usersState = {
   usersInteractions: null,
   usersInteractionsLeaderboard: null,
   usersAverageInteractions: null,
-  usersDao: null,
-  usersDaoUsers: null,
-  usersDaoMembers: null,
-  usersDaoInteractions: null,
+  usersDao: usersDaoAdapter.getInitialState(),
+  usersDaoUsers: usersDaoUsersAdapter.getInitialState(),
+  usersDaoMembers: usersDaoMembersAdapter.getInitialState(),
+  usersDaoInteractions: usersDaoInteractionsAdapter.getInitialState(),
   error: null,
 };
 
@@ -120,7 +126,7 @@ export const getUsersDao = createAsyncThunk(
   async (params: DaoParams) => {
     const response = await usersService.getUsersDao(params);
 
-    return response.data;
+    return { id: params.dao, ...response.data };
   },
 );
 
@@ -129,7 +135,7 @@ export const getUsersDaoUsers = createAsyncThunk(
   async (params: DaoHistoryParams) => {
     const response = await usersService.getUsersDaoUsers(params);
 
-    return response.data;
+    return { id: params.dao, metrics: response.data.metrics };
   },
 );
 
@@ -138,7 +144,7 @@ export const getUsersDaoMembers = createAsyncThunk(
   async (params: DaoHistoryParams) => {
     const response = await usersService.getUsersDaoMembers(params);
 
-    return response.data;
+    return { id: params.dao, metrics: response.data.metrics };
   },
 );
 
@@ -147,7 +153,7 @@ export const getUsersDaoInteractions = createAsyncThunk(
   async (params: DaoHistoryParams) => {
     const response = await usersService.getUsersDaoInteractions(params);
 
-    return response.data;
+    return { id: params.dao, metrics: response.data.metrics };
   },
 );
 
@@ -244,25 +250,28 @@ export const usersSlice = createSlice({
     );
 
     builder.addCase(getUsersDao.fulfilled, (state, { payload }) => {
-      state.usersDao = payload;
+      usersDaoAdapter.upsertOne(state.usersDao, payload);
     });
 
     builder.addCase(getUsersDaoUsers.fulfilled, (state, { payload }) => {
-      state.usersDaoUsers = {
+      usersDaoUsersAdapter.upsertOne(state.usersDaoUsers, {
+        id: payload.id,
         metrics: buildMetrics(payload.metrics),
-      };
+      });
     });
 
     builder.addCase(getUsersDaoMembers.fulfilled, (state, { payload }) => {
-      state.usersDaoMembers = {
+      usersDaoMembersAdapter.upsertOne(state.usersDaoMembers, {
+        id: payload.id,
         metrics: buildMetrics(payload.metrics),
-      };
+      });
     });
 
     builder.addCase(getUsersDaoInteractions.fulfilled, (state, { payload }) => {
-      state.usersDaoInteractions = {
+      usersDaoInteractionsAdapter.upsertOne(state.usersDaoInteractions, {
+        id: payload.id,
         metrics: buildMetrics(payload.metrics),
-      };
+      });
     });
 
     builder.addMatcher(isRejectedAction, (state, { error }) => {

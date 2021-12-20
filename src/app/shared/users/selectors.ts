@@ -1,7 +1,13 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from 'src/store/root-reducer';
 
-import { usersSlice } from './slice';
+import {
+  usersDaoAdapter,
+  usersDaoInteractionsAdapter,
+  usersDaoMembersAdapter,
+  usersDaoUsersAdapter,
+  usersSlice,
+} from './slice';
 
 const getState = (state: RootState) => state[usersSlice.name];
 
@@ -49,3 +55,41 @@ export const selectUsersAverageInteractions = createSelector(
   (state: RootState) => getState(state).usersAverageInteractions,
   (data) => data,
 );
+
+const { selectById: selectUsersDaoItem } = usersDaoAdapter.getSelectors(
+  (state: RootState) => state[usersSlice.name].usersDao,
+);
+
+export const selectUsersDaoById = (id: string | undefined) => (
+  state: RootState,
+) => (id ? selectUsersDaoItem(state, id) : null);
+
+const {
+  selectById: selectUsersDaoUsersItem,
+} = usersDaoUsersAdapter.getSelectors(
+  (state: RootState) => state[usersSlice.name].usersDaoUsers,
+);
+
+export const selectUsersDaoUsersById = (id: string | undefined) => (
+  state: RootState,
+) => (id ? selectUsersDaoUsersItem(state, id) : null);
+
+const {
+  selectById: selectUsersDaoMembersItem,
+} = usersDaoMembersAdapter.getSelectors(
+  (state: RootState) => state[usersSlice.name].usersDaoMembers,
+);
+
+export const selectUsersDaoMembersById = (id: string | undefined) => (
+  state: RootState,
+) => (id ? selectUsersDaoMembersItem(state, id) : null);
+
+const {
+  selectById: selectUsersDaoInteractionsItem,
+} = usersDaoInteractionsAdapter.getSelectors(
+  (state: RootState) => state[usersSlice.name].usersDaoInteractions,
+);
+
+export const selectUsersDaoInteractionById = (id: string | undefined) => (
+  state: RootState,
+) => (id ? selectUsersDaoInteractionsItem(state, id) : null);
