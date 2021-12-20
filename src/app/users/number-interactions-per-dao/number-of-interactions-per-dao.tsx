@@ -6,11 +6,10 @@ import { isNotAsked, isSuccess, isPending } from 'src/utils';
 import { useFilterMetrics } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
+import { getUsersInteractionsPerDaoHistory } from 'src/app/shared/users/slice';
+import { selectUsersInteractionsPerDaoHistory } from 'src/app/shared/users/selectors';
 
 import styles from 'src/styles/page.module.scss';
-
-import { getUsersInteractionsPerDaoHistory } from '../slice';
-import { selectUsersInteractionsPerDaoHistory } from '../selectors';
 
 export const NumberInteractionsPerDao: FC = () => {
   const [period, setPeriod] = useState('1y');

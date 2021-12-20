@@ -1,5 +1,5 @@
-import { RequestStatus } from '../../store/types';
-import { Leaderboard, Metrics, Users } from '../../api';
+import { RequestStatus } from 'src/store/types';
+import { Leaderboard, Metrics, Users } from 'src/api';
 
 export type usersState = {
   users: Users | null;

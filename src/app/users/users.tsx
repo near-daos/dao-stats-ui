@@ -10,6 +10,8 @@ import {
 import { useRoutes } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 
+import { getUsers } from 'src/app/shared/users/slice';
+import { selectorUsers } from 'src/app/shared/users/selectors';
 import {
   Page,
   WidgetTile,
@@ -17,12 +19,10 @@ import {
   Widgets,
   Breadcrumbs,
 } from 'src/components';
+import { ROUTES } from 'src/constants';
+
 import styles from 'src/styles/page.module.scss';
 
-import { getUsers } from './slice';
-import { selectorUsers } from './selectors';
-
-import { ROUTES } from '../../constants';
 import { NumberInteractions } from './number-interactions';
 import { NumberUsers } from './number-users';
 

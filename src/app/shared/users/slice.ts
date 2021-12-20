@@ -7,17 +7,17 @@ import {
   isFulfilled,
 } from '@reduxjs/toolkit';
 import sortBy from 'lodash/sortBy';
-import { buildMetrics } from '../../utils';
-
-import { RequestStatus } from '../../store/types';
-import { usersState } from './types';
+import { buildMetrics } from 'src/utils';
+import { RequestStatus } from 'src/store/types';
 import {
   HistoryParams,
   Params,
   DaoParams,
   DaoHistoryParams,
   usersService,
-} from '../../api';
+} from 'src/api';
+
+import { usersState } from './types';
 
 const initialState: usersState = {
   users: null,

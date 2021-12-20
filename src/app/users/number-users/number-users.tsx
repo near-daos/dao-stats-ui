@@ -6,11 +6,16 @@ import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isPending, isNotAsked } from 'src/utils';
+import {
+  getUsersHistory,
+  getUsersLeaderboard,
+} from 'src/app/shared/users/slice';
+import {
+  selectUsersHistory,
+  selectUsersLeaderboard,
+} from 'src/app/shared/users/selectors';
 
 import styles from 'src/styles/page.module.scss';
-
-import { getUsersHistory, getUsersLeaderboard } from '../slice';
-import { selectUsersHistory, selectUsersLeaderboard } from '../selectors';
 
 const tabOptions = [
   {

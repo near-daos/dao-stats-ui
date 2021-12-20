@@ -6,17 +6,16 @@ import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isPending, isNotAsked } from 'src/utils';
-
-import styles from 'src/styles/page.module.scss';
-
 import {
   getUsersMembersOfDaoHistory,
   getUsersMembersOfDaoLeaderboard,
-} from '../slice';
+} from 'src/app/shared/users/slice';
 import {
   selectUsersMembersOfDaoHistory,
   selectUsersMembersOfDaoLeaderboard,
-} from '../selectors';
+} from 'src/app/shared/users/selectors';
+
+import styles from 'src/styles/page.module.scss';
 
 const tabOptions = [
   {

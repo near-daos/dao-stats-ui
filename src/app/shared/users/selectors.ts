@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
+import { RootState } from 'src/store/root-reducer';
 
 import { usersSlice } from './slice';
-import { RootState } from '../../store/root-reducer';
 
 const getState = (state: RootState) => state[usersSlice.name];
 
