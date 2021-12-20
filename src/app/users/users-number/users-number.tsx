@@ -1,16 +1,19 @@
-import React, { FC, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import React, { FC, useCallback, useEffect, useState } from 'react';
+import { generatePath, useHistory, useParams } from 'react-router';
 
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isPending, isNotAsked } from 'src/utils';
+import { getUsersUsers, getUsersLeaderboard } from 'src/app/shared/users/slice';
+import {
+  selectUsersUsers,
+  selectUsersLeaderboard,
+} from 'src/app/shared/users/selectors';
 
 import styles from 'src/styles/page.module.scss';
-
-import { getUsersHistory, getUsersLeaderboard } from '../slice';
-import { selectUsersHistory, selectUsersLeaderboard } from '../selectors';
+import { ROUTES } from '../../../constants';
 
 const tabOptions = [
   {
@@ -20,17 +23,17 @@ const tabOptions = [
   { label: 'Leaderboard', value: 'leaderboard' },
 ];
 
-export const NumberUsers: FC = () => {
+export const UsersNumber: FC = () => {
   const [period, setPeriod] = useState('1y');
-
+  const history = useHistory();
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
 
-  const users = useAppSelector(selectUsersHistory);
+  const users = useAppSelector(selectUsersUsers);
   const usersLeaderboard = useAppSelector(selectUsersLeaderboard);
   const getUsersNumberLoading = useAppSelector(
-    selectActionLoading(getUsersHistory.typePrefix),
+    selectActionLoading(getUsersUsers.typePrefix),
   );
   const getUsersNumberLeaderboardLoading = useAppSelector(
     selectActionLoading(getUsersLeaderboard.typePrefix),
@@ -46,7 +49,7 @@ export const NumberUsers: FC = () => {
       !isPending(getUsersNumberLoading)
     ) {
       dispatch(
-        getUsersHistory({
+        getUsersUsers({
           contract,
         }),
       ).catch((error: unknown) => {
@@ -81,6 +84,13 @@ export const NumberUsers: FC = () => {
 
   const usersData = useFilterMetrics(period, users);
 
+  const goToSingleDao = useCallback(
+    (row) => {
+      history.push(generatePath(ROUTES.usersDao, { contract, dao: row.dao }));
+    },
+    [contract, history],
+  );
+
   return (
     <div className={styles.detailsContainer}>
       <LoadingContainer
@@ -109,6 +119,7 @@ export const NumberUsers: FC = () => {
         ) : null}
         {activeTab === 'leaderboard' && usersLeaderboardData ? (
           <Leaderboard
+            onRowClick={goToSingleDao}
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },

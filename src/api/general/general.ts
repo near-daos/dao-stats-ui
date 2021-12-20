@@ -67,6 +67,16 @@ export class GeneralService extends HttpService {
 
     return this.get(`${params.contract}/general/${params.dao}/groups?${query}`);
   }
+
+  async getGeneralDaoActivity(
+    params: DaoHistoryParams,
+  ): Promise<AxiosResponse<Metrics>> {
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(
+      `${params.contract}/general/${params.dao}/activity?${query}`,
+    );
+  }
 }
 
 export const generalService = new GeneralService();

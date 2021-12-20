@@ -20,6 +20,7 @@ import {
   Tvl,
   Tokens,
   GeneralInfoDao,
+  UsersDao,
 } from '..';
 import { Layout, Loading, UserData } from '../../components';
 import { RequestStatus } from '../../store/types';
@@ -65,24 +66,41 @@ export const App: FC = () => (
                   path={ROUTES.generalInfoDao}
                   component={GeneralInfoDao}
                 />
+                <Route
+                  exact
+                  path={ROUTES.generalInfoDaoGroups}
+                  component={GeneralInfoDao}
+                />
                 <Route exact path={ROUTES.users} component={Users} />
+                <Route exact path={ROUTES.usersMembers} component={Users} />
                 <Route
                   exact
-                  path={ROUTES.usersAverageCouncilSize}
-                  component={Users}
-                />
-                <Route exact path={ROUTES.usersOfDao} component={Users} />
-                <Route exact path={ROUTES.usersPerDao} component={Users} />
-                <Route
-                  exact
-                  path={ROUTES.usersNumberInteractions}
+                  path={ROUTES.usersAverageUsers}
                   component={Users}
                 />
                 <Route
                   exact
-                  path={ROUTES.usersNumberInteractionsPerDao}
+                  path={ROUTES.usersInteractions}
                   component={Users}
                 />
+                <Route
+                  exact
+                  path={ROUTES.usersAverageInteractions}
+                  component={Users}
+                />
+
+                <Route exact path={ROUTES.usersDao} component={UsersDao} />
+                <Route
+                  exact
+                  path={ROUTES.usersMembersDao}
+                  component={UsersDao}
+                />
+                <Route
+                  exact
+                  path={ROUTES.usersInteractionsDao}
+                  component={UsersDao}
+                />
+
                 <Route exact path={ROUTES.governance} component={Governance} />
                 <Route
                   exact

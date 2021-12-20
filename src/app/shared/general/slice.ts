@@ -13,12 +13,14 @@ import {
   Params,
   DaoParams,
   DaoHistoryParams,
+  MetricsEntity,
 } from 'src/api';
 import { buildMetrics } from 'src/utils';
 
-import { generalState, MetricsEntity, GeneralDaoEntity } from './types';
+import { generalState, GeneralDaoEntity } from './types';
 
 export const generalDaoGroupsAdapter = createEntityAdapter<MetricsEntity>();
+export const generalDaoActivityAdapter = createEntityAdapter<MetricsEntity>();
 export const generalDaoAdapter = createEntityAdapter<GeneralDaoEntity>();
 
 const initialState: generalState = {
@@ -31,6 +33,7 @@ const initialState: generalState = {
   averageGroups: null,
   generalDao: generalDaoAdapter.getInitialState(),
   generalDaoGroups: generalDaoGroupsAdapter.getInitialState(),
+  generalDaoActivity: generalDaoActivityAdapter.getInitialState(),
   error: null,
 };
 
@@ -114,6 +117,16 @@ export const getGeneralDaoGroups = createAsyncThunk(
     return { id: params.dao, metrics: response.data.metrics };
   },
 );
+
+export const getGeneralDaoActivity = createAsyncThunk(
+  'general/getGeneralDaoActivity',
+  async (params: DaoHistoryParams) => {
+    const response = await generalService.getGeneralDaoActivity(params);
+
+    return { id: params.dao, metrics: response.data.metrics };
+  },
+);
+
 const isRejectedAction = isRejected(
   getGeneral,
   getGeneralActive,
@@ -124,6 +137,7 @@ const isRejectedAction = isRejected(
   getGeneralGroupsLeaderboard,
   getGeneralAverageGroups,
   getGeneralDaoGroups,
+  getGeneralDaoActivity,
 );
 const isFulfilledAction = isFulfilled(
   getGeneral,
@@ -135,6 +149,7 @@ const isFulfilledAction = isFulfilled(
   getGeneralGroupsLeaderboard,
   getGeneralAverageGroups,
   getGeneralDaoGroups,
+  getGeneralDaoActivity,
 );
 
 export const generalSlice = createSlice({
@@ -186,6 +201,13 @@ export const generalSlice = createSlice({
       generalDaoGroupsAdapter.upsertOne(state.generalDaoGroups, {
         id: payload.id,
         metrics: buildMetrics(payload.metrics),
+      });
+    });
+
+    builder.addCase(getGeneralDaoActivity.fulfilled, (state, { payload }) => {
+      generalDaoActivityAdapter.upsertOne(state.generalDaoActivity, {
+        id: payload.id,
+        metrics: buildMetrics(payload.metrics, true),
       });
     });
 

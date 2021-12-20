@@ -2,6 +2,7 @@ import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from 'src/store/root-reducer';
 
 import {
+  generalDaoActivityAdapter,
   generalDaoAdapter,
   generalDaoGroupsAdapter,
   generalSlice,
@@ -61,3 +62,13 @@ const { selectById: selectGeneralDaoItem } = generalDaoAdapter.getSelectors(
 export const selectGeneralDaoById = (id: string | undefined) => (
   state: RootState,
 ) => (id ? selectGeneralDaoItem(state, id) : null);
+
+const {
+  selectById: selectGeneralActivituItem,
+} = generalDaoActivityAdapter.getSelectors(
+  (state: RootState) => state[generalSlice.name].generalDaoActivity,
+);
+
+export const selectGeneralDaoActivityById = (id: string | undefined) => (
+  state: RootState,
+) => (id ? selectGeneralActivituItem(state, id) : null);

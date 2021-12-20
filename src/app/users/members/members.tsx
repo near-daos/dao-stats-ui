@@ -1,22 +1,22 @@
-import React, { FC, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import React, { FC, useCallback, useEffect, useState } from 'react';
+import { generatePath, useHistory, useParams } from 'react-router';
 
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isPending, isNotAsked } from 'src/utils';
+import {
+  getUsersMembers,
+  getUsersMembersLeaderboard,
+} from 'src/app/shared/users/slice';
+import {
+  selectUsersMembers,
+  selectUsersMembersLeaderboard,
+} from 'src/app/shared/users/selectors';
 
 import styles from 'src/styles/page.module.scss';
-
-import {
-  getUsersInteractionsHistory,
-  getUsersInteractionsLeaderboard,
-} from '../slice';
-import {
-  selectUsersInteractionHistory,
-  selectUsersInteractionLeaderboard,
-} from '../selectors';
+import { ROUTES } from '../../../constants';
 
 const tabOptions = [
   {
@@ -26,20 +26,20 @@ const tabOptions = [
   { label: 'Leaderboard', value: 'leaderboard' },
 ];
 
-export const NumberInteractions: FC = () => {
+export const Members: FC = () => {
   const [period, setPeriod] = useState('1y');
-
+  const history = useHistory();
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
 
-  const users = useAppSelector(selectUsersInteractionHistory);
-  const usersLeaderboard = useAppSelector(selectUsersInteractionLeaderboard);
-  const getUsersInteractionsLoading = useAppSelector(
-    selectActionLoading(getUsersInteractionsHistory.typePrefix),
+  const users = useAppSelector(selectUsersMembers);
+  const usersLeaderboard = useAppSelector(selectUsersMembersLeaderboard);
+  const getUsersNumberLoading = useAppSelector(
+    selectActionLoading(getUsersMembers.typePrefix),
   );
-  const getUsersInteractionsLeaderboardLoading = useAppSelector(
-    selectActionLoading(getUsersInteractionsLeaderboard.typePrefix),
+  const getUsersNumberLeaderboardLoading = useAppSelector(
+    selectActionLoading(getUsersMembersLeaderboard.typePrefix),
   );
 
   const handleOnChange = (value: string) => {
@@ -48,11 +48,11 @@ export const NumberInteractions: FC = () => {
 
   useEffect(() => {
     if (
-      isNotAsked(getUsersInteractionsLoading) &&
-      !isPending(getUsersInteractionsLoading)
+      isNotAsked(getUsersNumberLoading) &&
+      !isPending(getUsersNumberLoading)
     ) {
       dispatch(
-        getUsersInteractionsHistory({
+        getUsersMembers({
           contract,
         }),
       ).catch((error: unknown) => {
@@ -62,11 +62,11 @@ export const NumberInteractions: FC = () => {
     }
 
     if (
-      isNotAsked(getUsersInteractionsLeaderboardLoading) &&
-      !isPending(getUsersInteractionsLeaderboardLoading)
+      isNotAsked(getUsersNumberLeaderboardLoading) &&
+      !isPending(getUsersNumberLeaderboardLoading)
     ) {
       dispatch(
-        getUsersInteractionsLeaderboard({
+        getUsersMembersLeaderboard({
           contract,
         }),
       ).catch((error: unknown) => {
@@ -77,8 +77,8 @@ export const NumberInteractions: FC = () => {
   }, [
     contract,
     dispatch,
-    getUsersInteractionsLoading,
-    getUsersInteractionsLeaderboardLoading,
+    getUsersNumberLoading,
+    getUsersNumberLeaderboardLoading,
   ]);
 
   const usersLeaderboardData = usePrepareLeaderboard({
@@ -87,15 +87,23 @@ export const NumberInteractions: FC = () => {
 
   const usersData = useFilterMetrics(period, users);
 
+  const goToSingleDao = useCallback(
+    (row) => {
+      history.push(
+        generatePath(ROUTES.usersMembersDao, { contract, dao: row.dao }),
+      );
+    },
+    [contract, history],
+  );
+
   return (
     <div className={styles.detailsContainer}>
       <LoadingContainer
         hide={
-          isSuccess(getUsersInteractionsLoading) &&
-          isSuccess(getUsersInteractionsLeaderboardLoading)
+          isSuccess(getUsersNumberLoading) &&
+          isSuccess(getUsersNumberLeaderboardLoading)
         }
       />
-
       <div className={styles.tabWrapper}>
         <Tabs
           variant="small"
@@ -111,21 +119,16 @@ export const NumberInteractions: FC = () => {
             data={usersData}
             period={period}
             setPeriod={setPeriod}
-            lines={[
-              {
-                name: 'Number of interactions',
-                color: '#E33F84',
-                dataKey: 'count',
-              },
-            ]}
+            lines={[{ name: 'Members', color: '#E33F84', dataKey: 'count' }]}
           />
         ) : null}
         {activeTab === 'leaderboard' && usersLeaderboardData ? (
           <Leaderboard
+            onRowClick={goToSingleDao}
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
-              { value: 'Number of interactions' },
+              { value: 'Members' },
               { value: 'Last 7 days', position: 'right' },
             ]}
             type="line"

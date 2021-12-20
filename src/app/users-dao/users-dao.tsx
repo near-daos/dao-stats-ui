@@ -6,12 +6,13 @@ import {
   useHistory,
   useParams,
   matchPath,
+  generatePath,
 } from 'react-router';
 import { useRoutes } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 
-import { getUsers } from 'src/app/shared/users/slice';
-import { selectorUsers } from 'src/app/shared/users/selectors';
+import { getUsersDao } from 'src/app/shared/users/slice';
+import { selectUsersDaoById } from 'src/app/shared/users/selectors';
 import {
   Page,
   WidgetTile,
@@ -25,30 +26,28 @@ import styles from 'src/styles/page.module.scss';
 
 import { UsersNumber } from './users-number';
 import { Members } from './members';
-import { AverageUsers } from './average-users';
 import { Interactions } from './interactions';
-import { AverageInteractions } from './average-interactions';
 
-export const Users: FC = () => {
+export const UsersDao: FC = () => {
   const location = useLocation();
   const history = useHistory();
   const routes = useRoutes();
-  const { contract } = useParams<{ contract: string }>();
+  const { contract, dao } = useParams<{ dao: string; contract: string }>();
   const dispatch = useAppDispatch();
-  const users = useAppSelector(selectorUsers);
+  const users = useAppSelector(selectUsersDaoById(dao));
 
   useEffect(() => {
     (async () => {
       try {
         if (!users) {
-          await dispatch(getUsers({ contract }));
+          await dispatch(getUsersDao({ dao, contract }));
         }
       } catch (error: unknown) {
         // eslint-disable-next-line no-console
         console.error(error);
       }
     })();
-  }, [contract, dispatch, users]);
+  }, [dao, contract, dispatch, users]);
 
   const breadcrumbs = useMemo(
     () => [
@@ -56,8 +55,12 @@ export const Users: FC = () => {
         url: routes.users,
         name: 'Users and Activity',
       },
+      {
+        url: routes.usersDao,
+        name: dao,
+      },
     ],
-    [routes],
+    [routes, dao],
   );
 
   return (
@@ -67,16 +70,18 @@ export const Users: FC = () => {
         <Widgets>
           <WidgetTile
             className={styles.widget}
-            onClick={() => history.push(routes.users)}
+            onClick={() =>
+              history.push(generatePath(ROUTES.usersDao, { contract, dao }))
+            }
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.users,
+                path: ROUTES.usersDao,
                 exact: true,
               }),
             )}
           >
             <WidgetInfo
-              title="All users on a platform"
+              title="All users per DAO"
               number={users?.users?.count}
               percentages={users?.users?.growth}
             />
@@ -84,10 +89,14 @@ export const Users: FC = () => {
 
           <WidgetTile
             className={styles.widget}
-            onClick={() => history.push(routes.usersMembers)}
+            onClick={() =>
+              history.push(
+                generatePath(ROUTES.usersMembersDao, { contract, dao }),
+              )
+            }
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.usersMembers,
+                path: ROUTES.usersMembersDao,
                 exact: true,
               }),
             )}
@@ -101,27 +110,14 @@ export const Users: FC = () => {
 
           <WidgetTile
             className={styles.widget}
-            onClick={() => history.push(routes.usersAverageUsers)}
+            onClick={() =>
+              history.push(
+                generatePath(ROUTES.usersInteractionsDao, { contract, dao }),
+              )
+            }
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.usersAverageUsers,
-                exact: true,
-              }),
-            )}
-          >
-            <WidgetInfo
-              title="Average number of users per DAO"
-              number={users?.averageUsers?.count}
-              percentages={users?.averageUsers?.growth}
-            />
-          </WidgetTile>
-
-          <WidgetTile
-            className={styles.widget}
-            onClick={() => history.push(routes.usersInteractions)}
-            active={Boolean(
-              matchPath(location.pathname, {
-                path: ROUTES.usersInteractions,
+                path: ROUTES.usersInteractionsDao,
                 exact: true,
               }),
             )}
@@ -132,43 +128,16 @@ export const Users: FC = () => {
               percentages={users?.interactions?.growth}
             />
           </WidgetTile>
-
-          <WidgetTile
-            className={styles.widget}
-            onClick={() => history.push(routes.usersAverageInteractions)}
-            active={Boolean(
-              matchPath(location.pathname, {
-                path: ROUTES.usersAverageInteractions,
-                exact: true,
-              }),
-            )}
-          >
-            <WidgetInfo
-              title="Average number of Interactions per DAO"
-              number={users?.averageInteractions?.count}
-              percentages={users?.averageInteractions?.growth}
-            />
-          </WidgetTile>
         </Widgets>
 
         <div className={styles.mainContent}>
           <Switch>
-            <Route exact path={ROUTES.users} component={UsersNumber} />
-            <Route exact path={ROUTES.usersMembers} component={Members} />
+            <Route exact path={ROUTES.usersDao} component={UsersNumber} />
+            <Route exact path={ROUTES.usersMembersDao} component={Members} />
             <Route
               exact
-              path={ROUTES.usersAverageUsers}
-              component={AverageUsers}
-            />
-            <Route
-              exact
-              path={ROUTES.usersInteractions}
+              path={ROUTES.usersInteractionsDao}
               component={Interactions}
-            />
-            <Route
-              exact
-              path={ROUTES.usersAverageInteractions}
-              component={AverageInteractions}
             />
           </Switch>
         </div>

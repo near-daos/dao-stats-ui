@@ -2,44 +2,44 @@ import React, { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
 import { ChartLine, LoadingContainer } from 'src/components';
-import { isNotAsked, isSuccess, isPending } from 'src/utils';
 import { useFilterMetrics } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
+import { isSuccess, isPending } from 'src/utils';
+import { getUsersDaoMembers } from 'src/app/shared/users/slice';
+import { selectUsersDaoMembersById } from 'src/app/shared/users/selectors';
 
 import styles from 'src/styles/page.module.scss';
 
-import { getUsersInteractionsPerDaoHistory } from '../slice';
-import { selectUsersInteractionsPerDaoHistory } from '../selectors';
-
-export const NumberInteractionsPerDao: FC = () => {
+export const Members: FC = () => {
   const [period, setPeriod] = useState('1y');
-
-  const { contract } = useParams<{ contract: string }>();
+  const { contract, dao } = useParams<{ dao: string; contract: string }>();
   const dispatch = useAppDispatch();
-  const users = useAppSelector(selectUsersInteractionsPerDaoHistory);
-  const getUsersLoading = useAppSelector(
-    selectActionLoading(getUsersInteractionsPerDaoHistory.typePrefix),
+
+  const users = useAppSelector(selectUsersDaoMembersById(dao));
+  const getUsersNumberLoading = useAppSelector(
+    selectActionLoading(getUsersDaoMembers.typePrefix),
   );
 
   useEffect(() => {
-    if (isNotAsked(getUsersLoading) && !isPending(getUsersLoading)) {
+    if (!users && !isPending(getUsersNumberLoading)) {
       dispatch(
-        getUsersInteractionsPerDaoHistory({
+        getUsersDaoMembers({
           contract,
+          dao,
         }),
       ).catch((error: unknown) => {
         // eslint-disable-next-line no-console
         console.error(error);
       });
     }
-  }, [getUsersLoading, contract, dispatch]);
+  }, [users, dao, contract, dispatch, getUsersNumberLoading]);
 
   const usersData = useFilterMetrics(period, users);
 
   return (
     <>
-      <LoadingContainer hide={isSuccess(getUsersLoading)} />
+      <LoadingContainer hide={isSuccess(getUsersNumberLoading)} />
 
       <div className={styles.metricsContainer}>
         {usersData ? (
@@ -47,13 +47,7 @@ export const NumberInteractionsPerDao: FC = () => {
             data={usersData}
             period={period}
             setPeriod={setPeriod}
-            lines={[
-              {
-                name: 'Number of Interactions per DAO',
-                color: '#E33F84',
-                dataKey: 'count',
-              },
-            ]}
+            lines={[{ name: 'Members', color: '#E33F84', dataKey: 'count' }]}
           />
         ) : null}
       </div>

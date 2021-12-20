@@ -24,6 +24,7 @@ import { ROUTES } from 'src/constants';
 import styles from 'src/styles/page.module.scss';
 
 import { Groups } from './groups';
+import { Activity } from './activity';
 
 export const GeneralInfoDao: FC = () => {
   const location = useLocation();
@@ -77,6 +78,26 @@ export const GeneralInfoDao: FC = () => {
             }
           >
             <WidgetInfo
+              title="Activity"
+              number={generalDao?.activity?.count}
+              percentages={generalDao?.activity?.growth}
+            />
+          </WidgetTile>
+          <WidgetTile
+            className={styles.widget}
+            active={Boolean(
+              matchPath(location.pathname, {
+                path: ROUTES.generalInfoDaoGroups,
+                exact: true,
+              }),
+            )}
+            onClick={() =>
+              history.push(
+                generatePath(ROUTES.generalInfoDaoGroups, { contract, dao }),
+              )
+            }
+          >
+            <WidgetInfo
               title="Groups"
               number={generalDao?.groups?.count}
               percentages={generalDao?.groups?.growth}
@@ -85,7 +106,12 @@ export const GeneralInfoDao: FC = () => {
         </Widgets>
         <div className={styles.mainContent}>
           <Switch>
-            <Route exact path={ROUTES.generalInfoDao} component={Groups} />
+            <Route exact path={ROUTES.generalInfoDao} component={Activity} />
+            <Route
+              exact
+              path={ROUTES.generalInfoDaoGroups}
+              component={Groups}
+            />
           </Switch>
         </div>
       </Page>
