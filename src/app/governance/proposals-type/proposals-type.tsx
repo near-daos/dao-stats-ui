@@ -9,17 +9,16 @@ import { MetricItem } from 'src/api';
 import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
 import { isNotAsked, isPending, isSuccess } from 'src/utils';
 import { selectActionLoading } from 'src/store/loading';
-
-import styles from 'src/styles/page.module.scss';
-
 import {
   selectGovernanceProposalsTypes,
   selectGovernanceProposalsTypesLeaderboard,
-} from '../selectors';
+} from 'src/app/shared/governance/selectors';
 import {
   getGovernanceProposalsTypes,
   getGovernanceProposalsTypesLeaderboard,
-} from '../slice';
+} from 'src/app/shared/governance/slice';
+
+import styles from 'src/styles/page.module.scss';
 
 const tabOptions = [
   {

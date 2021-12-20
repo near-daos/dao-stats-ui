@@ -3,8 +3,8 @@ import { CombinedState, combineReducers } from 'redux';
 
 import { daoSlice } from 'src/app/shared/daos/slice';
 import { daoState } from 'src/app/shared/daos/types';
-import { governanceSlice } from 'src/app/governance/slice';
-import { governanceState } from 'src/app/governance/types';
+import { governanceSlice } from 'src/app/shared/governance/slice';
+import { governanceState } from 'src/app/shared/governance/types';
 import { generalSlice } from 'src/app/shared/general/slice';
 import { generalState } from 'src/app/shared/general/types';
 import { usersSlice } from 'src/app/shared/users/slice';

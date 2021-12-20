@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
+import { RootState } from 'src/store/root-reducer';
 
-import { RootState } from '../../store/root-reducer';
 import { governanceSlice } from './slice';
 
 const getState = (state: RootState) => state[governanceSlice.name];

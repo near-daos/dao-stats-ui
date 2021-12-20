@@ -18,14 +18,14 @@ import {
   Widgets,
   Breadcrumbs,
 } from 'src/components';
+import { selectGovernance } from 'src/app/shared/governance/selectors';
+import { getGovernance } from 'src/app/shared/governance/slice';
+
 import styles from 'src/styles/page.module.scss';
 
 import { NumberOfProposals } from './number-of-proposals';
 import { ProposalsType } from './proposals-type';
 import { VoteRate } from './vote-rate';
-
-import { selectGovernance } from './selectors';
-import { getGovernance } from './slice';
 
 export const Governance: FC = () => {
   const location = useLocation();

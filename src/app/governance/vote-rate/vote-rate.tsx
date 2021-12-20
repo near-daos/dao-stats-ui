@@ -6,17 +6,16 @@ import { useAppDispatch, useAppSelector } from 'src/store';
 import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
 import { selectActionLoading } from 'src/store/loading';
 import { isNotAsked, isPending, isSuccess } from 'src/utils';
-
-import styles from 'src/styles/page.module.scss';
-
 import {
   selectGovernanceVoteRate,
   selectGovernanceVoteRateLeaderboard,
-} from '../selectors';
+} from 'src/app/shared/governance/selectors';
 import {
   getGovernanceVoteRate,
   getGovernanceVoteRateLeaderboard,
-} from '../slice';
+} from 'src/app/shared/governance/slice';
+
+import styles from 'src/styles/page.module.scss';
 
 const tabOptions = [
   {
