@@ -6,25 +6,25 @@ import { isNotAsked, isSuccess, isPending } from 'src/utils';
 import { useFilterMetrics } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
-import { getUsersInteractionsPerDaoHistory } from 'src/app/shared/users/slice';
-import { selectUsersInteractionsPerDaoHistory } from 'src/app/shared/users/selectors';
+import { getUsersAverageUsers } from 'src/app/shared/users/slice';
+import { selectUsersAverageUsers } from 'src/app/shared/users/selectors';
 
 import styles from 'src/styles/page.module.scss';
 
-export const NumberInteractionsPerDao: FC = () => {
+export const AverageUsers: FC = () => {
   const [period, setPeriod] = useState('1y');
 
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
-  const users = useAppSelector(selectUsersInteractionsPerDaoHistory);
+  const users = useAppSelector(selectUsersAverageUsers);
   const getUsersLoading = useAppSelector(
-    selectActionLoading(getUsersInteractionsPerDaoHistory.typePrefix),
+    selectActionLoading(getUsersAverageUsers.typePrefix),
   );
 
   useEffect(() => {
     if (isNotAsked(getUsersLoading) && !isPending(getUsersLoading)) {
       dispatch(
-        getUsersInteractionsPerDaoHistory({
+        getUsersAverageUsers({
           contract,
         }),
       ).catch((error: unknown) => {
@@ -48,7 +48,7 @@ export const NumberInteractionsPerDao: FC = () => {
             setPeriod={setPeriod}
             lines={[
               {
-                name: 'Number of Interactions per DAO',
+                name: 'Average Users per DAO',
                 color: '#E33F84',
                 dataKey: 'count',
               },

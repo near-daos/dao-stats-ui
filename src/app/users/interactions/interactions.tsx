@@ -7,12 +7,12 @@ import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isPending, isNotAsked } from 'src/utils';
 import {
-  getUsersInteractionsHistory,
+  getUsersInteractions,
   getUsersInteractionsLeaderboard,
 } from 'src/app/shared/users/slice';
 import {
-  selectUsersInteractionHistory,
-  selectUsersInteractionLeaderboard,
+  selectUsersInteractions,
+  selectUsersInteractionsLeaderboard,
 } from 'src/app/shared/users/selectors';
 
 import styles from 'src/styles/page.module.scss';
@@ -25,17 +25,17 @@ const tabOptions = [
   { label: 'Leaderboard', value: 'leaderboard' },
 ];
 
-export const NumberInteractions: FC = () => {
+export const Interactions: FC = () => {
   const [period, setPeriod] = useState('1y');
 
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
 
-  const users = useAppSelector(selectUsersInteractionHistory);
-  const usersLeaderboard = useAppSelector(selectUsersInteractionLeaderboard);
+  const users = useAppSelector(selectUsersInteractions);
+  const usersLeaderboard = useAppSelector(selectUsersInteractionsLeaderboard);
   const getUsersInteractionsLoading = useAppSelector(
-    selectActionLoading(getUsersInteractionsHistory.typePrefix),
+    selectActionLoading(getUsersInteractions.typePrefix),
   );
   const getUsersInteractionsLeaderboardLoading = useAppSelector(
     selectActionLoading(getUsersInteractionsLeaderboard.typePrefix),
@@ -51,7 +51,7 @@ export const NumberInteractions: FC = () => {
       !isPending(getUsersInteractionsLoading)
     ) {
       dispatch(
-        getUsersInteractionsHistory({
+        getUsersInteractions({
           contract,
         }),
       ).catch((error: unknown) => {

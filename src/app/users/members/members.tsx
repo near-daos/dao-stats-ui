@@ -7,12 +7,12 @@ import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isPending, isNotAsked } from 'src/utils';
 import {
-  getUsersMembersOfDaoHistory,
-  getUsersMembersOfDaoLeaderboard,
+  getUsersMembers,
+  getUsersMembersLeaderboard,
 } from 'src/app/shared/users/slice';
 import {
-  selectUsersMembersOfDaoHistory,
-  selectUsersMembersOfDaoLeaderboard,
+  selectUsersMembers,
+  selectUsersMembersLeaderboard,
 } from 'src/app/shared/users/selectors';
 
 import styles from 'src/styles/page.module.scss';
@@ -25,20 +25,20 @@ const tabOptions = [
   { label: 'Leaderboard', value: 'leaderboard' },
 ];
 
-export const NumberUsersOfDao: FC = () => {
+export const Members: FC = () => {
   const [period, setPeriod] = useState('1y');
 
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
 
-  const users = useAppSelector(selectUsersMembersOfDaoHistory);
-  const usersLeaderboard = useAppSelector(selectUsersMembersOfDaoLeaderboard);
+  const users = useAppSelector(selectUsersMembers);
+  const usersLeaderboard = useAppSelector(selectUsersMembersLeaderboard);
   const getUsersNumberLoading = useAppSelector(
-    selectActionLoading(getUsersMembersOfDaoHistory.typePrefix),
+    selectActionLoading(getUsersMembers.typePrefix),
   );
   const getUsersNumberLeaderboardLoading = useAppSelector(
-    selectActionLoading(getUsersMembersOfDaoLeaderboard.typePrefix),
+    selectActionLoading(getUsersMembersLeaderboard.typePrefix),
   );
 
   const handleOnChange = (value: string) => {
@@ -51,7 +51,7 @@ export const NumberUsersOfDao: FC = () => {
       !isPending(getUsersNumberLoading)
     ) {
       dispatch(
-        getUsersMembersOfDaoHistory({
+        getUsersMembers({
           contract,
         }),
       ).catch((error: unknown) => {
@@ -65,7 +65,7 @@ export const NumberUsersOfDao: FC = () => {
       !isPending(getUsersNumberLeaderboardLoading)
     ) {
       dispatch(
-        getUsersMembersOfDaoLeaderboard({
+        getUsersMembersLeaderboard({
           contract,
         }),
       ).catch((error: unknown) => {

@@ -2,13 +2,11 @@
 import {
   createSlice,
   createAsyncThunk,
-  isPending,
   isRejected,
   isFulfilled,
 } from '@reduxjs/toolkit';
 import sortBy from 'lodash/sortBy';
 import { buildMetrics } from 'src/utils';
-import { RequestStatus } from 'src/store/types';
 import {
   HistoryParams,
   Params,
@@ -21,17 +19,18 @@ import { usersState } from './types';
 
 const initialState: usersState = {
   users: null,
-  dao: null,
-  history: null,
-  daoHistory: null,
-  leaderboard: null,
+  usersUsers: null,
+  usersLeaderboard: null,
+  usersMembers: null,
+  usersMembersLeaderboard: null,
+  usersAverageUsers: null,
   usersInteractions: null,
   usersInteractionsLeaderboard: null,
-  usersAveragePerDaoHistory: null,
-  usersInteractionsPerDaoHistory: null,
-  usersMembersOfDaoHistory: null,
-  usersMembersOfDaoLeaderboard: null,
-  loading: RequestStatus.NOT_ASKED,
+  usersAverageInteractions: null,
+  usersDao: null,
+  usersDaoUsers: null,
+  usersDaoMembers: null,
+  usersDaoInteractions: null,
   error: null,
 };
 
@@ -44,28 +43,10 @@ export const getUsers = createAsyncThunk(
   },
 );
 
-export const getUsersHistory = createAsyncThunk(
-  'users/getUsersHistory',
+export const getUsersUsers = createAsyncThunk(
+  'users/getUsersUsers',
   async (params: HistoryParams) => {
-    const response = await usersService.getUsersHistory(params);
-
-    return response.data;
-  },
-);
-
-export const getUsersDao = createAsyncThunk(
-  'users/getUsersDao',
-  async (params: DaoParams) => {
-    const response = await usersService.getUsersDao(params);
-
-    return response.data;
-  },
-);
-
-export const getUsersDaoHistory = createAsyncThunk(
-  'users/getUsersDaoHistory',
-  async (params: DaoHistoryParams) => {
-    const response = await usersService.getUsersDaoHistory(params);
+    const response = await usersService.getUsersUsers(params);
 
     return response.data;
   },
@@ -80,10 +61,37 @@ export const getUsersLeaderboard = createAsyncThunk(
   },
 );
 
-export const getUsersInteractionsHistory = createAsyncThunk(
-  'users/getUsersInteractionsHistory',
+export const getUsersMembers = createAsyncThunk(
+  'users/getUsersMembers',
   async (params: HistoryParams) => {
-    const response = await usersService.getUsersInteractionsHistory(params);
+    const response = await usersService.getUsersMembers(params);
+
+    return response.data;
+  },
+);
+
+export const getUsersMembersLeaderboard = createAsyncThunk(
+  'users/getUsersMembersLeaderboard',
+  async (params: Params) => {
+    const response = await usersService.getUsersMembersLeaderboard(params);
+
+    return response.data;
+  },
+);
+
+export const getUsersAverageUsers = createAsyncThunk(
+  'users/getUsersAverageUsers',
+  async (params: HistoryParams) => {
+    const response = await usersService.getUsersAverageUsers(params);
+
+    return response.data;
+  },
+);
+
+export const getUsersInteractions = createAsyncThunk(
+  'users/getUsersInteractions',
+  async (params: HistoryParams) => {
+    const response = await usersService.getUsersInteractions(params);
 
     return response.data;
   },
@@ -98,82 +106,81 @@ export const getUsersInteractionsLeaderboard = createAsyncThunk(
   },
 );
 
-export const getUsersAveragePerDaoHistory = createAsyncThunk(
-  'users/getUsersAveragePerDaoHistory',
+export const getUsersAverageInteractions = createAsyncThunk(
+  'users/getUsersAverageInteractions',
   async (params: HistoryParams) => {
-    const response = await usersService.getUsersAveragePerDaoHistory(params);
+    const response = await usersService.getUsersAverageInteractions(params);
 
     return response.data;
   },
 );
 
-export const getUsersInteractionsPerDaoHistory = createAsyncThunk(
-  'users/getUsersInteractionsPerDaoHistory',
-  async (params: HistoryParams) => {
-    const response = await usersService.getUsersInteractionsPerDaoHistory(
-      params,
-    );
+export const getUsersDao = createAsyncThunk(
+  'users/getUsersDao',
+  async (params: DaoParams) => {
+    const response = await usersService.getUsersDao(params);
 
     return response.data;
   },
 );
 
-export const getUsersMembersOfDaoHistory = createAsyncThunk(
-  'users/getUsersMembersOfDaoHistory',
-  async (params: HistoryParams) => {
-    const response = await usersService.getUsersMembersOfDaoHistory(params);
+export const getUsersDaoUsers = createAsyncThunk(
+  'users/getUsersDaoUsers',
+  async (params: DaoHistoryParams) => {
+    const response = await usersService.getUsersDaoUsers(params);
 
     return response.data;
   },
 );
 
-export const getUsersMembersOfDaoLeaderboard = createAsyncThunk(
-  'users/getUsersMembersOfDaoLeaderboard',
-  async (params: Params) => {
-    const response = await usersService.getUsersMembersOfDaoLeaderboard(params);
+export const getUsersDaoMembers = createAsyncThunk(
+  'users/getUsersDaoMembers',
+  async (params: DaoHistoryParams) => {
+    const response = await usersService.getUsersDaoMembers(params);
 
     return response.data;
   },
 );
 
-const isPendingAction = isPending(
-  getUsers,
-  getUsersHistory,
-  getUsersDao,
-  getUsersDaoHistory,
-  getUsersLeaderboard,
-  getUsersInteractionsHistory,
-  getUsersInteractionsLeaderboard,
-  getUsersAveragePerDaoHistory,
-  getUsersInteractionsPerDaoHistory,
-  getUsersMembersOfDaoHistory,
-  getUsersMembersOfDaoLeaderboard,
+export const getUsersDaoInteractions = createAsyncThunk(
+  'users/getUsersDaoInteractions',
+  async (params: DaoHistoryParams) => {
+    const response = await usersService.getUsersDaoInteractions(params);
+
+    return response.data;
+  },
 );
+
 const isRejectedAction = isRejected(
   getUsers,
-  getUsersHistory,
-  getUsersDao,
-  getUsersDaoHistory,
+  getUsersUsers,
   getUsersLeaderboard,
-  getUsersInteractionsHistory,
+  getUsersMembers,
+  getUsersMembersLeaderboard,
+  getUsersAverageUsers,
+  getUsersInteractions,
   getUsersInteractionsLeaderboard,
-  getUsersAveragePerDaoHistory,
-  getUsersInteractionsPerDaoHistory,
-  getUsersMembersOfDaoHistory,
-  getUsersMembersOfDaoLeaderboard,
+  getUsersAverageInteractions,
+  getUsersDao,
+  getUsersDaoUsers,
+  getUsersDaoMembers,
+  getUsersDaoInteractions,
 );
+
 const isFulfilledAction = isFulfilled(
   getUsers,
-  getUsersHistory,
-  getUsersDao,
-  getUsersDaoHistory,
+  getUsersUsers,
   getUsersLeaderboard,
-  getUsersInteractionsHistory,
+  getUsersMembers,
+  getUsersMembersLeaderboard,
+  getUsersAverageUsers,
+  getUsersInteractions,
   getUsersInteractionsLeaderboard,
-  getUsersAveragePerDaoHistory,
-  getUsersInteractionsPerDaoHistory,
-  getUsersMembersOfDaoHistory,
-  getUsersMembersOfDaoLeaderboard,
+  getUsersAverageInteractions,
+  getUsersDao,
+  getUsersDaoUsers,
+  getUsersDaoMembers,
+  getUsersDaoInteractions,
 );
 
 export const usersSlice = createSlice({
@@ -185,34 +192,40 @@ export const usersSlice = createSlice({
       state.users = payload;
     });
 
-    builder.addCase(getUsersHistory.fulfilled, (state, { payload }) => {
-      state.history = {
-        metrics: buildMetrics(payload.metrics),
-      };
-    });
-
-    builder.addCase(getUsersDao.fulfilled, (state, { payload }) => {
-      state.dao = payload;
-    });
-
-    builder.addCase(getUsersDaoHistory.fulfilled, (state, { payload }) => {
-      state.daoHistory = {
+    builder.addCase(getUsersUsers.fulfilled, (state, { payload }) => {
+      state.usersUsers = {
         metrics: buildMetrics(payload.metrics),
       };
     });
 
     builder.addCase(getUsersLeaderboard.fulfilled, (state, { payload }) => {
-      state.leaderboard = payload;
+      state.usersLeaderboard = payload;
+    });
+
+    builder.addCase(getUsersMembers.fulfilled, (state, { payload }) => {
+      state.usersMembers = {
+        metrics: buildMetrics(payload.metrics),
+      };
     });
 
     builder.addCase(
-      getUsersInteractionsHistory.fulfilled,
+      getUsersMembersLeaderboard.fulfilled,
       (state, { payload }) => {
-        state.usersInteractions = {
-          metrics: buildMetrics(payload.metrics),
-        };
+        state.usersMembersLeaderboard = payload;
       },
     );
+
+    builder.addCase(getUsersAverageUsers.fulfilled, (state, { payload }) => {
+      state.usersAverageUsers = {
+        metrics: buildMetrics(payload.metrics),
+      };
+    });
+
+    builder.addCase(getUsersInteractions.fulfilled, (state, { payload }) => {
+      state.usersInteractions = {
+        metrics: buildMetrics(payload.metrics),
+      };
+    });
 
     builder.addCase(
       getUsersInteractionsLeaderboard.fulfilled,
@@ -222,50 +235,41 @@ export const usersSlice = createSlice({
     );
 
     builder.addCase(
-      getUsersAveragePerDaoHistory.fulfilled,
+      getUsersAverageInteractions.fulfilled,
       (state, { payload }) => {
-        state.usersAveragePerDaoHistory = {
-          metrics: buildMetrics(payload.metrics),
-        };
-      },
-    );
-
-    builder.addCase(
-      getUsersInteractionsPerDaoHistory.fulfilled,
-      (state, { payload }) => {
-        state.usersInteractionsPerDaoHistory = {
-          metrics: buildMetrics(payload.metrics),
-        };
-      },
-    );
-
-    builder.addCase(
-      getUsersMembersOfDaoHistory.fulfilled,
-      (state, { payload }) => {
-        state.usersMembersOfDaoHistory = {
+        state.usersAverageInteractions = {
           metrics: buildMetrics(sortBy(payload.metrics, 'timestamp')),
         };
       },
     );
 
-    builder.addCase(
-      getUsersMembersOfDaoLeaderboard.fulfilled,
-      (state, { payload }) => {
-        state.usersMembersOfDaoLeaderboard = payload;
-      },
-    );
+    builder.addCase(getUsersDao.fulfilled, (state, { payload }) => {
+      state.usersDao = payload;
+    });
+
+    builder.addCase(getUsersDaoUsers.fulfilled, (state, { payload }) => {
+      state.usersDaoUsers = {
+        metrics: buildMetrics(payload.metrics),
+      };
+    });
+
+    builder.addCase(getUsersDaoMembers.fulfilled, (state, { payload }) => {
+      state.usersDaoMembers = {
+        metrics: buildMetrics(payload.metrics),
+      };
+    });
+
+    builder.addCase(getUsersDaoInteractions.fulfilled, (state, { payload }) => {
+      state.usersDaoInteractions = {
+        metrics: buildMetrics(payload.metrics),
+      };
+    });
 
     builder.addMatcher(isRejectedAction, (state, { error }) => {
-      state.loading = RequestStatus.FAILED;
       state.error = error.message;
     });
 
-    builder.addMatcher(isPendingAction, (state) => {
-      state.loading = RequestStatus.PENDING;
-    });
-
     builder.addMatcher(isFulfilledAction, (state) => {
-      state.loading = RequestStatus.SUCCESS;
       state.error = null;
     });
   },

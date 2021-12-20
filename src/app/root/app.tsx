@@ -71,21 +71,20 @@ export const App: FC = () => (
                   component={GeneralInfoDao}
                 />
                 <Route exact path={ROUTES.users} component={Users} />
+                <Route exact path={ROUTES.usersMembers} component={Users} />
                 <Route
                   exact
-                  path={ROUTES.usersAverageCouncilSize}
-                  component={Users}
-                />
-                <Route exact path={ROUTES.usersOfDao} component={Users} />
-                <Route exact path={ROUTES.usersPerDao} component={Users} />
-                <Route
-                  exact
-                  path={ROUTES.usersNumberInteractions}
+                  path={ROUTES.usersAverageUsers}
                   component={Users}
                 />
                 <Route
                   exact
-                  path={ROUTES.usersNumberInteractionsPerDao}
+                  path={ROUTES.usersInteractions}
+                  component={Users}
+                />
+                <Route
+                  exact
+                  path={ROUTES.usersAverageInteractions}
                   component={Users}
                 />
                 <Route exact path={ROUTES.governance} component={Governance} />

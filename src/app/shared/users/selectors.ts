@@ -10,52 +10,42 @@ export const selectorUsers = createSelector(
   (data) => data,
 );
 
-export const selectUsersHistory = createSelector(
-  (state: RootState) => getState(state).history,
-  (data) => data,
-);
-
-export const selectUsersDao = createSelector(
-  (state: RootState) => getState(state).dao,
-  (data) => data,
-);
-
-export const selectUsersDaoHistory = createSelector(
-  (state: RootState) => getState(state).daoHistory,
+export const selectUsersUsers = createSelector(
+  (state: RootState) => getState(state).usersUsers,
   (data) => data,
 );
 
 export const selectUsersLeaderboard = createSelector(
-  (state: RootState) => getState(state).leaderboard,
+  (state: RootState) => getState(state).usersLeaderboard,
   (data) => data,
 );
 
-export const selectUsersInteractionHistory = createSelector(
+export const selectUsersMembers = createSelector(
+  (state: RootState) => getState(state).usersMembers,
+  (data) => data,
+);
+
+export const selectUsersMembersLeaderboard = createSelector(
+  (state: RootState) => getState(state).usersMembersLeaderboard,
+  (data) => data,
+);
+
+export const selectUsersAverageUsers = createSelector(
+  (state: RootState) => getState(state).usersAverageUsers,
+  (data) => data,
+);
+
+export const selectUsersInteractions = createSelector(
   (state: RootState) => getState(state).usersInteractions,
   (data) => data,
 );
 
-export const selectUsersInteractionLeaderboard = createSelector(
+export const selectUsersInteractionsLeaderboard = createSelector(
   (state: RootState) => getState(state).usersInteractionsLeaderboard,
   (data) => data,
 );
 
-export const selectUsersAveragePerDaoHistory = createSelector(
-  (state: RootState) => getState(state).usersAveragePerDaoHistory,
-  (data) => data,
-);
-
-export const selectUsersInteractionsPerDaoHistory = createSelector(
-  (state: RootState) => getState(state).usersInteractionsPerDaoHistory,
-  (data) => data,
-);
-
-export const selectUsersMembersOfDaoHistory = createSelector(
-  (state: RootState) => getState(state).usersMembersOfDaoHistory,
-  (data) => data,
-);
-
-export const selectUsersMembersOfDaoLeaderboard = createSelector(
-  (state: RootState) => getState(state).usersMembersOfDaoLeaderboard,
+export const selectUsersAverageInteractions = createSelector(
+  (state: RootState) => getState(state).usersAverageInteractions,
   (data) => data,
 );

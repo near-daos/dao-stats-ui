@@ -6,12 +6,9 @@ import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isPending, isNotAsked } from 'src/utils';
+import { getUsersUsers, getUsersLeaderboard } from 'src/app/shared/users/slice';
 import {
-  getUsersHistory,
-  getUsersLeaderboard,
-} from 'src/app/shared/users/slice';
-import {
-  selectUsersHistory,
+  selectUsersUsers,
   selectUsersLeaderboard,
 } from 'src/app/shared/users/selectors';
 
@@ -25,17 +22,17 @@ const tabOptions = [
   { label: 'Leaderboard', value: 'leaderboard' },
 ];
 
-export const NumberUsers: FC = () => {
+export const UsersNumber: FC = () => {
   const [period, setPeriod] = useState('1y');
 
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
 
-  const users = useAppSelector(selectUsersHistory);
+  const users = useAppSelector(selectUsersUsers);
   const usersLeaderboard = useAppSelector(selectUsersLeaderboard);
   const getUsersNumberLoading = useAppSelector(
-    selectActionLoading(getUsersHistory.typePrefix),
+    selectActionLoading(getUsersUsers.typePrefix),
   );
   const getUsersNumberLeaderboardLoading = useAppSelector(
     selectActionLoading(getUsersLeaderboard.typePrefix),
@@ -51,7 +48,7 @@ export const NumberUsers: FC = () => {
       !isPending(getUsersNumberLoading)
     ) {
       dispatch(
-        getUsersHistory({
+        getUsersUsers({
           contract,
         }),
       ).catch((error: unknown) => {

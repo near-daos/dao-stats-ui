@@ -23,12 +23,11 @@ import { ROUTES } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
-import { NumberInteractions } from './number-interactions';
-import { NumberUsers } from './number-users';
-
-import { NumberUsersOfDao } from './number-users-of-dao';
-import { NumberUsersPerDao } from './number-users-per-dao';
-import { NumberInteractionsPerDao } from './number-interactions-per-dao';
+import { UsersNumber } from './users-number';
+import { Members } from './members';
+import { AverageUsers } from './average-users';
+import { Interactions } from './interactions';
+import { AverageInteractions } from './average-interactions';
 
 export const Users: FC = () => {
   const location = useLocation();
@@ -77,7 +76,7 @@ export const Users: FC = () => {
             )}
           >
             <WidgetInfo
-              title="All users on a platfrom"
+              title="All users on a platform"
               number={users?.users?.count}
               percentages={users?.users?.growth}
             />
@@ -85,10 +84,10 @@ export const Users: FC = () => {
 
           <WidgetTile
             className={styles.widget}
-            onClick={() => history.push(routes.usersOfDao)}
+            onClick={() => history.push(routes.usersMembers)}
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.usersOfDao,
+                path: ROUTES.usersMembers,
                 exact: true,
               }),
             )}
@@ -102,10 +101,10 @@ export const Users: FC = () => {
 
           <WidgetTile
             className={styles.widget}
-            onClick={() => history.push(routes.usersPerDao)}
+            onClick={() => history.push(routes.usersAverageUsers)}
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.usersPerDao,
+                path: ROUTES.usersAverageUsers,
                 exact: true,
               }),
             )}
@@ -119,10 +118,10 @@ export const Users: FC = () => {
 
           <WidgetTile
             className={styles.widget}
-            onClick={() => history.push(routes.usersNumberInteractions)}
+            onClick={() => history.push(routes.usersInteractions)}
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.usersNumberInteractions,
+                path: ROUTES.usersInteractions,
                 exact: true,
               }),
             )}
@@ -136,10 +135,10 @@ export const Users: FC = () => {
 
           <WidgetTile
             className={styles.widget}
-            onClick={() => history.push(routes.usersNumberInteractionsPerDao)}
+            onClick={() => history.push(routes.usersAverageInteractions)}
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.usersNumberInteractionsPerDao,
+                path: ROUTES.usersAverageInteractions,
                 exact: true,
               }),
             )}
@@ -154,26 +153,22 @@ export const Users: FC = () => {
 
         <div className={styles.mainContent}>
           <Switch>
-            <Route exact path={ROUTES.users} component={NumberUsers} />
+            <Route exact path={ROUTES.users} component={UsersNumber} />
+            <Route exact path={ROUTES.usersMembers} component={Members} />
             <Route
               exact
-              path={ROUTES.usersOfDao}
-              component={NumberUsersOfDao}
+              path={ROUTES.usersAverageUsers}
+              component={AverageUsers}
             />
             <Route
               exact
-              path={ROUTES.usersPerDao}
-              component={NumberUsersPerDao}
+              path={ROUTES.usersInteractions}
+              component={Interactions}
             />
             <Route
               exact
-              path={ROUTES.usersNumberInteractions}
-              component={NumberInteractions}
-            />
-            <Route
-              exact
-              path={ROUTES.usersNumberInteractionsPerDao}
-              component={NumberInteractionsPerDao}
+              path={ROUTES.usersAverageInteractions}
+              component={AverageInteractions}
             />
           </Switch>
         </div>
