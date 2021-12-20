@@ -89,7 +89,7 @@ export const Groups: FC = () => {
   const goToSingleDao = useCallback(
     (row) => {
       history.push(
-        generatePath(ROUTES.generalInfoDao, { contract, dao: row.dao }),
+        generatePath(ROUTES.generalInfoDaoGroups, { contract, dao: row.dao }),
       );
     },
     [contract, history],

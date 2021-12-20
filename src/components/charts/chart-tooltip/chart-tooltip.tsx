@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React, { useEffect, useRef, useState } from 'react';
 import { TooltipProps } from 'recharts';
-import { format } from 'date-fns';
+import format from 'date-fns/format';
 
 import { Dot } from '../svg/dot';
 

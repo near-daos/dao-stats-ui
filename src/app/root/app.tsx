@@ -65,6 +65,11 @@ export const App: FC = () => (
                   path={ROUTES.generalInfoDao}
                   component={GeneralInfoDao}
                 />
+                <Route
+                  exact
+                  path={ROUTES.generalInfoDaoGroups}
+                  component={GeneralInfoDao}
+                />
                 <Route exact path={ROUTES.users} component={Users} />
                 <Route
                   exact

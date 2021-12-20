@@ -11,6 +11,7 @@ export type generalState = {
   averageGroups: Metrics | null;
   generalDao: EntityState<GeneralDaoEntity>;
   generalDaoGroups: EntityState<MetricsEntity>;
+  generalDaoActivity: EntityState<MetricsEntity>;
   error: unknown;
 };
 

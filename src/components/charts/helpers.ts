@@ -2,8 +2,11 @@
 import { subYears, subMonths, subDays, startOfDay, format } from 'date-fns';
 import { MetricItem } from '../../api';
 
-export const getDateFromMow = (range: string): number | string => {
-  const currentDateStartedFromDay = startOfDay(new Date());
+export const getDateFromSelectedDate = (
+  range: string,
+  date?: number,
+): number | string => {
+  const currentDateStartedFromDay = startOfDay(date || new Date());
 
   switch (range) {
     case 'All':

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { getDateFromMow } from 'src/components/charts/helpers';
+import { getDateFromSelectedDate } from 'src/components/charts/helpers';
 import { Metrics } from 'src/api';
 
 export const useFilterMetrics = (
@@ -11,11 +11,13 @@ export const useFilterMetrics = (
       return metricsData || null;
     }
 
-    return metricsData?.metrics
-      ? {
-          metrics: metricsData?.metrics.filter(
-            (metric) => metric.timestamp > getDateFromMow(period),
-          ),
-        }
-      : null;
+    if (!metricsData?.metrics) {
+      return null;
+    }
+
+    return {
+      metrics: metricsData?.metrics.filter(
+        (metric) => metric.timestamp > getDateFromSelectedDate(period),
+      ),
+    };
   }, [metricsData, period]);
