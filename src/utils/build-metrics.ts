@@ -11,7 +11,7 @@ export const buildMetrics = (
   metrics: MetricItem[],
   isBuildFromCurrentDate?: boolean,
 ) => {
-  if (!metrics[0]) {
+  if (!metrics || !metrics[0]) {
     return [];
   }
 

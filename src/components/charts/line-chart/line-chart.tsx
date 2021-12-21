@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import {
   LineChart,
@@ -18,10 +17,19 @@ import { LineItem } from '../types';
 
 import { tickXFormatter } from '../helpers';
 
+type LineChartDataItem = {
+  timestamp: number;
+  [key: string]: number;
+};
+
+type LineChartData = {
+  metrics: LineChartDataItem[];
+};
+
 type LineChartProps = {
   width?: number;
   lines?: LineItem[];
-  data: any | null;
+  data: LineChartData | null;
   period: string;
   setPeriod: (period: string) => void;
 };

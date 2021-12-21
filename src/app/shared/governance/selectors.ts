@@ -1,7 +1,13 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from 'src/store/root-reducer';
 
-import { governanceSlice } from './slice';
+import {
+  governanceDaoAdapter,
+  governanceDaoProposalsAdapter,
+  governanceDaoProposalsTypesAdapter,
+  governanceDaoVoteRateAdapter,
+  governanceSlice,
+} from './slice';
 
 const getState = (state: RootState) => state[governanceSlice.name];
 
@@ -40,22 +46,43 @@ export const selectGovernanceVoteRateLeaderboard = createSelector(
   (data) => data,
 );
 
-export const selectGovernanceDao = createSelector(
-  (state: RootState) => getState(state).governanceDao,
-  (data) => data,
+const {
+  selectById: selectGovernanceDaoItem,
+} = governanceDaoAdapter.getSelectors(
+  (state: RootState) => state[governanceSlice.name].governanceDao,
 );
 
-export const selectGovernanceDaoProposals = createSelector(
-  (state: RootState) => getState(state).governanceDaoProposals,
-  (data) => data,
+export const selectGovernanceDaoById = (id: string | undefined) => (
+  state: RootState,
+) => (id ? selectGovernanceDaoItem(state, id) : null);
+
+const {
+  selectById: selectGovernanceDaoProposalsItem,
+} = governanceDaoProposalsAdapter.getSelectors(
+  (state: RootState) => state[governanceSlice.name].governanceDaoProposals,
 );
 
-export const selectGovernanceDaoProposalsTypes = createSelector(
-  (state: RootState) => getState(state).governanceDaoProposalsTypes,
-  (data) => data,
+export const selectGovernanceDaoProposalsById = (id: string | undefined) => (
+  state: RootState,
+) => (id ? selectGovernanceDaoProposalsItem(state, id) : null);
+
+const {
+  selectById: selectGovernanceDaoProposalsTypesItem,
+} = governanceDaoProposalsTypesAdapter.getSelectors(
+  (state: RootState) => state[governanceSlice.name].governanceDaoProposalsTypes,
 );
 
-export const selectGovernanceDaoRateVote = createSelector(
-  (state: RootState) => getState(state).governanceDaoVoteRate,
-  (data) => data,
+export const selectGovernanceDaoProposalsTypesById = (
+  id: string | undefined,
+) => (state: RootState) =>
+  id ? selectGovernanceDaoProposalsTypesItem(state, id) : null;
+
+const {
+  selectById: selectGovernanceDaoVoteRateItem,
+} = governanceDaoVoteRateAdapter.getSelectors(
+  (state: RootState) => state[governanceSlice.name].governanceDaoVoteRate,
 );
+
+export const selectGovernanceDaoVoteRateById = (id: string | undefined) => (
+  state: RootState,
+) => (id ? selectGovernanceDaoVoteRateItem(state, id) : null);

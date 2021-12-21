@@ -21,6 +21,7 @@ import {
   Tokens,
   GeneralInfoDao,
   UsersDao,
+  GovernanceDao,
 } from '..';
 import { Layout, Loading, UserData } from '../../components';
 import { RequestStatus } from '../../store/types';
@@ -112,6 +113,23 @@ export const App: FC = () => (
                   path={ROUTES.governanceVoteRate}
                   component={Governance}
                 />
+
+                <Route
+                  exact
+                  path={ROUTES.governanceDao}
+                  component={GovernanceDao}
+                />
+                <Route
+                  exact
+                  path={ROUTES.governanceProposalTypeDao}
+                  component={GovernanceDao}
+                />
+                <Route
+                  exact
+                  path={ROUTES.governanceVoteRateDao}
+                  component={GovernanceDao}
+                />
+
                 <Route exact path={ROUTES.flow} component={Flow} />
                 <Route exact path={ROUTES.flowTransactions} component={Flow} />
                 <Route exact path={ROUTES.tvl} component={Tvl} />

@@ -1,4 +1,11 @@
-import { Metrics, Governance, Leaderboard, ProposalMetrics } from 'src/api';
+import { EntityState } from '@reduxjs/toolkit';
+import {
+  Metrics,
+  Governance,
+  Leaderboard,
+  ProposalMetrics,
+  MetricsEntity,
+} from 'src/api';
 
 export type governanceState = {
   governance: Governance | null;
@@ -8,9 +15,17 @@ export type governanceState = {
   governanceProposalsTypesLeaderboard: Leaderboard | null;
   governanceVoteRate: Metrics | null;
   governanceVoteRateLeaderboard: Leaderboard | null;
-  governanceDao: Governance | null;
-  governanceDaoProposals: Metrics | null;
-  governanceDaoProposalsTypes: ProposalMetrics | null;
-  governanceDaoVoteRate: Metrics | null;
+  governanceDao: EntityState<GovernanceDaoEntity>;
+  governanceDaoProposals: EntityState<MetricsEntity>;
+  governanceDaoProposalsTypes: EntityState<ProposalMetricsEntity>;
+  governanceDaoVoteRate: EntityState<MetricsEntity>;
   error: unknown;
+};
+
+export type ProposalMetricsEntity = ProposalMetrics & {
+  id: string;
+};
+
+export type GovernanceDaoEntity = Governance & {
+  id: string;
 };
