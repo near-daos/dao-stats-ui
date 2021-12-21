@@ -1,6 +1,6 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { ChartLine, Tabs, Leaderboard, LoadingContainer } from 'src/components';
-import { useParams } from 'react-router';
+import { generatePath, useHistory, useParams } from 'react-router';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
 import { isNotAsked, isPending, isSuccess } from 'src/utils';
@@ -15,6 +15,7 @@ import {
 } from 'src/app/shared/governance/slice';
 
 import styles from 'src/styles/page.module.scss';
+import { ROUTES } from '../../../constants';
 
 const tabOptions = [
   {
@@ -27,7 +28,7 @@ const tabOptions = [
 export const NumberOfProposals: FC = () => {
   const [period, setPeriod] = useState('1y');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
-
+  const history = useHistory();
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
   const governanceProposalsLeaderboard = useAppSelector(
@@ -81,7 +82,17 @@ export const NumberOfProposals: FC = () => {
       ? governanceProposalsLeaderboard.metrics
       : null,
   });
+
   const governanceProposalsData = useFilterMetrics(period, governanceProposals);
+
+  const goToSingleDao = useCallback(
+    (row) => {
+      history.push(
+        generatePath(ROUTES.governanceDao, { contract, dao: row.dao }),
+      );
+    },
+    [contract, history],
+  );
 
   return (
     <div className={styles.detailsContainer}>
@@ -116,6 +127,7 @@ export const NumberOfProposals: FC = () => {
         ) : null}
         {activeTab === 'leaderboard' && governanceProposalsLeaderboardData ? (
           <Leaderboard
+            onRowClick={goToSingleDao}
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },

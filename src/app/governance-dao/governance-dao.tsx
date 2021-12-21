@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useMemo } from 'react';
 import {
+  generatePath,
   matchPath,
   Route,
   Switch,
@@ -18,8 +19,8 @@ import {
   Widgets,
   Breadcrumbs,
 } from 'src/components';
-import { selectGovernance } from 'src/app/shared/governance/selectors';
-import { getGovernance } from 'src/app/shared/governance/slice';
+import { selectGovernanceDaoById } from 'src/app/shared/governance/selectors';
+import { getGovernanceDao } from 'src/app/shared/governance/slice';
 
 import styles from 'src/styles/page.module.scss';
 
@@ -27,22 +28,22 @@ import { NumberOfProposals } from './number-of-proposals';
 import { ProposalsType } from './proposals-type';
 import { VoteRate } from './vote-rate';
 
-export const Governance: FC = () => {
+export const GovernanceDao: FC = () => {
   const location = useLocation();
   const history = useHistory();
   const routes = useRoutes();
-  const { contract } = useParams<{ contract: string }>();
+  const { contract, dao } = useParams<{ dao: string; contract: string }>();
   const dispatch = useAppDispatch();
-  const governance = useAppSelector(selectGovernance);
+  const governance = useAppSelector(selectGovernanceDaoById(dao));
 
   useEffect(() => {
     if (!governance) {
-      dispatch(getGovernance({ contract })).catch((error: unknown) => {
+      dispatch(getGovernanceDao({ contract, dao })).catch((error: unknown) => {
         // eslint-disable-next-line no-console
         console.error(error);
       });
     }
-  }, [governance, contract, dispatch]);
+  }, [governance, contract, dispatch, dao]);
 
   const breadcrumbs = useMemo(
     () => [
@@ -50,8 +51,12 @@ export const Governance: FC = () => {
         url: routes.governance,
         name: 'Governance',
       },
+      {
+        url: routes.generalInfoDao,
+        name: dao,
+      },
     ],
-    [routes],
+    [routes, dao],
   );
 
   return (
@@ -63,11 +68,15 @@ export const Governance: FC = () => {
             className={styles.widget}
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.governance,
+                path: ROUTES.governanceDao,
                 exact: true,
               }),
             )}
-            onClick={() => history.push(routes.governance)}
+            onClick={() =>
+              history.push(
+                generatePath(ROUTES.governanceDao, { contract, dao }),
+              )
+            }
           >
             <WidgetInfo
               title="Number of Proposals"
@@ -79,11 +88,15 @@ export const Governance: FC = () => {
             className={styles.widget}
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.governanceVoteRate,
+                path: ROUTES.governanceVoteRateDao,
                 exact: true,
               }),
             )}
-            onClick={() => history.push(routes.governanceVoteRate)}
+            onClick={() =>
+              history.push(
+                generatePath(ROUTES.governanceVoteRateDao, { contract, dao }),
+              )
+            }
           >
             <WidgetInfo
               title="Vote through rate"
@@ -95,11 +108,18 @@ export const Governance: FC = () => {
             className={styles.widget}
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.governanceProposalType,
+                path: ROUTES.governanceProposalTypeDao,
                 exact: true,
               }),
             )}
-            onClick={() => history.push(routes.governanceProposalType)}
+            onClick={() =>
+              history.push(
+                generatePath(ROUTES.governanceProposalTypeDao, {
+                  contract,
+                  dao,
+                }),
+              )
+            }
           >
             <ChartPie
               data={governance?.proposalsByType}
@@ -112,16 +132,16 @@ export const Governance: FC = () => {
           <Switch>
             <Route
               exact
-              path={ROUTES.governance}
+              path={ROUTES.governanceDao}
               component={NumberOfProposals}
             />
             <Route
-              path={ROUTES.governanceProposalType}
+              path={ROUTES.governanceProposalTypeDao}
               component={ProposalsType}
             />
             <Route
               exact
-              path={ROUTES.governanceVoteRate}
+              path={ROUTES.governanceVoteRateDao}
               component={VoteRate}
             />
           </Switch>

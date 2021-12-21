@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useMemo } from 'react';
 import { PieChart, Pie, Cell, Legend } from 'recharts';
-import { Proposals } from 'src/api';
+
 import startCase from 'lodash/startCase';
 
 import { Dot } from '../svg/dot';
@@ -9,9 +9,13 @@ import { COLORS } from '../constants';
 
 import styles from './pie-chart.module.scss';
 
+type PieChartData = {
+  [key: string]: number;
+};
+
 interface PieChartProps {
   title?: string;
-  data?: Proposals | null;
+  data?: PieChartData | null;
   width?: number;
   height?: number;
 }
@@ -30,7 +34,7 @@ export const ChartPie: React.FC<PieChartProps> = ({
       data
         ? Object.keys(data).map((key) => ({
             name: startCase(key),
-            value: (data as any)[key],
+            value: data[key],
           }))
         : [],
     [data],
@@ -91,8 +95,8 @@ export const ChartPie: React.FC<PieChartProps> = ({
   };
 
   return (
-    <PieChart width={width} height={height} className={styles.root}>
-      <Legend verticalAlign="top" content={renderCustomLegend} />
+    <PieChart width={width} height={height}>
+      <Legend align="left" verticalAlign="top" content={renderCustomLegend} />
       <Pie
         isAnimationActive={false}
         data={chartData}

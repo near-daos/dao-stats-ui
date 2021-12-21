@@ -9,3 +9,4 @@ export * from './tokens';
 export * from './tvl';
 export * from './general-info-dao';
 export * from './users-dao';
+export * from './governance-dao';

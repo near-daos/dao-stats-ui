@@ -4,6 +4,7 @@ import {
   createAsyncThunk,
   isRejected,
   isFulfilled,
+  createEntityAdapter,
 } from '@reduxjs/toolkit';
 import sortBy from 'lodash/sortBy';
 import { buildMetrics } from 'src/utils';
@@ -13,9 +14,25 @@ import {
   Params,
   DaoParams,
   DaoHistoryParams,
+  MetricsEntity,
 } from 'src/api';
 
-import { governanceState } from './types';
+import {
+  GovernanceDaoEntity,
+  governanceState,
+  ProposalMetricsEntity,
+} from './types';
+
+export const governanceDaoAdapter = createEntityAdapter<GovernanceDaoEntity>();
+export const governanceDaoProposalsAdapter = createEntityAdapter<
+  MetricsEntity
+>();
+export const governanceDaoProposalsTypesAdapter = createEntityAdapter<
+  ProposalMetricsEntity
+>();
+export const governanceDaoVoteRateAdapter = createEntityAdapter<
+  MetricsEntity
+>();
 
 const initialState: governanceState = {
   governance: null,
@@ -25,10 +42,10 @@ const initialState: governanceState = {
   governanceProposalsTypesLeaderboard: null,
   governanceVoteRate: null,
   governanceVoteRateLeaderboard: null,
-  governanceDao: null,
-  governanceDaoProposals: null,
-  governanceDaoProposalsTypes: null,
-  governanceDaoVoteRate: null,
+  governanceDao: governanceDaoAdapter.getInitialState(),
+  governanceDaoProposals: governanceDaoProposalsAdapter.getInitialState(),
+  governanceDaoProposalsTypes: governanceDaoProposalsTypesAdapter.getInitialState(),
+  governanceDaoVoteRate: governanceDaoVoteRateAdapter.getInitialState(),
   error: null,
 };
 
@@ -108,7 +125,7 @@ export const getGovernanceDao = createAsyncThunk(
   async (params: DaoParams) => {
     const response = await governanceService.getGovernanceDao(params);
 
-    return response.data;
+    return { id: params.dao, ...response.data };
   },
 );
 
@@ -117,7 +134,7 @@ export const getGovernanceDaoProposals = createAsyncThunk(
   async (params: DaoHistoryParams) => {
     const response = await governanceService.getGovernanceDaoProposals(params);
 
-    return response.data;
+    return { id: params.dao, metrics: response.data.metrics };
   },
 );
 
@@ -128,7 +145,7 @@ export const getGovernanceDaoProposalsTypes = createAsyncThunk(
       params,
     );
 
-    return response.data;
+    return { id: params.dao, metrics: response.data.metrics };
   },
 );
 
@@ -137,7 +154,7 @@ export const getGovernanceDaoVoteRate = createAsyncThunk(
   async (params: DaoHistoryParams) => {
     const response = await governanceService.getGovernanceDaoVoteRate(params);
 
-    return response.data;
+    return { id: params.dao, metrics: response.data.metrics };
   },
 );
 
@@ -226,31 +243,44 @@ export const governanceSlice = createSlice({
     );
 
     builder.addCase(getGovernanceDao.fulfilled, (state, { payload }) => {
-      state.governanceDao = payload;
+      governanceDaoAdapter.upsertOne(state.governanceDao, payload);
     });
 
     builder.addCase(
       getGovernanceDaoProposals.fulfilled,
       (state, { payload }) => {
-        state.governanceDaoProposals = {
+        governanceDaoProposalsAdapter.upsertOne(state.governanceDaoProposals, {
+          id: payload.id,
           metrics: buildMetrics(payload.metrics),
-        };
+        });
       },
     );
 
     builder.addCase(
       getGovernanceDaoProposalsTypes.fulfilled,
       (state, { payload }) => {
-        state.governanceDaoProposalsTypes = payload;
+        governanceDaoProposalsTypesAdapter.upsertOne(
+          state.governanceDaoProposalsTypes,
+          {
+            id: payload.id,
+            metrics: {
+              bounties: buildMetrics(payload.metrics.bounties),
+              financial: buildMetrics(payload.metrics.financial),
+              governance: buildMetrics(payload.metrics.governance),
+              members: buildMetrics(payload.metrics.members),
+            },
+          },
+        );
       },
     );
 
     builder.addCase(
       getGovernanceDaoVoteRate.fulfilled,
       (state, { payload }) => {
-        state.governanceDaoVoteRate = {
+        governanceDaoVoteRateAdapter.upsertOne(state.governanceDaoVoteRate, {
+          id: payload.id,
           metrics: buildMetrics(payload.metrics),
-        };
+        });
       },
     );
 

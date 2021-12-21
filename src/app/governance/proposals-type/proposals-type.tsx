@@ -1,12 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { FC, useEffect, useState, useMemo } from 'react';
-import merge from 'lodash/merge';
-import { useParams } from 'react-router';
+import React, { FC, useCallback, useEffect, useState } from 'react';
+import { generatePath, useParams, useHistory } from 'react-router';
 
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { MetricItem } from 'src/api';
-import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
+import {
+  useFilterMetrics,
+  useGovernanceChartData,
+  usePrepareLeaderboard,
+} from 'src/hooks';
 import { isNotAsked, isPending, isSuccess } from 'src/utils';
 import { selectActionLoading } from 'src/store/loading';
 import {
@@ -19,6 +20,7 @@ import {
 } from 'src/app/shared/governance/slice';
 
 import styles from 'src/styles/page.module.scss';
+import { ROUTES } from '../../../constants';
 
 const tabOptions = [
   {
@@ -31,7 +33,7 @@ const tabOptions = [
 export const ProposalsType: FC = () => {
   const [period, setPeriod] = useState('1y');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
-
+  const history = useHistory();
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
   const governanceProposalsTypes = useAppSelector(
@@ -50,8 +52,7 @@ export const ProposalsType: FC = () => {
 
   useEffect(() => {
     if (
-      (!governanceProposalsTypes ||
-        isNotAsked(governanceProposalsTypesLoading)) &&
+      isNotAsked(governanceProposalsTypesLoading) &&
       !isPending(governanceProposalsTypesLoading)
     ) {
       dispatch(
@@ -63,8 +64,7 @@ export const ProposalsType: FC = () => {
     }
 
     if (
-      (!governanceProposalsTypesLeaderboard ||
-        isNotAsked(governanceProposalsTypesLeaderboardLoading)) &&
+      isNotAsked(governanceProposalsTypesLeaderboardLoading) &&
       !isPending(governanceProposalsTypesLeaderboardLoading)
     ) {
       dispatch(
@@ -78,9 +78,7 @@ export const ProposalsType: FC = () => {
     period,
     contract,
     dispatch,
-    governanceProposalsTypes,
     governanceProposalsTypesLoading,
-    governanceProposalsTypesLeaderboard,
     governanceProposalsTypesLeaderboardLoading,
   ]);
 
@@ -88,59 +86,9 @@ export const ProposalsType: FC = () => {
     setActiveTab(value);
   };
 
-  const governanceProposalsTypesData = useMemo(() => {
-    if (!governanceProposalsTypes?.metrics) {
-      return null;
-    }
-
-    const findMaxData = (metrics: any) => {
-      let max = 0;
-      let maxData: MetricItem[] = [];
-      const result = { metrics: {} };
-
-      Object.values(metrics).forEach((value: any) => {
-        if (max <= value.length) {
-          maxData = value.map((valueItem: MetricItem) => ({
-            timestamp: valueItem.timestamp,
-            count: 0,
-          }));
-        }
-
-        max = Math.max(max, value.length);
-      });
-
-      Object.keys(metrics).forEach((key: string) => {
-        (result.metrics as any)[key] = maxData.map((maxDataItem) => {
-          const finded = (metrics as any)[key].find(
-            (item: MetricItem) => item.timestamp === maxDataItem.timestamp,
-          );
-
-          if (finded) {
-            return finded;
-          }
-
-          return maxDataItem;
-        });
-      });
-
-      return result;
-    };
-
-    const updatedMetrics = findMaxData(governanceProposalsTypes.metrics);
-
-    const result: any[] = [];
-
-    Object.keys(updatedMetrics.metrics).forEach((key) => {
-      result.push(
-        (updatedMetrics.metrics as any)[key].map((value: any) => ({
-          timestamp: value.timestamp,
-          [key]: value.count,
-        })),
-      );
-    });
-
-    return { metrics: merge([], ...result) };
-  }, [governanceProposalsTypes]);
+  const governanceProposalsTypesData = useGovernanceChartData(
+    governanceProposalsTypes,
+  );
 
   const governanceProposalsTypesFilteredData = useFilterMetrics(
     period,
@@ -153,6 +101,18 @@ export const ProposalsType: FC = () => {
       ? governanceProposalsTypesLeaderboard.leaderboard
       : null,
   });
+
+  const goToSingleDao = useCallback(
+    (row) => {
+      history.push(
+        generatePath(ROUTES.governanceProposalTypeDao, {
+          contract,
+          dao: row.dao,
+        }),
+      );
+    },
+    [contract, history],
+  );
 
   return (
     <div className={styles.detailsContainer}>
@@ -204,6 +164,7 @@ export const ProposalsType: FC = () => {
         {activeTab === 'leaderboard' &&
         governanceProposalsTypesLeaderboardData ? (
           <Leaderboard
+            onRowClick={goToSingleDao}
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },

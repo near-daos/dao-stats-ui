@@ -22,6 +22,9 @@ export const ROUTES = {
   governance: '/:contract/governance',
   governanceProposalType: '/:contract/governance/proposal-type',
   governanceVoteRate: '/:contract/governance/vote-rate',
+  governanceDao: '/:contract/governance/:dao',
+  governanceProposalTypeDao: '/:contract/governance/:dao/proposal-type',
+  governanceVoteRateDao: '/:contract/governance/:dao/vote-rate',
 
   flow: '/:contract/flow',
   flowTransactions: '/:contract/flow/transactions',
