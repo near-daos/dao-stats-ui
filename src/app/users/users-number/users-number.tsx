@@ -2,7 +2,7 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 import { generatePath, useHistory, useParams } from 'react-router';
 
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
-import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
+import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isPending, isNotAsked } from 'src/utils';
@@ -24,7 +24,7 @@ const tabOptions = [
 ];
 
 export const UsersNumber: FC = () => {
-  const [period, setPeriod] = useState('1y');
+  const [period, setPeriod] = useState('All');
   const history = useHistory();
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const { contract } = useParams<{ contract: string }>();
@@ -83,6 +83,7 @@ export const UsersNumber: FC = () => {
   });
 
   const usersData = useFilterMetrics(period, users);
+  const periods = usePeriods(users?.metrics);
 
   const goToSingleDao = useCallback(
     (row) => {
@@ -111,6 +112,7 @@ export const UsersNumber: FC = () => {
       <div className={styles.metricsContainer}>
         {activeTab === 'history-data' && usersData ? (
           <ChartLine
+            periods={periods}
             data={usersData}
             period={period}
             setPeriod={setPeriod}

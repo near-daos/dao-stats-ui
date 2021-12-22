@@ -7,7 +7,6 @@ import {
   createEntityAdapter,
 } from '@reduxjs/toolkit';
 import sortBy from 'lodash/sortBy';
-import { buildMetrics } from 'src/utils';
 import {
   HistoryParams,
   Params,
@@ -201,7 +200,7 @@ export const usersSlice = createSlice({
 
     builder.addCase(getUsersUsers.fulfilled, (state, { payload }) => {
       state.usersUsers = {
-        metrics: buildMetrics(payload.metrics),
+        metrics: payload.metrics,
       };
     });
 
@@ -211,7 +210,7 @@ export const usersSlice = createSlice({
 
     builder.addCase(getUsersMembers.fulfilled, (state, { payload }) => {
       state.usersMembers = {
-        metrics: buildMetrics(payload.metrics),
+        metrics: payload.metrics,
       };
     });
 
@@ -224,13 +223,13 @@ export const usersSlice = createSlice({
 
     builder.addCase(getUsersAverageUsers.fulfilled, (state, { payload }) => {
       state.usersAverageUsers = {
-        metrics: buildMetrics(payload.metrics),
+        metrics: payload.metrics,
       };
     });
 
     builder.addCase(getUsersInteractions.fulfilled, (state, { payload }) => {
       state.usersInteractions = {
-        metrics: buildMetrics(payload.metrics),
+        metrics: payload.metrics,
       };
     });
 
@@ -245,7 +244,7 @@ export const usersSlice = createSlice({
       getUsersAverageInteractions.fulfilled,
       (state, { payload }) => {
         state.usersAverageInteractions = {
-          metrics: buildMetrics(sortBy(payload.metrics, 'timestamp')),
+          metrics: sortBy(payload.metrics, 'timestamp'),
         };
       },
     );
@@ -257,21 +256,21 @@ export const usersSlice = createSlice({
     builder.addCase(getUsersDaoUsers.fulfilled, (state, { payload }) => {
       usersDaoUsersAdapter.upsertOne(state.usersDaoUsers, {
         id: payload.id,
-        metrics: buildMetrics(payload.metrics),
+        metrics: payload.metrics,
       });
     });
 
     builder.addCase(getUsersDaoMembers.fulfilled, (state, { payload }) => {
       usersDaoMembersAdapter.upsertOne(state.usersDaoMembers, {
         id: payload.id,
-        metrics: buildMetrics(payload.metrics),
+        metrics: payload.metrics,
       });
     });
 
     builder.addCase(getUsersDaoInteractions.fulfilled, (state, { payload }) => {
       usersDaoInteractionsAdapter.upsertOne(state.usersDaoInteractions, {
         id: payload.id,
-        metrics: buildMetrics(payload.metrics),
+        metrics: payload.metrics,
       });
     });
 

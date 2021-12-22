@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
 import { ChartLine, LoadingContainer } from 'src/components';
-import { useFilterMetrics } from 'src/hooks';
+import { useFilterMetrics, usePeriods } from 'src/hooks';
 import { getGeneralDaos } from 'src/app/shared/general/slice';
 import { selectGeneralDaos } from 'src/app/shared/general/selectors';
 import { useAppDispatch, useAppSelector } from 'src/store';
@@ -12,7 +12,7 @@ import { isSuccess, isNotAsked, isPending } from 'src/utils';
 import styles from 'src/styles/page.module.scss';
 
 export const NumbersDao: FC = () => {
-  const [period, setPeriod] = useState('1y');
+  const [period, setPeriod] = useState('All');
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
   const daos = useAppSelector(selectGeneralDaos);
@@ -33,6 +33,7 @@ export const NumbersDao: FC = () => {
   }, [contract, dispatch, getGeneralDaosLoading]);
 
   const daosData = useFilterMetrics(period, daos);
+  const periods = usePeriods(daos?.metrics);
 
   return (
     <>
@@ -41,6 +42,7 @@ export const NumbersDao: FC = () => {
       <div className={styles.metricsContainer}>
         {daosData ? (
           <ChartLine
+            periods={periods}
             data={daosData}
             period={period}
             setPeriod={setPeriod}

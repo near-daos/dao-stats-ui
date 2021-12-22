@@ -11,19 +11,16 @@ import {
 } from 'recharts';
 
 import { CustomLegend } from 'src/components/charts/custom-legend';
+import { Period } from 'src/constants';
+
 import { ChartTooltip } from '../chart-tooltip';
 import { tickStyles } from '../constants';
-import { LineItem } from '../types';
+import { ChartDataItem, LineItem } from '../types';
 
 import { tickXFormatter } from '../helpers';
 
-type LineChartDataItem = {
-  timestamp: number;
-  [key: string]: number;
-};
-
 type LineChartData = {
-  metrics: LineChartDataItem[];
+  metrics: ChartDataItem[];
 };
 
 type LineChartProps = {
@@ -31,6 +28,7 @@ type LineChartProps = {
   lines?: LineItem[];
   data: LineChartData | null;
   period: string;
+  periods: Period[];
   setPeriod: (period: string) => void;
 };
 
@@ -39,6 +37,7 @@ export const ChartLine: React.FC<LineChartProps> = ({
   data = { metrics: [] },
   width = 685,
   period,
+  periods,
   setPeriod,
 }) => {
   const [filterLines, setFilterLines] = useState(lines);
@@ -85,6 +84,7 @@ export const ChartLine: React.FC<LineChartProps> = ({
             <CustomLegend
               lines={lines}
               period={period}
+              periods={periods}
               setPeriod={(periodType) => setPeriod(periodType)}
               onFilterSelect={(filteredNames) =>
                 setFilterLines(

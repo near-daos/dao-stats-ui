@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 
 import { ChartLine, LoadingContainer } from 'src/components';
 import { isNotAsked, isSuccess, isPending } from 'src/utils';
-import { useFilterMetrics } from 'src/hooks';
+import { useFilterMetrics, usePeriods } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { getUsersAverageUsers } from 'src/app/shared/users/slice';
@@ -12,7 +12,7 @@ import { selectUsersAverageUsers } from 'src/app/shared/users/selectors';
 import styles from 'src/styles/page.module.scss';
 
 export const AverageUsers: FC = () => {
-  const [period, setPeriod] = useState('1y');
+  const [period, setPeriod] = useState('All');
 
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
@@ -35,6 +35,7 @@ export const AverageUsers: FC = () => {
   }, [getUsersLoading, contract, dispatch]);
 
   const usersData = useFilterMetrics(period, users);
+  const periods = usePeriods(users?.metrics);
 
   return (
     <>
@@ -43,6 +44,7 @@ export const AverageUsers: FC = () => {
       <div className={styles.metricsContainer}>
         {usersData ? (
           <ChartLine
+            periods={periods}
             data={usersData}
             period={period}
             setPeriod={setPeriod}

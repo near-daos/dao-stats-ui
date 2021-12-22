@@ -2,7 +2,7 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 import { ChartLine, Tabs, Leaderboard, LoadingContainer } from 'src/components';
 import { generatePath, useHistory, useParams } from 'react-router';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
+import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
 import { isNotAsked, isPending, isSuccess } from 'src/utils';
 import { selectActionLoading } from 'src/store/loading';
 import {
@@ -26,7 +26,7 @@ const tabOptions = [
 ];
 
 export const NumberOfProposals: FC = () => {
-  const [period, setPeriod] = useState('1y');
+  const [period, setPeriod] = useState('All');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const history = useHistory();
   const { contract } = useParams<{ contract: string }>();
@@ -84,6 +84,7 @@ export const NumberOfProposals: FC = () => {
   });
 
   const governanceProposalsData = useFilterMetrics(period, governanceProposals);
+  const periods = usePeriods(governanceProposals?.metrics);
 
   const goToSingleDao = useCallback(
     (row) => {
@@ -113,6 +114,7 @@ export const NumberOfProposals: FC = () => {
       <div className={styles.metricsContainer}>
         {activeTab === 'history-data' && governanceProposalsData ? (
           <ChartLine
+            periods={periods}
             data={governanceProposalsData}
             period={period}
             setPeriod={setPeriod}

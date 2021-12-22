@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { useFilterMetrics } from 'src/hooks';
+import { useFilterMetrics, usePeriods } from 'src/hooks';
 import { selectActionLoading } from 'src/store/loading';
 import { isPending, isSuccess } from 'src/utils';
 import { selectGovernanceDaoVoteRateById } from 'src/app/shared/governance/selectors';
@@ -12,7 +12,7 @@ import { getGovernanceDaoVoteRate } from 'src/app/shared/governance/slice';
 import styles from 'src/styles/page.module.scss';
 
 export const VoteRate: FC = () => {
-  const [period, setPeriod] = useState('1y');
+  const [period, setPeriod] = useState('All');
   const { contract, dao } = useParams<{ dao: string; contract: string }>();
   const dispatch = useAppDispatch();
   const governanceVoteRate = useAppSelector(
@@ -36,6 +36,7 @@ export const VoteRate: FC = () => {
   }, [contract, dao, dispatch, governanceVoteRate, governanceVoteRateLoading]);
 
   const governanceVoteRateData = useFilterMetrics(period, governanceVoteRate);
+  const periods = usePeriods(governanceVoteRate?.metrics);
 
   return (
     <>
@@ -43,6 +44,7 @@ export const VoteRate: FC = () => {
       <div className={styles.metricsContainer}>
         {governanceVoteRateData ? (
           <ChartLine
+            periods={periods}
             data={governanceVoteRateData}
             period={period}
             setPeriod={setPeriod}
