@@ -37,10 +37,5 @@ export const buildMetrics = (
     return metrics;
   }
 
-  return eachDayOfInterval({
-    start: oneYearFromCurrentDate,
-    end: new Date(metrics[0].timestamp),
-  })
-    .map((date) => ({ timestamp: date.getTime(), count: 0 }))
-    .concat(metrics);
+  return metrics;
 };

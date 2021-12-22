@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from 'src/store';
 import {
   useFilterMetrics,
   useGovernanceChartData,
+  usePeriods,
   usePrepareLeaderboard,
 } from 'src/hooks';
 import { isNotAsked, isPending, isSuccess } from 'src/utils';
@@ -31,7 +32,7 @@ const tabOptions = [
 ];
 
 export const ProposalsType: FC = () => {
-  const [period, setPeriod] = useState('1y');
+  const [period, setPeriod] = useState('All');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const history = useHistory();
   const { contract } = useParams<{ contract: string }>();
@@ -95,6 +96,8 @@ export const ProposalsType: FC = () => {
     governanceProposalsTypesData,
   );
 
+  const periods = usePeriods(governanceProposalsTypesData?.metrics);
+
   const governanceProposalsTypesLeaderboardData = usePrepareLeaderboard({
     type: 'stacked',
     leaderboard: governanceProposalsTypesLeaderboard?.leaderboard
@@ -134,6 +137,7 @@ export const ProposalsType: FC = () => {
         {activeTab === 'history-data' &&
         governanceProposalsTypesFilteredData ? (
           <ChartLine
+            periods={periods}
             data={governanceProposalsTypesFilteredData}
             period={period}
             setPeriod={setPeriod}

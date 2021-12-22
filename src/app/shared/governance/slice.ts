@@ -7,7 +7,6 @@ import {
   createEntityAdapter,
 } from '@reduxjs/toolkit';
 import sortBy from 'lodash/sortBy';
-import { buildMetrics } from 'src/utils';
 import {
   governanceService,
   HistoryParams,
@@ -193,7 +192,7 @@ export const governanceSlice = createSlice({
     });
 
     builder.addCase(getGovernanceProposals.fulfilled, (state, { payload }) => {
-      state.governanceProposals = { metrics: buildMetrics(payload.metrics) };
+      state.governanceProposals = { metrics: payload.metrics };
     });
 
     builder.addCase(
@@ -208,16 +207,10 @@ export const governanceSlice = createSlice({
       (state, { payload }) => {
         state.governanceProposalsTypes = {
           metrics: {
-            governance: buildMetrics(
-              sortBy(payload.metrics.governance, 'timestamp'),
-            ),
-            financial: buildMetrics(
-              sortBy(payload.metrics.financial, 'timestamp'),
-            ),
-            bounties: buildMetrics(
-              sortBy(payload.metrics.bounties, 'timestamp'),
-            ),
-            members: buildMetrics(sortBy(payload.metrics.members, 'timestamp')),
+            governance: sortBy(payload.metrics.governance, 'timestamp'),
+            financial: sortBy(payload.metrics.financial, 'timestamp'),
+            bounties: sortBy(payload.metrics.bounties, 'timestamp'),
+            members: sortBy(payload.metrics.members, 'timestamp'),
           },
         };
       },
@@ -231,7 +224,7 @@ export const governanceSlice = createSlice({
 
     builder.addCase(getGovernanceVoteRate.fulfilled, (state, { payload }) => {
       state.governanceVoteRate = {
-        metrics: buildMetrics(sortBy(payload.metrics, 'timestamp')),
+        metrics: sortBy(payload.metrics, 'timestamp'),
       };
     });
 
@@ -251,7 +244,7 @@ export const governanceSlice = createSlice({
       (state, { payload }) => {
         governanceDaoProposalsAdapter.upsertOne(state.governanceDaoProposals, {
           id: payload.id,
-          metrics: buildMetrics(payload.metrics),
+          metrics: payload.metrics,
         });
       },
     );
@@ -264,10 +257,10 @@ export const governanceSlice = createSlice({
           {
             id: payload.id,
             metrics: {
-              bounties: buildMetrics(payload.metrics.bounties),
-              financial: buildMetrics(payload.metrics.financial),
-              governance: buildMetrics(payload.metrics.governance),
-              members: buildMetrics(payload.metrics.members),
+              bounties: payload.metrics.bounties,
+              financial: payload.metrics.financial,
+              governance: payload.metrics.governance,
+              members: payload.metrics.members,
             },
           },
         );
@@ -279,7 +272,7 @@ export const governanceSlice = createSlice({
       (state, { payload }) => {
         governanceDaoVoteRateAdapter.upsertOne(state.governanceDaoVoteRate, {
           id: payload.id,
-          metrics: buildMetrics(payload.metrics),
+          metrics: payload.metrics,
         });
       },
     );
