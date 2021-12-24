@@ -8,15 +8,22 @@ import {
   useParams,
 } from 'react-router';
 import { ROUTES } from 'src/constants';
+import { useRoutes } from 'src/hooks';
 
-import { Page, WidgetTile, WidgetInfo, Breadcrumbs } from '../../components';
-import { TokensNumberOfFTs } from './number-of-fts';
-import { TokensNumberOfNFTs } from './number-of-nfts';
+import {
+  Page,
+  WidgetTile,
+  WidgetInfo,
+  Breadcrumbs,
+  Widgets,
+} from 'src/components';
+import { getTokens, selectTokens } from 'src/app/shared';
+import { useAppDispatch, useAppSelector } from 'src/store';
 
-import styles from './tokens.module.scss';
-import { getGeneral, selectGeneral } from '../shared';
-import { useRoutes } from '../../hooks';
-import { useAppDispatch, useAppSelector } from '../../store';
+import styles from 'src/styles/page.module.scss';
+
+import { Fts } from './fts';
+import { Nfts } from './nfts';
 
 export const Tokens: FC = () => {
   const location = useLocation();
@@ -24,20 +31,20 @@ export const Tokens: FC = () => {
   const routes = useRoutes();
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
-  const general = useAppSelector(selectGeneral);
+  const tokens = useAppSelector(selectTokens);
 
   useEffect(() => {
     (async () => {
       try {
-        if (!general) {
-          await dispatch(getGeneral({ contract }));
+        if (!tokens) {
+          await dispatch(getTokens({ contract }));
         }
       } catch (error: unknown) {
         // eslint-disable-next-line no-console
         console.error(error);
       }
     })();
-  }, [general, contract, dispatch]);
+  }, [tokens, contract, dispatch]);
 
   const breadcrumbs = useMemo(
     () => [
@@ -53,7 +60,7 @@ export const Tokens: FC = () => {
     <>
       <Breadcrumbs elements={breadcrumbs} className={styles.breadcrumbs} />
       <Page>
-        <div className={styles.widgets}>
+        <Widgets>
           <WidgetTile
             className={styles.widget}
             active={Boolean(
@@ -66,28 +73,32 @@ export const Tokens: FC = () => {
           >
             <WidgetInfo
               title="Number of NFTs"
-              number={13290}
-              percentages={10}
+              number={tokens?.nfts?.count}
+              percentages={tokens?.nfts?.growth}
             />
           </WidgetTile>
           <WidgetTile
             className={styles.widget}
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.tokensNfts,
+                path: ROUTES.tokensFts,
                 exact: true,
               }),
             )}
-            onClick={() => history.push(routes.tokensNfts)}
+            onClick={() => history.push(routes.tokensFts)}
           >
-            <WidgetInfo title="Number of FTs" number={16193} percentages={10} />
+            <WidgetInfo
+              title="Number of FTs"
+              number={tokens?.fts?.count}
+              percentages={tokens?.fts?.growth}
+            />
           </WidgetTile>
-        </div>
+        </Widgets>
 
         <div className={styles.mainContent}>
           <Switch>
-            <Route exact path={ROUTES.tokens} component={TokensNumberOfNFTs} />
-            <Route path={ROUTES.tokensNumberFt} component={TokensNumberOfFTs} />
+            <Route exact path={ROUTES.tokens} component={Nfts} />
+            <Route path={ROUTES.tokensFts} component={Fts} />
           </Switch>
         </div>
       </Page>

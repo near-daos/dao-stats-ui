@@ -158,14 +158,14 @@ export const tokensSlice = createSlice({
     });
 
     builder.addCase(getTokensDaoNfts.fulfilled, (state, { payload }) => {
-      tokensDaoNtfsAdapter.upsertOne(state.tokensNfts, {
+      tokensDaoNtfsAdapter.upsertOne(state.tokensNftsDao, {
         id: payload.id,
         metrics: payload.metrics,
       });
     });
 
     builder.addCase(getTokensDaoFts.fulfilled, (state, { payload }) => {
-      tokensDaoFtsAdapter.upsertOne(state.tokensFts, {
+      tokensDaoFtsAdapter.upsertOne(state.tokensFtsDao, {
         id: payload.id,
         metrics: payload.metrics,
       });

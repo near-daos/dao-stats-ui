@@ -34,9 +34,9 @@ export const ROUTES = {
   tvlDao: '/:contract/tvl/dao',
 
   tokens: '/:contract/tokens',
-  tokensNfts: '/:contract/tokens/nfts',
+  tokensFts: '/:contract/tokens/fts',
   tokensDao: '/:contract/tokens/:dao',
-  tokensNftsDao: '/:contract/tokens/:dao/nfts',
+  tokensFtsDao: '/:contract/tokens/:dao/fts',
 };
 
 export const HEADER_FORBIDDEN_ROUTES = [ROUTES.page404, ROUTES.uiKit];
