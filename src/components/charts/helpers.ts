@@ -1,28 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { subYears, subMonths, subDays, startOfDay, format } from 'date-fns';
-import { MetricItem } from '../../api';
+import { subYears, subMonths, subDays, format } from 'date-fns';
+import { MetricItem } from 'src/api';
 
 export const getDateFromSelectedDate = (
   range: string,
   date?: number,
 ): number | string => {
-  const currentDateStartedFromDay = startOfDay(date || new Date());
+  const currentDate = date || new Date();
 
   switch (range) {
     case 'All':
-      return subYears(currentDateStartedFromDay, 30).getTime();
+      return subYears(currentDate, 30).getTime();
     case '1y':
-      return subYears(currentDateStartedFromDay, 1).getTime();
+      return subYears(currentDate, 1).getTime();
     case '6m':
-      return subMonths(currentDateStartedFromDay, 6).getTime();
+      return subMonths(currentDate, 6).getTime();
     case '3m':
-      return subMonths(currentDateStartedFromDay, 3).getTime();
+      return subMonths(currentDate, 3).getTime();
     case '1m':
-      return subMonths(currentDateStartedFromDay, 1).getTime();
+      return subMonths(currentDate, 1).getTime();
     case '7d':
-      return subDays(currentDateStartedFromDay, 7).getTime();
+      return subDays(currentDate, 7).getTime();
     default:
-      return subYears(currentDateStartedFromDay, 1).getTime();
+      return subYears(currentDate, 1).getTime();
   }
 };
 

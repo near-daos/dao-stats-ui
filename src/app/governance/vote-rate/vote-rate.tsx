@@ -3,7 +3,7 @@ import { generatePath, useParams, useHistory } from 'react-router';
 
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
+import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
 import { selectActionLoading } from 'src/store/loading';
 import { isNotAsked, isPending, isSuccess } from 'src/utils';
 import {
@@ -27,7 +27,7 @@ const tabOptions = [
 ];
 
 export const VoteRate: FC = () => {
-  const [period, setPeriod] = useState('1y');
+  const [period, setPeriod] = useState('All');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const history = useHistory();
   const { contract } = useParams<{ contract: string }>();
@@ -80,6 +80,8 @@ export const VoteRate: FC = () => {
   };
 
   const governanceVoteRateData = useFilterMetrics(period, governanceVoteRate);
+  const periods = usePeriods(governanceVoteRate?.metrics);
+
   const governanceVoteRateLeaderboardData = usePrepareLeaderboard({
     type: 'voteRate',
     leaderboard: governanceVoteRateLeaderboard?.metrics
@@ -115,6 +117,7 @@ export const VoteRate: FC = () => {
       <div className={styles.metricsContainer}>
         {activeTab === 'history-data' && governanceVoteRateData ? (
           <ChartLine
+            periods={periods}
             data={governanceVoteRateData}
             period={period}
             setPeriod={setPeriod}

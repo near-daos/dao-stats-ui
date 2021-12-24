@@ -4,7 +4,7 @@ import { generatePath, useHistory, useParams } from 'react-router';
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
-import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
+import { useFilterMetrics, usePrepareLeaderboard, usePeriods } from 'src/hooks';
 import { isPending, isSuccess, isNotAsked } from 'src/utils';
 
 import {
@@ -29,7 +29,7 @@ const tabOptions = [
 
 export const ActiveDao: FC = () => {
   const history = useHistory();
-  const [period, setPeriod] = useState('1y');
+  const [period, setPeriod] = useState('All');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
 
   const { contract } = useParams<{ contract: string }>();
@@ -83,6 +83,7 @@ export const ActiveDao: FC = () => {
   });
 
   const activeData = useFilterMetrics(period, active);
+  const periods = usePeriods(active?.metrics);
 
   const goToSingleDao = useCallback(
     (row) => {
@@ -112,6 +113,7 @@ export const ActiveDao: FC = () => {
       <div className={styles.metricsContainer}>
         {activeTab === 'history-data' && activeData ? (
           <ChartLine
+            periods={periods}
             data={activeData}
             period={period}
             setPeriod={setPeriod}

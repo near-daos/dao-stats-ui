@@ -2,7 +2,7 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 import { useParams, generatePath, useHistory } from 'react-router';
 
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
-import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
+import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import {
   selectGeneralGroups,
@@ -27,7 +27,7 @@ const tabOptions = [
 ];
 
 export const Groups: FC = () => {
-  const [period, setPeriod] = useState('1y');
+  const [period, setPeriod] = useState('All');
   const history = useHistory();
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const { contract } = useParams<{ contract: string }>();
@@ -85,6 +85,7 @@ export const Groups: FC = () => {
   });
 
   const groupsData = useFilterMetrics(period, groups);
+  const periods = usePeriods(groups?.metrics);
 
   const goToSingleDao = useCallback(
     (row) => {
@@ -116,6 +117,7 @@ export const Groups: FC = () => {
       <div className={styles.metricsContainer}>
         {activeTab === 'history-data' && groupsData ? (
           <ChartLine
+            periods={periods}
             data={groupsData}
             period={period}
             setPeriod={setPeriod}

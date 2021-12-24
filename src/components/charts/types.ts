@@ -3,3 +3,8 @@ export type LineItem = {
   color?: string;
   dataKey: string;
 };
+
+export type ChartDataItem = {
+  timestamp: number;
+  [key: string]: number;
+};

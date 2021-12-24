@@ -10,9 +10,9 @@ import {
   Tooltip,
   Cell,
 } from 'recharts';
+
 import { CustomLegend } from '../custom-legend';
 import { ChartTooltip } from '../chart-tooltip';
-
 import { COLORS, tickStyles } from '../constants';
 import { filterDataByRange, yTickFormatter } from '../helpers';
 
@@ -27,7 +27,7 @@ export const ChartBar: React.FC<ChartBarProps> = ({
   width = 685,
   height = 500,
 }) => {
-  const [period, setPeriod] = useState('1y');
+  const [period, setPeriod] = useState('All');
   const [focusBar, setFocusBar] = useState(null);
 
   const rechartsData = filterDataByRange(period, data);
@@ -76,6 +76,7 @@ export const ChartBar: React.FC<ChartBarProps> = ({
         iconType="circle"
         content={
           <CustomLegend
+            periods={data}
             period={period}
             setPeriod={setPeriod}
             onFilterSelect={(active) => setActiveBars(active)}

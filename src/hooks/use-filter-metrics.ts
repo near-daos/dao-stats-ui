@@ -15,9 +15,12 @@ export const useFilterMetrics = (
       return null;
     }
 
+    const endDate =
+      metricsData.metrics[metricsData.metrics.length - 1].timestamp;
+
     return {
-      metrics: metricsData?.metrics.filter(
-        (metric) => metric.timestamp > getDateFromSelectedDate(period),
+      metrics: metricsData.metrics.filter(
+        (metric) => metric.timestamp > getDateFromSelectedDate(period, endDate),
       ),
     };
   }, [metricsData, period]);

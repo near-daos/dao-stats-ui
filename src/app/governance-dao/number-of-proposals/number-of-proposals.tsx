@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useParams } from 'react-router';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { useFilterMetrics } from 'src/hooks';
+import { useFilterMetrics, usePeriods } from 'src/hooks';
 import { isPending, isSuccess } from 'src/utils';
 import { selectActionLoading } from 'src/store/loading';
 import { selectGovernanceDaoProposalsById } from 'src/app/shared/governance/selectors';
@@ -11,7 +11,7 @@ import { getGovernanceDaoProposals } from 'src/app/shared/governance/slice';
 import styles from 'src/styles/page.module.scss';
 
 export const NumberOfProposals: FC = () => {
-  const [period, setPeriod] = useState('1y');
+  const [period, setPeriod] = useState('All');
   const { contract, dao } = useParams<{ dao: string; contract: string }>();
   const dispatch = useAppDispatch();
   const governanceProposals = useAppSelector(
@@ -40,6 +40,7 @@ export const NumberOfProposals: FC = () => {
   ]);
 
   const governanceProposalsData = useFilterMetrics(period, governanceProposals);
+  const periods = usePeriods(governanceProposals?.metrics);
 
   return (
     <>
@@ -48,6 +49,7 @@ export const NumberOfProposals: FC = () => {
       <div className={styles.metricsContainer}>
         {governanceProposalsData ? (
           <ChartLine
+            periods={periods}
             data={governanceProposalsData}
             period={period}
             setPeriod={setPeriod}
