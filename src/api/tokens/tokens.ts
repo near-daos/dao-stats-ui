@@ -10,7 +10,6 @@ import {
   Leaderboard,
   Metrics,
   Params,
-  ProposalMetrics,
 } from '../types';
 
 export class TokensService extends HttpService {
@@ -30,9 +29,7 @@ export class TokensService extends HttpService {
     return this.get(`${params.contract}/tokens/fts/leaderboard`);
   }
 
-  async getTokensNfts(
-    params: HistoryParams,
-  ): Promise<AxiosResponse<Leaderboard>> {
+  async getTokensNfts(params: HistoryParams): Promise<AxiosResponse<Metrics>> {
     const query = queryString.stringify({ from: params.from, to: params.to });
 
     return this.get(`${params.contract}/tokens/nfts?${query}`);
@@ -44,8 +41,24 @@ export class TokensService extends HttpService {
     return this.get(`${params.contract}/tokens/nfts/leaderboard`);
   }
 
-  async getTokensDao(params: DaoParams): Promise<AxiosResponse<Leaderboard>> {
-    return this.get(`${params.contract}/tokens/nfts/leaderboard`);
+  async getTokensDao(params: DaoParams): Promise<AxiosResponse<Tokens>> {
+    return this.get(`${params.contract}/tokens/${params.dao}`);
+  }
+
+  async getTokensDaoFts(
+    params: DaoHistoryParams,
+  ): Promise<AxiosResponse<Metrics>> {
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(`${params.contract}/tokens/${params.dao}/fts?${query}`);
+  }
+
+  async getTokensDaoNfts(
+    params: DaoHistoryParams,
+  ): Promise<AxiosResponse<Metrics>> {
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(`${params.contract}/tokens/${params.dao}/nfts?${query}`);
   }
 }
 

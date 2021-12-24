@@ -53,7 +53,6 @@ export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
     {
       label: 'Tokens',
       value: routes.tokens,
-      disabled: true,
     },
   ];
 
