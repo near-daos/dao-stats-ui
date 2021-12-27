@@ -17,14 +17,16 @@ export const MainPage: FC = () => {
 
   useEffect(() => {
     const handleScroll = (event: WheelEvent) => {
-      if (event.deltaY < 0) {
+      if (event.deltaY > 0) {
         history.push(routes.generalInfo);
       }
     };
 
     window.addEventListener('wheel', handleScroll);
 
-    return () => window.removeEventListener('wheel', handleScroll);
+    return () => {
+      window.removeEventListener('wheel', handleScroll);
+    };
   }, [history, routes.generalInfo]);
 
   return (
