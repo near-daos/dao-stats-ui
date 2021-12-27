@@ -59,4 +59,4 @@ const { selectById: selectTokensFtsDaoItem } = tokensDaoFtsAdapter.getSelectors(
 
 export const selectTokensFtsDaoById = (id: string | undefined) => (
   state: RootState,
-) => (id ? selectTokensNftsDaoItem(state, id) : null);
+) => (id ? selectTokensFtsDaoItem(state, id) : null);

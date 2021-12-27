@@ -45,3 +45,5 @@ export const SIDEBAR_FORBIDDEN_ROUTES = [
   ROUTES.page404,
   ROUTES.uiKit,
 ];
+
+export type Params = { dao: string; contract: string };

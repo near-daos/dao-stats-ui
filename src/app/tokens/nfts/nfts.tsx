@@ -84,9 +84,7 @@ export const Nfts: FC = () => {
 
   const goToSingleDao = useCallback(
     (row) => {
-      history.push(
-        generatePath(ROUTES.tokensFtsDao, { contract, dao: row.dao }),
-      );
+      history.push(generatePath(ROUTES.tokensDao, { contract, dao: row.dao }));
     },
     [contract, history],
   );
