@@ -127,7 +127,7 @@ export const GeneralInfo: FC = () => {
           >
             <WidgetInfo
               title="Avg. Groups/DAO"
-              number={general?.averageGroups?.count}
+              number={Number(general?.averageGroups?.count.toFixed(2))}
               percentages={general?.averageGroups?.growth}
             />
           </WidgetTile>

@@ -7,7 +7,7 @@ import {
   useLocation,
   useParams,
 } from 'react-router';
-import { ROUTES } from 'src/constants';
+import { Params, ROUTES } from 'src/constants';
 import { useRoutes } from 'src/hooks';
 
 import {
@@ -17,7 +17,7 @@ import {
   Breadcrumbs,
   Widgets,
 } from 'src/components';
-import { getTokens, selectTokens } from 'src/app/shared';
+import { getTokensDao, selectTokensDaoById } from 'src/app/shared';
 import { useAppDispatch, useAppSelector } from 'src/store';
 
 import styles from 'src/styles/page.module.scss';
@@ -25,26 +25,26 @@ import styles from 'src/styles/page.module.scss';
 import { Fts } from './fts';
 import { Nfts } from './nfts';
 
-export const Tokens: FC = () => {
+export const TokensDao: FC = () => {
   const location = useLocation();
   const history = useHistory();
   const routes = useRoutes();
-  const { contract } = useParams<{ contract: string }>();
+  const { contract, dao } = useParams<Params>();
   const dispatch = useAppDispatch();
-  const tokens = useAppSelector(selectTokens);
+  const tokens = useAppSelector(selectTokensDaoById(dao));
 
   useEffect(() => {
     (async () => {
       try {
         if (!tokens) {
-          await dispatch(getTokens({ contract }));
+          await dispatch(getTokensDao({ contract, dao }));
         }
       } catch (error: unknown) {
         // eslint-disable-next-line no-console
         console.error(error);
       }
     })();
-  }, [tokens, contract, dispatch]);
+  }, [tokens, contract, dispatch, dao]);
 
   const breadcrumbs = useMemo(
     () => [
@@ -52,8 +52,12 @@ export const Tokens: FC = () => {
         url: routes.tokens,
         name: 'Tokens',
       },
+      {
+        url: routes.tokensDao,
+        name: dao,
+      },
     ],
-    [routes],
+    [routes, dao],
   );
 
   return (
@@ -65,11 +69,11 @@ export const Tokens: FC = () => {
             className={styles.widget}
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.tokens,
+                path: ROUTES.tokensDao,
                 exact: true,
               }),
             )}
-            onClick={() => history.push(routes.tokens)}
+            onClick={() => history.push(routes.tokensDao)}
           >
             <WidgetInfo
               title="Number of NFTs"
@@ -81,11 +85,11 @@ export const Tokens: FC = () => {
             className={styles.widget}
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.tokensFts,
+                path: ROUTES.tokensFtsDao,
                 exact: true,
               }),
             )}
-            onClick={() => history.push(routes.tokensFts)}
+            onClick={() => history.push(routes.tokensFtsDao)}
           >
             <WidgetInfo
               title="Number of FTs"
@@ -97,8 +101,8 @@ export const Tokens: FC = () => {
 
         <div className={styles.mainContent}>
           <Switch>
-            <Route exact path={ROUTES.tokens} component={Nfts} />
-            <Route path={ROUTES.tokensFts} component={Fts} />
+            <Route exact path={ROUTES.tokensDao} component={Nfts} />
+            <Route path={ROUTES.tokensFtsDao} component={Fts} />
           </Switch>
         </div>
       </Page>

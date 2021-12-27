@@ -32,8 +32,11 @@ export const ROUTES = {
   tvlBounties: '/:contract/tvl/bounties',
   tvlNear: '/:contract/tvl/near',
   tvlDao: '/:contract/tvl/dao',
+
   tokens: '/:contract/tokens',
-  tokensNumberFt: '/:contract/tokens/number-ft',
+  tokensFts: '/:contract/tokens/fts',
+  tokensDao: '/:contract/tokens/:dao',
+  tokensFtsDao: '/:contract/tokens/:dao/fts',
 };
 
 export const HEADER_FORBIDDEN_ROUTES = [ROUTES.page404, ROUTES.uiKit];
@@ -42,3 +45,5 @@ export const SIDEBAR_FORBIDDEN_ROUTES = [
   ROUTES.page404,
   ROUTES.uiKit,
 ];
+
+export type Params = { dao: string; contract: string };

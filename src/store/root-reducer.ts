@@ -13,6 +13,8 @@ import { contractState } from 'src/app/shared/contracts/types';
 import { contractsSlice } from 'src/app/shared/contracts/slice';
 import { flowState } from 'src/app/flow/types';
 import { flowSlice } from 'src/app/flow/slice';
+import { tokensState } from 'src/app/shared/tokens/types';
+import { tokensSlice } from 'src/app/shared/tokens/slice';
 import { LoadingState, loadingReducer } from './loading';
 
 import { routerReducer } from './history';
@@ -26,6 +28,7 @@ export type RootState = CombinedState<{
   [contractsSlice.name]: contractState;
   [flowSlice.name]: flowState;
   [daoSlice.name]: daoState;
+  [tokensSlice.name]: tokensState;
 }>;
 
 export const rootReducer = combineReducers({
@@ -37,4 +40,5 @@ export const rootReducer = combineReducers({
   [contractsSlice.name]: contractsSlice.reducer,
   [flowSlice.name]: flowSlice.reducer,
   [daoSlice.name]: daoSlice.reducer,
+  [tokensSlice.name]: tokensSlice.reducer,
 });

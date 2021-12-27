@@ -16,16 +16,17 @@ export const MainPage: FC = () => {
   const history = useHistory();
 
   useEffect(() => {
-    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-    const handleScroll = (event: any) => {
-      if (event.wheelDelta < 0) {
+    const handleScroll = (event: WheelEvent) => {
+      if (event.deltaY > 0) {
         history.push(routes.generalInfo);
       }
     };
 
     window.addEventListener('wheel', handleScroll);
 
-    return () => window.removeEventListener('wheel', handleScroll);
+    return () => {
+      window.removeEventListener('wheel', handleScroll);
+    };
   }, [history, routes.generalInfo]);
 
   return (
