@@ -6,11 +6,13 @@ import styles from './loading-container.module.scss';
 
 export type LoadingContainerProps = {
   className?: string;
-  hide: boolean;
+  loadingClassName?: string;
+  hide?: boolean;
 };
 
 export const LoadingContainer: FC<LoadingContainerProps> = ({
   className,
+  loadingClassName,
   hide,
 }) => (
   <div
@@ -18,6 +20,6 @@ export const LoadingContainer: FC<LoadingContainerProps> = ({
       [styles.hide]: hide,
     })}
   >
-    <Loading />
+    <Loading className={loadingClassName} />
   </div>
 );

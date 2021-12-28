@@ -1,141 +1,117 @@
-import React, { FC, useState, useEffect } from 'react';
-import Downshift, { GetItemPropsOptions } from 'downshift';
-import clsx from 'clsx';
-import { useAppDispatch, useAppSelector } from 'src/store';
-import { selectorContracts } from 'src/app/shared/contracts';
+import React, { FC, useState, useEffect, useCallback, useMemo } from 'react';
+import { generatePath, useHistory } from 'react-router';
+import debounce from 'lodash/debounce';
+import { useAppSelector } from 'src/store';
+import { selectorSelectedContract } from 'src/app/shared/contracts';
+import { autocompleteService, Dao } from 'src/api';
+import { ROUTES } from 'src/constants';
 
-import { Search } from '../search/search';
-import styles from './autocomplete.module.scss';
-import { getDao } from '../../app/shared/daos/slice';
-import { selectDao } from '../../app/shared/daos/selectors';
+import {
+  AutocompleteDropdown,
+  AutocompleteOption,
+} from './autocomplete-dropdown';
 
-export type AutocompleteOption = {
-  createdAt: string;
-  dao: string;
-  contractId: string;
-  description: string | null;
-  metadata: string | null;
-};
+import { MIN_SEARCH_SYMBOLS, DEBOUNCE_DELAY } from './constants';
 
 export type AutocompleteProps = {
-  id?: string;
   className?: string;
   dropdownClassName?: string;
-  onChange?: (selectedItem: AutocompleteOption | null) => void;
-  placeholder?: string;
-  // options?: AutocompleteOption[];
-  initialSelectedItem?: AutocompleteOption;
-  value?: AutocompleteOption | null;
   disabled?: boolean;
 };
 
+const prepareTitleDao = (daoTitle: string) => daoTitle.split('.')[0];
+
+const prepareOptions = (daos: Dao[]): AutocompleteOption[] =>
+  daos.map((dao) => ({
+    title: prepareTitleDao(dao.dao),
+    id: dao.dao,
+    description: dao.description,
+    image: dao.metadata?.image,
+  }));
+
 export const Autocomplete: FC<AutocompleteProps> = ({
-  id = 'autocomplete',
   className,
   dropdownClassName,
-  onChange = () => undefined,
-  // options,
-  initialSelectedItem = undefined,
-  value,
   disabled,
 }) => {
-  const [searchDaoValue, setsearchDaoValue] = useState<string>('');
-  const getContract = useAppSelector(selectorContracts);
-  const dispatch = useAppDispatch();
-  const options = useAppSelector(selectDao) || [];
+  const history = useHistory();
+  const [searchValue, setSearchValue] = useState('');
+  const [options, setOptions] = useState<AutocompleteOption[]>([]);
+  const [isLoading, setLoading] = useState(false);
+  const selectedContract = useAppSelector(selectorSelectedContract);
 
-  let contract;
+  const onInputChange = useCallback((valueString: string) => {
+    setSearchValue(valueString);
+  }, []);
 
-  if (getContract) {
-    contract = getContract[0].contractId;
-  }
+  const onChange = useCallback(
+    (selectedItem: AutocompleteOption | null) => {
+      if (selectedItem) {
+        history.push(
+          generatePath(ROUTES.generalInfoDao, {
+            dao: selectedItem.id,
+            contract: selectedContract?.contractId || '',
+          }),
+        );
+      }
+    },
+    [selectedContract, history],
+  );
 
   useEffect(() => {
-    dispatch(
-      getDao({ contract: 'astro', input: searchDaoValue }),
+    setLoading(true);
+    setOptions([]);
+  }, [searchValue]);
+
+  useEffect(() => {
+    if (searchValue.length === 0) {
+      setOptions([]);
+      setLoading(false);
+    }
+  }, [searchValue]);
+
+  const handleDebounced = (contract: string, input: string) =>
+    autocompleteService
+      .getAutocomplete({
+        contract,
+        input,
+      })
+      .then((response) => {
+        setLoading(false);
+        setOptions(prepareOptions(response.data));
+      })
       // eslint-disable-next-line no-console
-    ).catch((error: unknown) => console.error(error));
-  }, [contract, dispatch, searchDaoValue]);
+      .catch((error) => console.error(error));
 
-  const renderOptions = ({
-    getItemProps,
-    inputValue,
-  }: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getItemProps: (options: GetItemPropsOptions<AutocompleteOption>) => any;
-    inputValue: string | null;
-  }) => {
-    setsearchDaoValue(inputValue || '');
+  const debouncedSearch = useMemo(
+    () =>
+      debounce(
+        (contract: string, input: string) => handleDebounced(contract, input),
+        DEBOUNCE_DELAY,
+      ),
+    [],
+  );
 
-    if (options?.length > 0) {
-      return (
-        <>
-          <li className={styles.foundTitle}>Found {options?.length} DAOs</li>
-          {options?.map((option: AutocompleteOption, index: number) => (
-            <li
-              {...getItemProps({
-                key: option.dao,
-                index,
-                item: option,
-                className: styles.dropDownItem,
-              })}
-            >
-              <div className={styles.image} />
-              <span className={styles.name}>{option.dao}</span>
-              <span className={styles.link}>{option.description}</span>
-            </li>
-          ))}
-        </>
-      );
+  useEffect(() => {
+    if (searchValue.length >= MIN_SEARCH_SYMBOLS && searchValue.length !== 0) {
+      debouncedSearch(selectedContract?.contractId || '', searchValue);
     }
 
-    return (
-      <div className={styles.notFound}>
-        <div className={styles.notFoundTitle}>
-          It looks like there aren`t matches for your search.
-        </div>
-        <div className={styles.notFoundSubTitle}>
-          Check the name of the DAO you are looking for.
-        </div>
-      </div>
-    );
-  };
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [debouncedSearch, searchValue, selectedContract]);
 
   return (
-    <Downshift
-      id={id}
+    <AutocompleteDropdown
+      isLoading={isLoading}
       onChange={onChange}
-      itemToString={(item) => (item ? item.dao : '')}
-      initialSelectedItem={initialSelectedItem}
-      selectedItem={value}
-      initialInputValue={value?.dao}
-      onInputValueChange={(inputValue) => {
-        if (inputValue === '') {
-          onChange(null);
-        }
-      }}
-    >
-      {({
-        getItemProps,
-        getMenuProps,
-        getInputProps,
-        isOpen,
-        inputValue = '',
-      }) => (
-        <div className={clsx(styles.root, className)}>
-          <Search disabled={disabled} inputProps={{ ...getInputProps() }} />
-          {isOpen ? (
-            <div className={styles.overlayDropdown}>
-              <div className={clsx(styles.dropdown, dropdownClassName)}>
-                <ul {...getMenuProps()} className={styles.dropDownMenu}>
-                  {renderOptions({ getItemProps, inputValue })}
-                </ul>
-              </div>
-            </div>
-          ) : null}
-        </div>
-      )}
-    </Downshift>
+      onInputChange={onInputChange}
+      disabled={disabled}
+      options={options}
+      className={className}
+      dropdownClassName={dropdownClassName}
+    />
   );
 };
 

@@ -25,6 +25,7 @@ import {
 } from '..';
 import { Layout, Loading, UserData } from '../../components';
 import { RequestStatus } from '../../store/types';
+import { TokensDao } from '../tokens-dao';
 
 export const App: FC = () => (
   <Provider store={store}>
@@ -138,6 +139,8 @@ export const App: FC = () => (
                 <Route exact path={ROUTES.tvlDao} component={Tvl} />
                 <Route exact path={ROUTES.tokens} component={Tokens} />
                 <Route exact path={ROUTES.tokensFts} component={Tokens} />
+                <Route exact path={ROUTES.tokensDao} component={TokensDao} />
+                <Route exact path={ROUTES.tokensFtsDao} component={TokensDao} />
                 <Route exact path={ROUTES.page404} component={Page404} />
                 <Route exact path={ROUTES.uiKit} component={UiKIt} />
                 <Redirect to={ROUTES.page404} />

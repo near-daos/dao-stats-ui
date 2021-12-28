@@ -12,7 +12,6 @@ export interface SearchProps {
   classNameInput?: string;
   classNameIcon?: string;
   value?: string;
-  networkSwitcherClass?: string;
   inputProps?: Partial<InputHTMLAttributes<HTMLInputElement>>;
 }
 
@@ -23,7 +22,6 @@ export const Search: React.FC<SearchProps> = ({
   value = '',
   inputProps,
   disabled,
-  networkSwitcherClass,
 }) => (
   <div
     className={clsx(styles.root, className, {
@@ -45,7 +43,7 @@ export const Search: React.FC<SearchProps> = ({
 
     <SvgIcon icon="search" className={clsx(styles.inputIcon, classNameIcon)} />
 
-    <NetworkSwitcher className={networkSwitcherClass} />
+    <NetworkSwitcher className={styles.networkSwitcher} />
   </div>
 );
 
