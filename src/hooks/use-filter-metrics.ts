@@ -7,11 +7,11 @@ export const useFilterMetrics = (
   metricsData?: Metrics | null,
 ): Metrics | null =>
   useMemo(() => {
-    if (period === 'all') {
+    if (period === 'All') {
       return metricsData || null;
     }
 
-    if (!metricsData?.metrics) {
+    if (!metricsData?.metrics || !metricsData?.metrics?.length) {
       return null;
     }
 

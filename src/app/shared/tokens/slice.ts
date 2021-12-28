@@ -18,7 +18,7 @@ import {
 import { TokensDaoEntity, tokensState } from './types';
 
 export const tokensDaoAdapter = createEntityAdapter<TokensDaoEntity>();
-export const tokensDaoNtfsAdapter = createEntityAdapter<MetricsEntity>();
+export const tokensDaoNftsAdapter = createEntityAdapter<MetricsEntity>();
 export const tokensDaoFtsAdapter = createEntityAdapter<MetricsEntity>();
 
 const initialState: tokensState = {
@@ -28,7 +28,7 @@ const initialState: tokensState = {
   tokensFts: null,
   tokensFtsLeaderboard: null,
   tokensDao: tokensDaoAdapter.getInitialState(),
-  tokensNftsDao: tokensDaoNtfsAdapter.getInitialState(),
+  tokensNftsDao: tokensDaoNftsAdapter.getInitialState(),
   tokensFtsDao: tokensDaoFtsAdapter.getInitialState(),
   error: null,
 };
@@ -158,7 +158,7 @@ export const tokensSlice = createSlice({
     });
 
     builder.addCase(getTokensDaoNfts.fulfilled, (state, { payload }) => {
-      tokensDaoNtfsAdapter.upsertOne(state.tokensNftsDao, {
+      tokensDaoNftsAdapter.upsertOne(state.tokensNftsDao, {
         id: payload.id,
         metrics: payload.metrics,
       });

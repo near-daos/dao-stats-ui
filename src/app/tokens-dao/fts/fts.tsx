@@ -24,7 +24,7 @@ export const Fts: FC = () => {
   );
 
   useEffect(() => {
-    if (tokens && !isPending(getTokensFnsLoading)) {
+    if (!tokens && !isPending(getTokensFnsLoading)) {
       dispatch(
         getTokensDaoFts({
           contract,

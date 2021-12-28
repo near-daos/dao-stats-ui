@@ -42,7 +42,7 @@ export const Activity: FC = () => {
       <LoadingContainer hide={isSuccess(getGeneralDaoActivityLoading)} />
 
       <div className={styles.metricsContainer}>
-        {activityData ? (
+        {activityData && activityData?.metrics?.length ? (
           <ChartLine
             data={activityData}
             period={period}
@@ -50,7 +50,9 @@ export const Activity: FC = () => {
             periods={periods}
             lines={[{ name: 'Activity', color: '#E33F84', dataKey: 'count' }]}
           />
-        ) : null}
+        ) : (
+          'It doesn`t have enough data to show chart'
+        )}
       </div>
     </>
   );

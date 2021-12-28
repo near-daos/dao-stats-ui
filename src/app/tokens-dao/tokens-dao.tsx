@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useMemo } from 'react';
 import {
+  generatePath,
   matchPath,
   Route,
   Switch,
@@ -73,7 +74,9 @@ export const TokensDao: FC = () => {
                 exact: true,
               }),
             )}
-            onClick={() => history.push(routes.tokensDao)}
+            onClick={() =>
+              history.push(generatePath(ROUTES.tokensDao, { contract, dao }))
+            }
           >
             <WidgetInfo
               title="Number of NFTs"
@@ -89,7 +92,9 @@ export const TokensDao: FC = () => {
                 exact: true,
               }),
             )}
-            onClick={() => history.push(routes.tokensFtsDao)}
+            onClick={() =>
+              history.push(generatePath(ROUTES.tokensFtsDao, { contract, dao }))
+            }
           >
             <WidgetInfo
               title="Number of FTs"

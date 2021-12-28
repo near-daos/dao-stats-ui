@@ -13,13 +13,13 @@ import { MetricItem } from 'src/api';
 
 export const usePeriods = (metrics?: MetricItem[]) =>
   useMemo(() => {
-    if (!metrics) {
+    if (!metrics || !metrics.length) {
       return [];
     }
 
     const periods: Period[] = [];
 
-    const startDate = startOfDay(metrics[0].timestamp);
+    const startDate = startOfDay(metrics[0]?.timestamp);
     const endDate = startOfDay(metrics[metrics.length - 1].timestamp);
 
     if (

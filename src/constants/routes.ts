@@ -39,7 +39,11 @@ export const ROUTES = {
   tokensFtsDao: '/:contract/tokens/:dao/fts',
 };
 
-export const HEADER_FORBIDDEN_ROUTES = [ROUTES.page404, ROUTES.uiKit];
+export const HEADER_FORBIDDEN_ROUTES = [
+  ROUTES.index,
+  ROUTES.page404,
+  ROUTES.uiKit,
+];
 export const SIDEBAR_FORBIDDEN_ROUTES = [
   ROUTES.index,
   ROUTES.page404,

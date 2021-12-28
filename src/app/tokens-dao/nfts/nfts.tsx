@@ -24,7 +24,7 @@ export const Nfts: FC = () => {
   );
 
   useEffect(() => {
-    if (tokens && !isPending(getTokensNftsLoading)) {
+    if (!tokens && !isPending(getTokensNftsLoading)) {
       dispatch(
         getTokensDaoNfts({
           contract,

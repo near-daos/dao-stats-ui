@@ -4,7 +4,7 @@ import { RootState } from 'src/store/root-reducer';
 import {
   tokensSlice,
   tokensDaoAdapter,
-  tokensDaoNtfsAdapter,
+  tokensDaoNftsAdapter,
   tokensDaoFtsAdapter,
 } from './slice';
 
@@ -45,7 +45,7 @@ export const selectTokensDaoById = (id: string | undefined) => (
 
 const {
   selectById: selectTokensNftsDaoItem,
-} = tokensDaoNtfsAdapter.getSelectors(
+} = tokensDaoNftsAdapter.getSelectors(
   (state: RootState) => state[tokensSlice.name].tokensNftsDao,
 );
 

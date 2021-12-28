@@ -50,12 +50,16 @@ export type Leaderboard = {
 
 export type DaoHistoryParams = DaoParams & History;
 
+export type Metadata = {
+  image?: string;
+};
+
 export type Dao = {
   createdAt: string;
   dao: string;
   contractId: string;
-  description: string | null;
-  metadata: string | null;
+  description: string;
+  metadata: Metadata;
 };
 
 export type TotalMetrics = {

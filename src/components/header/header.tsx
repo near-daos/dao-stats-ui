@@ -10,6 +10,7 @@ import styles from './header.module.scss';
 import desktopLogo from '../../images/logo-mobile.svg';
 import mobileLogo from '../../images/daostats.svg';
 import { NetworkSwitcher } from '../network-switcher';
+import { Autocomplete } from '../autocomplete';
 
 export type HeaderProps = {
   isOpen: boolean;
@@ -30,19 +31,21 @@ export const Header: FC<HeaderProps> = ({ isOpen, setOpen }) => {
         <img className={styles.mobileImage} src={mobileLogo} alt="Dao Stats" />
       </Link>
       {!isForbiddenHeader ? (
-        <>
-          <button
-            type="button"
-            className={styles.mobileIcon}
-            onClick={() => setOpen(!isOpen)}
-          >
-            <SvgIcon icon={isOpen ? 'close' : 'burger'} />
-          </button>
+        <Autocomplete className={styles.autocomplete} />
+      ) : null}
 
-          <div className={styles.main}>
-            <NetworkSwitcher />
-          </div>
-        </>
+      <button
+        type="button"
+        className={styles.mobileIcon}
+        onClick={() => setOpen(!isOpen)}
+      >
+        <SvgIcon icon={isOpen ? 'close' : 'burger'} />
+      </button>
+
+      {isForbiddenHeader ? (
+        <div className={styles.main}>
+          <NetworkSwitcher />
+        </div>
       ) : null}
     </div>
   );

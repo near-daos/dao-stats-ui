@@ -28,14 +28,14 @@
   justify-content: center;
   align-items: center;
 
-  text-decoration: none;
-
   color: var(--color-grey-300);
   background: transparent;
 
   border-radius: functions.calc-rem(4);
 
   text-align: center;
+
+  text-decoration: none;
 
   transition: color ease-in-out 300ms, background ease-in-out 300ms;
 

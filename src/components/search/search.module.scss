@@ -44,7 +44,7 @@
   width: 100%;
   height: 100%;
 
-  padding: functions.calc-rem(12) 5% functions.calc-rem(12)
+  padding: functions.calc-rem(12) functions.calc-rem(194) functions.calc-rem(12)
     functions.calc-rem(44);
 
   position: relative;
@@ -87,10 +87,6 @@
       color: var(--color-grey-400);
     }
   }
-
-  @include media.desktop {
-    padding-right: 25%;
-  }
 }
 
 .inputLabel {
@@ -102,7 +98,7 @@
 
     position: absolute;
     top: 0;
-    right: 24%;
+    right: functions.calc-rem(182);
 
     display: block;
 
@@ -196,4 +192,14 @@
 .active {
   color: var(--white);
   background: var(--color-grey-700);
+}
+
+.networkSwitcher {
+  width: auto;
+
+  position: absolute;
+  top: 50%;
+  right: functions.calc-rem(12);
+
+  transform: translate(0, -50%);
 }
