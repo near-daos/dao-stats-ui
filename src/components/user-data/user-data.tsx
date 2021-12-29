@@ -1,12 +1,14 @@
 import React, { ReactElement, useEffect } from 'react';
 import { unwrapResult } from '@reduxjs/toolkit';
-
-import { useAppDispatch, useAppSelector } from '../../store';
+import { useLocalStorage } from 'react-use';
+import { useAppDispatch, useAppSelector } from 'src/store';
 import {
   selectorContractsLoadingState,
   getContracts,
   setContract,
-} from '../../app/shared';
+  getCurrency,
+} from 'src/app/shared';
+import { CURRENCY_KEY } from '../../constants';
 
 type UserDataProps = {
   children: (loadingContracts: string) => ReactElement;
@@ -15,20 +17,26 @@ type UserDataProps = {
 export const UserData = ({ children }: UserDataProps): ReactElement => {
   const loadingContracts = useAppSelector(selectorContractsLoadingState);
   const dispatch = useAppDispatch();
+  const [, setValue] = useLocalStorage(CURRENCY_KEY);
 
   useEffect(() => {
     (async () => {
       try {
-        const response = await dispatch(getContracts());
-        const rawData = unwrapResult(response);
+        const currencyResponse = await dispatch(getCurrency());
+        const currency = unwrapResult(currencyResponse);
 
-        dispatch(setContract(rawData[0]));
+        setValue(currency);
+
+        const contractResponse = await dispatch(getContracts());
+        const contracts = unwrapResult(contractResponse);
+
+        dispatch(setContract(contracts[0]));
       } catch (error: unknown) {
         // eslint-disable-next-line no-console
         console.error(error);
       }
     })();
-  }, [dispatch]);
+  }, [dispatch, setValue]);
 
   return <>{children(loadingContracts)}</>;
 };

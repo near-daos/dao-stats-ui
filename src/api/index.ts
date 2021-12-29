@@ -6,3 +6,4 @@ export * from './contracts';
 export * from './daos';
 export * from './flow';
 export * from './tokens';
+export * from './currency';

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import clsx from 'clsx';
-import { numberWithCommas } from 'src/utils';
+import numeral from 'numeral';
 import { IconName, SvgIcon } from '../svgIcon';
 
 import styles from './widget-info.module.scss';
@@ -13,6 +13,8 @@ type WidgetInfoProps = {
   icon?: IconName;
   isRoundNumber?: boolean;
 };
+
+numeral.localeData().delimiters.thousands = ' ';
 
 export const WidgetInfo: FC<WidgetInfoProps> = ({
   className,
@@ -38,7 +40,7 @@ export const WidgetInfo: FC<WidgetInfoProps> = ({
     </div>
     {number ? (
       <div className={styles.number}>
-        {isRoundNumber ? numberWithCommas(String(number)) : number}
+        {isRoundNumber ? numeral(number).format('0,0') : number}
         {icon ? <SvgIcon icon={icon} className={styles.icon} /> : null}
       </div>
     ) : null}

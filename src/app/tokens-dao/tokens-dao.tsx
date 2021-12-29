@@ -70,12 +70,14 @@ export const TokensDao: FC = () => {
             className={styles.widget}
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.tokensDao,
+                path: ROUTES.tokensNftsDao,
                 exact: true,
               }),
             )}
             onClick={() =>
-              history.push(generatePath(ROUTES.tokensDao, { contract, dao }))
+              history.push(
+                generatePath(ROUTES.tokensNftsDao, { contract, dao }),
+              )
             }
           >
             <WidgetInfo
@@ -88,12 +90,12 @@ export const TokensDao: FC = () => {
             className={styles.widget}
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.tokensFtsDao,
+                path: ROUTES.tokensDao,
                 exact: true,
               }),
             )}
             onClick={() =>
-              history.push(generatePath(ROUTES.tokensFtsDao, { contract, dao }))
+              history.push(generatePath(ROUTES.tokensDao, { contract, dao }))
             }
           >
             <WidgetInfo
@@ -106,8 +108,8 @@ export const TokensDao: FC = () => {
 
         <div className={styles.mainContent}>
           <Switch>
-            <Route exact path={ROUTES.tokensDao} component={Nfts} />
-            <Route path={ROUTES.tokensFtsDao} component={Fts} />
+            <Route exact path={ROUTES.tokensDao} component={Fts} />
+            <Route path={ROUTES.tokensNftsDao} component={Nfts} />
           </Switch>
         </div>
       </Page>

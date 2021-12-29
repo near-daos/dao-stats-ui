@@ -1,10 +1,10 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from 'src/store/root-reducer';
-
 import {
   tokensSlice,
   tokensDaoAdapter,
   tokensDaoNftsAdapter,
+  tokensDaoFtsVlAdapter,
   tokensDaoFtsAdapter,
 } from './slice';
 
@@ -35,6 +35,16 @@ export const selectTokensFtsLeaderboard = createSelector(
   (data) => data,
 );
 
+export const selectTokensFtsVl = createSelector(
+  (state: RootState) => getState(state).tokensFtsVl,
+  (data) => data,
+);
+
+export const selectTokensFtsVlLeaderboard = createSelector(
+  (state: RootState) => getState(state).tokensFtsVlLeaderboard,
+  (data) => data,
+);
+
 const { selectById: selectTokensDaoItem } = tokensDaoAdapter.getSelectors(
   (state: RootState) => state[tokensSlice.name].tokensDao,
 );
@@ -60,3 +70,13 @@ const { selectById: selectTokensFtsDaoItem } = tokensDaoFtsAdapter.getSelectors(
 export const selectTokensFtsDaoById = (id: string | undefined) => (
   state: RootState,
 ) => (id ? selectTokensFtsDaoItem(state, id) : null);
+
+const {
+  selectById: selectTokensFtsVlDaoItem,
+} = tokensDaoFtsVlAdapter.getSelectors(
+  (state: RootState) => state[tokensSlice.name].tokensFtsVlDao,
+);
+
+export const selectTokensFtsVlDaoById = (id: string | undefined) => (
+  state: RootState,
+) => (id ? selectTokensFtsVlDaoItem(state, id) : null);

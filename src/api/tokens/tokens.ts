@@ -29,6 +29,18 @@ export class TokensService extends HttpService {
     return this.get(`${params.contract}/tokens/fts/leaderboard`);
   }
 
+  async getTokensFtsVl(params: HistoryParams): Promise<AxiosResponse<Metrics>> {
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(`${params.contract}/tokens/fts-vl?${query}`);
+  }
+
+  async getTokensFtsVlLeaderboard(
+    params: Params,
+  ): Promise<AxiosResponse<Leaderboard>> {
+    return this.get(`${params.contract}/tokens/fts-vl/leaderboard`);
+  }
+
   async getTokensNfts(params: HistoryParams): Promise<AxiosResponse<Metrics>> {
     const query = queryString.stringify({ from: params.from, to: params.to });
 
@@ -51,6 +63,14 @@ export class TokensService extends HttpService {
     const query = queryString.stringify({ from: params.from, to: params.to });
 
     return this.get(`${params.contract}/tokens/${params.dao}/fts?${query}`);
+  }
+
+  async getTokensDaoFtsVl(
+    params: DaoHistoryParams,
+  ): Promise<AxiosResponse<Metrics>> {
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(`${params.contract}/tokens/${params.dao}/fts-vl?${query}`);
   }
 
   async getTokensDaoNfts(

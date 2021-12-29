@@ -79,12 +79,14 @@ export const Nfts: FC = () => {
     leaderboard: tokensLeaderboard?.metrics ? tokensLeaderboard.metrics : null,
   });
 
-  const activeData = useFilterMetrics(period, tokens);
+  const tokensData = useFilterMetrics(period, tokens);
   const periods = usePeriods(tokens?.metrics);
 
   const goToSingleDao = useCallback(
     (row) => {
-      history.push(generatePath(ROUTES.tokensDao, { contract, dao: row.dao }));
+      history.push(
+        generatePath(ROUTES.tokensNftsDao, { contract, dao: row.dao }),
+      );
     },
     [contract, history],
   );
@@ -106,14 +108,14 @@ export const Nfts: FC = () => {
         />
       </div>
       <div className={styles.metricsContainer}>
-        {activeTab === 'history-data' && activeData ? (
+        {activeTab === 'history-data' && tokensData ? (
           <ChartLine
             periods={periods}
-            data={activeData}
+            data={tokensData}
             period={period}
             setPeriod={setPeriod}
             lines={[
-              { name: 'Number of Nfts', color: '#E33F84', dataKey: 'count' },
+              { name: 'Number of NFTs', color: '#E33F84', dataKey: 'count' },
             ]}
           />
         ) : null}
@@ -123,7 +125,7 @@ export const Nfts: FC = () => {
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
-              { value: 'Number of Nfts' },
+              { value: 'Number of NFTs' },
               { value: 'Last 7 days', position: 'right' },
             ]}
             type="line"
