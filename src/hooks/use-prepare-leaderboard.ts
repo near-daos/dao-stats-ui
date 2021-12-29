@@ -1,4 +1,6 @@
 import { useMemo } from 'react';
+import numeral from 'numeral';
+
 import { LeaderboardItem, Proposals } from 'src/api';
 import { LeaderboardDataItem } from 'src/components/leaderboard/leaderboard';
 import { TitleCellProps } from '../components/leaderboard/title-cell';
@@ -6,6 +8,7 @@ import { TitleCellProps } from '../components/leaderboard/title-cell';
 type usePrepareLeaderboardProps = {
   leaderboard: LeaderboardItem[] | null;
   type?: string;
+  withCurrency?: boolean;
 };
 
 const prepareTitle = (dao: string): TitleCellProps => {

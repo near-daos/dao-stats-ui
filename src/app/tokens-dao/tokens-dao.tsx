@@ -25,6 +25,7 @@ import styles from 'src/styles/page.module.scss';
 
 import { Fts } from './fts';
 import { Nfts } from './nfts';
+import { FtsVl } from './fts-vl';
 
 export const TokensDao: FC = () => {
   const location = useLocation();
@@ -90,6 +91,27 @@ export const TokensDao: FC = () => {
             className={styles.widget}
             active={Boolean(
               matchPath(location.pathname, {
+                path: ROUTES.tokensFtsVlDao,
+                exact: true,
+              }),
+            )}
+            onClick={() =>
+              history.push(
+                generatePath(ROUTES.tokensFtsVlDao, { contract, dao }),
+              )
+            }
+          >
+            <WidgetInfo
+              title="VL of FTs"
+              number={tokens?.ftsVl?.count}
+              percentages={tokens?.ftsVl?.growth}
+              isRoundNumber
+            />
+          </WidgetTile>
+          <WidgetTile
+            className={styles.widget}
+            active={Boolean(
+              matchPath(location.pathname, {
                 path: ROUTES.tokensDao,
                 exact: true,
               }),
@@ -109,6 +131,7 @@ export const TokensDao: FC = () => {
         <div className={styles.mainContent}>
           <Switch>
             <Route exact path={ROUTES.tokensDao} component={Fts} />
+            <Route path={ROUTES.tokensFtsVlDao} component={FtsVl} />
             <Route path={ROUTES.tokensNftsDao} component={Nfts} />
           </Switch>
         </div>

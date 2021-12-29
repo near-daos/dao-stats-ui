@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { useFilterMetrics, usePrepareLeaderboard, usePeriods } from 'src/hooks';
 import { isPending, isSuccess, isNotAsked } from 'src/utils';
-import { CURRENCY_KEY, ROUTES } from 'src/constants';
+import { ROUTES } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
@@ -18,8 +18,6 @@ import {
   getTokensFtsVl,
   getTokensFtsVlLeaderboard,
 } from 'src/app/shared/tokens/slice';
-import { useLocalStorage } from 'react-use';
-import { Currency } from '../../../api';
 
 const tabOptions = [
   {
@@ -30,7 +28,6 @@ const tabOptions = [
 ];
 
 export const FtsVl: FC = () => {
-  const [currency] = useLocalStorage(CURRENCY_KEY);
   const history = useHistory();
   const [period, setPeriod] = useState('All');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
@@ -85,13 +82,7 @@ export const FtsVl: FC = () => {
     leaderboard: tokensLeaderboard?.metrics ? tokensLeaderboard.metrics : null,
   });
 
-  const tokensData = useFilterMetrics(period, {
-    metrics:
-      tokens?.metrics.map((metricItem) => ({
-        ...metricItem,
-        count: (currency as Currency)?.near?.usd,
-      })) || [],
-  });
+  const tokensData = useFilterMetrics(period, tokens);
   const periods = usePeriods(tokens?.metrics);
 
   const goToSingleDao = useCallback(

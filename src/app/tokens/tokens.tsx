@@ -7,8 +7,7 @@ import {
   useLocation,
   useParams,
 } from 'react-router';
-import { useLocalStorage } from 'react-use';
-import { CURRENCY_KEY, Params, ROUTES } from 'src/constants';
+import { Params, ROUTES } from 'src/constants';
 import { useRoutes } from 'src/hooks';
 
 import {
@@ -20,7 +19,6 @@ import {
 } from 'src/components';
 import { getTokens, selectTokens } from 'src/app/shared';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { Currency } from 'src/api';
 
 import styles from 'src/styles/page.module.scss';
 
@@ -29,7 +27,6 @@ import { Nfts } from './nfts';
 import { FtsVl } from './fts-vl';
 
 export const Tokens: FC = () => {
-  const [currency] = useLocalStorage(CURRENCY_KEY);
   const location = useLocation();
   const history = useHistory();
   const routes = useRoutes();
@@ -94,10 +91,7 @@ export const Tokens: FC = () => {
             <WidgetInfo
               title="VL of FTs"
               isRoundNumber
-              number={
-                (tokens?.ftsVl?.count || 0) *
-                ((currency as Currency)?.near?.usd || 0)
-              }
+              number={tokens?.ftsVl?.count}
               percentages={tokens?.ftsVl?.growth}
             />
           </WidgetTile>
