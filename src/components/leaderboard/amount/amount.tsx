@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import numeral from 'numeral';
 import clsx from 'clsx';
 import { TotalMetrics } from 'src/api';
 
@@ -6,9 +7,11 @@ import { SvgIcon } from '../../svgIcon';
 
 import styles from './amount.module.scss';
 
+numeral.localeData().delimiters.thousands = ' ';
+
 export const Amount: FC<TotalMetrics> = ({ count, growth }) => (
   <div className={styles.amount}>
-    <div className={styles.label}>{count}</div>
+    <div className={styles.label}>{numeral(count).format('0,0')}</div>
     {growth ? (
       <div
         className={clsx(styles.percentages, {

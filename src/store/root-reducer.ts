@@ -15,6 +15,8 @@ import { flowState } from 'src/app/flow/types';
 import { flowSlice } from 'src/app/flow/slice';
 import { tokensState } from 'src/app/shared/tokens/types';
 import { tokensSlice } from 'src/app/shared/tokens/slice';
+import { currencyState } from 'src/app/shared/currency/types';
+import { currencySlice } from 'src/app/shared/currency/slice';
 import { LoadingState, loadingReducer } from './loading';
 
 import { routerReducer } from './history';
@@ -29,6 +31,7 @@ export type RootState = CombinedState<{
   [flowSlice.name]: flowState;
   [daoSlice.name]: daoState;
   [tokensSlice.name]: tokensState;
+  [currencySlice.name]: currencyState;
 }>;
 
 export const rootReducer = combineReducers({
@@ -41,4 +44,5 @@ export const rootReducer = combineReducers({
   [flowSlice.name]: flowSlice.reducer,
   [daoSlice.name]: daoSlice.reducer,
   [tokensSlice.name]: tokensSlice.reducer,
+  [currencySlice.name]: currencySlice.reducer,
 });

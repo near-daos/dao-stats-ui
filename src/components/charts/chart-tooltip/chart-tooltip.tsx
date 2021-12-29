@@ -2,11 +2,13 @@ import clsx from 'clsx';
 import React, { useEffect, useRef, useState } from 'react';
 import { TooltipProps } from 'recharts';
 import format from 'date-fns/format';
+import numeral from 'numeral';
 
 import { Dot } from '../svg/dot';
 
-import styles from './chart-tooltip.module.scss';
 import { LineItem } from '../types';
+
+import styles from './chart-tooltip.module.scss';
 
 export interface ChartTooltipProps extends TooltipProps<number, string> {
   showArrow?: boolean;
@@ -66,7 +68,9 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
           <span className={styles.name}>
             {lines ? lines[elementIndex].name : element.name}:
           </span>
-          <span className={styles.value}>{element.value}</span>
+          <span className={styles.value}>
+            {numeral(element.value).format('0,0')}
+          </span>
         </div>
       ))}
     </div>

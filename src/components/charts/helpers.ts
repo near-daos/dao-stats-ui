@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { subYears, subMonths, subDays, format } from 'date-fns';
 import { MetricItem } from 'src/api';
+import { ONE_BILLION, ONE_MILLION, ONE_THOUSAND } from './constants';
 
 export const getDateFromSelectedDate = (
   range: string,
@@ -95,4 +96,20 @@ export const tickXFormatter = (
     default:
       return format(new Date(value), 'd LLL');
   }
+};
+
+export const tickYFormatter = (value: number) => {
+  if (value >= ONE_BILLION) {
+    return `${value / ONE_BILLION}B`;
+  }
+
+  if (value >= ONE_MILLION) {
+    return `${value / ONE_MILLION}M`;
+  }
+
+  if (value >= ONE_THOUSAND) {
+    return `${value / ONE_THOUSAND}K`;
+  }
+
+  return `${value}`;
 };

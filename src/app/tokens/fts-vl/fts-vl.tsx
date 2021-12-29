@@ -11,12 +11,12 @@ import { ROUTES } from 'src/constants';
 import styles from 'src/styles/page.module.scss';
 
 import {
-  selectTokensFts,
-  selectTokensFtsLeaderboard,
+  selectTokensFtsVl,
+  selectTokensFtsVlLeaderboard,
 } from 'src/app/shared/tokens/selectors';
 import {
-  getTokensFts,
-  getTokensFtsLeaderboard,
+  getTokensFtsVl,
+  getTokensFtsVlLeaderboard,
 } from 'src/app/shared/tokens/slice';
 
 const tabOptions = [
@@ -27,26 +27,29 @@ const tabOptions = [
   { label: 'Leaderboard', value: 'leaderboard' },
 ];
 
-export const Fts: FC = () => {
+export const FtsVl: FC = () => {
   const history = useHistory();
   const [period, setPeriod] = useState('All');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
 
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
-  const tokens = useAppSelector(selectTokensFts);
-  const tokensLeaderboard = useAppSelector(selectTokensFtsLeaderboard);
-  const getTokensFtsLoading = useAppSelector(
-    selectActionLoading(getTokensFts.typePrefix),
+  const tokens = useAppSelector(selectTokensFtsVl);
+  const tokensLeaderboard = useAppSelector(selectTokensFtsVlLeaderboard);
+  const getTokensFtsVlLoading = useAppSelector(
+    selectActionLoading(getTokensFtsVl.typePrefix),
   );
-  const getTokensFtsLeaderboardLoading = useAppSelector(
-    selectActionLoading(getTokensFtsLeaderboard.typePrefix),
+  const getTokensFtsVlLeaderboardLoading = useAppSelector(
+    selectActionLoading(getTokensFtsVlLeaderboard.typePrefix),
   );
 
   useEffect(() => {
-    if (isNotAsked(getTokensFtsLoading) && !isPending(getTokensFtsLoading)) {
+    if (
+      isNotAsked(getTokensFtsVlLoading) &&
+      !isPending(getTokensFtsVlLoading)
+    ) {
       dispatch(
-        getTokensFts({
+        getTokensFtsVl({
           contract,
         }),
         // eslint-disable-next-line no-console
@@ -54,17 +57,22 @@ export const Fts: FC = () => {
     }
 
     if (
-      isNotAsked(getTokensFtsLeaderboardLoading) &&
-      !isPending(getTokensFtsLeaderboardLoading)
+      isNotAsked(getTokensFtsVlLeaderboardLoading) &&
+      !isPending(getTokensFtsVlLeaderboardLoading)
     ) {
       dispatch(
-        getTokensFtsLeaderboard({
+        getTokensFtsVlLeaderboard({
           contract,
         }),
         // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
-  }, [dispatch, contract, getTokensFtsLoading, getTokensFtsLeaderboardLoading]);
+  }, [
+    dispatch,
+    contract,
+    getTokensFtsVlLoading,
+    getTokensFtsVlLeaderboardLoading,
+  ]);
 
   const handleOnChange = (value: string) => {
     setActiveTab(value);
@@ -79,7 +87,9 @@ export const Fts: FC = () => {
 
   const goToSingleDao = useCallback(
     (row) => {
-      history.push(generatePath(ROUTES.tokensDao, { contract, dao: row.dao }));
+      history.push(
+        generatePath(ROUTES.tokensFtsVlDao, { contract, dao: row.dao }),
+      );
     },
     [contract, history],
   );
@@ -88,8 +98,8 @@ export const Fts: FC = () => {
     <div className={styles.detailsContainer}>
       <LoadingContainer
         hide={
-          isSuccess(getTokensFtsLoading) &&
-          isSuccess(getTokensFtsLeaderboardLoading)
+          isSuccess(getTokensFtsVlLoading) &&
+          isSuccess(getTokensFtsVlLeaderboardLoading)
         }
       />
       <div className={styles.tabWrapper}>
@@ -107,9 +117,7 @@ export const Fts: FC = () => {
             data={tokensData}
             period={period}
             setPeriod={setPeriod}
-            lines={[
-              { name: 'Number of FTs', color: '#E33F84', dataKey: 'count' },
-            ]}
+            lines={[{ name: 'VL of Fts', color: '#E33F84', dataKey: 'count' }]}
           />
         ) : null}
         {activeTab === 'leaderboard' && activityLeaderboardData ? (
@@ -118,7 +126,7 @@ export const Fts: FC = () => {
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
-              { value: 'Number of FTs' },
+              { value: 'VL of Fts' },
               { value: 'Last 7 days', position: 'right' },
             ]}
             type="line"

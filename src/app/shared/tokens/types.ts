@@ -7,9 +7,12 @@ export type tokensState = {
   tokensNftsLeaderboard: Leaderboard | null;
   tokensFts: Metrics | null;
   tokensFtsLeaderboard: Leaderboard | null;
+  tokensFtsVl: Metrics | null;
+  tokensFtsVlLeaderboard: Leaderboard | null;
   tokensDao: EntityState<TokensDaoEntity>;
   tokensNftsDao: EntityState<MetricsEntity>;
   tokensFtsDao: EntityState<MetricsEntity>;
+  tokensFtsVlDao: EntityState<MetricsEntity>;
   error: unknown;
 };
 

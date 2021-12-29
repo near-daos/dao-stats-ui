@@ -20,6 +20,7 @@ import { TokensDaoEntity, tokensState } from './types';
 export const tokensDaoAdapter = createEntityAdapter<TokensDaoEntity>();
 export const tokensDaoNftsAdapter = createEntityAdapter<MetricsEntity>();
 export const tokensDaoFtsAdapter = createEntityAdapter<MetricsEntity>();
+export const tokensDaoFtsVlAdapter = createEntityAdapter<MetricsEntity>();
 
 const initialState: tokensState = {
   tokens: null,
@@ -27,9 +28,12 @@ const initialState: tokensState = {
   tokensNftsLeaderboard: null,
   tokensFts: null,
   tokensFtsLeaderboard: null,
+  tokensFtsVl: null,
+  tokensFtsVlLeaderboard: null,
   tokensDao: tokensDaoAdapter.getInitialState(),
   tokensNftsDao: tokensDaoNftsAdapter.getInitialState(),
   tokensFtsDao: tokensDaoFtsAdapter.getInitialState(),
+  tokensFtsVlDao: tokensDaoFtsVlAdapter.getInitialState(),
   error: null,
 };
 
@@ -78,6 +82,24 @@ export const getTokensFtsLeaderboard = createAsyncThunk(
   },
 );
 
+export const getTokensFtsVl = createAsyncThunk(
+  'governance/getTokensFtsVl',
+  async (params: HistoryParams) => {
+    const response = await tokensService.getTokensFtsVl(params);
+
+    return response.data;
+  },
+);
+
+export const getTokensFtsVlLeaderboard = createAsyncThunk(
+  'governance/getTokensFtsVlLeaderboard',
+  async (params: Params) => {
+    const response = await tokensService.getTokensFtsVlLeaderboard(params);
+
+    return response.data;
+  },
+);
+
 export const getTokensDao = createAsyncThunk(
   'governance/getTokensDao',
   async (params: DaoParams) => {
@@ -105,15 +127,27 @@ export const getTokensDaoFts = createAsyncThunk(
   },
 );
 
+export const getTokensDaoFtsVl = createAsyncThunk(
+  'governance/getTokensDaoFtsVl',
+  async (params: DaoHistoryParams) => {
+    const response = await tokensService.getTokensDaoFtsVl(params);
+
+    return { id: params.dao, metrics: response.data.metrics };
+  },
+);
+
 const isRejectedAction = isRejected(
   getTokens,
   getTokensNfts,
   getTokensNftsLeaderboard,
   getTokensFts,
   getTokensFtsLeaderboard,
+  getTokensFtsVl,
+  getTokensFtsVlLeaderboard,
   getTokensDao,
   getTokensDaoNfts,
   getTokensDaoFts,
+  getTokensDaoFtsVl,
 );
 const isFulfilledAction = isFulfilled(
   getTokens,
@@ -121,9 +155,12 @@ const isFulfilledAction = isFulfilled(
   getTokensNftsLeaderboard,
   getTokensFts,
   getTokensFtsLeaderboard,
+  getTokensFtsVl,
+  getTokensFtsVlLeaderboard,
   getTokensDao,
   getTokensDaoNfts,
   getTokensDaoFts,
+  getTokensDaoFtsVl,
 );
 
 export const tokensSlice = createSlice({
@@ -149,9 +186,21 @@ export const tokensSlice = createSlice({
     builder.addCase(getTokensFts.fulfilled, (state, { payload }) => {
       state.tokensFts = payload;
     });
+
     builder.addCase(getTokensFtsLeaderboard.fulfilled, (state, { payload }) => {
       state.tokensFtsLeaderboard = payload;
     });
+
+    builder.addCase(getTokensFtsVl.fulfilled, (state, { payload }) => {
+      state.tokensFtsVl = payload;
+    });
+
+    builder.addCase(
+      getTokensFtsVlLeaderboard.fulfilled,
+      (state, { payload }) => {
+        state.tokensFtsVlLeaderboard = payload;
+      },
+    );
 
     builder.addCase(getTokensDao.fulfilled, (state, { payload }) => {
       tokensDaoAdapter.upsertOne(state.tokensDao, payload);
@@ -166,6 +215,13 @@ export const tokensSlice = createSlice({
 
     builder.addCase(getTokensDaoFts.fulfilled, (state, { payload }) => {
       tokensDaoFtsAdapter.upsertOne(state.tokensFtsDao, {
+        id: payload.id,
+        metrics: payload.metrics,
+      });
+    });
+
+    builder.addCase(getTokensDaoFtsVl.fulfilled, (state, { payload }) => {
+      tokensDaoFtsVlAdapter.upsertOne(state.tokensFtsVlDao, {
         id: payload.id,
         metrics: payload.metrics,
       });

@@ -7,7 +7,7 @@ import {
   useLocation,
   useParams,
 } from 'react-router';
-import { ROUTES } from 'src/constants';
+import { Params, ROUTES } from 'src/constants';
 import { useRoutes } from 'src/hooks';
 
 import {
@@ -24,12 +24,13 @@ import styles from 'src/styles/page.module.scss';
 
 import { Fts } from './fts';
 import { Nfts } from './nfts';
+import { FtsVl } from './fts-vl';
 
 export const Tokens: FC = () => {
   const location = useLocation();
   const history = useHistory();
   const routes = useRoutes();
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<Params>();
   const dispatch = useAppDispatch();
   const tokens = useAppSelector(selectTokens);
 
@@ -72,33 +73,51 @@ export const Tokens: FC = () => {
             onClick={() => history.push(routes.tokens)}
           >
             <WidgetInfo
-              title="Number of NFTs"
-              number={tokens?.nfts?.count}
-              percentages={tokens?.nfts?.growth}
+              title="Number of FTs"
+              number={tokens?.fts?.count}
+              percentages={tokens?.fts?.growth}
             />
           </WidgetTile>
           <WidgetTile
             className={styles.widget}
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.tokensFts,
+                path: ROUTES.tokensFtsVl,
                 exact: true,
               }),
             )}
-            onClick={() => history.push(routes.tokensFts)}
+            onClick={() => history.push(routes.tokensFtsVl)}
           >
             <WidgetInfo
-              title="Number of FTs"
-              number={tokens?.fts?.count}
-              percentages={tokens?.fts?.growth}
+              title="VL of FTs"
+              isRoundNumber
+              number={tokens?.ftsVl?.count}
+              percentages={tokens?.ftsVl?.growth}
+            />
+          </WidgetTile>
+          <WidgetTile
+            className={styles.widget}
+            active={Boolean(
+              matchPath(location.pathname, {
+                path: ROUTES.tokensNfts,
+                exact: true,
+              }),
+            )}
+            onClick={() => history.push(routes.tokensNfts)}
+          >
+            <WidgetInfo
+              title="Number of NFTs"
+              number={tokens?.nfts?.count}
+              percentages={tokens?.nfts?.growth}
             />
           </WidgetTile>
         </Widgets>
 
         <div className={styles.mainContent}>
           <Switch>
-            <Route exact path={ROUTES.tokens} component={Nfts} />
-            <Route path={ROUTES.tokensFts} component={Fts} />
+            <Route exact path={ROUTES.tokens} component={Fts} />
+            <Route path={ROUTES.tokensFtsVl} component={FtsVl} />
+            <Route path={ROUTES.tokensNfts} component={Nfts} />
           </Switch>
         </div>
       </Page>

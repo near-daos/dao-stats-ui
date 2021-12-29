@@ -17,7 +17,7 @@ import { ChartTooltip } from '../chart-tooltip';
 import { tickStyles } from '../constants';
 import { ChartDataItem, LineItem } from '../types';
 
-import { tickXFormatter } from '../helpers';
+import { tickXFormatter, tickYFormatter } from '../helpers';
 
 type LineChartData = {
   metrics: ChartDataItem[];
@@ -104,7 +104,8 @@ export const ChartLine: React.FC<LineChartProps> = ({
           interval={0}
           tickLine={false}
           style={tickStyles}
-          width={30}
+          width={35}
+          tickFormatter={tickYFormatter}
         />
         <XAxis
           stroke="#393838"
