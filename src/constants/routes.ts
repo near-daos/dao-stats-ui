@@ -28,6 +28,7 @@ export const ROUTES = {
 
   flow: '/:contract/flow',
   flowTransactions: '/:contract/flow/transactions',
+
   tvl: '/:contract/tvl',
   tvlBounties: '/:contract/tvl/bounties',
   tvlNear: '/:contract/tvl/near',

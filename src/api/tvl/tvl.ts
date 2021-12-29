@@ -10,7 +10,6 @@ import {
   Leaderboard,
   Metrics,
   Params,
-  ProposalMetrics,
 } from '../types';
 
 export class TvlService extends HttpService {

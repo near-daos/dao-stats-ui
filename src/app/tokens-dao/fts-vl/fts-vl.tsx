@@ -44,6 +44,7 @@ export const FtsVl: FC = () => {
       <div className={styles.metricsContainer}>
         {tokensData ? (
           <ChartLine
+            isCurrency
             periods={periods}
             data={tokensData}
             period={period}

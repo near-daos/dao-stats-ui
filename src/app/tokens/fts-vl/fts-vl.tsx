@@ -113,6 +113,7 @@ export const FtsVl: FC = () => {
       <div className={styles.metricsContainer}>
         {activeTab === 'history-data' && tokensData ? (
           <ChartLine
+            isCurrency
             periods={periods}
             data={tokensData}
             period={period}
@@ -122,6 +123,7 @@ export const FtsVl: FC = () => {
         ) : null}
         {activeTab === 'leaderboard' && activityLeaderboardData ? (
           <Leaderboard
+            isCurrency
             onRowClick={goToSingleDao}
             headerCells={[
               { value: '' },

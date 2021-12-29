@@ -13,6 +13,7 @@ import styles from './chart-tooltip.module.scss';
 export interface ChartTooltipProps extends TooltipProps<number, string> {
   showArrow?: boolean;
   lines?: LineItem[];
+  isCurrency?: boolean;
 }
 
 export const ChartTooltip: React.FC<ChartTooltipProps> = ({
@@ -24,6 +25,7 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
   offset,
   showArrow,
   lines,
+  isCurrency,
 }) => {
   const [arrowPosition, setArrowPosition] = useState('');
   const rootRef = useRef<HTMLDivElement>(null);
@@ -69,7 +71,7 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
             {lines ? lines[elementIndex].name : element.name}:
           </span>
           <span className={styles.value}>
-            {numeral(element.value).format('0,0')}
+            {isCurrency ? '$' : ''} {numeral(element.value).format('0,0')}
           </span>
         </div>
       ))}
