@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import { Tabs } from 'src/components';
 
-import styles from './tvl-dao.module.scss';
+import styles from './tvl-bounties.module.scss';
 
 const tabOptions = [
   {
@@ -11,7 +11,7 @@ const tabOptions = [
   { label: 'Leaderboard', value: 'leaderboard' },
 ];
 
-export const TVLDao: FC = () => {
+export const AvgTvl: FC = () => {
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
 
   const handleOnChange = (value: string) => {

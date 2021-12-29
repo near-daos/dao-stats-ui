@@ -30,9 +30,10 @@ export const ROUTES = {
   flowTransactions: '/:contract/flow/transactions',
 
   tvl: '/:contract/tvl',
-  tvlBounties: '/:contract/tvl/bounties',
-  tvlNear: '/:contract/tvl/near',
-  tvlDao: '/:contract/tvl/dao',
+  tvlAvgTvl: '/:contract/tvl/avg-tvl',
+  tvlBountiesAndGrantsVl: '/:contract/bounties-and-grants-vl',
+  tvlDao: '/:contract/tvl/:dao',
+  tvlDaoVl: '/:contract/tvl/:dao/bounties/vl',
 
   tokens: '/:contract/tokens',
   tokensFtsVl: '/:contract/tokens/fts-vl',

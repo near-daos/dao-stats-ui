@@ -62,6 +62,11 @@ export type Dao = {
   metadata: Metadata;
 };
 
+export type TvlTotalMetrics = {
+  number: TotalMetrics;
+  vl: TotalMetrics;
+};
+
 export type TotalMetrics = {
   count: number;
   growth: number;

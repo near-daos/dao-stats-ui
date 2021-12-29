@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios';
 import queryString from 'query-string';
 
 import { HttpService } from '../http-service';
-import { Tvl } from './types';
+import { Tvl, TvlDao } from './types';
 import {
   DaoHistoryParams,
   DaoParams,
@@ -49,7 +49,7 @@ export class TvlService extends HttpService {
     );
   }
 
-  async getTvlDao(params: DaoParams): Promise<AxiosResponse<Tvl>> {
+  async getTvlDao(params: DaoParams): Promise<AxiosResponse<TvlDao>> {
     return this.get(`${params.contract}/tvl/${params.dao}`);
   }
 

@@ -17,6 +17,8 @@ import { tokensState } from 'src/app/shared/tokens/types';
 import { tokensSlice } from 'src/app/shared/tokens/slice';
 import { currencyState } from 'src/app/shared/currency/types';
 import { currencySlice } from 'src/app/shared/currency/slice';
+import { tvlState } from 'src/app/shared/tvl/types';
+import { tvlSlice } from 'src/app/shared/tvl/slice';
 import { LoadingState, loadingReducer } from './loading';
 
 import { routerReducer } from './history';
@@ -32,6 +34,7 @@ export type RootState = CombinedState<{
   [daoSlice.name]: daoState;
   [tokensSlice.name]: tokensState;
   [currencySlice.name]: currencyState;
+  [tvlSlice.name]: tvlState;
 }>;
 
 export const rootReducer = combineReducers({
@@ -45,4 +48,5 @@ export const rootReducer = combineReducers({
   [daoSlice.name]: daoSlice.reducer,
   [tokensSlice.name]: tokensSlice.reducer,
   [currencySlice.name]: currencySlice.reducer,
+  [tvlSlice.name]: tvlSlice.reducer,
 });

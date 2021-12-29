@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import { Tabs } from 'src/components';
 
-import styles from './tvl-grants.module.scss';
+import styles from './tvl-bounties.module.scss';
 
 const tabOptions = [
   {
@@ -11,7 +11,7 @@ const tabOptions = [
   { label: 'Leaderboard', value: 'leaderboard' },
 ];
 
-export const TVLGrants: FC = () => {
+export const Tvl: FC = () => {
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
 
   const handleOnChange = (value: string) => {
@@ -29,7 +29,7 @@ export const TVLGrants: FC = () => {
         />
       </div>
       <div className={styles.chart}>
-        {activeTab === 'history-data' && 'charts'}
+        {activeTab === 'history-data' && 'chart'}
         {activeTab === 'leaderboard' && 'leaderboard'}
       </div>
     </div>
