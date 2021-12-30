@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 import React, { useEffect, useRef, useState } from 'react';
 import { TooltipProps } from 'recharts';
-import format from 'date-fns/format';
 import numeral from 'numeral';
+import { formatDate } from 'src/utils';
 
 import { Dot } from '../svg/dot';
 
@@ -61,9 +61,7 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
       })}
       ref={rootRef}
     >
-      <p className={styles.label}>
-        {format(new Date(label), 'EEEE, LLL d, yyyy')}
-      </p>
+      <p className={styles.label}>{formatDate(label, 'EEEE, LLL d, yyyy')}</p>
       {payload.map((element, elementIndex) => (
         <div key={`item-${element.dataKey}-${element.value}`}>
           <Dot color={element.color || ''} className={styles.dot} />
