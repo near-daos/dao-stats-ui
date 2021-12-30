@@ -18,6 +18,7 @@ import {
   Governance,
   Flow,
   Tvl,
+  TvlDao,
   Tokens,
   GeneralInfoDao,
   UsersDao,
@@ -140,8 +141,8 @@ export const App: FC = () => (
                   path={ROUTES.tvlBountiesAndGrantsVl}
                   component={Tvl}
                 />
-                <Route exact path={ROUTES.tvlDao} component={Tvl} />
-                <Route exact path={ROUTES.tvlDaoVl} component={Tvl} />
+                <Route exact path={ROUTES.tvlDao} component={TvlDao} />
+                <Route exact path={ROUTES.tvlDaoBountyVl} component={TvlDao} />
                 <Route exact path={ROUTES.tokens} component={Tokens} />
                 <Route exact path={ROUTES.tokensFtsVl} component={Tokens} />
                 <Route exact path={ROUTES.tokensNfts} component={Tokens} />

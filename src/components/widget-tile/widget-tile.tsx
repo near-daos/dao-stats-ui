@@ -23,6 +23,7 @@ export const WidgetTile: FC<WidgetTileProps> = ({
       {
         [styles.disabled]: disabled,
         [styles.active]: active,
+        [styles.withoutHover]: !onClick,
       },
       className,
     )}

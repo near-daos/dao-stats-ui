@@ -17,5 +17,5 @@ export type tokensState = {
 };
 
 export type TokensDaoEntity = Tokens & {
-  id: string;
+  id?: string;
 };

@@ -106,7 +106,11 @@ export const Leaderboard: FC<LeaderboardProps> = ({
                   />
                 </td>
                 <td className={styles.cell}>
-                  <ChartTiny rightAlign data={row?.line?.metrics || []} />
+                  <ChartTiny
+                    growth={row?.line?.totalMetrics?.growth}
+                    rightAlign
+                    data={row?.line?.metrics || []}
+                  />
                 </td>
               </>
             )}
@@ -127,7 +131,11 @@ export const Leaderboard: FC<LeaderboardProps> = ({
                   />
                 </td>
                 <td className={styles.cell}>
-                  <ChartTiny rightAlign data={row?.voteRate?.metrics || []} />
+                  <ChartTiny
+                    growth={row?.voteRate?.voteRate?.growth}
+                    rightAlign
+                    data={row?.voteRate?.metrics || []}
+                  />
                 </td>
               </>
             )}
@@ -140,6 +148,7 @@ export const Leaderboard: FC<LeaderboardProps> = ({
                       growth={row?.doubleLine?.number?.totalMetrics.growth || 0}
                     />
                     <ChartTiny
+                      growth={row?.doubleLine?.number?.totalMetrics.growth}
                       width={96}
                       data={row?.doubleLine?.number?.metrics || []}
                     />
@@ -153,6 +162,7 @@ export const Leaderboard: FC<LeaderboardProps> = ({
                       isCurrency={isCurrency}
                     />
                     <ChartTiny
+                      growth={row?.doubleLine?.vl?.totalMetrics.growth || 0}
                       width={96}
                       data={row?.doubleLine?.vl.metrics || []}
                     />

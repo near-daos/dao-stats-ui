@@ -31,9 +31,10 @@ export const ROUTES = {
 
   tvl: '/:contract/tvl',
   tvlAvgTvl: '/:contract/tvl/avg-tvl',
-  tvlBountiesAndGrantsVl: '/:contract/bounties-and-grants-vl',
+  tvlBountiesAndGrantsVl: '/:contract/tvl/bounties-and-grants-vl',
+  tvlFtsVl: '/:contract/tvl/tvl-vl',
   tvlDao: '/:contract/tvl/:dao',
-  tvlDaoVl: '/:contract/tvl/:dao/bounties/vl',
+  tvlDaoBountyVl: '/:contract/tvl/:dao/bounties/vl',
 
   tokens: '/:contract/tokens',
   tokensFtsVl: '/:contract/tokens/fts-vl',

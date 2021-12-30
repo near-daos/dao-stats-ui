@@ -1,1 +1,1 @@
-export * from './tvl-bounties';
+export * from './bounties-and-grants-vl';

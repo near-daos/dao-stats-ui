@@ -1,48 +1,16 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from 'src/store/root-reducer';
-import { currencySlice, currencyState } from 'src/app/shared/currency';
+import { currencySlice } from 'src/app/shared/currency';
+import {
+  updateLeaderboardDataWithCurrency,
+  updateMetricsDataWithCurrency,
+} from 'src/utils/update-data-with-currency';
 import {
   tvlSlice,
   tvlDaoBountiesVlAdapter,
   tvlDaoBountiesNumberAdapter,
   tvlDaoAdapter,
 } from './slice';
-import { Leaderboard, Metrics } from '../../../api';
-
-const updateMetricsDataWithCurrency = (
-  data: (Metrics & { id?: string }) | null,
-  currencyData: currencyState,
-) => {
-  if (!data) {
-    return null;
-  }
-
-  return {
-    metrics: data.metrics.map((metric) => ({
-      ...metric,
-      count: (currencyData.currency?.near?.usd || 0) * metric.count,
-    })),
-  };
-};
-
-const updateLeaderboardDataWithCurrency = (
-  leaderboard: Leaderboard | null,
-  currencyData: currencyState,
-) => {
-  if (!leaderboard) {
-    return null;
-  }
-
-  return {
-    metrics: leaderboard?.metrics?.map((metric) => ({
-      ...metric,
-      overview: metric?.overview?.map((overviewItem) => ({
-        ...overviewItem,
-        count: (currencyData.currency?.near?.usd || 0) * overviewItem.count,
-      })),
-    })),
-  };
-};
 
 const getState = (state: RootState) => state[tvlSlice.name];
 const getCurrencyState = (state: RootState) => state[currencySlice.name];
@@ -96,7 +64,7 @@ export const selectTvlAvgTvl = createSelector(
   (tvl, currency) => updateMetricsDataWithCurrency(tvl, currency),
 );
 
-export const selectTvlBountiesAndGrantsVLl = createSelector(
+export const selectTvlBountiesAndGrantsVl = createSelector(
   (state: RootState) => getState(state).tvlBountiesAndGrantsVL,
   getCurrencyState,
   (tvl, currency) => updateMetricsDataWithCurrency(tvl, currency),
@@ -112,7 +80,7 @@ const { selectById: selectTvlDaoItem } = tvlDaoAdapter.getSelectors(
   (state: RootState) => state[tvlSlice.name].tvlDao,
 );
 
-export const selectTokensDaoById = (id: string | undefined) =>
+export const selectTvlDaoById = (id: string | undefined) =>
   createSelector(
     (state: RootState) => (id ? selectTvlDaoItem(state, id) : null),
     getCurrencyState,
@@ -124,29 +92,17 @@ export const selectTokensDaoById = (id: string | undefined) =>
       return {
         ...tvl,
         grants: {
-          number: {
-            ...tvl.grants.number,
-            count:
-              (tvl.grants.number.count || 0) *
-              (currency.currency?.near?.usd || 0),
-          },
+          ...tvl.grants,
           vl: {
             ...tvl.grants.vl,
-            count:
-              (tvl.grants.vl.count || 0) * (currency.currency?.near?.usd || 0),
+            count: (currency.currency?.near?.usd || 0) * tvl.grants.vl.count,
           },
         },
         bounties: {
-          number: {
-            ...tvl.bounties.number,
-            count:
-              (tvl.grants.number.count || 0) *
-              (currency.currency?.near?.usd || 0),
-          },
+          ...tvl.bounties,
           vl: {
             ...tvl.bounties.vl,
-            count:
-              (tvl.grants.vl.count || 0) * (currency.currency?.near?.usd || 0),
+            count: (currency.currency?.near?.usd || 0) * tvl.bounties.vl.count,
           },
         },
         tvl: {
@@ -163,14 +119,9 @@ const {
   (state: RootState) => state[tvlSlice.name].tvlDaoBountiesNumber,
 );
 
-export const selectTvlDaoBountiesNumberById = (id?: string) =>
-  createSelector(
-    (state: RootState) =>
-      id ? selectTvlDaoBountiesNumberItem(state, id) : null,
-    getCurrencyState,
-    (tvl, currency) =>
-      tvl ? updateMetricsDataWithCurrency(tvl, currency) : null,
-  );
+export const selectTvlDaoBountiesNumberById = (id?: string) => (
+  state: RootState,
+) => (id ? selectTvlDaoBountiesNumberItem(state, id) : null);
 
 const {
   selectById: selectTvlDaoBountiesVlItem,

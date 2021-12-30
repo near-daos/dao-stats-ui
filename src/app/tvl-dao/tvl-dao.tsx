@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useMemo } from 'react';
 import {
+  generatePath,
   matchPath,
   Route,
   Switch,
@@ -8,6 +9,8 @@ import {
   useParams,
 } from 'react-router';
 import { Params, ROUTES } from 'src/constants';
+import { useRoutes } from 'src/hooks';
+
 import {
   Page,
   WidgetTile,
@@ -15,36 +18,34 @@ import {
   Breadcrumbs,
   Widgets,
 } from 'src/components';
-
-import { useRoutes } from 'src/hooks';
+import { getTvlDao, selectTvlDaoById } from 'src/app/shared';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { getTvl, selectTvl } from 'src/app/shared';
+
 import styles from 'src/styles/page.module.scss';
 
-import { TvlHistory } from './tvl-history';
-import { Avg } from './avg';
-import { BountiesAndGrantsVl } from './bounties-and-grants-vl';
+import { BountiesNumber } from './bounties-number';
+import { BountiesVl } from './bounties-vl';
 
-export const Tvl: FC = () => {
+export const TvlDao: FC = () => {
   const location = useLocation();
   const history = useHistory();
   const routes = useRoutes();
-  const { contract } = useParams<Params>();
+  const { contract, dao } = useParams<Params>();
   const dispatch = useAppDispatch();
-  const tvl = useAppSelector(selectTvl);
+  const tvl = useAppSelector(selectTvlDaoById(dao));
 
   useEffect(() => {
     (async () => {
       try {
         if (!tvl) {
-          await dispatch(getTvl({ contract }));
+          await dispatch(getTvlDao({ contract, dao }));
         }
       } catch (error: unknown) {
         // eslint-disable-next-line no-console
         console.error(error);
       }
     })();
-  }, [tvl, contract, dispatch]);
+  }, [tvl, contract, dispatch, dao]);
 
   const breadcrumbs = useMemo(
     () => [
@@ -52,8 +53,12 @@ export const Tvl: FC = () => {
         url: routes.tvl,
         name: 'TVL',
       },
+      {
+        url: routes.tvlDao,
+        name: dao,
+      },
     ],
-    [routes],
+    [routes, dao],
   );
 
   return (
@@ -65,77 +70,73 @@ export const Tvl: FC = () => {
             className={styles.widget}
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.tvl,
+                path: ROUTES.tvlDao,
                 exact: true,
               }),
             )}
-            onClick={() => history.push(routes.tvl)}
+            onClick={() =>
+              history.push(generatePath(ROUTES.tvlDao, { contract, dao }))
+            }
           >
             <WidgetInfo
-              isCurrency
               isRoundNumber
-              title="Platform TVL"
-              number={tvl?.tvl?.count}
-              percentages={tvl?.tvl?.growth}
+              title="Number of Bounties"
+              number={tvl?.bounties?.number?.count}
+              percentages={tvl?.bounties?.number?.growth}
             />
           </WidgetTile>
-
           <WidgetTile
             className={styles.widget}
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.tvlAvgTvl,
+                path: ROUTES.tvlDaoBountyVl,
                 exact: true,
               }),
             )}
-            onClick={() => history.push(routes.tvlAvgTvl)}
+            onClick={() =>
+              history.push(
+                generatePath(ROUTES.tvlDaoBountyVl, { contract, dao }),
+              )
+            }
           >
             <WidgetInfo
               isCurrency
               isRoundNumber
-              title="Avg. TVL per DAO"
-              number={tvl?.avgTvl?.count}
-              percentages={tvl?.avgTvl?.growth}
+              title="VL of Bounties"
+              number={tvl?.bounties?.vl?.count}
+              percentages={tvl?.bounties?.vl?.growth}
             />
           </WidgetTile>
-
-          <WidgetTile
-            className={styles.widget}
-            active={Boolean(
-              matchPath(location.pathname, {
-                path: ROUTES.tvlBountiesAndGrantsVl,
-                exact: true,
-              }),
-            )}
-            onClick={() => history.push(routes.tvlBountiesAndGrantsVl)}
-          >
+          <WidgetTile className={styles.widget}>
+            <WidgetInfo
+              isRoundNumber
+              title="Number of Grants"
+              number={tvl?.grants?.number?.count}
+              percentages={tvl?.grants?.number?.growth}
+            />
             <WidgetInfo
               isCurrency
               isRoundNumber
-              title="VL in Bounties/Grants"
-              number={tvl?.bountiesAndGrantsVl?.count}
-              percentages={tvl?.bountiesAndGrantsVl?.growth}
+              title="VL of Grants"
+              number={tvl?.grants?.vl?.count}
+              percentages={tvl?.grants?.vl?.growth}
             />
           </WidgetTile>
-
           <WidgetTile className={styles.widget}>
             <WidgetInfo
               isCurrency
               isRoundNumber
-              title="Fungible TVL"
-              number={tvl?.ftsVl?.count}
-              percentages={tvl?.ftsVl?.growth}
+              title="TVL"
+              number={tvl?.tvl?.count}
+              percentages={tvl?.tvl?.growth}
             />
           </WidgetTile>
         </Widgets>
+
         <div className={styles.mainContent}>
           <Switch>
-            <Route exact path={ROUTES.tvl} component={TvlHistory} />
-            <Route path={ROUTES.tvlAvgTvl} component={Avg} />
-            <Route
-              path={ROUTES.tvlBountiesAndGrantsVl}
-              component={BountiesAndGrantsVl}
-            />
+            <Route exact path={ROUTES.tvlDao} component={BountiesNumber} />
+            <Route path={ROUTES.tvlDaoBountyVl} component={BountiesVl} />
           </Switch>
         </div>
       </Page>
