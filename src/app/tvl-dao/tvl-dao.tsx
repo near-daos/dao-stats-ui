@@ -107,7 +107,7 @@ export const TvlDao: FC = () => {
               percentages={tvl?.bounties?.vl?.growth}
             />
           </WidgetTile>
-          <WidgetTile className={styles.widget}>
+          {/*  <WidgetTile className={styles.widget}>
             <WidgetInfo
               isRoundNumber
               title="Number of Grants"
@@ -121,7 +121,7 @@ export const TvlDao: FC = () => {
               number={tvl?.grants?.vl?.count}
               percentages={tvl?.grants?.vl?.growth}
             />
-          </WidgetTile>
+          </WidgetTile> */}
           <WidgetTile className={styles.widget}>
             <WidgetInfo
               isCurrency
