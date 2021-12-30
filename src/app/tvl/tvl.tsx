@@ -118,7 +118,7 @@ export const Tvl: FC = () => {
             />
           </WidgetTile>
 
-          <WidgetTile className={styles.widget}>
+          {/* <WidgetTile className={styles.widget}>
             <WidgetInfo
               isCurrency
               isRoundNumber
@@ -126,7 +126,7 @@ export const Tvl: FC = () => {
               number={tvl?.ftsVl?.count}
               percentages={tvl?.ftsVl?.growth}
             />
-          </WidgetTile>
+          </WidgetTile> */}
         </Widgets>
         <div className={styles.mainContent}>
           <Switch>
