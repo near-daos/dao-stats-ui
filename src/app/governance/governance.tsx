@@ -70,6 +70,7 @@ export const Governance: FC = () => {
             onClick={() => history.push(routes.governance)}
           >
             <WidgetInfo
+              isRoundNumber
               title="Number of Proposals"
               number={governance?.proposals?.count}
               percentages={governance?.proposals?.growth}

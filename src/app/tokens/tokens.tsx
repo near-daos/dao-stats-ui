@@ -93,6 +93,7 @@ export const Tokens: FC = () => {
               isRoundNumber
               number={tokens?.ftsVl?.count}
               percentages={tokens?.ftsVl?.growth}
+              isCurrency
             />
           </WidgetTile>
           <WidgetTile

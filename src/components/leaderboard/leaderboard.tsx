@@ -48,6 +48,7 @@ interface LeaderboardProps extends HTMLProps<HTMLTableElement> {
   tableBodyClassName?: string;
   type: 'line' | 'doubleLine' | 'stacked' | 'voteRate';
   onRowClick?: (row: LeaderboardDataItem) => void;
+  isCurrency?: boolean;
 }
 
 export const Leaderboard: FC<LeaderboardProps> = ({
@@ -58,6 +59,7 @@ export const Leaderboard: FC<LeaderboardProps> = ({
   dataRows,
   type = 'line',
   onRowClick,
+  isCurrency,
 }) => (
   <div className={clsx(styles.tableWrapper, className)}>
     <table
@@ -100,10 +102,15 @@ export const Leaderboard: FC<LeaderboardProps> = ({
                   <Amount
                     count={row?.line?.totalMetrics?.count || 0}
                     growth={row?.line?.totalMetrics?.growth || 0}
+                    isCurrency={isCurrency}
                   />
                 </td>
                 <td className={styles.cell}>
-                  <ChartTiny rightAlign data={row?.line?.metrics || []} />
+                  <ChartTiny
+                    growth={row?.line?.totalMetrics?.growth}
+                    rightAlign
+                    data={row?.line?.metrics || []}
+                  />
                 </td>
               </>
             )}
@@ -113,16 +120,22 @@ export const Leaderboard: FC<LeaderboardProps> = ({
                   <Amount
                     count={row?.voteRate?.proposals?.count || 0}
                     growth={row?.voteRate?.proposals?.growth || 0}
+                    isCurrency={isCurrency}
                   />
                 </td>
                 <td className={styles.cell}>
                   <Amount
                     count={row?.voteRate?.voteRate?.count || 0}
                     growth={row?.voteRate?.voteRate?.growth || 0}
+                    isCurrency={isCurrency}
                   />
                 </td>
                 <td className={styles.cell}>
-                  <ChartTiny rightAlign data={row?.voteRate?.metrics || []} />
+                  <ChartTiny
+                    growth={row?.voteRate?.voteRate?.growth}
+                    rightAlign
+                    data={row?.voteRate?.metrics || []}
+                  />
                 </td>
               </>
             )}
@@ -135,6 +148,7 @@ export const Leaderboard: FC<LeaderboardProps> = ({
                       growth={row?.doubleLine?.number?.totalMetrics.growth || 0}
                     />
                     <ChartTiny
+                      growth={row?.doubleLine?.number?.totalMetrics.growth}
                       width={96}
                       data={row?.doubleLine?.number?.metrics || []}
                     />
@@ -145,8 +159,10 @@ export const Leaderboard: FC<LeaderboardProps> = ({
                     <Amount
                       count={row?.doubleLine?.vl?.totalMetrics.count || 0}
                       growth={row?.doubleLine?.vl?.totalMetrics.growth || 0}
+                      isCurrency={isCurrency}
                     />
                     <ChartTiny
+                      growth={row?.doubleLine?.vl?.totalMetrics.growth || 0}
                       width={96}
                       data={row?.doubleLine?.vl.metrics || []}
                     />

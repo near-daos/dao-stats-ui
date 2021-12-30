@@ -7,3 +7,4 @@ export * from './daos';
 export * from './flow';
 export * from './tokens';
 export * from './currency';
+export * from './tvl';

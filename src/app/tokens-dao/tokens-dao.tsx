@@ -106,6 +106,7 @@ export const TokensDao: FC = () => {
               number={tokens?.ftsVl?.count}
               percentages={tokens?.ftsVl?.growth}
               isRoundNumber
+              isCurrency
             />
           </WidgetTile>
           <WidgetTile

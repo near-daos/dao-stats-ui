@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { subYears, subMonths, subDays, format } from 'date-fns';
+import { subYears, subMonths, subDays } from 'date-fns';
 import { MetricItem } from 'src/api';
+import { formatDate } from 'src/utils';
 import { ONE_BILLION, ONE_MILLION, ONE_THOUSAND } from './constants';
 
 export const getDateFromSelectedDate = (
@@ -88,13 +89,13 @@ export const tickXFormatter = (
   switch (period) {
     case 'All':
     case '1y':
-      return format(new Date(value), 'LLL');
+      return formatDate(value, 'LLL');
     case '6m':
     case '3m':
     case '1m':
     case '7d':
     default:
-      return format(new Date(value), 'd LLL');
+      return formatDate(value, 'd LLL');
   }
 };
 

@@ -49,7 +49,6 @@ export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
     {
       label: 'TVL',
       value: routes.tvl,
-      disabled: true,
     },
     {
       label: 'Tokens',

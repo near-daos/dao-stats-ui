@@ -5,3 +5,4 @@ export * from './users';
 export * from './governance';
 export * from './tokens';
 export * from './currency';
+export * from './tvl';

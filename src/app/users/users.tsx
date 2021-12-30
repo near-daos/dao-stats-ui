@@ -76,6 +76,7 @@ export const Users: FC = () => {
             )}
           >
             <WidgetInfo
+              isRoundNumber
               title="All users on a platform"
               number={users?.users?.count}
               percentages={users?.users?.growth}
@@ -93,6 +94,7 @@ export const Users: FC = () => {
             )}
           >
             <WidgetInfo
+              isRoundNumber
               title="Users that are member of a DAO"
               number={users?.members?.count}
               percentages={users?.members?.growth}
@@ -110,6 +112,7 @@ export const Users: FC = () => {
             )}
           >
             <WidgetInfo
+              isRoundNumber
               title="Average number of users per DAO"
               number={users?.averageUsers?.count}
               percentages={users?.averageUsers?.growth}
@@ -127,6 +130,7 @@ export const Users: FC = () => {
             )}
           >
             <WidgetInfo
+              isRoundNumber
               title="Number of Interactions"
               number={users?.interactions?.count}
               percentages={users?.interactions?.growth}
@@ -144,6 +148,7 @@ export const Users: FC = () => {
             )}
           >
             <WidgetInfo
+              isRoundNumber
               title="Average number of Interactions per DAO"
               number={users?.averageInteractions?.count}
               percentages={users?.averageInteractions?.growth}

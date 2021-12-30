@@ -12,9 +12,8 @@ type WidgetInfoProps = {
   number?: number;
   icon?: IconName;
   isRoundNumber?: boolean;
+  isCurrency?: boolean;
 };
-
-numeral.localeData().delimiters.thousands = ' ';
 
 export const WidgetInfo: FC<WidgetInfoProps> = ({
   className,
@@ -23,6 +22,7 @@ export const WidgetInfo: FC<WidgetInfoProps> = ({
   number,
   icon,
   isRoundNumber,
+  isCurrency,
 }) => (
   <div className={clsx(styles.widgetInfo, className)}>
     <div className={styles.top}>
@@ -40,6 +40,7 @@ export const WidgetInfo: FC<WidgetInfoProps> = ({
     </div>
     {number ? (
       <div className={styles.number}>
+        {isCurrency ? '$' : ''}
         {isRoundNumber ? numeral(number).format('0,0') : number}
         {icon ? <SvgIcon icon={icon} className={styles.icon} /> : null}
       </div>

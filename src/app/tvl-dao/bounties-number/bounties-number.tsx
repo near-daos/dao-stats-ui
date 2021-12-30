@@ -10,46 +10,51 @@ import { Params } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
-import { selectTokensFtsVlDaoById } from 'src/app/shared/tokens/selectors';
-import { getTokensDaoFtsVl } from 'src/app/shared/tokens/slice';
+import { selectTvlDaoBountiesNumberById } from 'src/app/shared/tvl/selectors';
+import { getTvlDaoBountiesNumber } from 'src/app/shared/tvl/slice';
 
-export const FtsVl: FC = () => {
+export const BountiesNumber: FC = () => {
   const [period, setPeriod] = useState('All');
   const { contract, dao } = useParams<Params>();
   const dispatch = useAppDispatch();
 
-  const tokens = useAppSelector(selectTokensFtsVlDaoById(dao));
-  const getTokensLoading = useAppSelector(
-    selectActionLoading(getTokensDaoFtsVl.typePrefix),
+  const tvl = useAppSelector(selectTvlDaoBountiesNumberById(dao));
+  const getTvlDaoBountiesNumberLoading = useAppSelector(
+    selectActionLoading(getTvlDaoBountiesNumber.typePrefix),
   );
 
   useEffect(() => {
-    if (!tokens && !isPending(getTokensLoading)) {
+    if (!tvl && !isPending(getTvlDaoBountiesNumberLoading)) {
       dispatch(
-        getTokensDaoFtsVl({
+        getTvlDaoBountiesNumber({
           contract,
           dao,
         }),
         // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
-  }, [dispatch, contract, getTokensLoading, tokens, dao]);
+  }, [dispatch, contract, getTvlDaoBountiesNumberLoading, tvl, dao]);
 
-  const tokensData = useFilterMetrics(period, tokens);
-  const periods = usePeriods(tokens?.metrics);
+  const tvlData = useFilterMetrics(period, tvl);
+  const periods = usePeriods(tvl?.metrics);
 
   return (
     <>
-      <LoadingContainer hide={isSuccess(getTokensLoading)} />
+      <LoadingContainer hide={isSuccess(getTvlDaoBountiesNumberLoading)} />
       <div className={styles.metricsContainer}>
-        {tokensData ? (
+        {tvlData ? (
           <ChartLine
-            isCurrency
             periods={periods}
-            data={tokensData}
+            data={tvlData}
             period={period}
             setPeriod={setPeriod}
-            lines={[{ name: 'VL of Fts', color: '#E33F84', dataKey: 'count' }]}
+            lines={[
+              {
+                name: 'Number of Bounties',
+                color: '#E33F84',
+                dataKey: 'count',
+              },
+            ]}
           />
         ) : null}
       </div>

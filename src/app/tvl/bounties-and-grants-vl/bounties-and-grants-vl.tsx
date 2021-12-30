@@ -7,17 +7,15 @@ import { selectActionLoading } from 'src/store/loading';
 import { useFilterMetrics, usePrepareLeaderboard, usePeriods } from 'src/hooks';
 import { isPending, isSuccess, isNotAsked } from 'src/utils';
 import { ROUTES } from 'src/constants';
+import { Params } from 'src/api';
+import {
+  getTvlBountiesAndGrantsVlLeaderboard,
+  getTvlBountiesAndGrantsVl,
+  selectTvlBountiesAndGrantsVl,
+  selectTvlBountiesAndGrantsVlLeaderboard,
+} from 'src/app/shared';
 
 import styles from 'src/styles/page.module.scss';
-
-import {
-  selectTokensFtsVl,
-  selectTokensFtsVlLeaderboard,
-} from 'src/app/shared/tokens/selectors';
-import {
-  getTokensFtsVl,
-  getTokensFtsVlLeaderboard,
-} from 'src/app/shared/tokens/slice';
 
 const tabOptions = [
   {
@@ -27,29 +25,28 @@ const tabOptions = [
   { label: 'Leaderboard', value: 'leaderboard' },
 ];
 
-export const FtsVl: FC = () => {
+export const BountiesAndGrantsVl: FC = () => {
   const history = useHistory();
   const [period, setPeriod] = useState('All');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
 
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<Params>();
   const dispatch = useAppDispatch();
-  const tokens = useAppSelector(selectTokensFtsVl);
-  const tokensLeaderboard = useAppSelector(selectTokensFtsVlLeaderboard);
-  const getTokensFtsVlLoading = useAppSelector(
-    selectActionLoading(getTokensFtsVl.typePrefix),
+  const tvl = useAppSelector(selectTvlBountiesAndGrantsVl);
+  const tvlLeaderboard = useAppSelector(
+    selectTvlBountiesAndGrantsVlLeaderboard,
   );
-  const getTokensFtsVlLeaderboardLoading = useAppSelector(
-    selectActionLoading(getTokensFtsVlLeaderboard.typePrefix),
+  const getTvlLoading = useAppSelector(
+    selectActionLoading(getTvlBountiesAndGrantsVl.typePrefix),
+  );
+  const getTvlLeaderboardLoading = useAppSelector(
+    selectActionLoading(getTvlBountiesAndGrantsVlLeaderboard.typePrefix),
   );
 
   useEffect(() => {
-    if (
-      isNotAsked(getTokensFtsVlLoading) &&
-      !isPending(getTokensFtsVlLoading)
-    ) {
+    if (isNotAsked(getTvlLoading) && !isPending(getTvlLoading)) {
       dispatch(
-        getTokensFtsVl({
+        getTvlBountiesAndGrantsVl({
           contract,
         }),
         // eslint-disable-next-line no-console
@@ -57,39 +54,32 @@ export const FtsVl: FC = () => {
     }
 
     if (
-      isNotAsked(getTokensFtsVlLeaderboardLoading) &&
-      !isPending(getTokensFtsVlLeaderboardLoading)
+      isNotAsked(getTvlLeaderboardLoading) &&
+      !isPending(getTvlLeaderboardLoading)
     ) {
       dispatch(
-        getTokensFtsVlLeaderboard({
+        getTvlBountiesAndGrantsVlLeaderboard({
           contract,
         }),
         // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
-  }, [
-    dispatch,
-    contract,
-    getTokensFtsVlLoading,
-    getTokensFtsVlLeaderboardLoading,
-  ]);
+  }, [dispatch, contract, getTvlLoading, getTvlLeaderboardLoading]);
 
   const handleOnChange = (value: string) => {
     setActiveTab(value);
   };
 
   const activityLeaderboardData = usePrepareLeaderboard({
-    leaderboard: tokensLeaderboard?.metrics ? tokensLeaderboard.metrics : null,
+    leaderboard: tvlLeaderboard?.metrics ? tvlLeaderboard.metrics : null,
   });
 
-  const tokensData = useFilterMetrics(period, tokens);
-  const periods = usePeriods(tokens?.metrics);
+  const tvlData = useFilterMetrics(period, tvl);
+  const periods = usePeriods(tvl?.metrics);
 
   const goToSingleDao = useCallback(
     (row) => {
-      history.push(
-        generatePath(ROUTES.tokensFtsVlDao, { contract, dao: row.dao }),
-      );
+      history.push(generatePath(ROUTES.tvlDao, { contract, dao: row.dao }));
     },
     [contract, history],
   );
@@ -97,10 +87,7 @@ export const FtsVl: FC = () => {
   return (
     <div className={styles.detailsContainer}>
       <LoadingContainer
-        hide={
-          isSuccess(getTokensFtsVlLoading) &&
-          isSuccess(getTokensFtsVlLeaderboardLoading)
-        }
+        hide={isSuccess(getTvlLoading) && isSuccess(getTvlLeaderboardLoading)}
       />
       <div className={styles.tabWrapper}>
         <Tabs
@@ -111,14 +98,20 @@ export const FtsVl: FC = () => {
         />
       </div>
       <div className={styles.metricsContainer}>
-        {activeTab === 'history-data' && tokensData ? (
+        {activeTab === 'history-data' && tvlData ? (
           <ChartLine
             isCurrency
             periods={periods}
-            data={tokensData}
+            data={tvlData}
             period={period}
             setPeriod={setPeriod}
-            lines={[{ name: 'VL of Fts', color: '#E33F84', dataKey: 'count' }]}
+            lines={[
+              {
+                name: 'VL in Bounties/Grants',
+                color: '#E33F84',
+                dataKey: 'count',
+              },
+            ]}
           />
         ) : null}
         {activeTab === 'leaderboard' && activityLeaderboardData ? (
@@ -128,7 +121,7 @@ export const FtsVl: FC = () => {
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
-              { value: 'VL of Fts' },
+              { value: 'VL in Bounties/Grants' },
               { value: 'Last 7 days', position: 'right' },
             ]}
             type="line"

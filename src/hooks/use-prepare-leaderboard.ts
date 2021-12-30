@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import numeral from 'numeral';
 
 import { LeaderboardItem, Proposals } from 'src/api';
 import { LeaderboardDataItem } from 'src/components/leaderboard/leaderboard';
