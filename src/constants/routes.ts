@@ -2,36 +2,59 @@ export const ROUTES = {
   index: '/',
   uiKit: '/ui-kit',
   page404: '/404',
+
   generalInfo: '/:contract/general-info',
   generalInfoDao: '/:contract/general-info/:dao',
+  generalInfoDaoGroups: '/:contract/general-info/:dao/groups',
   generalInfoActiveDao: '/:contract/general-info/dao-active',
   generalInfoGroups: '/:contract/general-info/groups',
   generalInfoAverageGroups: '/:contract/general-info/average-groups',
+
   users: '/:contract/users',
-  usersOfDao: '/:contract/users/of-dao',
-  usersPerDao: '/:contract/users/per-dao',
-  usersAverageCouncilSize: '/:contract/users/average-council-size',
-  usersNumberInteractions: '/:contract/users/number-interactions',
-  usersNumberInteractionsPerDao: '/:contract/users/number-interactions-per-dao',
+  usersMembers: '/:contract/users/members',
+  usersAverageUsers: '/:contract/users/average-users',
+  usersAverageInteractions: '/:contract/users/average-interactions',
+  usersInteractions: '/:contract/users/users-interactions',
+  usersDao: '/:contract/users/:dao',
+  usersMembersDao: '/:contract/users/:dao/members',
+  usersInteractionsDao: '/:contract/users/:dao/interactions',
+
   governance: '/:contract/governance',
   governanceProposalType: '/:contract/governance/proposal-type',
   governanceVoteRate: '/:contract/governance/vote-rate',
+  governanceDao: '/:contract/governance/:dao',
+  governanceProposalTypeDao: '/:contract/governance/:dao/proposal-type',
+  governanceVoteRateDao: '/:contract/governance/:dao/vote-rate',
+
   flow: '/:contract/flow',
   flowOutgoingFunds: '/:contract/flow/outgoing-funds',
   flowIncomingTransactions: '/:contract/flow/incoming-transactions',
   flowOutgoingTransactions: '/:contract/flow/outgoing-transactions',
   flowTransdappactions: '/:contract/flow/transdappactions',
   tvl: '/:contract/tvl',
-  tvlBounties: '/:contract/tvl/bounties',
-  tvlNear: '/:contract/tvl/near',
-  tvlDao: '/:contract/tvl/dao',
+  tvlAvgTvl: '/:contract/tvl/avg-tvl',
+  tvlBountiesAndGrantsVl: '/:contract/tvl/bounties-and-grants-vl',
+  tvlFtsVl: '/:contract/tvl/tvl-vl',
+  tvlDao: '/:contract/tvl/:dao',
+  tvlDaoBountyVl: '/:contract/tvl/:dao/bounties/vl',
+
   tokens: '/:contract/tokens',
-  tokensNumberFt: '/:contract/tokens/number-ft',
+  tokensFtsVl: '/:contract/tokens/fts-vl',
+  tokensNfts: '/:contract/tokens/nfts',
+  tokensDao: '/:contract/tokens/:dao',
+  tokensFtsVlDao: '/:contract/tokens/:dao/fts-vl',
+  tokensNftsDao: '/:contract/tokens/:dao/nfts',
 };
 
-export const HEADER_FORBIDDEN_ROUTES = [ROUTES.page404, ROUTES.uiKit];
+export const HEADER_FORBIDDEN_ROUTES = [
+  ROUTES.index,
+  ROUTES.page404,
+  ROUTES.uiKit,
+];
 export const SIDEBAR_FORBIDDEN_ROUTES = [
   ROUTES.index,
   ROUTES.page404,
   ROUTES.uiKit,
 ];
+
+export type Params = { dao: string; contract: string };

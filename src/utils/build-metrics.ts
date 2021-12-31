@@ -7,12 +7,27 @@ import {
 } from 'date-fns';
 import { MetricItem } from 'src/api';
 
-export const buildMetrics = (metrics: MetricItem[]) => {
+export const buildMetrics = (
+  metrics: MetricItem[],
+  isBuildFromCurrentDate?: boolean,
+) => {
+  if (!metrics || !metrics[0]) {
+    return [];
+  }
+
   const currentDay = startOfDay(new Date());
   const oneYearFromCurrentDate = subYears(currentDay, 1);
 
-  if (!metrics[0]) {
-    return [];
+  if (
+    isBuildFromCurrentDate &&
+    isBefore(startOfDay(metrics[metrics.length - 1].timestamp), currentDay)
+  ) {
+    eachDayOfInterval({
+      start: startOfDay(metrics[metrics.length - 1].timestamp),
+      end: currentDay,
+    }).forEach((date) => {
+      metrics.push({ timestamp: date.getTime(), count: 0 });
+    });
   }
 
   if (
@@ -22,10 +37,5 @@ export const buildMetrics = (metrics: MetricItem[]) => {
     return metrics;
   }
 
-  return eachDayOfInterval({
-    start: oneYearFromCurrentDate,
-    end: new Date(metrics[0].timestamp),
-  })
-    .map((date) => ({ timestamp: date.getTime(), count: 0 }))
-    .concat(metrics);
+  return metrics;
 };

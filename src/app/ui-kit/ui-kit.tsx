@@ -1,10 +1,9 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 
 import {
   Button,
   ChartBar,
   Autocomplete,
-  AutocompleteOption,
   Header,
   Leaderboard,
   LeaderboardDataItem,
@@ -17,9 +16,9 @@ import {
   Tabs,
   WidgetInfo,
   WidgetTile,
-} from '../../components';
+} from 'src/components';
 import { getRechartsData } from '../../components/charts/rechartsData';
-import logo from '../../images/sputnik.png';
+// import logo from '../../images/sputnik.png';
 
 import styles from './ui-kit.module.scss';
 
@@ -27,7 +26,7 @@ const tableMock3: LeaderboardDataItem[] = [
   {
     id: 1,
     titleCell: {
-      logo,
+      // logo,
       label: 'jonathan',
       domain: '.sputnikdao.near',
     },
@@ -36,7 +35,7 @@ const tableMock3: LeaderboardDataItem[] = [
   {
     id: 2,
     titleCell: {
-      logo,
+      // logo,
       label: 'JBN',
       domain: '.example.test',
     },
@@ -45,7 +44,7 @@ const tableMock3: LeaderboardDataItem[] = [
   {
     id: 3,
     titleCell: {
-      logo,
+      // logo,
       label: 'Oklahoma',
       domain: '.oklahoma.okh',
     },
@@ -54,68 +53,13 @@ const tableMock3: LeaderboardDataItem[] = [
   {
     id: 4,
     titleCell: {
-      logo,
+      // logo,
       label: 'ProfTool',
       domain: '.proftool.com',
     },
     proposals: { financial: 0, bounties: 0, members: 0, governance: 0 },
   },
 ];
-
-// const options: AutocompleteOption[] = [
-//   {
-//     id: '0',
-//     name: 'Fatima Sanders',
-//     link: 'Quisque libero lacus, varius et, euismod et, commodo at, libero.',
-//   },
-//   {
-//     id: '1',
-//     name: 'Xaviera Gibson',
-//     link:
-//       'Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus',
-//   },
-//   {
-//     id: '2',
-//     name: 'Anthony Hawkins',
-//     link: 'ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo',
-//   },
-//   {
-//     id: '3',
-//     name: 'Hadassah Harrington',
-//     link:
-//       'ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam auctor, velit',
-//   },
-//   {
-//     id: '4',
-//     name: 'Abel Knight',
-//     link: 'felis. Donec tempor, est ac mattis semper, dui lectus rutrum',
-//   },
-//   {
-//     id: '5',
-//     name: 'jonathan',
-//     link: 'jonathan.sputnikdao.near',
-//   },
-//   {
-//     id: '6',
-//     name: 'jonathan',
-//     link: 'jonathan.sputnikdao.near',
-//   },
-//   {
-//     id: '7',
-//     name: 'jonathan',
-//     link: 'jonathan.sputnikdao.near',
-//   },
-//   {
-//     id: '8',
-//     name: 'jonathan',
-//     link: 'jonathan.sputnikdao.near',
-//   },
-//   {
-//     id: '9',
-//     name: 'jonathan',
-//     link: 'jonathan.sputnikdao.near',
-//   },
-// ];
 
 const navigationOptions = [
   {
@@ -137,7 +81,7 @@ const rechartsData = getRechartsData();
 export const leaderboardData = [
   {
     id: 1,
-    logo,
+    // logo,
     label: 'jonathan',
     domain: '.sputnikdao.near',
     activity: 9290,
@@ -178,7 +122,7 @@ export const leaderboardData = [
   },
   {
     id: 2,
-    logo,
+    // logo,
     label: 'JBN',
     domain: '.example.test',
     activity: 8654,
@@ -219,7 +163,7 @@ export const leaderboardData = [
   },
   {
     id: 3,
-    logo,
+    // logo,
     label: 'Oklahoma',
     domain: '.oklahoma.okh',
     activity: 5887,
@@ -260,7 +204,7 @@ export const leaderboardData = [
   },
   {
     id: 4,
-    logo,
+    // logo,
     label: 'ProfTool',
     domain: '.proftool.com',
     activity: 1544,
@@ -302,242 +246,237 @@ export const leaderboardData = [
   },
 ];
 
-export const UiKIt: FC = () => {
-  const [dropdownValue, setDropDownValue] = useState<AutocompleteOption | null>(
-    null,
-  );
-
-  return (
-    <div className={styles.uiKit}>
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>Sidebar</div>
-        <div className={styles.container}>
-          <Sidebar isOpen={false} setOpen={() => null} />
-        </div>
-      </section>
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>Navigation List</div>
-        <div className={styles.container}>
-          <NavigationList
-            title="Overview"
-            options={navigationOptions}
-            selectedValue={navigationOptions[0].value}
-            onSelect={() => null}
+export const UiKIt: FC = () => (
+  <div className={styles.uiKit}>
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Sidebar</div>
+      <div className={styles.container}>
+        <Sidebar isOpen={false} setOpen={() => null} />
+      </div>
+    </section>
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Navigation List</div>
+      <div className={styles.container}>
+        <NavigationList
+          title="Overview"
+          options={navigationOptions}
+          selectedValue={navigationOptions[0].value}
+          onSelect={() => null}
+        />
+      </div>
+    </section>
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Navigation Info</div>
+      <div className={styles.container}>
+        <div className={styles.column}>
+          <NavigationInfo
+            title="Sputnik DAO"
+            description="Average values for all DAOs"
           />
         </div>
-      </section>
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>Navigation Info</div>
-        <div className={styles.container}>
-          <div className={styles.column}>
-            <NavigationInfo
-              title="Sputnik DAO"
-              description="Average values for all DAOs"
-            />
-          </div>
-          <div className={styles.column}>
-            <NavigationInfo
-              title="Sputnik DAO"
-              description="Average values for all DAOs"
-              color="blue"
-            />
-          </div>
-          <div className={styles.column}>
-            <NavigationInfo
-              title="Sputnik DAO"
-              description="Average values for all DAOs"
-              color="yellow"
-            />
-          </div>
-          <div className={styles.column}>
-            <NavigationInfo
-              title="Sputnik DAO"
-              description="Average values for all DAOs"
-              direction="left"
-            />
-          </div>
+        <div className={styles.column}>
+          <NavigationInfo
+            title="Sputnik DAO"
+            description="Average values for all DAOs"
+            color="blue"
+          />
         </div>
-      </section>
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>Header</div>
-        <Header isOpen={false} setOpen={() => null} />
-      </section>
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>Icons</div>
-        <div className={styles.container}>
-          <div className={styles.column}>
-            <SvgIcon icon="search" />
-          </div>
-          <div className={styles.column}>
-            <SvgIcon icon="crown" />
-          </div>
-          <div className={styles.column}>
-            <SvgIcon icon="arrow" />
-          </div>
-          <div className={styles.column}>
-            <SvgIcon icon="stats" />
-          </div>
+        <div className={styles.column}>
+          <NavigationInfo
+            title="Sputnik DAO"
+            description="Average values for all DAOs"
+            color="yellow"
+          />
         </div>
-      </section>
+        <div className={styles.column}>
+          <NavigationInfo
+            title="Sputnik DAO"
+            description="Average values for all DAOs"
+            direction="left"
+          />
+        </div>
+      </div>
+    </section>
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Header</div>
+      <Header isOpen={false} setOpen={() => null} />
+    </section>
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Icons</div>
+      <div className={styles.container}>
+        <div className={styles.column}>
+          <SvgIcon icon="search" />
+        </div>
+        <div className={styles.column}>
+          <SvgIcon icon="crown" />
+        </div>
+        <div className={styles.column}>
+          <SvgIcon icon="arrow" />
+        </div>
+        <div className={styles.column}>
+          <SvgIcon icon="stats" />
+        </div>
+      </div>
+    </section>
 
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>Buttons</div>
-        <div className={styles.container}>
-          <div className={styles.column}>
-            <Button variant="icon" />
-          </div>
-          <div className={styles.column}>
-            <Button disabled variant="icon" />
-          </div>
-          <div className={styles.column}>
-            <Button>Back to homepage</Button>
-          </div>
-          <div className={styles.column}>
-            <Button disabled>Back to homepage</Button>
-          </div>
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Buttons</div>
+      <div className={styles.container}>
+        <div className={styles.column}>
+          <Button variant="icon" />
         </div>
-      </section>
-
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>Search</div>
-        <div className={styles.container}>
-          <div className={styles.column}>
-            <Search inputProps={{ type: 'text' }} />
-          </div>
+        <div className={styles.column}>
+          <Button disabled variant="icon" />
         </div>
-      </section>
+        <div className={styles.column}>
+          <Button>Back to homepage</Button>
+        </div>
+        <div className={styles.column}>
+          <Button disabled>Back to homepage</Button>
+        </div>
+      </div>
+    </section>
 
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>Dropdown</div>
-        <Autocomplete
-          // options={options}
-          value={dropdownValue}
-          onChange={(selectedItem) => setDropDownValue(selectedItem)}
-        />
-      </section>
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Search</div>
+      <div className={styles.container}>
+        <div className={styles.column}>
+          <Search inputProps={{ type: 'text' }} />
+        </div>
+      </div>
+    </section>
 
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>Tabs</div>
-        <div className={styles.container}>
-          <div className={styles.column}>
-            <Tabs
-              options={[
-                {
-                  label: 'Sputnik DAO',
-                  value: 'sputnik',
-                },
-                {
-                  label: 'Astro',
-                  value: 'astro',
-                },
-                {
-                  label: 'Astro 2',
-                  value: 'astro 2',
-                },
-              ]}
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Dropdown</div>
+      <Autocomplete />
+    </section>
+
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Tabs</div>
+      <div className={styles.container}>
+        <div className={styles.column}>
+          <Tabs
+            options={[
+              {
+                label: 'Sputnik DAO',
+                value: 'sputnik',
+              },
+              {
+                label: 'Astro',
+                value: 'astro',
+              },
+              {
+                label: 'Astro 2',
+                value: 'astro 2',
+              },
+            ]}
+          />
+        </div>
+      </div>
+    </section>
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Tabs with default value</div>
+      <div className={styles.container}>
+        <div className={styles.column}>
+          <Tabs
+            defaultValue="astro"
+            options={[
+              {
+                label: 'Sputnik DAO',
+                value: 'sputnik',
+              },
+              {
+                label: 'Astro',
+                value: 'astro',
+              },
+              {
+                label: 'Astro 2',
+                value: 'astro 2',
+              },
+            ]}
+          />
+        </div>
+      </div>
+    </section>
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Scrollbar</div>
+      <div className={styles.sectionLarge}>
+        <div className={styles.largeBlock}>Scrollbar</div>
+      </div>
+    </section>
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Chart Line Widget</div>
+      <div className={styles.container}>
+        {/*  <ChartLine data={rechartsData} /> */}
+      </div>
+    </section>
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Chart Bar Widget</div>
+      <div className={styles.container}>
+        {/* <ChartBar data={rechartsData} /> */}
+      </div>
+    </section>
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Chart Bar Widget</div>
+      <div className={styles.container}>
+        <div className={styles.column}>
+          <WidgetTile>{/* <ChartPie data={pieData[0]} /> */}</WidgetTile>
+        </div>
+        <div className={styles.column}>
+          <WidgetTile>{/* <ChartPie data={pieData[1]} /> */}</WidgetTile>
+        </div>
+      </div>
+    </section>
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Chart Bar Widget</div>
+      <div className={styles.container}>
+        {/* <ChartBar data={rechartsData} /> */}
+        <div className={styles.column}>
+          <WidgetTile active>{/* <ChartPie data={pieData[2]} /> */}</WidgetTile>
+        </div>
+        <div className={styles.column}>
+          <WidgetTile>{/* <ChartPie data={pieData[3]} /> */}</WidgetTile>
+        </div>
+      </div>
+    </section>
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Info Widget</div>
+      <div className={styles.container}>
+        <div className={styles.column}>
+          <WidgetTile>
+            <WidgetInfo
+              title="Number of Proposals"
+              number={456.2}
+              percentages={10}
             />
-          </div>
+          </WidgetTile>
         </div>
-      </section>
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>Tabs with default value</div>
-        <div className={styles.container}>
-          <div className={styles.column}>
-            <Tabs
-              defaultValue="astro"
-              options={[
-                {
-                  label: 'Sputnik DAO',
-                  value: 'sputnik',
-                },
-                {
-                  label: 'Astro',
-                  value: 'astro',
-                },
-                {
-                  label: 'Astro 2',
-                  value: 'astro 2',
-                },
-              ]}
+        <div className={styles.column}>
+          <WidgetTile active>
+            <WidgetInfo
+              title="Vote through rate"
+              number={456.2}
+              percentages={100}
             />
-          </div>
+            <WidgetInfo
+              title="Vote through rate"
+              number={456.2}
+              percentages={-100}
+            />
+          </WidgetTile>
         </div>
-      </section>
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>Scrollbar</div>
-        <div className={styles.sectionLarge}>
-          <div className={styles.largeBlock}>Scrollbar</div>
-        </div>
-      </section>
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>Chart Line Widget</div>
-        <div className={styles.container}>
-          {/*  <ChartLine data={rechartsData} /> */}
-        </div>
-      </section>
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>Chart Bar Widget</div>
-        <div className={styles.container}>
-          {/* <ChartBar data={rechartsData} /> */}
-        </div>
-      </section>
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>Chart Bar Widget</div>
-        <div className={styles.container}>
-          <div className={styles.column}>
-            <WidgetTile>{/* <ChartPie data={pieData[0]} /> */}</WidgetTile>
-          </div>
-          <div className={styles.column}>
-            <WidgetTile>{/* <ChartPie data={pieData[1]} /> */}</WidgetTile>
-          </div>
-          <div className={styles.column}>
-            <WidgetTile active>
-              {/* <ChartPie data={pieData[2]} /> */}
-            </WidgetTile>
-          </div>
-          <div className={styles.column}>
-            <WidgetTile>{/* <ChartPie data={pieData[3]} /> */}</WidgetTile>
-          </div>
-        </div>
-      </section>
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>Info Widget</div>
-        <div className={styles.container}>
-          <div className={styles.column}>
-            <WidgetTile>
-              <WidgetInfo
-                title="Number of Proposals"
-                number={456.2}
-                percentages={10}
-              />
-            </WidgetTile>
-          </div>
-          <div className={styles.column}>
-            <WidgetTile active>
-              <WidgetInfo
-                title="Vote through rate"
-                number={456.2}
-                percentages={100}
-              />
-              <WidgetInfo
-                title="Vote through rate"
-                number={456.2}
-                percentages={-100}
-              />
-            </WidgetTile>
-          </div>
-        </div>
-      </section>
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>Stacked chart</div>
-        <div className={styles.container}>
-          {/* <StackedChart proposals={{}} /> */}
-        </div>
-      </section>
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>Leaderboard type 1</div>
-        <div className={styles.container}>
-          {/* <Leaderboard
+      </div>
+    </section>
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Stacked chart</div>
+      <div className={styles.container}>
+        {/* <StackedChart proposals={{}} /> */}
+      </div>
+    </section>
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Leaderboard type 1</div>
+      <div className={styles.container}>
+        {/* <Leaderboard
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
@@ -547,12 +486,12 @@ export const UiKIt: FC = () => {
             type="line"
             dataRows={tableMock1}
           /> */}
-        </div>
-      </section>
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>Leaderboard type 2</div>
-        <div className={styles.container}>
-          {/* <Leaderboard
+      </div>
+    </section>
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Leaderboard type 2</div>
+      <div className={styles.container}>
+        {/* <Leaderboard
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
@@ -563,28 +502,27 @@ export const UiKIt: FC = () => {
             type="doubleLine"
             dataRows={tableMock2}
           /> */}
-        </div>
-      </section>
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>Leaderboard type 3</div>
-        <div className={styles.container}>
-          <Leaderboard
-            headerCells={[
-              { value: '' },
-              { value: 'DAO Name' },
-              { value: 'Proposals by type' },
-            ]}
-            type="stacked"
-            dataRows={tableMock3}
-          />
-        </div>
-      </section>
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>Loading</div>
-        <div className={styles.container}>
-          <Loading />
-        </div>
-      </section>
-    </div>
-  );
-};
+      </div>
+    </section>
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Leaderboard type 3</div>
+      <div className={styles.container}>
+        <Leaderboard
+          headerCells={[
+            { value: '' },
+            { value: 'DAO Name' },
+            { value: 'Proposals by type' },
+          ]}
+          type="stacked"
+          dataRows={tableMock3}
+        />
+      </div>
+    </section>
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Loading</div>
+      <div className={styles.container}>
+        <Loading />
+      </div>
+    </section>
+  </div>
+);

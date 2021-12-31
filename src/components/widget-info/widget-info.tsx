@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import clsx from 'clsx';
-import { numberWithCommas, bigNumber } from 'src/utils';
+import numeral from 'numeral';
 import { IconName, SvgIcon } from '../svgIcon';
 
 import styles from './widget-info.module.scss';
@@ -13,7 +13,8 @@ type WidgetInfoProps = {
   totalIn?: number;
   totalOut?: number;
   icon?: IconName;
-  near?: boolean;
+  isRoundNumber?: boolean;
+  isCurrency?: boolean;
 };
 
 export const WidgetInfo: FC<WidgetInfoProps> = ({
@@ -24,7 +25,8 @@ export const WidgetInfo: FC<WidgetInfoProps> = ({
   totalIn,
   totalOut,
   icon,
-  near,
+  isRoundNumber,
+  isCurrency,
 }) => (
   <div className={clsx(styles.widgetInfo, className)}>
     <div className={styles.top}>
@@ -42,31 +44,8 @@ export const WidgetInfo: FC<WidgetInfoProps> = ({
     </div>
     {number && (
       <div className={styles.number}>
-        {near ? (
-          <div>
-            <div>{bigNumber(String(number))[0]}</div>
-            <div className={styles.secondPartNearValue}>
-              {bigNumber(String(number))[1]}
-              {icon ? (
-                <SvgIcon icon={icon} className={styles.nearIcon} />
-              ) : null}
-            </div>
-          </div>
-        ) : (
-          numberWithCommas(String(number))
-        )}
-        {/* {icon ? <SvgIcon icon={icon} className={styles.icon} /> : null} */}
-      </div>
-    )}
-    {totalIn && totalOut && (
-      <div className={styles.number}>
-        <span className={styles.totalIn}>
-          {numberWithCommas(String(totalIn))}
-        </span>
-        /
-        <span className={styles.totalOut}>
-          {numberWithCommas(String(totalOut))}
-        </span>
+        {isCurrency ? '$' : ''}
+        {isRoundNumber ? numeral(number).format('0,0') : number}
         {icon ? <SvgIcon icon={icon} className={styles.icon} /> : null}
       </div>
     )}

@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useParams } from 'react-router';
-import { useFilterMetrics } from 'src/hooks';
+import { useFilterMetrics, usePeriods } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectGeneralAverageGroups } from 'src/app/shared/general/selectors';
 import { getGeneralAverageGroups } from 'src/app/shared/general/slice';
@@ -11,7 +11,7 @@ import { isSuccess, isPending, isNotAsked } from 'src/utils';
 import styles from 'src/styles/page.module.scss';
 
 export const AverageGroups: FC = () => {
-  const [period, setPeriod] = useState('1y');
+  const [period, setPeriod] = useState('All');
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
   const averageGroups = useAppSelector(selectGeneralAverageGroups);
@@ -21,7 +21,7 @@ export const AverageGroups: FC = () => {
 
   useEffect(() => {
     if (
-      (!averageGroups || isNotAsked(generalAverageGroupsLoading)) &&
+      isNotAsked(generalAverageGroupsLoading) &&
       !isPending(generalAverageGroupsLoading)
     ) {
       dispatch(
@@ -33,9 +33,10 @@ export const AverageGroups: FC = () => {
         console.error(error);
       });
     }
-  }, [period, contract, dispatch, averageGroups, generalAverageGroupsLoading]);
+  }, [contract, dispatch, generalAverageGroupsLoading]);
 
   const averageGroupsData = useFilterMetrics(period, averageGroups);
+  const periods = usePeriods(averageGroups?.metrics);
 
   return (
     <>
@@ -43,6 +44,7 @@ export const AverageGroups: FC = () => {
       <div className={styles.metricsContainer}>
         {averageGroupsData ? (
           <ChartLine
+            periods={periods}
             data={averageGroupsData}
             period={period}
             setPeriod={setPeriod}

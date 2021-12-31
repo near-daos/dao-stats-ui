@@ -18,15 +18,14 @@ import {
   Widgets,
   Breadcrumbs,
 } from 'src/components';
+import { selectGovernance } from 'src/app/shared/governance/selectors';
+import { getGovernance } from 'src/app/shared/governance/slice';
+
+import styles from 'src/styles/page.module.scss';
 
 import { NumberOfProposals } from './number-of-proposals';
 import { ProposalsType } from './proposals-type';
 import { VoteRate } from './vote-rate';
-
-import { selectGovernance } from './selectors';
-import { getGovernance } from './slice';
-
-import styles from './governance.module.scss';
 
 export const Governance: FC = () => {
   const location = useLocation();
@@ -37,16 +36,12 @@ export const Governance: FC = () => {
   const governance = useAppSelector(selectGovernance);
 
   useEffect(() => {
-    (async () => {
-      try {
-        if (!governance) {
-          await dispatch(getGovernance({ contract }));
-        }
-      } catch (error: unknown) {
+    if (!governance) {
+      dispatch(getGovernance({ contract })).catch((error: unknown) => {
         // eslint-disable-next-line no-console
         console.error(error);
-      }
-    })();
+      });
+    }
   }, [governance, contract, dispatch]);
 
   const breadcrumbs = useMemo(
@@ -75,6 +70,7 @@ export const Governance: FC = () => {
             onClick={() => history.push(routes.governance)}
           >
             <WidgetInfo
+              isRoundNumber
               title="Number of Proposals"
               number={governance?.proposals?.count}
               percentages={governance?.proposals?.growth}

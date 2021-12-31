@@ -9,6 +9,7 @@ import { useForbiddenRoutes, useRoutes } from '../../hooks';
 import styles from './sidebar.module.scss';
 import { useAppSelector } from '../../store';
 import { selectorSelectedContract } from '../../app/shared';
+import { NetworkSwitcher } from '../network-switcher';
 
 export type SidebarProps = {
   isOpen: boolean;
@@ -48,12 +49,10 @@ export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
     {
       label: 'TVL',
       value: routes.tvl,
-      disabled: true,
     },
     {
       label: 'Tokens',
       value: routes.tokens,
-      disabled: true,
     },
   ];
 
@@ -86,6 +85,7 @@ export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
           onSelect={handlerChangeActive}
           className={styles.list}
         />
+        <NetworkSwitcher className={styles.networksSwitcher} />
       </div>
       {isOpen ? (
         <button

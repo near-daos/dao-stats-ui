@@ -5,18 +5,18 @@ import { MetricItem } from 'src/api';
 
 export type LineChartProps = {
   data: MetricItem[];
-  negativeGrowth?: boolean;
   width?: number;
   height?: number;
   rightAlign?: boolean;
+  growth?: number;
 };
 
 export const ChartTiny: React.FC<LineChartProps> = ({
   data,
-  negativeGrowth,
   width = 156,
   height = 44,
   rightAlign,
+  growth = 0,
 }) => (
   <LineChart
     width={width}
@@ -28,7 +28,7 @@ export const ChartTiny: React.FC<LineChartProps> = ({
       isAnimationActive={false} // low perfomanse because of animation
       dot={false}
       dataKey="count"
-      stroke={negativeGrowth ? '#FF3333' : '#61FF00'}
+      stroke={growth < 0 ? '#FF3333' : '#61FF00'}
       key="count"
     />
   </LineChart>

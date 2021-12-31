@@ -140,3 +140,11 @@
     display: none;
   }
 }
+
+.autocomplete {
+  display: none;
+
+  @include media.desktop {
+    display: block;
+  }
+}

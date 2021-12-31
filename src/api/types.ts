@@ -52,12 +52,21 @@ export type Leaderboard = {
 
 export type DaoHistoryParams = DaoParams & History;
 
+export type Metadata = {
+  image?: string;
+};
+
 export type Dao = {
   createdAt: string;
   dao: string;
   contractId: string;
-  description: string | null;
-  metadata: string | null;
+  description: string;
+  metadata: Metadata;
+};
+
+export type TvlTotalMetrics = {
+  number: TotalMetrics;
+  vl: TotalMetrics;
 };
 
 export type TotalMetrics = {
@@ -84,4 +93,8 @@ export type BarMetrics = {
 
 export type Metrics = {
   metrics: MetricItem[];
+};
+
+export type MetricsEntity = Metrics & {
+  id: string;
 };

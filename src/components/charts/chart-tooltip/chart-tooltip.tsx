@@ -1,16 +1,19 @@
 import clsx from 'clsx';
 import React, { useEffect, useRef, useState } from 'react';
 import { TooltipProps } from 'recharts';
-import { format } from 'date-fns';
+import numeral from 'numeral';
+import { formatDate } from 'src/utils';
 
 import { Dot } from '../svg/dot';
 
-import styles from './chart-tooltip.module.scss';
 import { LineItem } from '../types';
+
+import styles from './chart-tooltip.module.scss';
 
 export interface ChartTooltipProps extends TooltipProps<number, string> {
   showArrow?: boolean;
   lines?: LineItem[];
+  isCurrency?: boolean;
 }
 
 export const ChartTooltip: React.FC<ChartTooltipProps> = ({
@@ -22,6 +25,7 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
   offset,
   showArrow,
   lines,
+  isCurrency,
 }) => {
   const [arrowPosition, setArrowPosition] = useState('');
   const rootRef = useRef<HTMLDivElement>(null);
@@ -57,16 +61,16 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
       })}
       ref={rootRef}
     >
-      <p className={styles.label}>
-        {format(new Date(label), 'EEEE, LLL d, yyyy')}
-      </p>
+      <p className={styles.label}>{formatDate(label, 'EEEE, LLL d, yyyy')}</p>
       {payload.map((element, elementIndex) => (
         <div key={`item-${element.dataKey}-${element.value}`}>
           <Dot color={element.color || ''} className={styles.dot} />
           <span className={styles.name}>
             {lines ? lines[elementIndex].name : element.name}:
           </span>
-          <span className={styles.value}>{element.value}</span>
+          <span className={styles.value}>
+            {isCurrency ? '$' : ''} {numeral(element.value).format('0,0')}
+          </span>
         </div>
       ))}
     </div>

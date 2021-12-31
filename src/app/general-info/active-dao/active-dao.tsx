@@ -1,10 +1,10 @@
-import React, { FC, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import React, { FC, useCallback, useEffect, useState } from 'react';
+import { generatePath, useHistory, useParams } from 'react-router';
 
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
-import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
+import { useFilterMetrics, usePrepareLeaderboard, usePeriods } from 'src/hooks';
 import { isPending, isSuccess, isNotAsked } from 'src/utils';
 
 import {
@@ -17,6 +17,7 @@ import {
 } from 'src/app/shared/general/slice';
 
 import styles from 'src/styles/page.module.scss';
+import { ROUTES } from '../../../constants';
 
 const tabOptions = [
   {
@@ -27,7 +28,8 @@ const tabOptions = [
 ];
 
 export const ActiveDao: FC = () => {
-  const [period, setPeriod] = useState('1y');
+  const history = useHistory();
+  const [period, setPeriod] = useState('All');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
 
   const { contract } = useParams<{ contract: string }>();
@@ -43,7 +45,7 @@ export const ActiveDao: FC = () => {
 
   useEffect(() => {
     if (
-      (!active || isNotAsked(getGeneralActiveLoading)) &&
+      isNotAsked(getGeneralActiveLoading) &&
       !isPending(getGeneralActiveLoading)
     ) {
       dispatch(
@@ -55,7 +57,7 @@ export const ActiveDao: FC = () => {
     }
 
     if (
-      (!activeLeaderboard || isNotAsked(getGeneralActiveLeaderboardLoading)) &&
+      isNotAsked(getGeneralActiveLeaderboardLoading) &&
       !isPending(getGeneralActiveLeaderboardLoading)
     ) {
       dispatch(
@@ -68,9 +70,7 @@ export const ActiveDao: FC = () => {
   }, [
     dispatch,
     contract,
-    active,
     getGeneralActiveLoading,
-    activeLeaderboard,
     getGeneralActiveLeaderboardLoading,
   ]);
 
@@ -83,6 +83,16 @@ export const ActiveDao: FC = () => {
   });
 
   const activeData = useFilterMetrics(period, active);
+  const periods = usePeriods(active?.metrics);
+
+  const goToSingleDao = useCallback(
+    (row) => {
+      history.push(
+        generatePath(ROUTES.generalInfoDao, { contract, dao: row.dao }),
+      );
+    },
+    [contract, history],
+  );
 
   return (
     <div className={styles.detailsContainer}>
@@ -103,6 +113,7 @@ export const ActiveDao: FC = () => {
       <div className={styles.metricsContainer}>
         {activeTab === 'history-data' && activeData ? (
           <ChartLine
+            periods={periods}
             data={activeData}
             period={period}
             setPeriod={setPeriod}
@@ -113,6 +124,7 @@ export const ActiveDao: FC = () => {
         ) : null}
         {activeTab === 'leaderboard' && activityLeaderboardData ? (
           <Leaderboard
+            onRowClick={goToSingleDao}
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },

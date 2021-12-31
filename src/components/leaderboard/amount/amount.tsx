@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import numeral from 'numeral';
 import clsx from 'clsx';
 import { TotalMetrics } from 'src/api';
 
@@ -6,9 +7,15 @@ import { SvgIcon } from '../../svgIcon';
 
 import styles from './amount.module.scss';
 
-export const Amount: FC<TotalMetrics> = ({ count, growth }) => (
+export type AmountProps = TotalMetrics & {
+  isCurrency?: boolean;
+};
+
+export const Amount: FC<AmountProps> = ({ count, growth, isCurrency }) => (
   <div className={styles.amount}>
-    <div className={styles.label}>{count}</div>
+    <div className={styles.label}>
+      {isCurrency ? '$' : ''} {numeral(count).format('0,0')}
+    </div>
     {growth ? (
       <div
         className={clsx(styles.percentages, {

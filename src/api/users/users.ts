@@ -16,9 +16,7 @@ export class UsersService extends HttpService {
     return this.get(`${params.contract}/users`);
   }
 
-  async getUsersHistory(
-    params: HistoryParams,
-  ): Promise<AxiosResponse<Metrics>> {
+  async getUsersUsers(params: HistoryParams): Promise<AxiosResponse<Metrics>> {
     const query = queryString.stringify({ from: params.from, to: params.to });
 
     return this.get(`${params.contract}/users/users?${query}`);
@@ -30,7 +28,7 @@ export class UsersService extends HttpService {
     return this.get(`${params.contract}/users/users/leaderboard`);
   }
 
-  async getUsersMembersOfDaoHistory(
+  async getUsersMembers(
     params: HistoryParams,
   ): Promise<AxiosResponse<Metrics>> {
     const query = queryString.stringify({ from: params.from, to: params.to });
@@ -38,25 +36,21 @@ export class UsersService extends HttpService {
     return this.get(`${params.contract}/users/members?${query}`);
   }
 
-  async getUsersMembersOfDaoLeaderboard(
+  async getUsersMembersLeaderboard(
     params: Params,
   ): Promise<AxiosResponse<Leaderboard>> {
     return this.get(`${params.contract}/users/members/leaderboard`);
   }
 
-  async getUsersDao(params: DaoParams): Promise<AxiosResponse<Users>> {
-    return this.get(`${params.contract}/users/${params.dao}`);
-  }
-
-  async getUsersDaoHistory(
-    params: DaoHistoryParams,
+  async getUsersAverageUsers(
+    params: HistoryParams,
   ): Promise<AxiosResponse<Metrics>> {
-    return this.get(
-      `${params.contract}/users/${params.dao}/history?from=${params.from}&to=${params.to}`,
-    );
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(`${params.contract}/users/average-users?${query}`);
   }
 
-  async getUsersInteractionsHistory(
+  async getUsersInteractions(
     params: HistoryParams,
   ): Promise<AxiosResponse<Metrics>> {
     const query = queryString.stringify({ from: params.from, to: params.to });
@@ -70,20 +64,42 @@ export class UsersService extends HttpService {
     return this.get(`${params.contract}/users/interactions/leaderboard`);
   }
 
-  async getUsersAveragePerDaoHistory(
-    params: HistoryParams,
-  ): Promise<AxiosResponse<Metrics>> {
-    const query = queryString.stringify({ from: params.from, to: params.to });
-
-    return this.get(`${params.contract}/users/average-users?${query}`);
-  }
-
-  async getUsersInteractionsPerDaoHistory(
+  async getUsersAverageInteractions(
     params: HistoryParams,
   ): Promise<AxiosResponse<Metrics>> {
     const query = queryString.stringify({ from: params.from, to: params.to });
 
     return this.get(`${params.contract}/users/average-interactions?${query}`);
+  }
+
+  async getUsersDao(params: DaoParams): Promise<AxiosResponse<Users>> {
+    return this.get(`${params.contract}/users/${params.dao}`);
+  }
+
+  async getUsersDaoUsers(
+    params: DaoHistoryParams,
+  ): Promise<AxiosResponse<Metrics>> {
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(`${params.contract}/users/${params.dao}/users?${query}`);
+  }
+
+  async getUsersDaoMembers(
+    params: DaoHistoryParams,
+  ): Promise<AxiosResponse<Metrics>> {
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(`${params.contract}/users/${params.dao}/members?${query}`);
+  }
+
+  async getUsersDaoInteractions(
+    params: DaoHistoryParams,
+  ): Promise<AxiosResponse<Metrics>> {
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(
+      `${params.contract}/users/${params.dao}/interactions?${query}`,
+    );
   }
 }
 
