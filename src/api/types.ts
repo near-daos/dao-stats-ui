@@ -46,6 +46,8 @@ export type LeaderboardItem = {
 export type Leaderboard = {
   leaderboard?: LeaderboardItem[];
   metrics?: LeaderboardItem[];
+  incoming?: LeaderboardItem[];
+  outgoing?: LeaderboardItem[];
 };
 
 export type DaoHistoryParams = DaoParams & History;
@@ -66,6 +68,18 @@ export type TotalMetrics = {
 export type MetricItem = {
   timestamp: number;
   count: number;
+  incoming?: number;
+  outgoing?: number;
+};
+
+export type BarMetricItem = {
+  timestamp: number;
+  incoming: number;
+  outgoing: number;
+};
+
+export type BarMetrics = {
+  metrics: BarMetricItem[];
 };
 
 export type Metrics = {

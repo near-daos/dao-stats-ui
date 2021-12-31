@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useMemo } from 'react';
 import {
   Route,
   Switch,
@@ -13,11 +13,19 @@ import { ROUTES } from 'src/constants';
 import { getFlow } from './slice';
 import { selectFlow } from './selectors';
 
-import { Page, WidgetTile, WidgetInfo } from '../../components';
+import {
+  Page,
+  WidgetTile,
+  WidgetInfo,
+  Widgets,
+  Breadcrumbs,
+} from '../../components';
 
 import styles from './flow.module.scss';
-import { FlowInOut } from './in-out';
-import { FlowNumberOfTransactions } from './number-of-transactions';
+import { IncomingFunds } from './funds/incoming';
+import { IncomingTransactions } from './transactions/incoming';
+import { OutgoingFunds } from './funds/outgoing';
+import { OutgoingTransactions } from './transactions/outgoing';
 
 export const Flow: FC = () => {
   const location = useLocation();
@@ -40,60 +48,114 @@ export const Flow: FC = () => {
     })();
   }, [contract, dispatch, flow]);
 
-  return (
-    <Page>
-      <div className={styles.widgets}>
-        <WidgetTile
-          className={styles.widget}
-          onClick={() => history.push(routes.flow)}
-          active={Boolean(
-            matchPath(location.pathname, {
-              path: ROUTES.flow,
-              exact: true,
-            }),
-          )}
-        >
-          <WidgetInfo
-            title="Total in"
-            number={flow?.totalIn?.count}
-            percentages={flow?.totalIn?.growth}
-            icon="near"
-          />
-          <WidgetInfo
-            title="Total out"
-            number={flow?.totalOut?.count}
-            percentages={flow?.totalOut?.growth}
-            icon="near"
-          />
-        </WidgetTile>
-        <WidgetTile
-          className={styles.widget}
-          active={location.pathname === routes.flowTransactions}
-          onClick={() => history.push(routes.flowTransactions)}
-        >
-          <WidgetInfo
-            title="Number of Transactions"
-            totalIn={flow?.transactionsIn?.count}
-            totalOut={flow?.transactionsOut?.count}
-            percentages={flow?.transactionsIn?.growth}
-          />
-          {/* <WidgetInfo
-            title="Number of Transactions"
-            number={flow?.transactionsOut?.count}
-            percentages={flow?.transactionsOut?.growth}
-          /> */}
-        </WidgetTile>
-      </div>
+  const breadcrumbs = useMemo(
+    () => [
+      {
+        url: routes.flow,
+        name: 'Flow',
+      },
+    ],
+    [routes],
+  );
 
-      <div className={styles.mainContent}>
-        <Switch>
-          <Route exact path={ROUTES.flow} component={FlowInOut} />
-          <Route
-            path={ROUTES.flowTransactions}
-            component={FlowNumberOfTransactions}
-          />
-        </Switch>
-      </div>
-    </Page>
+  return (
+    <>
+      <Breadcrumbs elements={breadcrumbs} className={styles.breadcrumbs} />
+      <Page>
+        <Widgets>
+          <WidgetTile
+            className={styles.widget}
+            onClick={() => history.push(routes.flow)}
+            active={Boolean(
+              matchPath(location.pathname, {
+                path: ROUTES.flow,
+                exact: true,
+              }),
+            )}
+          >
+            <WidgetInfo
+              title="Total in"
+              number={flow?.totalIn?.count}
+              percentages={flow?.totalIn?.growth}
+              icon="near"
+              near
+            />
+          </WidgetTile>
+          <WidgetTile
+            className={styles.widget}
+            onClick={() => history.push(routes.flowOutgoingFunds)}
+            active={Boolean(
+              matchPath(location.pathname, {
+                path: ROUTES.flowOutgoingFunds,
+                exact: true,
+              }),
+            )}
+          >
+            <WidgetInfo
+              title="Total Out"
+              number={flow?.totalOut?.count}
+              percentages={flow?.totalOut?.growth}
+              icon="near"
+              near
+            />
+          </WidgetTile>
+          <WidgetTile
+            className={styles.widget}
+            active={location.pathname === routes.flowIncomingTransactions}
+            onClick={() => history.push(routes.flowIncomingTransactions)}
+          >
+            <WidgetInfo
+              title="Incoming Transactions"
+              number={flow?.transactionsIn?.count}
+              percentages={flow?.transactionsIn?.growth}
+            />
+          </WidgetTile>
+          <WidgetTile
+            className={styles.widget}
+            active={location.pathname === routes.flowOutgoingTransactions}
+            onClick={() => history.push(routes.flowOutgoingTransactions)}
+          >
+            <WidgetInfo
+              title="Outgoing of Transactions"
+              number={flow?.transactionsOut?.count}
+              percentages={flow?.transactionsOut?.growth}
+            />
+          </WidgetTile>
+          <WidgetTile
+            className={styles.widget}
+            active={location.pathname === routes.flowTransdappactions}
+            onClick={() => history.push(routes.flowTransdappactions)}
+            disabled
+          >
+            <WidgetInfo
+              title="Transdappactions"
+              number={12442}
+              percentages={0}
+            />
+          </WidgetTile>
+        </Widgets>
+
+        <div className={styles.mainContent}>
+          <Switch>
+            <Route exact path={ROUTES.flow} component={IncomingFunds} />
+            <Route
+              exact
+              path={ROUTES.flowOutgoingFunds}
+              component={OutgoingFunds}
+            />
+            <Route
+              exact
+              path={ROUTES.flowIncomingTransactions}
+              component={IncomingTransactions}
+            />
+            <Route
+              exact
+              path={ROUTES.flowOutgoingTransactions}
+              component={OutgoingTransactions}
+            />
+          </Switch>
+        </div>
+      </Page>
+    </>
   );
 };

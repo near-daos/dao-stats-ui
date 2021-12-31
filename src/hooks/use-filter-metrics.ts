@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { getDateFromMow } from 'src/components/charts/helpers';
-import { BarMetrics, Metrics } from 'src/api';
+import { BarMetricItem, BarMetrics, Metrics } from 'src/api';
 
 export const useFilterMetrics = (
   period: string,
@@ -22,24 +22,20 @@ export const useFilterMetrics = (
 
 export const useFilterBarMetrics = (
   period: string,
-  metricsData: BarMetrics | null,
-): Metrics | null =>
+  metricsData?: BarMetrics | null,
+): BarMetrics | null =>
   useMemo(() => {
-    if (metricsData?.incoming) {
+    if (period === 'all') {
+      return metricsData || null;
+    }
+
+    if (metricsData?.metrics) {
       return {
-        metrics: metricsData?.incoming.filter(
-          (metric) => metric.timestamp > getDateFromMow(period),
+        metrics: metricsData?.metrics.filter(
+          (metric: BarMetricItem) => metric.timestamp > getDateFromMow(period),
         ),
       };
     }
 
-    if (metricsData?.outcoming) {
-      return {
-        metrics: metricsData?.outcoming.filter(
-          (metric) => metric.timestamp > getDateFromMow(period),
-        ),
-      };
-    }
-
-    return null;
+    return { metrics: [] };
   }, [metricsData, period]);

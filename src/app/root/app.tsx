@@ -95,7 +95,22 @@ export const App: FC = () => (
                   component={Governance}
                 />
                 <Route exact path={ROUTES.flow} component={Flow} />
-                <Route exact path={ROUTES.flowTransactions} component={Flow} />
+                <Route exact path={ROUTES.flowOutgoingFunds} component={Flow} />
+                <Route
+                  exact
+                  path={ROUTES.flowIncomingTransactions}
+                  component={Flow}
+                />
+                <Route
+                  exact
+                  path={ROUTES.flowOutgoingTransactions}
+                  component={Flow}
+                />
+                <Route
+                  exact
+                  path={ROUTES.flowTransdappactions}
+                  component={Flow}
+                />
                 <Route exact path={ROUTES.tvl} component={Tvl} />
                 <Route exact path={ROUTES.tvlBounties} component={Tvl} />
                 <Route exact path={ROUTES.tvlNear} component={Tvl} />

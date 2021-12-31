@@ -74,3 +74,21 @@
 
   color: var(--color-grey-100);
 }
+
+.nearIcon {
+  width: functions.calc-rem(16);
+  height: functions.calc-rem(16);
+
+  margin-left: functions.calc-rem(8);
+
+  color: var(--color-grey-200);
+}
+
+.secondPartNearValue {
+  @include title-4;
+
+  color: var(--color-grey-200);
+  display: flex;
+  align-items: center;
+  margin-bottom: functions.calc-rem(15);
+}
