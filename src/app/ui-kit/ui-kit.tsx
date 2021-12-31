@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import {
   Button,
-  ChartBar,
+  // ChartBar,
   Autocomplete,
   Header,
   Leaderboard,
@@ -17,7 +17,7 @@ import {
   WidgetInfo,
   WidgetTile,
 } from 'src/components';
-import { getRechartsData } from '../../components/charts/rechartsData';
+// import { getRechartsData } from '../../components/charts/rechartsData';
 // import logo from '../../images/sputnik.png';
 
 import styles from './ui-kit.module.scss';
@@ -76,7 +76,7 @@ const navigationOptions = [
   },
 ];
 
-const rechartsData = getRechartsData();
+// const rechartsData = getRechartsData();
 
 export const leaderboardData = [
   {

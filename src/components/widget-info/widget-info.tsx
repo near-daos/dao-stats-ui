@@ -10,8 +10,6 @@ type WidgetInfoProps = {
   title: string;
   percentages?: number;
   number?: number;
-  totalIn?: number;
-  totalOut?: number;
   icon?: IconName;
   isRoundNumber?: boolean;
   isCurrency?: boolean;
@@ -22,8 +20,6 @@ export const WidgetInfo: FC<WidgetInfoProps> = ({
   title,
   percentages = 0,
   number,
-  totalIn,
-  totalOut,
   icon,
   isRoundNumber,
   isCurrency,
