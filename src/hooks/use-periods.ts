@@ -9,9 +9,9 @@ import {
 } from 'date-fns';
 
 import { Period } from 'src/constants';
-import { MetricItem } from 'src/api';
+import { BarMetricItem, MetricItem } from 'src/api';
 
-export const usePeriods = (metrics?: MetricItem[]) =>
+export const usePeriods = (metrics?: MetricItem[] | BarMetricItem[]) =>
   useMemo(() => {
     if (!metrics || !metrics.length) {
       return [];

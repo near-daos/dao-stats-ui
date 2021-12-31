@@ -12,6 +12,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { CustomLegend } from 'src/components/charts/custom-legend';
+import { Period } from 'src/constants';
 import { ChartTooltip } from '../chart-tooltip';
 
 import { tickStyles } from '../constants';
@@ -23,6 +24,7 @@ type ChartBarProps = {
   data: any | null;
   lines?: LineItem[];
   period: string;
+  periods: Period[];
   setPeriod: (period: string) => void;
   width?: number;
   height?: number;
@@ -35,6 +37,7 @@ export const ChartBar: React.FC<ChartBarProps> = ({
   width = 685,
   height = 500,
   period,
+  periods,
   setPeriod,
   filter,
 }) => {
@@ -83,6 +86,7 @@ export const ChartBar: React.FC<ChartBarProps> = ({
             <CustomLegend
               lines={lines}
               period={period}
+              periods={periods}
               setPeriod={setPeriod}
               onFilterSelect={(active) => setActiveBars(active)}
             />

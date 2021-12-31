@@ -1,7 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
 import { ChartBar, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useParams } from 'react-router';
-import { useFilterBarMetrics, usePrepareLeaderboard } from 'src/hooks';
+import {
+  useFilterBarMetrics,
+  usePeriods,
+  usePrepareLeaderboard,
+} from 'src/hooks';
 import { useAppDispatch, useAppSelector } from '../../../../store';
 import { selectActionLoading } from '../../../../store/loading';
 import { isSuccess, isPending, isNotAsked } from '../../../../utils';
@@ -85,6 +89,7 @@ export const IncomingFunds: FC = () => {
   });
 
   const fundsData = useFilterBarMetrics(period, funds);
+  const periods = usePeriods(funds?.metrics);
 
   return (
     <div className={styles.detailsContainer}>
@@ -107,6 +112,7 @@ export const IncomingFunds: FC = () => {
           <ChartBar
             data={fundsData}
             period={period}
+            periods={periods}
             setPeriod={setPeriod}
             lines={[
               { name: 'Incoming', color: '#FFC300', dataKey: 'incoming' },
