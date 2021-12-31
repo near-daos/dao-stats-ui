@@ -5,8 +5,11 @@ import { useFilterBarMetrics, usePrepareLeaderboard } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from '../../../../store';
 import { selectActionLoading } from '../../../../store/loading';
 import { isSuccess, isPending, isNotAsked } from '../../../../utils';
-import { getFlowHistory, getFlowLeaderboard } from '../../slice';
-import { selectFlowHistory, selectFlowLeaderboard } from '../../selectors';
+import { getFlowHistory, getFlowLeaderboard } from '../../../shared/flow/slice';
+import {
+  selectFlowHistory,
+  selectFlowLeaderboard,
+} from '../../../shared/flow/selectors';
 
 import styles from '../../flow.module.scss';
 
@@ -113,6 +116,7 @@ export const IncomingFunds: FC = () => {
         ) : null}
         {activeTab === 'leaderboard' && fundsLeaderboardData ? (
           <Leaderboard
+            isCurrency
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },

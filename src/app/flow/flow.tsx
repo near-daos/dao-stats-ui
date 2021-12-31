@@ -10,8 +10,8 @@ import {
 import { useRoutes } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { ROUTES } from 'src/constants';
-import { getFlow } from './slice';
-import { selectFlow } from './selectors';
+import { getFlow } from '../shared/flow/slice';
+import { selectFlow } from '../shared/flow/selectors';
 
 import {
   Page,
@@ -74,11 +74,11 @@ export const Flow: FC = () => {
             )}
           >
             <WidgetInfo
+              isCurrency
+              isRoundNumber
               title="Total in"
               number={flow?.totalIn?.count}
               percentages={flow?.totalIn?.growth}
-              icon="near"
-              near
             />
           </WidgetTile>
           <WidgetTile
@@ -92,11 +92,12 @@ export const Flow: FC = () => {
             )}
           >
             <WidgetInfo
+              isCurrency
+              isRoundNumber
               title="Total Out"
               number={flow?.totalOut?.count}
               percentages={flow?.totalOut?.growth}
-              icon="near"
-              near
+              // icon="near"
             />
           </WidgetTile>
           <WidgetTile
@@ -105,6 +106,8 @@ export const Flow: FC = () => {
             onClick={() => history.push(routes.flowIncomingTransactions)}
           >
             <WidgetInfo
+              isRoundNumber
+              isCurrency
               title="Incoming Transactions"
               number={flow?.transactionsIn?.count}
               percentages={flow?.transactionsIn?.growth}
@@ -116,6 +119,8 @@ export const Flow: FC = () => {
             onClick={() => history.push(routes.flowOutgoingTransactions)}
           >
             <WidgetInfo
+              isRoundNumber
+              isCurrency
               title="Outgoing of Transactions"
               number={flow?.transactionsOut?.count}
               percentages={flow?.transactionsOut?.growth}
@@ -128,6 +133,7 @@ export const Flow: FC = () => {
             disabled
           >
             <WidgetInfo
+              isRoundNumber
               title="Transdappactions"
               number={12442}
               percentages={0}

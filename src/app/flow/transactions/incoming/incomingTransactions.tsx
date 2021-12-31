@@ -1,18 +1,18 @@
 import React, { FC, useEffect, useState } from 'react';
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useParams } from 'react-router';
-import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
+import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from '../../../../store';
 import { selectActionLoading } from '../../../../store/loading';
 import { isSuccess, isPending, isNotAsked } from '../../../../utils';
 import {
   getFlowTransactionsHistory,
   getFlowTransactionsLeaderboard,
-} from '../../slice';
+} from '../../../shared/flow/slice';
 import {
   selectFlowTransactionsHistory,
   selectFlowTransactionsLeaderboard,
-} from '../../selectors';
+} from '../../../shared/flow/selectors';
 
 import styles from '../../flow.module.scss';
 
@@ -86,13 +86,14 @@ export const IncomingTransactions: FC = () => {
     getTransactionsLeaderboardLoading,
   ]);
 
+  const transactionsData = useFilterMetrics(period, transactions);
+  const periods = usePeriods(transactions?.metrics);
+
   const trasactionsLeaderboardData = usePrepareLeaderboard({
     leaderboard: transactionsLeaderboard?.incoming
       ? transactionsLeaderboard.incoming
       : null,
   });
-
-  const transactionsData = useFilterMetrics(period, transactions);
 
   return (
     <div className={styles.detailsContainer}>
@@ -115,6 +116,7 @@ export const IncomingTransactions: FC = () => {
         {activeTab === 'history-data' && transactionsData ? (
           <ChartLine
             data={transactionsData}
+            periods={periods}
             period={period}
             setPeriod={setPeriod}
             lines={[
@@ -128,6 +130,7 @@ export const IncomingTransactions: FC = () => {
         ) : null}
         {activeTab === 'leaderboard' && trasactionsLeaderboardData ? (
           <Leaderboard
+            isCurrency
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },

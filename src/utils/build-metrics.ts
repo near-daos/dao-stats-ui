@@ -26,7 +26,12 @@ export const buildMetrics = (
       start: startOfDay(metrics[metrics.length - 1].timestamp),
       end: currentDay,
     }).forEach((date) => {
-      metrics.push({ timestamp: date.getTime(), count: 0 });
+      metrics.push({
+        timestamp: date.getTime(),
+        count: 0,
+        incoming: 0,
+        outgoing: 0,
+      });
     });
   }
 

@@ -77,8 +77,8 @@ export type TotalMetrics = {
 export type MetricItem = {
   timestamp: number;
   count: number;
-  incoming?: number;
-  outgoing?: number;
+  incoming: number;
+  outgoing: number;
 };
 
 export type BarMetricItem = {

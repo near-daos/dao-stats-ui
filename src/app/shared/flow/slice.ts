@@ -7,9 +7,9 @@ import {
   isFulfilled,
 } from '@reduxjs/toolkit';
 
-import { RequestStatus } from '../../store/types';
+import { RequestStatus } from '../../../store/types';
 import { flowState } from './types';
-import { flowService, Params, DaoParams } from '../../api';
+import { flowService, Params, DaoParams } from '../../../api';
 
 const initialState: flowState = {
   flow: null,
