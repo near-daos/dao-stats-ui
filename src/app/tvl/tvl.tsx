@@ -71,7 +71,6 @@ export const Tvl: FC = () => {
             )}
             onClick={() => history.push(routes.tvl)}
           >
-            {console.log(tvl)}
             <WidgetInfo
               isCurrency
               isRoundNumber
