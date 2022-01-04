@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { subYears, subMonths, subDays } from 'date-fns';
+import { subYears, subMonths, subDays, differenceInMonths } from 'date-fns';
 import { MetricItem } from 'src/api';
 import { formatDate } from 'src/utils';
 import { ONE_BILLION, ONE_MILLION, ONE_THOUSAND } from './constants';
+import { ChartDataItem } from './types';
 
 export const getDateFromSelectedDate = (
   range: string,
@@ -79,6 +80,7 @@ export const yTickFormatter = (value: number): string => {
 };
 
 export const tickXFormatter = (
+  metrics: ChartDataItem[],
   value: number | string,
   period: string,
 ): string => {
@@ -86,10 +88,16 @@ export const tickXFormatter = (
     return 'auto';
   }
 
+  // Working around current issue with X Axis tick labels
+  const diffInMonths = differenceInMonths(
+    metrics?.[metrics.length - 1]?.timestamp,
+    metrics?.[0]?.timestamp,
+  );
+
   switch (period) {
     case 'All':
     case '1y':
-      return formatDate(value, 'LLL');
+      return formatDate(value, `${diffInMonths > 1 ? '' : 'd'} LLL`);
     case '6m':
     case '3m':
     case '1m':
