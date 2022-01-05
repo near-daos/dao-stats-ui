@@ -113,11 +113,12 @@ export const ChartLine: React.FC<LineChartProps> = ({
           stroke="#393838"
           dataKey="timestamp"
           tickMargin={12}
-          tickCount={6}
           tickLine={false}
-          tickFormatter={(value) => tickXFormatter(value, period)}
+          tickFormatter={(value) =>
+            tickXFormatter(data?.metrics as ChartDataItem[], value, period)
+          }
           style={tickStyles}
-          minTickGap={50}
+          minTickGap={60}
         />
         {filterLines.map((filterLine) => (
           <Line
