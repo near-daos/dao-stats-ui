@@ -17,7 +17,11 @@ import {
   Breadcrumbs,
   Widgets,
 } from 'src/components';
-import { getTokens, selectTokens } from 'src/app/shared';
+import {
+  getTokens,
+  selectTokens,
+  selectorSelectedContract,
+} from 'src/app/shared';
 import { useAppDispatch, useAppSelector } from 'src/store';
 
 import styles from 'src/styles/page.module.scss';
@@ -26,6 +30,8 @@ import { Fts } from './fts';
 import { Nfts } from './nfts';
 import { FtsVl } from './fts-vl';
 
+import { isTestnet } from '../../utils/network';
+
 export const Tokens: FC = () => {
   const location = useLocation();
   const history = useHistory();
@@ -33,6 +39,7 @@ export const Tokens: FC = () => {
   const { contract } = useParams<Params>();
   const dispatch = useAppDispatch();
   const tokens = useAppSelector(selectTokens);
+  const selectedContract = useAppSelector(selectorSelectedContract);
 
   useEffect(() => {
     (async () => {
@@ -78,24 +85,26 @@ export const Tokens: FC = () => {
               percentages={tokens?.fts?.growth}
             />
           </WidgetTile>
-          <WidgetTile
-            className={styles.widget}
-            active={Boolean(
-              matchPath(location.pathname, {
-                path: ROUTES.tokensFtsVl,
-                exact: true,
-              }),
-            )}
-            onClick={() => history.push(routes.tokensFtsVl)}
-          >
-            <WidgetInfo
-              title="VL of FTs"
-              isRoundNumber
-              number={tokens?.ftsVl?.count}
-              percentages={tokens?.ftsVl?.growth}
-              isCurrency
-            />
-          </WidgetTile>
+          {!isTestnet(selectedContract) ? (
+            <WidgetTile
+              className={styles.widget}
+              active={Boolean(
+                matchPath(location.pathname, {
+                  path: ROUTES.tokensFtsVl,
+                  exact: true,
+                }),
+              )}
+              onClick={() => history.push(routes.tokensFtsVl)}
+            >
+              <WidgetInfo
+                title="VL of FTs"
+                isRoundNumber
+                number={tokens?.ftsVl?.count}
+                percentages={tokens?.ftsVl?.growth}
+                isCurrency
+              />
+            </WidgetTile>
+          ) : null}
           <WidgetTile
             className={styles.widget}
             active={Boolean(
