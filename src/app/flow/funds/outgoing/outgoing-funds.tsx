@@ -1,11 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 import { ChartBar, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useParams } from 'react-router';
-import {
-  useFilterBarMetrics,
-  usePeriods,
-  usePrepareLeaderboard,
-} from 'src/hooks';
+import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
+import styles from 'src/styles/page.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../../store';
 import { selectActionLoading } from '../../../../store/loading';
 import { isSuccess, isPending, isNotAsked } from '../../../../utils';
@@ -15,8 +12,6 @@ import {
   selectFlowLeaderboard,
 } from '../../../shared/flow/selectors';
 
-import styles from '../../flow.module.scss';
-
 const tabOptions = [
   {
     label: 'History data',
@@ -25,7 +20,7 @@ const tabOptions = [
   { label: 'Leaderboard', value: 'leaderboard' },
 ];
 
-export const IncomingFunds: FC = () => {
+export const OutgoingFunds: FC = () => {
   const [period, setPeriod] = useState('1y');
 
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
@@ -85,10 +80,10 @@ export const IncomingFunds: FC = () => {
   ]);
 
   const fundsLeaderboardData = usePrepareLeaderboard({
-    leaderboard: fundsLeaderboard?.incoming ? fundsLeaderboard.incoming : null,
+    leaderboard: fundsLeaderboard?.outgoing ? fundsLeaderboard.outgoing : null,
   });
 
-  const fundsData = useFilterBarMetrics(period, funds);
+  const fundsData = useFilterMetrics(period, funds);
   const periods = usePeriods(funds?.metrics);
 
   return (
@@ -110,14 +105,15 @@ export const IncomingFunds: FC = () => {
       <div className={styles.metricsContainer}>
         {activeTab === 'history-data' && fundsData ? (
           <ChartBar
+            isCurrency
             data={fundsData}
             period={period}
             periods={periods}
             setPeriod={setPeriod}
             lines={[
-              { name: 'Incoming', color: '#FFC300', dataKey: 'incoming' },
+              { name: 'Outgoing', color: '#9D58E1', dataKey: 'outgoing' },
             ]}
-            filter="incoming"
+            filter="outgoing"
           />
         ) : null}
         {activeTab === 'leaderboard' && fundsLeaderboardData ? (
@@ -126,7 +122,7 @@ export const IncomingFunds: FC = () => {
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
-              { value: 'Total in' },
+              { value: 'Total out' },
               { value: 'Last 7 days', position: 'right' },
             ]}
             type="line"

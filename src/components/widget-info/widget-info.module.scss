@@ -12,11 +12,6 @@
   align-items: center;
 }
 
-.title {
-  @include title-4;
-  color: var(--color-grey-300);
-}
-
 .percentages {
   @include title-4;
   display: flex;
@@ -52,6 +47,11 @@
   align-items: center;
 }
 
+.title {
+  @include title-4;
+  color: var(--color-grey-300);
+}
+
 .totalIn {
   @include heading-2;
   display: flex;
@@ -67,8 +67,8 @@
 }
 
 .icon {
-  width: functions.calc-rem(20);
-  height: functions.calc-rem(20);
+  width: functions.calc-rem(16);
+  height: functions.calc-rem(16);
 
   margin-left: functions.calc-rem(8);
 

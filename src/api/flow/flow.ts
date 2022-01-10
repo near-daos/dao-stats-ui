@@ -8,7 +8,6 @@ import {
   HistoryParams,
   Leaderboard,
   Metrics,
-  BarMetrics,
 } from '../types';
 
 export class FlowService extends HttpService {
@@ -16,9 +15,7 @@ export class FlowService extends HttpService {
     return this.get(`${params.contract}/flow`);
   }
 
-  async getFlowHistory(
-    params: HistoryParams,
-  ): Promise<AxiosResponse<BarMetrics>> {
+  async getFlowHistory(params: HistoryParams): Promise<AxiosResponse<Metrics>> {
     const query = queryString.stringify({ from: params.from, to: params.to });
 
     return this.get(`${params.contract}/flow/funds?${query}`);

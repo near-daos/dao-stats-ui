@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { BarMetricItem, BarMetrics, Metrics } from 'src/api';
+import { Metrics } from 'src/api';
 import { getDateFromSelectedDate } from 'src/components/charts/helpers';
 
 export const useFilterMetrics = (
@@ -23,25 +23,4 @@ export const useFilterMetrics = (
         (metric) => metric.timestamp > getDateFromSelectedDate(period, endDate),
       ),
     };
-  }, [metricsData, period]);
-
-export const useFilterBarMetrics = (
-  period: string,
-  metricsData?: BarMetrics | null,
-): BarMetrics | null =>
-  useMemo(() => {
-    if (period === 'all') {
-      return metricsData || null;
-    }
-
-    if (metricsData?.metrics) {
-      return {
-        metrics: metricsData?.metrics.filter(
-          (metric: BarMetricItem) =>
-            metric.timestamp > getDateFromSelectedDate(period),
-        ),
-      };
-    }
-
-    return { metrics: [] };
   }, [metricsData, period]);

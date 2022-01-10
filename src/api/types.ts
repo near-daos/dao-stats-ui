@@ -81,16 +81,6 @@ export type MetricItem = {
   outgoing: number;
 };
 
-export type BarMetricItem = {
-  timestamp: number;
-  incoming: number;
-  outgoing: number;
-};
-
-export type BarMetrics = {
-  metrics: BarMetricItem[];
-};
-
 export type Metrics = {
   metrics: MetricItem[];
 };

@@ -1,1 +1,1 @@
-export * from './outgoingTransactions';
+export * from './outgoing-transactions';

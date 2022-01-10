@@ -26,6 +26,7 @@ type ChartBarProps = {
   period: string;
   periods: Period[];
   setPeriod: (period: string) => void;
+  isCurrency?: boolean;
   width?: number;
   height?: number;
   filter?: 'incoming' | 'outgoing';
@@ -40,6 +41,7 @@ export const ChartBar: React.FC<ChartBarProps> = ({
   periods,
   setPeriod,
   filter,
+  isCurrency,
 }) => {
   const [focusBar, setFocusBar] = useState(null);
   let bars: any;
@@ -115,47 +117,11 @@ export const ChartBar: React.FC<ChartBarProps> = ({
         />
 
         {bars?.map((bar: any) => {
-          if (!activeBars && !filter) {
-            return (
-              <Bar
-                key={bar}
-                dataKey={bar}
-                fill={bar === 'incoming' ? '#FFC300' : '#9D58E1'}
-                barSize={8}
-              >
-                {data?.metrics.map((entry: any, index: number) => (
-                  <Cell
-                    style={{
-                      cursor: 'pointer',
-                      filter: changeBarColors(focusBar, index),
-                    }}
-                  />
-                ))}
-              </Bar>
-            );
-          }
-
-          if (filter && filter === bar) {
-            return (
-              <Bar
-                key={bar}
-                dataKey={bar}
-                fill={bar === 'incoming' ? '#FFC300' : '#9D58E1'}
-                barSize={8}
-              >
-                {data?.metrics.map((entry: any, index: number) => (
-                  <Cell
-                    style={{
-                      cursor: 'pointer',
-                      filter: changeBarColors(focusBar, index),
-                    }}
-                  />
-                ))}
-              </Bar>
-            );
-          }
-
-          if (activeBars && activeBars?.includes(bar)) {
+          if (
+            (!activeBars && !filter) ||
+            (filter && filter === bar) ||
+            (activeBars && activeBars?.includes(bar))
+          ) {
             return (
               <Bar
                 key={bar}
@@ -179,7 +145,7 @@ export const ChartBar: React.FC<ChartBarProps> = ({
         })}
         <Tooltip
           offset={25}
-          content={<ChartTooltip showArrow />}
+          content={<ChartTooltip isCurrency={isCurrency} showArrow />}
           cursor={false}
         />
       </BarChart>

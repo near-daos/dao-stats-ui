@@ -10,6 +10,7 @@ import {
 import { useRoutes } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { ROUTES } from 'src/constants';
+import styles from 'src/styles/page.module.scss';
 import { getFlow } from '../shared/flow/slice';
 import { selectFlow } from '../shared/flow/selectors';
 
@@ -21,7 +22,6 @@ import {
   Breadcrumbs,
 } from '../../components';
 
-import styles from './flow.module.scss';
 import { IncomingFunds } from './funds/incoming';
 import { IncomingTransactions } from './transactions/incoming';
 import { OutgoingFunds } from './funds/outgoing';
@@ -80,6 +80,12 @@ export const Flow: FC = () => {
               number={flow?.totalIn?.count}
               percentages={flow?.totalIn?.growth}
             />
+            <WidgetInfo
+              isRoundNumber
+              isSecondary
+              icon="near"
+              number={flow?.totalIn?.countNear}
+            />
           </WidgetTile>
           <WidgetTile
             className={styles.widget}
@@ -97,7 +103,12 @@ export const Flow: FC = () => {
               title="Total Out"
               number={flow?.totalOut?.count}
               percentages={flow?.totalOut?.growth}
-              // icon="near"
+            />
+            <WidgetInfo
+              isRoundNumber
+              isSecondary
+              icon="near"
+              number={flow?.totalOut?.countNear}
             />
           </WidgetTile>
           <WidgetTile
@@ -112,6 +123,12 @@ export const Flow: FC = () => {
               number={flow?.transactionsIn?.count}
               percentages={flow?.transactionsIn?.growth}
             />
+            <WidgetInfo
+              isRoundNumber
+              isSecondary
+              icon="near"
+              number={flow?.transactionsIn?.countNear}
+            />
           </WidgetTile>
           <WidgetTile
             className={styles.widget}
@@ -124,6 +141,12 @@ export const Flow: FC = () => {
               title="Outgoing of Transactions"
               number={flow?.transactionsOut?.count}
               percentages={flow?.transactionsOut?.growth}
+            />
+            <WidgetInfo
+              isRoundNumber
+              isSecondary
+              icon="near"
+              number={flow?.transactionsOut?.countNear}
             />
           </WidgetTile>
           <WidgetTile

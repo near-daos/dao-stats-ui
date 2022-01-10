@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useParams } from 'react-router';
 import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
+import styles from 'src/styles/page.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../../store';
 import { selectActionLoading } from '../../../../store/loading';
 import { isSuccess, isPending, isNotAsked } from '../../../../utils';
@@ -14,8 +15,6 @@ import {
   selectFlowTransactionsLeaderboard,
 } from '../../../shared/flow/selectors';
 
-import styles from '../../flow.module.scss';
-
 const tabOptions = [
   {
     label: 'History data',
@@ -24,7 +23,7 @@ const tabOptions = [
   { label: 'Leaderboard', value: 'leaderboard' },
 ];
 
-export const IncomingTransactions: FC = () => {
+export const OutgoingTransactions: FC = () => {
   const [period, setPeriod] = useState('1y');
 
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
@@ -86,14 +85,14 @@ export const IncomingTransactions: FC = () => {
     getTransactionsLeaderboardLoading,
   ]);
 
-  const transactionsData = useFilterMetrics(period, transactions);
-  const periods = usePeriods(transactions?.metrics);
-
   const trasactionsLeaderboardData = usePrepareLeaderboard({
-    leaderboard: transactionsLeaderboard?.incoming
-      ? transactionsLeaderboard.incoming
+    leaderboard: transactionsLeaderboard?.outgoing
+      ? transactionsLeaderboard.outgoing
       : null,
   });
+
+  const transactionsData = useFilterMetrics(period, transactions);
+  const periods = usePeriods(transactions?.metrics);
 
   return (
     <div className={styles.detailsContainer}>
@@ -115,15 +114,16 @@ export const IncomingTransactions: FC = () => {
       <div className={styles.metricsContainer}>
         {activeTab === 'history-data' && transactionsData ? (
           <ChartLine
+            isCurrency
             data={transactionsData}
-            periods={periods}
             period={period}
+            periods={periods}
             setPeriod={setPeriod}
             lines={[
               {
-                name: 'Incoming Transactions',
+                name: 'Outgoing Transactions',
                 color: '#E33F84',
-                dataKey: 'incoming',
+                dataKey: 'outgoing',
               },
             ]}
           />
@@ -134,7 +134,7 @@ export const IncomingTransactions: FC = () => {
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
-              { value: 'Incoming Transactions' },
+              { value: 'Outgoing Transactions' },
               { value: 'Last 7 days', position: 'right' },
             ]}
             type="line"
