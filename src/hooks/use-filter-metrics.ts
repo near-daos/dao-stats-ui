@@ -4,8 +4,8 @@ import { Metrics } from 'src/api';
 
 export const useFilterMetrics = (
   period: string,
-  metricsData?: Metrics | null,
-): Metrics | null =>
+  metricsData?: Metrics | { metrics: { timestamp: number }[] } | null,
+): Metrics | { metrics: { timestamp: number }[] } | null =>
   useMemo(() => {
     if (period === 'All') {
       return metricsData || null;

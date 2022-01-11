@@ -85,7 +85,7 @@ export const Leaderboard: FC<LeaderboardProps> = ({
         {dataRows.map((row, index) => (
           <tr
             key={row.id}
-            className={clsx(styles.row, { [styles.pointer]: onRowClick })}
+            className={clsx(styles.row, { [styles.hover]: onRowClick })}
             onClick={() => {
               if (onRowClick) {
                 onRowClick(row);

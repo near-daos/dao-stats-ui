@@ -122,9 +122,22 @@ export const AutocompleteDropdown: FC<AutocompleteProps> = ({
         }
       }}
     >
-      {({ getItemProps, getMenuProps, getInputProps, inputValue, isOpen }) => (
+      {({
+        getItemProps,
+        getMenuProps,
+        getInputProps,
+        inputValue,
+        isOpen,
+        clearSelection,
+        selectedItem,
+      }) => (
         <div className={clsx(styles.root, className)}>
-          <Search disabled={disabled} inputProps={{ ...getInputProps() }} />
+          <Search
+            isShowCloseIcon={Boolean(selectedItem)}
+            onCloseClick={clearSelection}
+            disabled={disabled}
+            inputProps={{ ...getInputProps() }}
+          />
           {isOpen ? (
             <div className={styles.overlayDropdown}>
               <div className={clsx(styles.dropdown, dropdownClassName)}>

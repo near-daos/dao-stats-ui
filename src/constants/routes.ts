@@ -55,4 +55,6 @@ export const SIDEBAR_FORBIDDEN_ROUTES = [
   ROUTES.uiKit,
 ];
 
+export type Routes = typeof ROUTES;
+
 export type Params = { dao: string; contract: string };

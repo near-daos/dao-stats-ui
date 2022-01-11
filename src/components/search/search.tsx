@@ -3,8 +3,9 @@ import clsx from 'clsx';
 
 import { SvgIcon } from '../svgIcon/svgIcon';
 
-import styles from './search.module.scss';
 import { NetworkSwitcher } from '../network-switcher';
+
+import styles from './search.module.scss';
 
 export interface SearchProps {
   disabled?: boolean;
@@ -13,6 +14,8 @@ export interface SearchProps {
   classNameIcon?: string;
   value?: string;
   inputProps?: Partial<InputHTMLAttributes<HTMLInputElement>>;
+  onCloseClick: () => void;
+  isShowCloseIcon?: boolean;
 }
 
 export const Search: React.FC<SearchProps> = ({
@@ -22,6 +25,8 @@ export const Search: React.FC<SearchProps> = ({
   value = '',
   inputProps,
   disabled,
+  onCloseClick,
+  isShowCloseIcon,
 }) => (
   <div
     className={clsx(styles.root, className, {
@@ -39,6 +44,17 @@ export const Search: React.FC<SearchProps> = ({
       placeholder="Search by Dao Name"
       disabled={disabled}
     />
+
+    {isShowCloseIcon ? (
+      <button
+        type="button"
+        onClick={onCloseClick}
+        className={styles.closeButton}
+      >
+        <SvgIcon icon="close" className={styles.closeIcon} />
+      </button>
+    ) : null}
+
     <label htmlFor="search" className={styles.inputLabel} />
 
     <SvgIcon icon="search" className={clsx(styles.inputIcon, classNameIcon)} />

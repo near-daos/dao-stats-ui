@@ -15,6 +15,8 @@ export const MainPage: FC = () => {
   const routes = useRoutes();
   const history = useHistory();
 
+  console.log('routes', routes);
+
   useEffect(() => {
     const handleScroll = (event: WheelEvent) => {
       if (event.deltaY > 0) {

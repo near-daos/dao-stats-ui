@@ -4,6 +4,8 @@
 .breadcrumbs {
   @include typography.title-1;
   margin: 0 0 functions.calc-rem(16);
+
+  display: flex;
 }
 
 .link {

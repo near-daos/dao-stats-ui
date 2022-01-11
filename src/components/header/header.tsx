@@ -1,14 +1,13 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
-
-import { useForbiddenRoutes } from '../../hooks';
+import desktopLogo from 'src/images/logo-mobile.svg';
+import mobileLogo from 'src/images/daostats.svg';
+import { useForbiddenRoutes } from 'src/hooks';
 
 import { SvgIcon } from '../svgIcon/svgIcon';
 
 import styles from './header.module.scss';
 
-import desktopLogo from '../../images/logo-mobile.svg';
-import mobileLogo from '../../images/daostats.svg';
 import { NetworkSwitcher } from '../network-switcher';
 import { Autocomplete } from '../autocomplete';
 

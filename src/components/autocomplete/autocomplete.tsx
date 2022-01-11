@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect, useCallback, useMemo } from 'react';
-import { generatePath, useHistory } from 'react-router';
+import { generatePath, useHistory, useLocation, matchPath } from 'react-router';
 import debounce from 'lodash/debounce';
 import { useAppSelector } from 'src/store';
 import { selectorSelectedContract } from 'src/app/shared/contracts';
@@ -34,6 +34,7 @@ export const Autocomplete: FC<AutocompleteProps> = ({
   dropdownClassName,
   disabled,
 }) => {
+  const location = useLocation();
   const history = useHistory();
   const [searchValue, setSearchValue] = useState('');
   const [options, setOptions] = useState<AutocompleteOption[]>([]);
@@ -46,6 +47,8 @@ export const Autocomplete: FC<AutocompleteProps> = ({
 
   const onChange = useCallback(
     (selectedItem: AutocompleteOption | null) => {
+      console.log(location);
+
       if (selectedItem) {
         history.push(
           generatePath(ROUTES.generalInfoDao, {

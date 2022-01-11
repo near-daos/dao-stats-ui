@@ -45,13 +45,6 @@
   height: functions.calc-rem(80);
 
   transition: background linear 300ms;
-  &:hover {
-    background: var(--color-grey-800);
-  }
-
-  &:active {
-    background: var(--color-grey-600);
-  }
 }
 
 .cell {
@@ -80,6 +73,13 @@
   gap: functions.calc-rem(32);
 }
 
-.pointer {
+.hover {
   cursor: pointer;
+  &:hover {
+    background: var(--color-grey-800);
+  }
+
+  &:active {
+    background: var(--color-grey-600);
+  }
 }
