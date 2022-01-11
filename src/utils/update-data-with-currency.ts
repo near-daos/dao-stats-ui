@@ -27,7 +27,7 @@ export const updateLeaderboardDataWithCurrency = (
     return null;
   }
 
-  if (leaderboard.incoming) {
+  if (leaderboard.incoming || leaderboard.outgoing) {
     return {
       incoming: leaderboard?.incoming?.map((metric) => ({
         ...metric,
@@ -38,11 +38,7 @@ export const updateLeaderboardDataWithCurrency = (
             (metric.activity?.count || 0),
         },
       })),
-    };
-  }
 
-  if (leaderboard.outgoing) {
-    return {
       outgoing: leaderboard?.outgoing?.map((metric) => ({
         ...metric,
         activity: {

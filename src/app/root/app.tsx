@@ -27,6 +27,7 @@ import {
 import { Layout, Loading, UserData } from '../../components';
 import { RequestStatus } from '../../store/types';
 import { TokensDao } from '../tokens-dao';
+import { FlowDao } from '../flow-dao';
 
 export const App: FC = () => (
   <Provider store={store}>
@@ -133,6 +134,22 @@ export const App: FC = () => (
                 />
 
                 <Route exact path={ROUTES.flow} component={Flow} />
+                <Route exact path={ROUTES.flowDao} component={FlowDao} />
+                <Route
+                  exact
+                  path={ROUTES.flowDaoOutgoingFunds}
+                  component={FlowDao}
+                />
+                <Route
+                  exact
+                  path={ROUTES.flowDaoIncomingTransactions}
+                  component={FlowDao}
+                />
+                <Route
+                  exact
+                  path={ROUTES.flowDaoOutgoingTransactions}
+                  component={FlowDao}
+                />
                 <Route exact path={ROUTES.flowOutgoingFunds} component={Flow} />
                 <Route
                   exact

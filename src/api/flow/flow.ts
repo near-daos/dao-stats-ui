@@ -8,6 +8,8 @@ import {
   HistoryParams,
   Leaderboard,
   Metrics,
+  FlowMetrics,
+  DaoHistoryParams,
 } from '../types';
 
 export class FlowService extends HttpService {
@@ -41,8 +43,52 @@ export class FlowService extends HttpService {
     return this.get(`${params.contract}/flow/transactions/leaderboard`);
   }
 
+  async getFlowDaos(params: HistoryParams): Promise<AxiosResponse<Flow>> {
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(`${params.contract}/flow/?${query}`);
+  }
+
   async getFlowDao(params: DaoParams): Promise<AxiosResponse<Flow>> {
     return this.get(`${params.contract}/flow/${params.dao}`);
+  }
+
+  async getflowDaoIncomingFunds(
+    params: DaoHistoryParams,
+  ): Promise<AxiosResponse<FlowMetrics>> {
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(`${params.contract}/flow/${params.dao}?${query}`);
+  }
+
+  async getflowDaoOutgoingFunds(
+    params: DaoHistoryParams,
+  ): Promise<AxiosResponse<FlowMetrics>> {
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(
+      `${params.contract}/flow/${params.dao}/outgoing-funds?${query}`,
+    );
+  }
+
+  async getflowDaoIncomingTransactions(
+    params: DaoHistoryParams,
+  ): Promise<AxiosResponse<FlowMetrics>> {
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(
+      `${params.contract}/flow/${params.dao}/incoming-transactions?${query}`,
+    );
+  }
+
+  async getflowDaoOutgoingTransactions(
+    params: DaoHistoryParams,
+  ): Promise<AxiosResponse<FlowMetrics>> {
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(
+      `${params.contract}/flow/${params.dao}/outgoing-transactions?${query}`,
+    );
   }
 }
 

@@ -1,7 +1,8 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState, useCallback } from 'react';
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
-import { useParams } from 'react-router';
+import { useParams, generatePath, useHistory } from 'react-router';
 import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
+import { ROUTES } from 'src/constants';
 import styles from 'src/styles/page.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../../store';
 import { selectActionLoading } from '../../../../store/loading';
@@ -25,7 +26,7 @@ const tabOptions = [
 
 export const OutgoingTransactions: FC = () => {
   const [period, setPeriod] = useState('1y');
-
+  const history = useHistory();
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
@@ -93,6 +94,17 @@ export const OutgoingTransactions: FC = () => {
 
   const transactionsData = useFilterMetrics(period, transactions);
   const periods = usePeriods(transactions?.metrics);
+  const goToSingleDao = useCallback(
+    (row) => {
+      history.push(
+        generatePath(ROUTES.flowDaoOutgoingTransactions, {
+          contract,
+          dao: row.dao,
+        }),
+      );
+    },
+    [contract, history],
+  );
 
   return (
     <div className={styles.detailsContainer}>
@@ -131,6 +143,7 @@ export const OutgoingTransactions: FC = () => {
         {activeTab === 'leaderboard' && trasactionsLeaderboardData ? (
           <Leaderboard
             isCurrency
+            onRowClick={goToSingleDao}
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },

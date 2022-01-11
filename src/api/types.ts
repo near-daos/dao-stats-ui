@@ -69,22 +69,39 @@ export type TvlTotalMetrics = {
   vl: TotalMetrics;
 };
 
+export type FlowTotalMetrics = {
+  number: TotalMetrics;
+};
+
 export type TotalMetrics = {
   count: number;
   growth: number;
+  countNear?: number;
 };
 
 export type MetricItem = {
   timestamp: number;
   count: number;
-  incoming: number;
-  outgoing: number;
 };
 
 export type Metrics = {
   metrics: MetricItem[];
 };
 
+export type FlowMetricsItem = {
+  timestamp: number;
+  incoming: number;
+  outgoing: number;
+};
+
+export type FlowMetrics = {
+  metrics: FlowMetricsItem[];
+};
+
 export type MetricsEntity = Metrics & {
+  id: string;
+};
+
+export type FlowMetricsEntity = FlowMetrics & {
   id: string;
 };

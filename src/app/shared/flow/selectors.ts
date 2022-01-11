@@ -4,7 +4,14 @@ import {
   updateLeaderboardDataWithCurrency,
   updateMetricsDataWithCurrency,
 } from 'src/utils/update-data-with-currency';
-import { flowSlice } from './slice';
+import {
+  flowSlice,
+  flowDaoAdapter,
+  flowDaoIncomingFundsAdapter,
+  flowDaoOutgoingFundsAdapter,
+  flowDaoIncomingTransactionsAdapter,
+  flowDaoOutgoingTransactionsAdapter,
+} from './slice';
 import { RootState } from '../../../store/root-reducer';
 
 const getState = (state: RootState) => state[flowSlice.name];
@@ -77,3 +84,53 @@ export const selectFlowTransactionsLeaderboard = createSelector(
   getCurrencyState,
   (flow, currency) => updateLeaderboardDataWithCurrency(flow, currency),
 );
+
+const { selectById: selectFlowDaoItem } = flowDaoAdapter.getSelectors(
+  (state: RootState) => state[flowSlice.name].flowDao,
+);
+
+export const selectFlowDaoById = (id: string | undefined) => (
+  state: RootState,
+) => (id ? selectFlowDaoItem(state, id) : null);
+
+const {
+  selectById: selectFlowDaoIncomingFundsItem,
+} = flowDaoIncomingFundsAdapter.getSelectors(
+  (state: RootState) => state[flowSlice.name].flowDaoIncomingFunds,
+);
+
+export const selectFlowDaoIncomingFundsById = (id: string | undefined) => (
+  state: RootState,
+) => (id ? selectFlowDaoIncomingFundsItem(state, id) : null);
+
+const {
+  selectById: selectFlowDaoOutgoingFundsItem,
+} = flowDaoOutgoingFundsAdapter.getSelectors(
+  (state: RootState) => state[flowSlice.name].flowDaoOutgoingFunds,
+);
+
+export const selectFlowDaoOutgoingFundsById = (id: string | undefined) => (
+  state: RootState,
+) => (id ? selectFlowDaoOutgoingFundsItem(state, id) : null);
+
+const {
+  selectById: selectFlowDaoIncomingTransactionsItem,
+} = flowDaoIncomingTransactionsAdapter.getSelectors(
+  (state: RootState) => state[flowSlice.name].flowDaoIncomingTransactions,
+);
+
+export const selectFlowDaoIncomingTransactionsById = (
+  id: string | undefined,
+) => (state: RootState) =>
+  id ? selectFlowDaoIncomingTransactionsItem(state, id) : null;
+
+const {
+  selectById: selectFlowDaoOutgoingTransactionsItem,
+} = flowDaoOutgoingTransactionsAdapter.getSelectors(
+  (state: RootState) => state[flowSlice.name].flowDaoOutgoingTransactions,
+);
+
+export const selectFlowDaoOutgoingTransactionsById = (
+  id: string | undefined,
+) => (state: RootState) =>
+  id ? selectFlowDaoOutgoingTransactionsItem(state, id) : null;

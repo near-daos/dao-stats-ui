@@ -1,17 +1,21 @@
 import { useMemo } from 'react';
-import { Metrics } from 'src/api';
+import { Metrics, FlowMetrics } from 'src/api';
 import { getDateFromSelectedDate } from 'src/components/charts/helpers';
 
 export const useFilterMetrics = (
   period: string,
-  metricsData?: Metrics | null,
-): Metrics | null =>
+  metricsData?: Metrics | FlowMetrics | null,
+): Metrics | FlowMetrics | null =>
   useMemo(() => {
     if (period === 'All') {
       return metricsData || null;
     }
 
-    if (!metricsData?.metrics || !metricsData?.metrics?.length) {
+    if (
+      !metricsData ||
+      !metricsData?.metrics ||
+      !metricsData?.metrics?.length
+    ) {
       return null;
     }
 
