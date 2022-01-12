@@ -5,10 +5,10 @@ import {
   isBefore,
   isEqual,
 } from 'date-fns';
-import { MetricItem } from 'src/api';
+import { FlowMetricsItem, MetricItem } from 'src/api';
 
 export const buildMetrics = (
-  metrics: MetricItem[],
+  metrics: MetricItem[] | FlowMetricsItem[],
   isBuildFromCurrentDate?: boolean,
 ) => {
   if (!metrics || !metrics[0]) {
@@ -26,7 +26,12 @@ export const buildMetrics = (
       start: startOfDay(metrics[metrics.length - 1].timestamp),
       end: currentDay,
     }).forEach((date) => {
-      metrics.push({ timestamp: date.getTime(), count: 0 });
+      metrics.push({
+        timestamp: date.getTime(),
+        count: 0,
+        incoming: 0,
+        outgoing: 0,
+      });
     });
   }
 

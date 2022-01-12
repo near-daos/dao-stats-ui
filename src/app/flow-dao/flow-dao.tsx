@@ -1,47 +1,50 @@
 import React, { FC, useEffect, useMemo } from 'react';
 import {
-  Route,
-  Switch,
-  useHistory,
   useLocation,
   useParams,
+  useHistory,
   matchPath,
+  Switch,
+  Route,
+  generatePath,
 } from 'react-router';
-import { useRoutes } from 'src/hooks';
-import { useAppDispatch, useAppSelector } from 'src/store';
-import { ROUTES } from 'src/constants';
-import styles from 'src/styles/page.module.scss';
-import { getFlow, selectFlow } from 'src/app/shared/flow';
 
+import { getFlowDao } from 'src/app/shared/flow/slice';
+import { selectFlowDaoById } from 'src/app/shared/flow/selectors';
 import {
   Page,
   WidgetTile,
   WidgetInfo,
   Widgets,
   Breadcrumbs,
-} from '../../components';
+} from 'src/components';
+import { useRoutes } from 'src/hooks';
+import { useAppDispatch, useAppSelector } from 'src/store';
+import { ROUTES } from 'src/constants';
+import styles from 'src/styles/page.module.scss';
 
 import { IncomingFunds } from './funds/incoming';
-import { IncomingTransactions } from './transactions/incoming';
 import { OutgoingFunds } from './funds/outgoing';
+import { IncomingTransactions } from './transactions/incoming';
 import { OutgoingTransactions } from './transactions/outgoing';
 
-export const Flow: FC = () => {
+export const FlowDao: FC = () => {
   const location = useLocation();
   const history = useHistory();
+  const { contract, dao } = useParams<{ dao: string; contract: string }>();
   const routes = useRoutes();
-  const { contract } = useParams<{ contract: string }>();
+
   const dispatch = useAppDispatch();
-  const flow = useAppSelector(selectFlow);
+  const flow = useAppSelector(selectFlowDaoById(dao));
 
   useEffect(() => {
     if (!flow) {
-      dispatch(getFlow({ contract })).catch((error: unknown) => {
+      dispatch(getFlowDao({ contract, dao })).catch((error: unknown) => {
         // eslint-disable-next-line no-console
         console.error(error);
       });
     }
-  }, [contract, dispatch, flow]);
+  }, [flow, contract, dao, dispatch]);
 
   const breadcrumbs = useMemo(
     () => [
@@ -49,8 +52,12 @@ export const Flow: FC = () => {
         url: routes.flow,
         name: 'Flow',
       },
+      {
+        url: routes.flowDao,
+        name: dao,
+      },
     ],
-    [routes],
+    [dao, routes],
   );
 
   return (
@@ -60,10 +67,12 @@ export const Flow: FC = () => {
         <Widgets>
           <WidgetTile
             className={styles.widget}
-            onClick={() => history.push(routes.flow)}
+            onClick={() =>
+              history.push(generatePath(ROUTES.flowDao, { contract, dao }))
+            }
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.flow,
+                path: ROUTES.flowDao,
                 exact: true,
               }),
             )}
@@ -84,10 +93,14 @@ export const Flow: FC = () => {
           </WidgetTile>
           <WidgetTile
             className={styles.widget}
-            onClick={() => history.push(routes.flowOutgoingFunds)}
+            onClick={() =>
+              history.push(
+                generatePath(ROUTES.flowDaoOutgoingFunds, { contract, dao }),
+              )
+            }
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.flowOutgoingFunds,
+                path: ROUTES.flowDaoOutgoingFunds,
                 exact: true,
               }),
             )}
@@ -110,11 +123,18 @@ export const Flow: FC = () => {
             className={styles.widget}
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.flowIncomingTransactions,
+                path: ROUTES.flowDaoIncomingTransactions,
                 exact: true,
               }),
             )}
-            onClick={() => history.push(routes.flowIncomingTransactions)}
+            onClick={() =>
+              history.push(
+                generatePath(ROUTES.flowDaoIncomingTransactions, {
+                  contract,
+                  dao,
+                }),
+              )
+            }
           >
             <WidgetInfo
               isRoundNumber
@@ -131,14 +151,21 @@ export const Flow: FC = () => {
             />
           </WidgetTile>
           <WidgetTile
+            className={styles.widget}
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.flowOutgoingTransactions,
+                path: ROUTES.flowDaoOutgoingTransactions,
                 exact: true,
               }),
             )}
-            className={styles.widget}
-            onClick={() => history.push(routes.flowOutgoingTransactions)}
+            onClick={() =>
+              history.push(
+                generatePath(ROUTES.flowDaoOutgoingTransactions, {
+                  contract,
+                  dao,
+                }),
+              )
+            }
           >
             <WidgetInfo
               isRoundNumber
@@ -155,23 +182,22 @@ export const Flow: FC = () => {
             />
           </WidgetTile>
         </Widgets>
-
         <div className={styles.mainContent}>
           <Switch>
-            <Route exact path={ROUTES.flow} component={IncomingFunds} />
+            <Route exact path={ROUTES.flowDao} component={IncomingFunds} />
             <Route
               exact
-              path={ROUTES.flowOutgoingFunds}
+              path={ROUTES.flowDaoOutgoingFunds}
               component={OutgoingFunds}
             />
             <Route
               exact
-              path={ROUTES.flowIncomingTransactions}
+              path={ROUTES.flowDaoIncomingTransactions}
               component={IncomingTransactions}
             />
             <Route
               exact
-              path={ROUTES.flowOutgoingTransactions}
+              path={ROUTES.flowDaoOutgoingTransactions}
               component={OutgoingTransactions}
             />
           </Switch>

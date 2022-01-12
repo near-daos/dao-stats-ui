@@ -14,6 +14,7 @@ import {
   DaoParams,
   DaoHistoryParams,
   MetricsEntity,
+  MetricItem,
 } from 'src/api';
 import { buildMetrics } from 'src/utils';
 
@@ -207,7 +208,7 @@ export const generalSlice = createSlice({
     builder.addCase(getGeneralDaoActivity.fulfilled, (state, { payload }) => {
       generalDaoActivityAdapter.upsertOne(state.generalDaoActivity, {
         id: payload.id,
-        metrics: buildMetrics(payload.metrics, true),
+        metrics: buildMetrics(payload.metrics, true) as MetricItem[],
       });
     });
 

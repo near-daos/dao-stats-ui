@@ -4,26 +4,26 @@ import { useParams } from 'react-router';
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { selectGeneralDaoActivityById } from 'src/app/shared/general/selectors';
-import { getGeneralDaoActivity } from 'src/app/shared/general/slice';
+import { selectFlowDaoTransactionsById } from 'src/app/shared/flow/selectors';
+import { getFlowDaoTransactions } from 'src/app/shared/flow/slice';
 import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isPending } from 'src/utils';
 
 import styles from 'src/styles/page.module.scss';
 
-export const Activity: FC = () => {
+export const IncomingTransactions: FC = () => {
   const [period, setPeriod] = useState('All');
   const { contract, dao } = useParams<{ dao: string; contract: string }>();
   const dispatch = useAppDispatch();
-  const activityItems = useAppSelector(selectGeneralDaoActivityById(dao));
-  const getGeneralDaoActivityLoading = useAppSelector(
-    selectActionLoading(getGeneralDaoActivity.typePrefix),
+  const transaction = useAppSelector(selectFlowDaoTransactionsById(dao));
+  const getFlowDaoTransactionLoading = useAppSelector(
+    selectActionLoading(getFlowDaoTransactions.typePrefix),
   );
 
   useEffect(() => {
-    if (!activityItems && !isPending(getGeneralDaoActivityLoading)) {
+    if (!transaction && !isPending(getFlowDaoTransactionLoading)) {
       dispatch(
-        getGeneralDaoActivity({
+        getFlowDaoTransactions({
           contract,
           dao,
         }),
@@ -32,26 +32,32 @@ export const Activity: FC = () => {
         console.error(error);
       });
     }
-  }, [contract, dao, dispatch, getGeneralDaoActivityLoading, activityItems]);
+  }, [contract, dao, dispatch, getFlowDaoTransactionLoading, transaction]);
 
-  const activityData = useFilterMetrics(period, activityItems);
-  const periods = usePeriods(activityItems?.metrics);
+  const transactionData = useFilterMetrics(period, transaction);
+  const periods = usePeriods(transaction?.metrics);
 
   return (
     <>
-      <LoadingContainer hide={isSuccess(getGeneralDaoActivityLoading)} />
+      <LoadingContainer hide={isSuccess(getFlowDaoTransactionLoading)} />
 
       <div className={styles.metricsContainer}>
-        {activityData?.metrics?.length === 0
+        {transactionData?.metrics?.length === 0
           ? 'It doesn`t have enough data to show chart'
           : null}
-        {activityData ? (
+        {transactionData ? (
           <ChartLine
-            data={activityData}
+            data={transactionData}
             period={period}
             setPeriod={setPeriod}
             periods={periods}
-            lines={[{ name: 'Activity', color: '#E33F84', dataKey: 'count' }]}
+            lines={[
+              {
+                name: 'Incoming Transactions',
+                color: '#E33F84',
+                dataKey: 'incoming',
+              },
+            ]}
           />
         ) : null}
       </div>

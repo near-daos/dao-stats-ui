@@ -7,12 +7,13 @@ import styles from './widget-info.module.scss';
 
 type WidgetInfoProps = {
   className?: string;
-  title: string;
+  title?: string;
   percentages?: number;
   number?: number;
   icon?: IconName;
   isRoundNumber?: boolean;
   isCurrency?: boolean;
+  isSecondary?: boolean;
 };
 
 export const WidgetInfo: FC<WidgetInfoProps> = ({
@@ -23,6 +24,7 @@ export const WidgetInfo: FC<WidgetInfoProps> = ({
   icon,
   isRoundNumber,
   isCurrency,
+  isSecondary,
 }) => (
   <div className={clsx(styles.widgetInfo, className)}>
     <div className={styles.top}>
@@ -38,12 +40,12 @@ export const WidgetInfo: FC<WidgetInfoProps> = ({
         </div>
       ) : null}
     </div>
-    {number ? (
-      <div className={styles.number}>
+    {number && (
+      <div className={clsx(styles.number, { [styles.title]: isSecondary })}>
         {isCurrency ? '$' : ''}
         {isRoundNumber ? numeral(number).format('0,0') : number}
         {icon ? <SvgIcon icon={icon} className={styles.icon} /> : null}
       </div>
-    ) : null}
+    )}
   </div>
 );

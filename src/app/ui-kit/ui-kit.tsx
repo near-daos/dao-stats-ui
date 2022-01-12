@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import {
   Button,
-  ChartBar,
+  // ChartBar,
   Autocomplete,
   Header,
   Leaderboard,
@@ -17,8 +17,8 @@ import {
   WidgetInfo,
   WidgetTile,
 } from 'src/components';
-import { getRechartsData } from '../../components/charts/rechartsData';
-import logo from '../../images/sputnik.png';
+// import { getRechartsData } from '../../components/charts/rechartsData';
+// import logo from '../../images/sputnik.png';
 
 import styles from './ui-kit.module.scss';
 
@@ -26,7 +26,7 @@ const tableMock3: LeaderboardDataItem[] = [
   {
     id: 1,
     titleCell: {
-      logo,
+      // logo,
       label: 'jonathan',
       domain: '.sputnikdao.near',
     },
@@ -35,7 +35,7 @@ const tableMock3: LeaderboardDataItem[] = [
   {
     id: 2,
     titleCell: {
-      logo,
+      // logo,
       label: 'JBN',
       domain: '.example.test',
     },
@@ -44,7 +44,7 @@ const tableMock3: LeaderboardDataItem[] = [
   {
     id: 3,
     titleCell: {
-      logo,
+      // logo,
       label: 'Oklahoma',
       domain: '.oklahoma.okh',
     },
@@ -53,7 +53,7 @@ const tableMock3: LeaderboardDataItem[] = [
   {
     id: 4,
     titleCell: {
-      logo,
+      // logo,
       label: 'ProfTool',
       domain: '.proftool.com',
     },
@@ -76,12 +76,12 @@ const navigationOptions = [
   },
 ];
 
-const rechartsData = getRechartsData();
+// const rechartsData = getRechartsData();
 
 export const leaderboardData = [
   {
     id: 1,
-    logo,
+    // logo,
     label: 'jonathan',
     domain: '.sputnikdao.near',
     activity: 9290,
@@ -122,7 +122,7 @@ export const leaderboardData = [
   },
   {
     id: 2,
-    logo,
+    // logo,
     label: 'JBN',
     domain: '.example.test',
     activity: 8654,
@@ -163,7 +163,7 @@ export const leaderboardData = [
   },
   {
     id: 3,
-    logo,
+    // logo,
     label: 'Oklahoma',
     domain: '.oklahoma.okh',
     activity: 5887,
@@ -204,7 +204,7 @@ export const leaderboardData = [
   },
   {
     id: 4,
-    logo,
+    // logo,
     label: 'ProfTool',
     domain: '.proftool.com',
     activity: 1544,
@@ -416,7 +416,7 @@ export const UiKIt: FC = () => (
     <section className={styles.section}>
       <div className={styles.sectionHeader}>Chart Bar Widget</div>
       <div className={styles.container}>
-        <ChartBar data={rechartsData} />
+        {/* <ChartBar data={rechartsData} /> */}
       </div>
     </section>
     <section className={styles.section}>
@@ -428,6 +428,12 @@ export const UiKIt: FC = () => (
         <div className={styles.column}>
           <WidgetTile>{/* <ChartPie data={pieData[1]} /> */}</WidgetTile>
         </div>
+      </div>
+    </section>
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>Chart Bar Widget</div>
+      <div className={styles.container}>
+        {/* <ChartBar data={rechartsData} /> */}
         <div className={styles.column}>
           <WidgetTile active>{/* <ChartPie data={pieData[2]} /> */}</WidgetTile>
         </div>

@@ -1,25 +1,35 @@
 import { useMemo } from 'react';
+import { Metrics, FlowMetrics, FlowMetricsItem, MetricItem } from 'src/api';
 import { getDateFromSelectedDate } from 'src/components/charts/helpers';
-import { Metrics } from 'src/api';
 
 export const useFilterMetrics = (
   period: string,
-  metricsData?: Metrics | { metrics: { timestamp: number }[] } | null,
-): Metrics | { metrics: { timestamp: number }[] } | null =>
+  metricsData?: Metrics | FlowMetrics | null,
+) =>
   useMemo(() => {
     if (period === 'All') {
       return metricsData || null;
     }
 
-    if (!metricsData?.metrics || !metricsData?.metrics?.length) {
+    if (
+      !metricsData ||
+      !metricsData?.metrics ||
+      !metricsData?.metrics?.length
+    ) {
       return null;
     }
 
     const endDate =
       metricsData.metrics[metricsData.metrics.length - 1].timestamp;
 
+    const {
+      metrics,
+    }: { metrics: FlowMetricsItem[] | MetricItem[] } = metricsData;
+
+    const tempMetrics: Array<FlowMetricsItem | MetricItem> = metrics;
+
     return {
-      metrics: metricsData.metrics.filter(
+      metrics: tempMetrics.filter(
         (metric) => metric.timestamp > getDateFromSelectedDate(period, endDate),
       ),
     };
