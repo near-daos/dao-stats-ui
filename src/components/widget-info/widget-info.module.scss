@@ -12,11 +12,6 @@
   align-items: center;
 }
 
-.title {
-  @include title-4;
-  color: var(--color-grey-300);
-}
-
 .percentages {
   @include title-4;
   display: flex;
@@ -52,11 +47,48 @@
   align-items: center;
 }
 
+.title {
+  @include title-4;
+  color: var(--color-grey-300);
+}
+
+.totalIn {
+  @include heading-2;
+  display: flex;
+  align-items: center;
+  color: var(--color-success-tint);
+}
+
+.totalOut {
+  @include heading-2;
+  display: flex;
+  align-items: center;
+  color: var(--color-error-pure);
+}
+
 .icon {
-  width: functions.calc-rem(20);
-  height: functions.calc-rem(20);
+  width: functions.calc-rem(16);
+  height: functions.calc-rem(16);
 
   margin-left: functions.calc-rem(8);
 
   color: var(--color-grey-100);
+}
+
+.nearIcon {
+  width: functions.calc-rem(16);
+  height: functions.calc-rem(16);
+
+  margin-left: functions.calc-rem(8);
+
+  color: var(--color-grey-200);
+}
+
+.secondPartNearValue {
+  @include title-4;
+
+  color: var(--color-grey-200);
+  display: flex;
+  align-items: center;
+  margin-bottom: functions.calc-rem(15);
 }

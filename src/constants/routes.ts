@@ -27,7 +27,14 @@ export const ROUTES = {
   governanceVoteRateDao: '/:contract/governance/:dao/vote-rate',
 
   flow: '/:contract/flow',
-  flowTransactions: '/:contract/flow/transactions',
+  flowOutgoingFunds: '/:contract/flow/outgoing-funds',
+  flowIncomingTransactions: '/:contract/flow/incoming-transactions',
+  flowOutgoingTransactions: '/:contract/flow/outgoing-transactions',
+
+  flowDao: '/:contract/flow/:dao',
+  flowDaoOutgoingFunds: '/:contract/flow/:dao/outgoing-funds',
+  flowDaoIncomingTransactions: '/:contract/flow/:dao/incoming-transactions',
+  flowDaoOutgoingTransactions: '/:contract/flow/:dao/outgoing-transactions',
 
   tvl: '/:contract/tvl',
   tvlAvgTvl: '/:contract/tvl/avg-tvl',

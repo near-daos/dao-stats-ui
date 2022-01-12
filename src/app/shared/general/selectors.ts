@@ -64,11 +64,11 @@ export const selectGeneralDaoById = (id: string | undefined) => (
 ) => (id ? selectGeneralDaoItem(state, id) : null);
 
 const {
-  selectById: selectGeneralActivituItem,
+  selectById: selectGeneralActivityItem,
 } = generalDaoActivityAdapter.getSelectors(
   (state: RootState) => state[generalSlice.name].generalDaoActivity,
 );
 
 export const selectGeneralDaoActivityById = (id: string | undefined) => (
   state: RootState,
-) => (id ? selectGeneralActivituItem(state, id) : null);
+) => (id ? selectGeneralActivityItem(state, id) : null);

@@ -4,26 +4,26 @@ import { useParams } from 'react-router';
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { selectGeneralDaoActivityById } from 'src/app/shared/general/selectors';
-import { getGeneralDaoActivity } from 'src/app/shared/general/slice';
+import { selectFlowDaoFundsById } from 'src/app/shared/flow/selectors';
+import { getFlowDaoFunds } from 'src/app/shared/flow/slice';
 import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isPending } from 'src/utils';
 
 import styles from 'src/styles/page.module.scss';
 
-export const Activity: FC = () => {
+export const OutgoingFunds: FC = () => {
   const [period, setPeriod] = useState('All');
   const { contract, dao } = useParams<{ dao: string; contract: string }>();
   const dispatch = useAppDispatch();
-  const activityItems = useAppSelector(selectGeneralDaoActivityById(dao));
-  const getGeneralDaoActivityLoading = useAppSelector(
-    selectActionLoading(getGeneralDaoActivity.typePrefix),
+  const funds = useAppSelector(selectFlowDaoFundsById(dao));
+  const getFlowDaoFundsLoading = useAppSelector(
+    selectActionLoading(getFlowDaoFunds.typePrefix),
   );
 
   useEffect(() => {
-    if (!activityItems && !isPending(getGeneralDaoActivityLoading)) {
+    if (!funds && !isPending(getFlowDaoFundsLoading)) {
       dispatch(
-        getGeneralDaoActivity({
+        getFlowDaoFunds({
           contract,
           dao,
         }),
@@ -32,26 +32,28 @@ export const Activity: FC = () => {
         console.error(error);
       });
     }
-  }, [contract, dao, dispatch, getGeneralDaoActivityLoading, activityItems]);
+  }, [contract, dao, dispatch, getFlowDaoFundsLoading, funds]);
 
-  const activityData = useFilterMetrics(period, activityItems);
-  const periods = usePeriods(activityItems?.metrics);
+  const fundsData = useFilterMetrics(period, funds);
+  const periods = usePeriods(funds?.metrics);
 
   return (
     <>
-      <LoadingContainer hide={isSuccess(getGeneralDaoActivityLoading)} />
+      <LoadingContainer hide={isSuccess(getFlowDaoFundsLoading)} />
 
       <div className={styles.metricsContainer}>
-        {activityData?.metrics?.length === 0
+        {fundsData?.metrics?.length === 0
           ? 'It doesn`t have enough data to show chart'
           : null}
-        {activityData ? (
+        {fundsData ? (
           <ChartLine
-            data={activityData}
+            data={fundsData}
             period={period}
             setPeriod={setPeriod}
             periods={periods}
-            lines={[{ name: 'Activity', color: '#E33F84', dataKey: 'count' }]}
+            lines={[
+              { name: 'Total Out', color: '#E33F84', dataKey: 'outgoing' },
+            ]}
           />
         ) : null}
       </div>
