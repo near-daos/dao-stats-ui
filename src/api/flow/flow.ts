@@ -43,51 +43,25 @@ export class FlowService extends HttpService {
     return this.get(`${params.contract}/flow/transactions/leaderboard`);
   }
 
-  async getFlowDaos(params: HistoryParams): Promise<AxiosResponse<Flow>> {
-    const query = queryString.stringify({ from: params.from, to: params.to });
-
-    return this.get(`${params.contract}/flow/?${query}`);
-  }
-
   async getFlowDao(params: DaoParams): Promise<AxiosResponse<Flow>> {
     return this.get(`${params.contract}/flow/${params.dao}`);
   }
 
-  async getflowDaoIncomingFunds(
+  async getFlowDaoFunds(
     params: DaoHistoryParams,
   ): Promise<AxiosResponse<FlowMetrics>> {
     const query = queryString.stringify({ from: params.from, to: params.to });
 
-    return this.get(`${params.contract}/flow/${params.dao}?${query}`);
+    return this.get(`${params.contract}/flow/${params.dao}/funds?${query}`);
   }
 
-  async getflowDaoOutgoingFunds(
+  async getFlowDaoTransactions(
     params: DaoHistoryParams,
   ): Promise<AxiosResponse<FlowMetrics>> {
     const query = queryString.stringify({ from: params.from, to: params.to });
 
     return this.get(
-      `${params.contract}/flow/${params.dao}/outgoing-funds?${query}`,
-    );
-  }
-
-  async getflowDaoIncomingTransactions(
-    params: DaoHistoryParams,
-  ): Promise<AxiosResponse<FlowMetrics>> {
-    const query = queryString.stringify({ from: params.from, to: params.to });
-
-    return this.get(
-      `${params.contract}/flow/${params.dao}/incoming-transactions?${query}`,
-    );
-  }
-
-  async getflowDaoOutgoingTransactions(
-    params: DaoHistoryParams,
-  ): Promise<AxiosResponse<FlowMetrics>> {
-    const query = queryString.stringify({ from: params.from, to: params.to });
-
-    return this.get(
-      `${params.contract}/flow/${params.dao}/outgoing-transactions?${query}`,
+      `${params.contract}/flow/${params.dao}/transactions?${query}`,
     );
   }
 }

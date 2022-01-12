@@ -5,10 +5,10 @@ import {
   isBefore,
   isEqual,
 } from 'date-fns';
-import { MetricItem } from 'src/api';
+import { FlowMetricsItem, MetricItem } from 'src/api';
 
 export const buildMetrics = (
-  metrics: MetricItem[],
+  metrics: MetricItem[] | FlowMetricsItem[],
   isBuildFromCurrentDate?: boolean,
 ) => {
   if (!metrics || !metrics[0]) {

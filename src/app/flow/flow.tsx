@@ -11,8 +11,7 @@ import { useRoutes } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { ROUTES } from 'src/constants';
 import styles from 'src/styles/page.module.scss';
-import { getFlow } from '../shared/flow/slice';
-import { selectFlow } from '../shared/flow/selectors';
+import { getFlow, selectFlow } from 'src/app/shared/flow';
 
 import {
   Page,
@@ -36,16 +35,12 @@ export const Flow: FC = () => {
   const flow = useAppSelector(selectFlow);
 
   useEffect(() => {
-    (async () => {
-      try {
-        if (!flow) {
-          await dispatch(getFlow({ contract }));
-        }
-      } catch (error: unknown) {
+    if (!flow) {
+      dispatch(getFlow({ contract })).catch((error: unknown) => {
         // eslint-disable-next-line no-console
         console.error(error);
-      }
-    })();
+      });
+    }
   }, [contract, dispatch, flow]);
 
   const breadcrumbs = useMemo(
@@ -113,7 +108,12 @@ export const Flow: FC = () => {
           </WidgetTile>
           <WidgetTile
             className={styles.widget}
-            active={location.pathname === routes.flowIncomingTransactions}
+            active={Boolean(
+              matchPath(location.pathname, {
+                path: ROUTES.flowIncomingTransactions,
+                exact: true,
+              }),
+            )}
             onClick={() => history.push(routes.flowIncomingTransactions)}
           >
             <WidgetInfo
@@ -131,8 +131,13 @@ export const Flow: FC = () => {
             />
           </WidgetTile>
           <WidgetTile
+            active={Boolean(
+              matchPath(location.pathname, {
+                path: ROUTES.flowOutgoingTransactions,
+                exact: true,
+              }),
+            )}
             className={styles.widget}
-            active={location.pathname === routes.flowOutgoingTransactions}
             onClick={() => history.push(routes.flowOutgoingTransactions)}
           >
             <WidgetInfo
@@ -147,19 +152,6 @@ export const Flow: FC = () => {
               isSecondary
               icon="near"
               number={flow?.transactionsOut?.countNear}
-            />
-          </WidgetTile>
-          <WidgetTile
-            className={styles.widget}
-            active={location.pathname === routes.flowTransdappactions}
-            onClick={() => history.push(routes.flowTransdappactions)}
-            disabled
-          >
-            <WidgetInfo
-              isRoundNumber
-              title="Transdappactions"
-              number={12442}
-              percentages={0}
             />
           </WidgetTile>
         </Widgets>

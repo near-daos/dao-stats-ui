@@ -4,8 +4,8 @@ import { useParams } from 'react-router';
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { selectFlowDaoOutgoingFundsById } from 'src/app/shared/flow/selectors';
-import { getFlowDaoOutgoingFunds } from 'src/app/shared/flow/slice';
+import { selectFlowDaoFundsById } from 'src/app/shared/flow/selectors';
+import { getFlowDaoFunds } from 'src/app/shared/flow/slice';
 import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isPending } from 'src/utils';
 
@@ -15,17 +15,15 @@ export const OutgoingFunds: FC = () => {
   const [period, setPeriod] = useState('All');
   const { contract, dao } = useParams<{ dao: string; contract: string }>();
   const dispatch = useAppDispatch();
-  const OutgoingFundsItems = useAppSelector(
-    selectFlowDaoOutgoingFundsById(dao),
-  );
-  const getFlowDaoOutgoingFundsLoading = useAppSelector(
-    selectActionLoading(getFlowDaoOutgoingFunds.typePrefix),
+  const funds = useAppSelector(selectFlowDaoFundsById(dao));
+  const getFlowDaoFundsLoading = useAppSelector(
+    selectActionLoading(getFlowDaoFunds.typePrefix),
   );
 
   useEffect(() => {
-    if (!OutgoingFundsItems && !isPending(getFlowDaoOutgoingFundsLoading)) {
+    if (!funds && !isPending(getFlowDaoFundsLoading)) {
       dispatch(
-        getFlowDaoOutgoingFunds({
+        getFlowDaoFunds({
           contract,
           dao,
         }),
@@ -34,35 +32,30 @@ export const OutgoingFunds: FC = () => {
         console.error(error);
       });
     }
-  }, [
-    contract,
-    dao,
-    dispatch,
-    getFlowDaoOutgoingFundsLoading,
-    OutgoingFundsItems,
-  ]);
+  }, [contract, dao, dispatch, getFlowDaoFundsLoading, funds]);
 
-  const activityData = useFilterMetrics(period, OutgoingFundsItems);
-  const periods = usePeriods(OutgoingFundsItems?.metrics);
+  const fundsData = useFilterMetrics(period, funds);
+  const periods = usePeriods(funds?.metrics);
 
   return (
     <>
-      <LoadingContainer hide={isSuccess(getFlowDaoOutgoingFundsLoading)} />
+      <LoadingContainer hide={isSuccess(getFlowDaoFundsLoading)} />
 
       <div className={styles.metricsContainer}>
-        {activityData && activityData?.metrics?.length ? (
+        {fundsData?.metrics?.length === 0
+          ? 'It doesn`t have enough data to show chart'
+          : null}
+        {fundsData ? (
           <ChartLine
-            data={activityData}
+            data={fundsData}
             period={period}
             setPeriod={setPeriod}
             periods={periods}
             lines={[
-              { name: 'Outgoing Funds', color: '#E33F84', dataKey: 'outgoing' },
+              { name: 'Total Out', color: '#E33F84', dataKey: 'outgoing' },
             ]}
           />
-        ) : (
-          'It doesn`t have enough data to show chart'
-        )}
+        ) : null}
       </div>
     </>
   );

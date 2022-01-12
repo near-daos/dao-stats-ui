@@ -12,37 +12,25 @@ import {
   DaoParams,
   FlowMetricsEntity,
   DaoHistoryParams,
-  HistoryParams,
 } from 'src/api';
 import { RequestStatus } from '../../../store/types';
 import { flowState, FlowDaoEntity } from './types';
 
 export const flowDaoAdapter = createEntityAdapter<FlowDaoEntity>();
-export const flowDaoIncomingFundsAdapter = createEntityAdapter<
-  FlowMetricsEntity
->();
-export const flowDaoOutgoingFundsAdapter = createEntityAdapter<
-  FlowMetricsEntity
->();
-export const flowDaoIncomingTransactionsAdapter = createEntityAdapter<
-  FlowMetricsEntity
->();
-export const flowDaoOutgoingTransactionsAdapter = createEntityAdapter<
+export const flowDaoFundsAdapter = createEntityAdapter<FlowMetricsEntity>();
+export const flowDaoTransactionsAdapter = createEntityAdapter<
   FlowMetricsEntity
 >();
 
 const initialState: flowState = {
   flow: null,
-  flowDaos: null,
   flowHistory: null,
   flowLeaderboard: null,
   flowTransactionsHistory: null,
   flowTransactionsLeaderboard: null,
   flowDao: flowDaoAdapter.getInitialState(),
-  flowDaoIncomingFunds: flowDaoIncomingFundsAdapter.getInitialState(),
-  flowDaoOutgoingFunds: flowDaoOutgoingFundsAdapter.getInitialState(),
-  flowDaoIncomingTransactions: flowDaoIncomingTransactionsAdapter.getInitialState(),
-  flowDaoOutgoingTransactions: flowDaoOutgoingTransactionsAdapter.getInitialState(),
+  flowDaoFunds: flowDaoFundsAdapter.getInitialState(),
+  flowDaoTransactions: flowDaoTransactionsAdapter.getInitialState(),
   loading: RequestStatus.NOT_ASKED,
   error: null,
 };
@@ -51,24 +39,6 @@ export const getFlow = createAsyncThunk(
   'flow/getFlow',
   async (params: Params) => {
     const response = await flowService.getFlow(params);
-
-    return response.data;
-  },
-);
-
-export const getFlowDao = createAsyncThunk(
-  'flow/getFlowDao',
-  async (params: DaoParams) => {
-    const response = await flowService.getFlowDao(params);
-
-    return { id: params.dao, ...response.data };
-  },
-);
-
-export const getFlowDaos = createAsyncThunk(
-  'flow/getFlowDaos',
-  async (params: HistoryParams) => {
-    const response = await flowService.getFlowDaos(params);
 
     return response.data;
   },
@@ -110,37 +80,28 @@ export const getFlowTransactionsLeaderboard = createAsyncThunk(
   },
 );
 
-export const getFlowDaoIncomingFunds = createAsyncThunk(
-  'flow/getFlowDaoIncomingFunds',
-  async (params: DaoHistoryParams) => {
-    const response = await flowService.getflowDaoIncomingFunds(params);
+export const getFlowDao = createAsyncThunk(
+  'flow/getFlowDao',
+  async (params: DaoParams) => {
+    const response = await flowService.getFlowDao(params);
 
     return { id: params.dao, ...response.data };
   },
 );
 
-export const getFlowDaoOutgoingFunds = createAsyncThunk(
-  'flow/getFlowDaoOutgoingFunds',
+export const getFlowDaoFunds = createAsyncThunk(
+  'flow/getFlowDaoFunds',
   async (params: DaoHistoryParams) => {
-    const response = await flowService.getflowDaoOutgoingFunds(params);
+    const response = await flowService.getFlowDaoFunds(params);
 
-    return { id: params.dao, metrics: response.data.metrics };
+    return { id: params.dao, ...response.data };
   },
 );
 
-export const getFlowDaoIncomingTransactions = createAsyncThunk(
-  'flow/getFlowDaoIncomingTransactions',
+export const getFlowDaoTransactions = createAsyncThunk(
+  'flow/getFlowDaoTransactions',
   async (params: DaoHistoryParams) => {
-    const response = await flowService.getflowDaoIncomingTransactions(params);
-
-    return { id: params.dao, metrics: response.data.metrics };
-  },
-);
-
-export const getFlowDaoOutgoingTransactions = createAsyncThunk(
-  'flow/getFlowDaoOutgoingTransactions',
-  async (params: DaoHistoryParams) => {
-    const response = await flowService.getflowDaoOutgoingTransactions(params);
+    const response = await flowService.getFlowDaoTransactions(params);
 
     return { id: params.dao, metrics: response.data.metrics };
   },
@@ -149,28 +110,22 @@ export const getFlowDaoOutgoingTransactions = createAsyncThunk(
 const isRejectedAction = isRejected(
   getFlow,
   getFlowDao,
-  getFlowDaos,
   getFlowHistory,
   getFlowLeaderboard,
   getFlowTransactionsHistory,
   getFlowTransactionsLeaderboard,
-  getFlowDaoIncomingFunds,
-  getFlowDaoOutgoingFunds,
-  getFlowDaoIncomingTransactions,
-  getFlowDaoOutgoingTransactions,
+  getFlowDaoFunds,
+  getFlowDaoTransactions,
 );
 const isFulfilledAction = isFulfilled(
   getFlow,
   getFlowDao,
-  getFlowDaos,
   getFlowHistory,
   getFlowLeaderboard,
   getFlowTransactionsHistory,
   getFlowTransactionsLeaderboard,
-  getFlowDaoIncomingFunds,
-  getFlowDaoOutgoingFunds,
-  getFlowDaoIncomingTransactions,
-  getFlowDaoOutgoingTransactions,
+  getFlowDaoFunds,
+  getFlowDaoTransactions,
 );
 
 export const flowSlice = createSlice({
@@ -180,14 +135,6 @@ export const flowSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getFlow.fulfilled, (state, { payload }) => {
       state.flow = payload;
-    });
-
-    builder.addCase(getFlowDao.fulfilled, (state, { payload }) => {
-      flowDaoAdapter.upsertOne(state.flowDao, payload);
-    });
-
-    builder.addCase(getFlowDaos.fulfilled, (state, { payload }) => {
-      state.flowDaos = payload;
     });
 
     builder.addCase(getFlowHistory.fulfilled, (state, { payload }) => {
@@ -212,45 +159,17 @@ export const flowSlice = createSlice({
       },
     );
 
-    builder.addCase(getFlowDaoIncomingFunds.fulfilled, (state, { payload }) => {
-      flowDaoIncomingFundsAdapter.upsertOne(state.flowDaoIncomingFunds, {
-        id: payload.id,
-        metrics: payload.metrics,
-      });
+    builder.addCase(getFlowDao.fulfilled, (state, { payload }) => {
+      flowDaoAdapter.upsertOne(state.flowDao, payload);
     });
 
-    builder.addCase(getFlowDaoOutgoingFunds.fulfilled, (state, { payload }) => {
-      flowDaoOutgoingFundsAdapter.upsertOne(state.flowDaoOutgoingFunds, {
-        id: payload.id,
-        metrics: payload.metrics,
-      });
+    builder.addCase(getFlowDaoFunds.fulfilled, (state, { payload }) => {
+      flowDaoFundsAdapter.upsertOne(state.flowDaoFunds, payload);
     });
 
-    builder.addCase(
-      getFlowDaoIncomingTransactions.fulfilled,
-      (state, { payload }) => {
-        flowDaoIncomingTransactionsAdapter.upsertOne(
-          state.flowDaoIncomingTransactions,
-          {
-            id: payload.id,
-            metrics: payload.metrics,
-          },
-        );
-      },
-    );
-
-    builder.addCase(
-      getFlowDaoOutgoingTransactions.fulfilled,
-      (state, { payload }) => {
-        flowDaoOutgoingTransactionsAdapter.upsertOne(
-          state.flowDaoOutgoingTransactions,
-          {
-            id: payload.id,
-            metrics: payload.metrics,
-          },
-        );
-      },
-    );
+    builder.addCase(getFlowDaoTransactions.fulfilled, (state, { payload }) => {
+      flowDaoTransactionsAdapter.upsertOne(state.flowDaoTransactions, payload);
+    });
 
     builder.addMatcher(isRejectedAction, (state, { error }) => {
       state.loading = RequestStatus.FAILED;

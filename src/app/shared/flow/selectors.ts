@@ -7,10 +7,8 @@ import {
 import {
   flowSlice,
   flowDaoAdapter,
-  flowDaoIncomingFundsAdapter,
-  flowDaoOutgoingFundsAdapter,
-  flowDaoIncomingTransactionsAdapter,
-  flowDaoOutgoingTransactionsAdapter,
+  flowDaoFundsAdapter,
+  flowDaoTransactionsAdapter,
 } from './slice';
 import { RootState } from '../../../store/root-reducer';
 
@@ -30,31 +28,27 @@ export const selectFlow = createSelector(
       return null;
     }
 
+    const currencyValue = currency.currency?.near?.usd || 0;
+
     return {
       totalIn: {
         ...flow.totalIn,
-        count:
-          (flow?.totalIn?.count || 0) * (currency.currency?.near?.usd || 0),
+        count: (flow?.totalIn?.count || 0) * currencyValue,
         countNear: flow?.totalIn?.count,
       },
       totalOut: {
         ...flow.totalOut,
-        count:
-          (flow?.totalOut?.count || 0) * (currency.currency?.near?.usd || 0),
+        count: (flow?.totalOut?.count || 0) * currencyValue,
         countNear: flow?.totalOut?.count,
       },
       transactionsIn: {
         ...flow.transactionsIn,
-        count:
-          (flow?.transactionsIn?.count || 0) *
-          (currency.currency?.near?.usd || 0),
+        count: (flow?.transactionsIn?.count || 0) * currencyValue,
         countNear: flow?.transactionsIn?.count,
       },
       transactionsOut: {
         ...flow.transactionsOut,
-        count:
-          (flow?.transactionsOut?.count || 0) *
-          (currency.currency?.near?.usd || 0),
+        count: (flow?.transactionsOut?.count || 0) * currencyValue,
         countNear: flow?.transactionsOut?.count,
       },
     };
@@ -93,44 +87,20 @@ export const selectFlowDaoById = (id: string | undefined) => (
   state: RootState,
 ) => (id ? selectFlowDaoItem(state, id) : null);
 
-const {
-  selectById: selectFlowDaoIncomingFundsItem,
-} = flowDaoIncomingFundsAdapter.getSelectors(
-  (state: RootState) => state[flowSlice.name].flowDaoIncomingFunds,
+const { selectById: selectFlowDaoFundsItem } = flowDaoFundsAdapter.getSelectors(
+  (state: RootState) => state[flowSlice.name].flowDaoFunds,
 );
 
-export const selectFlowDaoIncomingFundsById = (id: string | undefined) => (
+export const selectFlowDaoFundsById = (id: string | undefined) => (
   state: RootState,
-) => (id ? selectFlowDaoIncomingFundsItem(state, id) : null);
+) => (id ? selectFlowDaoFundsItem(state, id) : null);
 
 const {
-  selectById: selectFlowDaoOutgoingFundsItem,
-} = flowDaoOutgoingFundsAdapter.getSelectors(
-  (state: RootState) => state[flowSlice.name].flowDaoOutgoingFunds,
+  selectById: selectFlowDaoTransactionsItem,
+} = flowDaoTransactionsAdapter.getSelectors(
+  (state: RootState) => state[flowSlice.name].flowDaoTransactions,
 );
 
-export const selectFlowDaoOutgoingFundsById = (id: string | undefined) => (
+export const selectFlowDaoTransactionsById = (id: string | undefined) => (
   state: RootState,
-) => (id ? selectFlowDaoOutgoingFundsItem(state, id) : null);
-
-const {
-  selectById: selectFlowDaoIncomingTransactionsItem,
-} = flowDaoIncomingTransactionsAdapter.getSelectors(
-  (state: RootState) => state[flowSlice.name].flowDaoIncomingTransactions,
-);
-
-export const selectFlowDaoIncomingTransactionsById = (
-  id: string | undefined,
-) => (state: RootState) =>
-  id ? selectFlowDaoIncomingTransactionsItem(state, id) : null;
-
-const {
-  selectById: selectFlowDaoOutgoingTransactionsItem,
-} = flowDaoOutgoingTransactionsAdapter.getSelectors(
-  (state: RootState) => state[flowSlice.name].flowDaoOutgoingTransactions,
-);
-
-export const selectFlowDaoOutgoingTransactionsById = (
-  id: string | undefined,
-) => (state: RootState) =>
-  id ? selectFlowDaoOutgoingTransactionsItem(state, id) : null;
+) => (id ? selectFlowDaoTransactionsItem(state, id) : null);

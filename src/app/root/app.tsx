@@ -134,6 +134,17 @@ export const App: FC = () => (
                 />
 
                 <Route exact path={ROUTES.flow} component={Flow} />
+                <Route exact path={ROUTES.flowOutgoingFunds} component={Flow} />
+                <Route
+                  exact
+                  path={ROUTES.flowIncomingTransactions}
+                  component={Flow}
+                />
+                <Route
+                  exact
+                  path={ROUTES.flowOutgoingTransactions}
+                  component={Flow}
+                />
                 <Route exact path={ROUTES.flowDao} component={FlowDao} />
                 <Route
                   exact
@@ -150,22 +161,7 @@ export const App: FC = () => (
                   path={ROUTES.flowDaoOutgoingTransactions}
                   component={FlowDao}
                 />
-                <Route exact path={ROUTES.flowOutgoingFunds} component={Flow} />
-                <Route
-                  exact
-                  path={ROUTES.flowIncomingTransactions}
-                  component={Flow}
-                />
-                <Route
-                  exact
-                  path={ROUTES.flowOutgoingTransactions}
-                  component={Flow}
-                />
-                <Route
-                  exact
-                  path={ROUTES.flowTransdappactions}
-                  component={Flow}
-                />
+
                 <Route exact path={ROUTES.tvl} component={Tvl} />
                 <Route exact path={ROUTES.tvlAvgTvl} component={Tvl} />
                 <Route

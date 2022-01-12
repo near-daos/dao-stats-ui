@@ -4,17 +4,17 @@ import { useParams, generatePath, useHistory } from 'react-router';
 import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
 import { ROUTES } from 'src/constants';
 import styles from 'src/styles/page.module.scss';
-import { useAppDispatch, useAppSelector } from '../../../../store';
-import { selectActionLoading } from '../../../../store/loading';
-import { isSuccess, isPending, isNotAsked } from '../../../../utils';
+import { useAppDispatch, useAppSelector } from 'src/store';
+import { selectActionLoading } from 'src/store/loading';
+import { isSuccess, isPending, isNotAsked } from 'src/utils';
 import {
   getFlowTransactionsHistory,
   getFlowTransactionsLeaderboard,
-} from '../../../shared/flow/slice';
+} from 'src/app/shared/flow/slice';
 import {
   selectFlowTransactionsHistory,
   selectFlowTransactionsLeaderboard,
-} from '../../../shared/flow/selectors';
+} from 'src/app/shared/flow/selectors';
 
 const tabOptions = [
   {
@@ -25,7 +25,7 @@ const tabOptions = [
 ];
 
 export const IncomingTransactions: FC = () => {
-  const [period, setPeriod] = useState('1y');
+  const [period, setPeriod] = useState('All');
   const history = useHistory();
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const { contract } = useParams<{ contract: string }>();

@@ -1,17 +1,17 @@
 import React, { FC, useEffect, useState, useCallback } from 'react';
-import { ChartBar, Leaderboard, LoadingContainer, Tabs } from 'src/components';
+import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useParams, generatePath, useHistory } from 'react-router';
 import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
 import { ROUTES } from 'src/constants';
 import styles from 'src/styles/page.module.scss';
-import { useAppDispatch, useAppSelector } from '../../../../store';
-import { selectActionLoading } from '../../../../store/loading';
-import { isSuccess, isPending, isNotAsked } from '../../../../utils';
-import { getFlowHistory, getFlowLeaderboard } from '../../../shared/flow/slice';
+import { useAppDispatch, useAppSelector } from 'src/store';
+import { selectActionLoading } from 'src/store/loading';
+import { isSuccess, isPending, isNotAsked } from 'src/utils';
+import { getFlowHistory, getFlowLeaderboard } from 'src/app/shared/flow/slice';
 import {
   selectFlowHistory,
   selectFlowLeaderboard,
-} from '../../../shared/flow/selectors';
+} from 'src/app/shared/flow/selectors';
 
 const tabOptions = [
   {
@@ -22,7 +22,7 @@ const tabOptions = [
 ];
 
 export const OutgoingFunds: FC = () => {
-  const [period, setPeriod] = useState('1y');
+  const [period, setPeriod] = useState('All');
   const history = useHistory();
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const { contract } = useParams<{ contract: string }>();
@@ -42,43 +42,25 @@ export const OutgoingFunds: FC = () => {
   };
 
   useEffect(() => {
-    (async () => {
-      try {
-        if (
-          (!funds || isNotAsked(getFundsLoading)) &&
-          !isPending(getFundsLoading)
-        ) {
-          await dispatch(
-            getFlowHistory({
-              contract,
-            }),
-          );
-        }
+    if (isNotAsked(getFundsLoading) && !isPending(getFundsLoading)) {
+      dispatch(
+        getFlowHistory({
+          contract,
+        }), // eslint-disable-next-line no-console
+      ).catch((error: unknown) => console.error(error));
+    }
 
-        if (
-          (!fundsLeaderboard || isNotAsked(getFundsLeaderboardLoading)) &&
-          !isPending(getFundsLeaderboardLoading)
-        ) {
-          await dispatch(
-            getFlowLeaderboard({
-              contract,
-            }),
-          );
-        }
-      } catch (error: unknown) {
-        // eslint-disable-next-line no-console
-        console.error(error);
-      }
-    })();
-  }, [
-    funds,
-    fundsLeaderboard,
-    period,
-    contract,
-    dispatch,
-    getFundsLoading,
-    getFundsLeaderboardLoading,
-  ]);
+    if (
+      isNotAsked(getFundsLeaderboardLoading) &&
+      !isPending(getFundsLeaderboardLoading)
+    ) {
+      dispatch(
+        getFlowLeaderboard({
+          contract,
+        }), // eslint-disable-next-line no-console
+      ).catch((error: unknown) => console.error(error));
+    }
+  }, [contract, dispatch, getFundsLoading, getFundsLeaderboardLoading]);
 
   const fundsLeaderboardData = usePrepareLeaderboard({
     leaderboard: fundsLeaderboard?.outgoing ? fundsLeaderboard.outgoing : null,
@@ -114,16 +96,15 @@ export const OutgoingFunds: FC = () => {
 
       <div className={styles.metricsContainer}>
         {activeTab === 'history-data' && fundsData ? (
-          <ChartBar
+          <ChartLine
             isCurrency
             data={fundsData}
             period={period}
-            periods={periods}
             setPeriod={setPeriod}
+            periods={periods}
             lines={[
-              { name: 'Outgoing', color: '#9D58E1', dataKey: 'outgoing' },
+              { name: 'Total Out', color: '#E33F84', dataKey: 'outgoing' },
             ]}
-            filter="outgoing"
           />
         ) : null}
         {activeTab === 'leaderboard' && fundsLeaderboardData ? (
