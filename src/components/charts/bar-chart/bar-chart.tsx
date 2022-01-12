@@ -111,7 +111,7 @@ export const ChartBar: React.FC<ChartBarProps> = ({
           tickMargin={12}
           tickCount={6}
           tickLine={false}
-          tickFormatter={(value) => tickXFormatter(value, period)}
+          tickFormatter={(value) => tickXFormatter(data, value, period)}
           style={tickStyles}
           minTickGap={50}
         />
