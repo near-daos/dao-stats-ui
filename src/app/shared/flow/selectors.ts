@@ -63,14 +63,12 @@ export const selectFlowLeaderboard = createSelector(
 
 export const selectFlowTransactionsHistory = createSelector(
   (state: RootState) => getState(state).flowTransactionsHistory,
-  getCurrencyState,
-  (flow, currency) => updateMetricsDataWithCurrency(flow, currency),
+  (flow) => flow,
 );
 
 export const selectFlowTransactionsLeaderboard = createSelector(
   (state: RootState) => getState(state).flowTransactionsLeaderboard,
-  getCurrencyState,
-  (flow, currency) => updateLeaderboardDataWithCurrency(flow, currency),
+  (flow) => flow,
 );
 
 const { selectById: selectFlowDaoItem } = flowDaoAdapter.getSelectors(
