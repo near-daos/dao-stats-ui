@@ -47,6 +47,7 @@ export const OutgoingFunds: FC = () => {
           : null}
         {fundsData ? (
           <ChartLine
+            isCurrency
             data={fundsData}
             period={period}
             setPeriod={setPeriod}
