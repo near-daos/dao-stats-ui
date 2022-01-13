@@ -28,20 +28,23 @@ export const selectFlow = createSelector(
       return null;
     }
 
+    const { totalIn, totalOut, transactionsIn, transactionsOut } = flow || {};
+
     const currencyValue = currency.currency?.near?.usd || 0;
 
     return {
-      ...flow,
       totalIn: {
-        ...flow.totalIn,
-        count: (flow?.totalIn?.count || 0) * currencyValue,
-        countNear: flow?.totalIn?.count,
+        ...totalIn,
+        count: (totalIn?.count || 0) * currencyValue,
+        countNear: totalIn?.count,
       },
       totalOut: {
-        ...flow.totalOut,
-        count: (flow?.totalOut?.count || 0) * currencyValue,
-        countNear: flow?.totalOut?.count,
+        ...totalOut,
+        count: (totalOut?.count || 0) * currencyValue,
+        countNear: totalOut?.count,
       },
+      transactionsIn,
+      transactionsOut,
     };
   },
 );
