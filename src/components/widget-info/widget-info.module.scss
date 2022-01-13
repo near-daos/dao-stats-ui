@@ -56,6 +56,7 @@
   @include heading-2;
   display: flex;
   align-items: center;
+
   color: var(--color-success-tint);
 }
 
@@ -63,6 +64,7 @@
   @include heading-2;
   display: flex;
   align-items: center;
+
   color: var(--color-error-pure);
 }
 
@@ -86,9 +88,10 @@
 
 .secondPartNearValue {
   @include title-4;
+  margin-bottom: functions.calc-rem(15);
 
-  color: var(--color-grey-200);
   display: flex;
   align-items: center;
-  margin-bottom: functions.calc-rem(15);
+
+  color: var(--color-grey-200);
 }

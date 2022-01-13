@@ -1,13 +1,14 @@
-import React, { FC, useCallback } from 'react';
-import { useHistory, useLocation } from 'react-router';
+import React, { FC, useCallback, useMemo } from 'react';
+import { useHistory, useLocation, useParams } from 'react-router';
 import clsx from 'clsx';
+import { Params } from 'src/constants';
+import { useForbiddenRoutes, useRoutes } from 'src/hooks';
+import { useAppSelector } from 'src/store';
 
 import { NavigationInfo } from '../navigation-info';
 import { NavigationList } from '../navigation-list';
-import { useForbiddenRoutes, useRoutes } from '../../hooks';
 
 import styles from './sidebar.module.scss';
-import { useAppSelector } from '../../store';
 import { selectorSelectedContract } from '../../app/shared';
 import { NetworkSwitcher } from '../network-switcher';
 
@@ -19,6 +20,7 @@ export type SidebarProps = {
 export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
   const selectedContract = useAppSelector(selectorSelectedContract);
   const history = useHistory();
+  const { dao } = useParams<Params>();
   const location = useLocation();
   const routes = useRoutes();
   const { isForbiddenSidebar } = useForbiddenRoutes();
@@ -31,29 +33,73 @@ export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
     [history, setOpen],
   );
 
-  const overviewItems = [
-    {
-      label: 'General Info',
-      value: routes.generalInfo,
-    },
-    { label: 'Users and Activity', value: routes.users },
-    { label: 'Governance', value: routes.governance },
-  ];
+  const overviewItems = useMemo(() => {
+    if (dao) {
+      return [
+        {
+          label: 'General Info',
+          value: routes.generalInfoDao,
+        },
+        {
+          label: 'Users and Activity',
+          value: routes.usersDao,
+        },
+        {
+          label: 'Governance',
+          value: routes.governanceDao,
+        },
+      ];
+    }
 
-  const financialItems = [
-    {
-      label: 'Flow',
-      value: routes.flow,
-    },
-    {
-      label: 'TVL',
-      value: routes.tvl,
-    },
-    {
-      label: 'Tokens',
-      value: routes.tokens,
-    },
-  ];
+    return [
+      {
+        label: 'General Info',
+        value: routes.generalInfo,
+      },
+      {
+        label: 'Users and Activity',
+        value: routes.users,
+      },
+      {
+        label: 'Governance',
+        value: routes.governance,
+      },
+    ];
+  }, [routes, dao]);
+
+  const financialItems = useMemo(() => {
+    if (dao) {
+      return [
+        {
+          label: 'Flow',
+          value: routes.flow,
+        },
+        {
+          label: 'TVL',
+          value: routes.tvlDao,
+        },
+        {
+          label: 'Tokens',
+          value: routes.tokensDao,
+        },
+      ];
+    }
+
+    return [
+      {
+        label: 'Flow',
+        value: routes.flow,
+      },
+      {
+        label: 'TVL',
+        value: routes.tvl,
+      },
+      {
+        label: 'Tokens',
+        value: routes.tokens,
+      },
+    ];
+  }, [routes, dao]);
 
   return (
     <>

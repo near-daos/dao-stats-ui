@@ -37,17 +37,11 @@ export const UsersDao: FC = () => {
   const users = useAppSelector(selectUsersDaoById(dao));
 
   useEffect(() => {
-    (async () => {
-      try {
-        if (!users) {
-          await dispatch(getUsersDao({ dao, contract }));
-        }
-      } catch (error: unknown) {
-        // eslint-disable-next-line no-console
-        console.error(error);
-      }
-    })();
-  }, [dao, contract, dispatch, users]);
+    dispatch(getUsersDao({ dao, contract })).catch((error: unknown) => {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    });
+  }, [dao, contract, dispatch]);
 
   const breadcrumbs = useMemo(
     () => [

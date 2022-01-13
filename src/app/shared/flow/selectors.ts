@@ -52,13 +52,19 @@ export const selectFlow = createSelector(
 export const selectFlowHistory = createSelector(
   (state: RootState) => getState(state).flowHistory,
   getCurrencyState,
-  (flow, currency) => updateMetricsDataWithCurrency(flow, currency),
+  (flow, currency) =>
+    updateMetricsDataWithCurrency({
+      metrics: flow?.metrics,
+      currency: currency?.currency?.near?.usd || 0,
+      keys: ['incoming', 'outgoing'],
+    }),
 );
 
 export const selectFlowLeaderboard = createSelector(
   (state: RootState) => getState(state).flowLeaderboard,
   getCurrencyState,
-  (flow, currency) => updateLeaderboardDataWithCurrency(flow, currency),
+  (flow, currency) =>
+    updateLeaderboardDataWithCurrency(flow, currency?.currency?.near?.usd || 0),
 );
 
 export const selectFlowTransactionsHistory = createSelector(
@@ -75,17 +81,53 @@ const { selectById: selectFlowDaoItem } = flowDaoAdapter.getSelectors(
   (state: RootState) => state[flowSlice.name].flowDao,
 );
 
-export const selectFlowDaoById = (id: string | undefined) => (
-  state: RootState,
-) => (id ? selectFlowDaoItem(state, id) : null);
+export const selectFlowDaoById = (id: string | undefined) =>
+  createSelector(
+    (state: RootState) => (id ? selectFlowDaoItem(state, id) : null),
+    getCurrencyState,
+    (flow, currency) => {
+      if (!flow) {
+        return null;
+      }
+
+      const { totalIn, totalOut, transactionsIn, transactionsOut } = flow || {};
+
+      const currencyValue = currency.currency?.near?.usd || 0;
+
+      return {
+        totalIn: {
+          ...totalIn,
+          count: (totalIn?.count || 0) * currencyValue,
+          countNear: totalIn?.count,
+        },
+        totalOut: {
+          ...totalOut,
+          count: (totalOut?.count || 0) * currencyValue,
+          countNear: totalOut?.count,
+        },
+        transactionsIn,
+        transactionsOut,
+      };
+    },
+  );
 
 const { selectById: selectFlowDaoFundsItem } = flowDaoFundsAdapter.getSelectors(
   (state: RootState) => state[flowSlice.name].flowDaoFunds,
 );
 
-export const selectFlowDaoFundsById = (id: string | undefined) => (
-  state: RootState,
-) => (id ? selectFlowDaoFundsItem(state, id) : null);
+export const selectFlowDaoFundsById = (id: string | undefined) =>
+  createSelector(
+    (state: RootState) => (id ? selectFlowDaoFundsItem(state, id) : null),
+    getCurrencyState,
+    (flow, currency) =>
+      flow
+        ? updateMetricsDataWithCurrency({
+            metrics: flow?.metrics,
+            currency: currency?.currency?.near?.usd || 0,
+            keys: ['incoming', 'outgoing'],
+          })
+        : null,
+  );
 
 const {
   selectById: selectFlowDaoTransactionsItem,

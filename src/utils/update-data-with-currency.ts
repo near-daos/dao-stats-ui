@@ -1,40 +1,42 @@
 import get from 'lodash/get';
-import {
-  FlowMetrics,
-  Leaderboard,
-  Metrics,
-  MetricItem,
-  FlowMetricsItem,
-} from '../api';
-import { currencyState } from '../app/shared/currency/types';
+import set from 'lodash/set';
+import { Leaderboard, MetricItem, FlowMetricsItem } from '../api';
 
-export const updateMetricsDataWithCurrency = (
-  data: ((Metrics | FlowMetrics) & { id?: string }) | null,
-  currencyData: currencyState,
-) => {
-  if (!data) {
+type updateMetricsDataWithCurrencyArguments = {
+  metrics?: (MetricItem | FlowMetricsItem)[];
+  currency: number;
+  keys?: string[];
+};
+
+export const updateMetricsDataWithCurrency = ({
+  metrics,
+  currency = 0,
+  keys = ['count'],
+}: updateMetricsDataWithCurrencyArguments): {
+  metrics: (MetricItem | FlowMetricsItem)[];
+} | null => {
+  if (!metrics) {
     return null;
   }
 
-  const { metrics }: { metrics: FlowMetricsItem[] | MetricItem[] } = data;
+  const res = metrics.map((metric: MetricItem | FlowMetricsItem) => {
+    const result = { ...metric };
 
-  const tempMetrics: Array<FlowMetricsItem | MetricItem> = metrics;
+    keys.forEach((key) => {
+      set(result, key, get(metric, key) * currency);
+    });
+
+    return result;
+  });
 
   return {
-    metrics: tempMetrics.map((metric: MetricItem | FlowMetricsItem) => ({
-      ...metric,
-      count:
-        (currencyData.currency?.near?.usd || 0) *
-        (get(metric, 'count') ||
-          get(metric, 'incoming') ||
-          get(metric, 'outgoing')),
-    })),
+    metrics: res,
   };
 };
 
 export const updateLeaderboardDataWithCurrency = (
   leaderboard: Leaderboard | null,
-  currencyData: currencyState,
+  currency = 0,
 ) => {
   if (!leaderboard) {
     return null;
@@ -46,9 +48,7 @@ export const updateLeaderboardDataWithCurrency = (
         ...metric,
         activity: {
           growth: metric.activity?.growth || 0,
-          count:
-            (currencyData.currency?.near?.usd || 0) *
-            (metric.activity?.count || 0),
+          count: currency * (metric.activity?.count || 0),
         },
       })),
 
@@ -56,9 +56,7 @@ export const updateLeaderboardDataWithCurrency = (
         ...metric,
         activity: {
           growth: metric.activity?.growth || 0,
-          count:
-            (currencyData.currency?.near?.usd || 0) *
-            (metric.activity?.count || 0),
+          count: currency * (metric.activity?.count || 0),
         },
       })),
     };
@@ -69,9 +67,7 @@ export const updateLeaderboardDataWithCurrency = (
       ...metric,
       activity: {
         growth: metric.activity?.growth || 0,
-        count:
-          (currencyData.currency?.near?.usd || 0) *
-          (metric.activity?.count || 0),
+        count: currency * (metric.activity?.count || 0),
       },
     })),
   };

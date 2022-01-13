@@ -341,7 +341,10 @@ export const UiKIt: FC = () => (
       <div className={styles.sectionHeader}>Search</div>
       <div className={styles.container}>
         <div className={styles.column}>
-          <Search inputProps={{ type: 'text' }} />
+          <Search
+            onCloseClick={() => undefined}
+            inputProps={{ type: 'text' }}
+          />
         </div>
       </div>
     </section>

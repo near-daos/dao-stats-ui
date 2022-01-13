@@ -27,7 +27,7 @@ export const MainPage: FC = () => {
     return () => {
       window.removeEventListener('wheel', handleScroll);
     };
-  }, [history, routes.generalInfo]);
+  }, [history, routes]);
 
   return (
     <div className={styles.mainPage}>

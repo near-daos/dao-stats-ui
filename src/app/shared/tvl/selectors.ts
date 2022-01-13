@@ -49,31 +49,45 @@ export const selectTvl = createSelector(
 export const selectTvlTvl = createSelector(
   (state: RootState) => getState(state).tvlTvl,
   getCurrencyState,
-  (tvl, currency) => updateMetricsDataWithCurrency(tvl, currency),
+  (tvl, currency) =>
+    updateMetricsDataWithCurrency({
+      metrics: tvl?.metrics,
+      currency: currency?.currency?.near?.usd || 0,
+    }),
 );
 
 export const selectTvlLeaderboard = createSelector(
   (state: RootState) => getState(state).tvlLeaderboard,
   getCurrencyState,
-  (tvl, currency) => updateLeaderboardDataWithCurrency(tvl, currency),
+  (tvl, currency) =>
+    updateLeaderboardDataWithCurrency(tvl, currency?.currency?.near?.usd || 0),
 );
 
 export const selectTvlAvgTvl = createSelector(
   (state: RootState) => getState(state).tvlAvgTvl,
   getCurrencyState,
-  (tvl, currency) => updateMetricsDataWithCurrency(tvl, currency),
+  (tvl, currency) =>
+    updateMetricsDataWithCurrency({
+      metrics: tvl?.metrics,
+      currency: currency?.currency?.near?.usd || 0,
+    }),
 );
 
 export const selectTvlBountiesAndGrantsVl = createSelector(
   (state: RootState) => getState(state).tvlBountiesAndGrantsVL,
   getCurrencyState,
-  (tvl, currency) => updateMetricsDataWithCurrency(tvl, currency),
+  (tvl, currency) =>
+    updateMetricsDataWithCurrency({
+      metrics: tvl?.metrics,
+      currency: currency?.currency?.near?.usd || 0,
+    }),
 );
 
 export const selectTvlBountiesAndGrantsVlLeaderboard = createSelector(
   (state: RootState) => getState(state).tvlBountiesAndGrantsVlLeaderboard,
   getCurrencyState,
-  (tvl, currency) => updateLeaderboardDataWithCurrency(tvl, currency),
+  (tvl, currency) =>
+    updateLeaderboardDataWithCurrency(tvl, currency?.currency?.near?.usd || 0),
 );
 
 const { selectById: selectTvlDaoItem } = tvlDaoAdapter.getSelectors(
@@ -134,5 +148,10 @@ export const selectTvlDaoBountiesVlById = (id?: string) =>
     (state: RootState) => (id ? selectTvlDaoBountiesVlItem(state, id) : null),
     getCurrencyState,
     (tvl, currency) =>
-      tvl ? updateMetricsDataWithCurrency(tvl, currency) : null,
+      tvl
+        ? updateMetricsDataWithCurrency({
+            metrics: tvl?.metrics,
+            currency: currency?.currency?.near?.usd || 0,
+          })
+        : null,
   );

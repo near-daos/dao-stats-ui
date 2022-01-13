@@ -35,17 +35,11 @@ export const TvlDao: FC = () => {
   const tvl = useAppSelector(selectTvlDaoById(dao));
 
   useEffect(() => {
-    (async () => {
-      try {
-        if (!tvl) {
-          await dispatch(getTvlDao({ contract, dao }));
-        }
-      } catch (error: unknown) {
-        // eslint-disable-next-line no-console
-        console.error(error);
-      }
-    })();
-  }, [tvl, contract, dispatch, dao]);
+    dispatch(getTvlDao({ contract, dao })).catch((error: unknown) => {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    });
+  }, [contract, dispatch, dao]);
 
   const breadcrumbs = useMemo(
     () => [

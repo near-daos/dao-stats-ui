@@ -1,16 +1,15 @@
 import { useMemo } from 'react';
-import get from 'lodash/get';
 import set from 'lodash/set';
+import get from 'lodash/get';
+import { useAppSelector } from 'src/store';
+import { selectorSelectedContract } from 'src/app/shared';
+import { ROUTES, Routes } from 'src/constants';
 
-import { useAppSelector } from '../store';
-import { selectorSelectedContract } from '../app/shared';
-import { ROUTES } from '../constants';
-
-export const useRoutes = (dao?: string): { [key: string]: string } => {
+export const useRoutes = (dao?: string): Routes => {
   const selectedContract = useAppSelector(selectorSelectedContract);
 
   return useMemo(() => {
-    const result = {};
+    const result: Routes = { ...ROUTES };
 
     Object.keys(ROUTES).forEach((key) => {
       set(

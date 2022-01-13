@@ -55,7 +55,7 @@ export const Autocomplete: FC<AutocompleteProps> = ({
         );
       }
     },
-    [selectedContract, history],
+    [history, selectedContract?.contractId],
   );
 
   useEffect(() => {

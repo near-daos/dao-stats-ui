@@ -204,3 +204,22 @@
 
   transform: translate(0, -50%);
 }
+
+.closeButton {
+  @extend %button-reset;
+
+  position: absolute;
+  top: 50%;
+  right: functions.calc-rem(190);
+
+  transform: translate(0, -50%);
+}
+
+.closeIcon {
+  color: var(--color-grey-700);
+
+  transition: color ease-in-out 300ms;
+  &:hover {
+    color: var(--color-grey-300);
+  }
+}
