@@ -127,7 +127,6 @@ export const IncomingTransactions: FC = () => {
       <div className={styles.metricsContainer}>
         {activeTab === 'history-data' && transactionsData ? (
           <ChartLine
-            isCurrency
             data={transactionsData}
             periods={periods}
             period={period}
@@ -143,7 +142,6 @@ export const IncomingTransactions: FC = () => {
         ) : null}
         {activeTab === 'leaderboard' && trasactionsLeaderboardData ? (
           <Leaderboard
-            isCurrency
             onRowClick={goToSingleDao}
             headerCells={[
               { value: '' },

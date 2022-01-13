@@ -118,16 +118,9 @@ export const Flow: FC = () => {
           >
             <WidgetInfo
               isRoundNumber
-              isCurrency
               title="Incoming Transactions"
               number={flow?.transactionsIn?.count}
               percentages={flow?.transactionsIn?.growth}
-            />
-            <WidgetInfo
-              isRoundNumber
-              isSecondary
-              icon="near"
-              number={flow?.transactionsIn?.countNear}
             />
           </WidgetTile>
           <WidgetTile
@@ -142,16 +135,9 @@ export const Flow: FC = () => {
           >
             <WidgetInfo
               isRoundNumber
-              isCurrency
-              title="Outgoing of Transactions"
+              title="Outgoing Transactions"
               number={flow?.transactionsOut?.count}
               percentages={flow?.transactionsOut?.growth}
-            />
-            <WidgetInfo
-              isRoundNumber
-              isSecondary
-              icon="near"
-              number={flow?.transactionsOut?.countNear}
             />
           </WidgetTile>
         </Widgets>
