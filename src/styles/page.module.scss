@@ -1,5 +1,6 @@
 @use 'src/styles/functions';
 @use 'src/styles/media';
+@use 'src/styles/typography';
 
 .widget {
   margin: 0;
@@ -94,4 +95,13 @@
     padding: functions.calc-rem(10) functions.calc-rem(30)
       functions.calc-rem(10) functions.calc-rem(20);
   }
+}
+
+.error {
+  @include typography.title-3;
+  padding: functions.calc-rem(10);
+
+  color: var(--color-error-tint);
+
+  text-align: center;
 }

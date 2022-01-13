@@ -11,7 +11,7 @@ import {
 import { Period } from 'src/constants';
 import { MetricItem, FlowMetricsItem } from 'src/api';
 
-export const usePeriods = (metrics?: MetricItem[] | FlowMetricsItem[]) =>
+export const usePeriods = (metrics?: (MetricItem | FlowMetricsItem)[]) =>
   useMemo(() => {
     if (!metrics || !metrics.length) {
       return [];

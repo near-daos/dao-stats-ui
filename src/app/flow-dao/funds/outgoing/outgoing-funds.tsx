@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectFlowDaoFundsById } from 'src/app/shared/flow/selectors';
 import { getFlowDaoFunds } from 'src/app/shared/flow/slice';
 import { selectActionLoading } from 'src/store/loading';
-import { isSuccess, isPending } from 'src/utils';
+import { isSuccess, isFailed } from 'src/utils';
 
 import styles from 'src/styles/page.module.scss';
 
@@ -21,25 +21,27 @@ export const OutgoingFunds: FC = () => {
   );
 
   useEffect(() => {
-    if (!funds && !isPending(getFlowDaoFundsLoading)) {
-      dispatch(
-        getFlowDaoFunds({
-          contract,
-          dao,
-        }),
-      ).catch((error: unknown) => {
-        // eslint-disable-next-line no-console
-        console.error(error);
-      });
-    }
-  }, [contract, dao, dispatch, getFlowDaoFundsLoading, funds]);
+    dispatch(
+      getFlowDaoFunds({
+        contract,
+        dao,
+      }),
+    ).catch((error: unknown) => {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    });
+  }, [contract, dao, dispatch]);
 
   const fundsData = useFilterMetrics(period, funds);
   const periods = usePeriods(funds?.metrics);
 
   return (
     <>
-      <LoadingContainer hide={isSuccess(getFlowDaoFundsLoading)} />
+      <LoadingContainer
+        hide={
+          isSuccess(getFlowDaoFundsLoading) || isFailed(getFlowDaoFundsLoading)
+        }
+      />
 
       <div className={styles.metricsContainer}>
         {fundsData?.metrics?.length === 0

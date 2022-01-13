@@ -15,7 +15,7 @@ export type usersState = {
   usersDaoUsers: EntityState<MetricsEntity>;
   usersDaoMembers: EntityState<MetricsEntity>;
   usersDaoInteractions: EntityState<MetricsEntity>;
-  error: unknown;
+  error?: string | null;
 };
 
 export type UsersDaoEntity = Users & {

@@ -150,11 +150,8 @@ export const getUsersDaoMembers = createAsyncThunk(
 
 export const getUsersDaoInteractions = createAsyncThunk(
   'users/getUsersDaoInteractions',
-  async (params: DaoHistoryParams) => {
-    const response = await usersService.getUsersDaoInteractions(params);
-
-    return { id: params.dao, metrics: response.data.metrics };
-  },
+  async (params: DaoHistoryParams) =>
+    usersService.getUsersDaoInteractions(params),
 );
 
 const isRejectedAction = isRejected(
@@ -267,12 +264,23 @@ export const usersSlice = createSlice({
       });
     });
 
-    builder.addCase(getUsersDaoInteractions.fulfilled, (state, { payload }) => {
-      usersDaoInteractionsAdapter.upsertOne(state.usersDaoInteractions, {
-        id: payload.id,
-        metrics: payload.metrics,
-      });
-    });
+    builder.addCase(
+      getUsersDaoInteractions.fulfilled,
+      (
+        state,
+        {
+          payload,
+          meta: {
+            arg: { dao },
+          },
+        },
+      ) => {
+        usersDaoInteractionsAdapter.upsertOne(state.usersDaoInteractions, {
+          id: dao,
+          metrics: payload.data.metrics,
+        });
+      },
+    );
 
     builder.addMatcher(isRejectedAction, (state, { error }) => {
       state.error = error.message;

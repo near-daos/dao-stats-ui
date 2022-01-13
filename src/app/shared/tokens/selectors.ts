@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from 'src/store/root-reducer';
-import { currencySlice, currencyState } from 'src/app/shared/currency';
+import { currencySlice } from 'src/app/shared/currency';
 import {
   updateLeaderboardDataWithCurrency,
   updateMetricsDataWithCurrency,
@@ -15,10 +15,7 @@ import {
   tokensDaoFtsAdapter,
 } from './slice';
 
-const updateTokensWithCurrency = (
-  tokens: Tokens | null,
-  currency: currencyState,
-) => {
+const updateTokensWithCurrency = (tokens: Tokens | null, currency = 0) => {
   if (!tokens) {
     return null;
   }
@@ -27,7 +24,7 @@ const updateTokensWithCurrency = (
     ...tokens,
     ftsVl: {
       growth: tokens?.ftsVl?.growth,
-      count: (tokens?.ftsVl?.count || 0) * (currency.currency?.near?.usd || 0),
+      count: (tokens?.ftsVl?.count || 0) * currency,
     },
   };
 };
@@ -38,7 +35,8 @@ const getCurrencyState = (state: RootState) => state[currencySlice.name];
 export const selectTokens = createSelector(
   (state: RootState) => getState(state).tokens,
   getCurrencyState,
-  (tokens, currency) => updateTokensWithCurrency(tokens, currency),
+  (tokens, currency) =>
+    updateTokensWithCurrency(tokens, currency?.currency?.near?.usd || 0),
 );
 
 export const selectTokensNfts = createSelector(
@@ -64,14 +62,21 @@ export const selectTokensFtsLeaderboard = createSelector(
 export const selectTokensFtsVl = createSelector(
   (state: RootState) => getState(state).tokensFtsVl,
   getCurrencyState,
-  (tokens, currency) => updateMetricsDataWithCurrency(tokens, currency),
+  (tokens, currency) =>
+    updateMetricsDataWithCurrency({
+      metrics: tokens?.metrics,
+      currency: currency?.currency?.near?.usd || 0,
+    }),
 );
 
 export const selectTokensFtsVlLeaderboard = createSelector(
   (state: RootState) => getState(state).tokensFtsVlLeaderboard,
   getCurrencyState,
   (leaderboard, currency) =>
-    updateLeaderboardDataWithCurrency(leaderboard, currency),
+    updateLeaderboardDataWithCurrency(
+      leaderboard,
+      currency?.currency?.near?.usd || 0,
+    ),
 );
 
 const { selectById: selectTokensDaoItem } = tokensDaoAdapter.getSelectors(
@@ -83,7 +88,9 @@ export const selectTokensDaoById = (id: string | undefined) =>
     (state: RootState) => (id ? selectTokensDaoItem(state, id) : null),
     getCurrencyState,
     (tokens, currency) =>
-      tokens ? updateTokensWithCurrency(tokens, currency) : null,
+      tokens
+        ? updateTokensWithCurrency(tokens, currency?.currency?.near?.usd || 0)
+        : null,
   );
 
 const {
@@ -115,5 +122,10 @@ export const selectTokensFtsVlDaoById = (id: string | undefined) =>
     (state: RootState) => (id ? selectTokensFtsVlDaoItem(state, id) : null),
     getCurrencyState,
     (tokens, currency) =>
-      tokens ? updateMetricsDataWithCurrency(tokens, currency) : null,
+      tokens
+        ? updateMetricsDataWithCurrency({
+            metrics: tokens?.metrics,
+            currency: currency?.currency?.near?.usd || 0,
+          })
+        : null,
   );

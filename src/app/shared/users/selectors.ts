@@ -16,6 +16,11 @@ export const selectorUsers = createSelector(
   (data) => data,
 );
 
+export const selectorError = createSelector(
+  (state: RootState) => getState(state).error,
+  (error) => error,
+);
+
 export const selectUsersUsers = createSelector(
   (state: RootState) => getState(state).usersUsers,
   (data) => data,

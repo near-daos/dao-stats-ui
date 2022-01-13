@@ -1,9 +1,10 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
+import { useMount } from 'react-use';
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useParams } from 'react-router';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
-import { isPending, isSuccess } from 'src/utils';
+import { isFailed, isSuccess } from 'src/utils';
 import { selectActionLoading } from 'src/store/loading';
 import { selectGovernanceDaoProposalsById } from 'src/app/shared/governance/selectors';
 import { getGovernanceDaoProposals } from 'src/app/shared/governance/slice';
@@ -21,30 +22,27 @@ export const NumberOfProposals: FC = () => {
     selectActionLoading(getGovernanceDaoProposals.typePrefix),
   );
 
-  useEffect(() => {
-    if (!governanceProposals && !isPending(governanceProposalsLoading)) {
-      dispatch(
-        getGovernanceDaoProposals({
-          contract,
-          dao,
-        }),
-        // eslint-disable-next-line no-console
-      ).catch((error: unknown) => console.error(error));
-    }
-  }, [
-    governanceProposals,
-    dao,
-    contract,
-    dispatch,
-    governanceProposalsLoading,
-  ]);
+  useMount(() => {
+    dispatch(
+      getGovernanceDaoProposals({
+        contract,
+        dao,
+      }),
+      // eslint-disable-next-line no-console
+    ).catch((error: unknown) => console.error(error));
+  });
 
   const governanceProposalsData = useFilterMetrics(period, governanceProposals);
   const periods = usePeriods(governanceProposals?.metrics);
 
   return (
     <>
-      <LoadingContainer hide={isSuccess(governanceProposalsLoading)} />
+      <LoadingContainer
+        hide={
+          isSuccess(governanceProposalsLoading) ||
+          isFailed(governanceProposalsLoading)
+        }
+      />
 
       <div className={styles.metricsContainer}>
         {governanceProposalsData ? (

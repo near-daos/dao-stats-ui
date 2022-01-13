@@ -1,4 +1,6 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
+import { useMount } from 'react-use';
+
 import {
   generatePath,
   matchPath,
@@ -36,14 +38,12 @@ export const GovernanceDao: FC = () => {
   const dispatch = useAppDispatch();
   const governance = useAppSelector(selectGovernanceDaoById(dao));
 
-  useEffect(() => {
-    if (!governance) {
-      dispatch(getGovernanceDao({ contract, dao })).catch((error: unknown) => {
-        // eslint-disable-next-line no-console
-        console.error(error);
-      });
-    }
-  }, [governance, contract, dispatch, dao]);
+  useMount(() => {
+    dispatch(getGovernanceDao({ contract, dao })).catch((error: unknown) => {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    });
+  });
 
   const breadcrumbs = useMemo(
     () => [

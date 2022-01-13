@@ -5,9 +5,12 @@ import { ChartLine, LoadingContainer } from 'src/components';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
-import { isSuccess, isPending } from 'src/utils';
+import { isSuccess, isFailed } from 'src/utils';
 import { getUsersDaoUsers } from 'src/app/shared/users/slice';
-import { selectUsersDaoUsersById } from 'src/app/shared/users/selectors';
+import {
+  selectUsersDaoUsersById,
+  selectorError,
+} from 'src/app/shared/users/selectors';
 
 import styles from 'src/styles/page.module.scss';
 
@@ -17,31 +20,34 @@ export const UsersNumber: FC = () => {
   const dispatch = useAppDispatch();
 
   const users = useAppSelector(selectUsersDaoUsersById(dao));
+  const error = useAppSelector(selectorError);
   const getUsersNumberLoading = useAppSelector(
     selectActionLoading(getUsersDaoUsers.typePrefix),
   );
 
   useEffect(() => {
-    if (!users && !isPending(getUsersNumberLoading)) {
-      dispatch(
-        getUsersDaoUsers({
-          contract,
-          dao,
-        }),
-      ).catch((error: unknown) => {
-        // eslint-disable-next-line no-console
-        console.error(error);
-      });
-    }
-  }, [users, dao, contract, dispatch, getUsersNumberLoading]);
+    dispatch(
+      getUsersDaoUsers({
+        contract,
+        dao,
+      }),
+    ).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.error(err.response);
+    });
+  }, [dao, contract, dispatch]);
 
   const usersData = useFilterMetrics(period, users);
   const periods = usePeriods(users?.metrics);
 
   return (
     <>
-      <LoadingContainer hide={isSuccess(getUsersNumberLoading)} />
-
+      <LoadingContainer
+        hide={
+          isSuccess(getUsersNumberLoading) || isFailed(getUsersNumberLoading)
+        }
+      />
+      {error ? <p className={styles.error}>{error}</p> : null}
       <div className={styles.metricsContainer}>
         {usersData ? (
           <ChartLine
