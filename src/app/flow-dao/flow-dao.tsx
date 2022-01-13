@@ -38,13 +38,11 @@ export const FlowDao: FC = () => {
   const flow = useAppSelector(selectFlowDaoById(dao));
 
   useEffect(() => {
-    if (!flow) {
-      dispatch(getFlowDao({ contract, dao })).catch((error: unknown) => {
-        // eslint-disable-next-line no-console
-        console.error(error);
-      });
-    }
-  }, [flow, contract, dao, dispatch]);
+    dispatch(getFlowDao({ contract, dao })).catch((error: unknown) => {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    });
+  }, [contract, dao, dispatch]);
 
   const breadcrumbs = useMemo(
     () => [

@@ -33,11 +33,7 @@ export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
     [history, setOpen],
   );
 
-  console.log('dao', dao);
-
   const overviewItems = useMemo(() => {
-    console.log(dao);
-
     if (dao) {
       return [
         {
@@ -72,14 +68,11 @@ export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
   }, [routes, dao]);
 
   const financialItems = useMemo(() => {
-    console.log(dao);
-
     if (dao) {
       return [
         {
           label: 'Flow',
           value: routes.flow,
-          disabled: true,
         },
         {
           label: 'TVL',
@@ -96,7 +89,6 @@ export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
       {
         label: 'Flow',
         value: routes.flow,
-        disabled: true,
       },
       {
         label: 'TVL',

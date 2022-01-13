@@ -47,8 +47,6 @@ export const Autocomplete: FC<AutocompleteProps> = ({
 
   const onChange = useCallback(
     (selectedItem: AutocompleteOption | null) => {
-      console.log(location);
-
       if (selectedItem) {
         history.push(
           generatePath(ROUTES.generalInfoDao, {
@@ -58,7 +56,7 @@ export const Autocomplete: FC<AutocompleteProps> = ({
         );
       }
     },
-    [selectedContract, history],
+    [history, selectedContract?.contractId],
   );
 
   useEffect(() => {

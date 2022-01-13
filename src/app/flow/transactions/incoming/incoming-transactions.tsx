@@ -89,7 +89,7 @@ export const IncomingTransactions: FC = () => {
   const transactionsData = useFilterMetrics(period, transactions);
   const periods = usePeriods(transactions?.metrics);
 
-  const trasactionsLeaderboardData = usePrepareLeaderboard({
+  const transactionsLeaderboardData = usePrepareLeaderboard({
     leaderboard: transactionsLeaderboard?.incoming
       ? transactionsLeaderboard.incoming
       : null,
@@ -127,7 +127,6 @@ export const IncomingTransactions: FC = () => {
       <div className={styles.metricsContainer}>
         {activeTab === 'history-data' && transactionsData ? (
           <ChartLine
-            isCurrency
             data={transactionsData}
             periods={periods}
             period={period}
@@ -141,9 +140,8 @@ export const IncomingTransactions: FC = () => {
             ]}
           />
         ) : null}
-        {activeTab === 'leaderboard' && trasactionsLeaderboardData ? (
+        {activeTab === 'leaderboard' && transactionsLeaderboardData ? (
           <Leaderboard
-            isCurrency
             onRowClick={goToSingleDao}
             headerCells={[
               { value: '' },
@@ -152,7 +150,7 @@ export const IncomingTransactions: FC = () => {
               { value: 'Last 7 days', position: 'right' },
             ]}
             type="line"
-            dataRows={trasactionsLeaderboardData}
+            dataRows={transactionsLeaderboardData}
           />
         ) : null}
       </div>

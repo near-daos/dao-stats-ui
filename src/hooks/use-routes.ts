@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { generatePath } from 'react-router';
 import set from 'lodash/set';
 import get from 'lodash/get';
 import { useAppSelector } from 'src/store';
@@ -16,10 +15,9 @@ export const useRoutes = (dao?: string): Routes => {
       set(
         result,
         key,
-        generatePath(get(ROUTES, key, ''), {
-          contact: selectedContract?.contractId || '',
-          dao: dao || '',
-        }),
+        get(ROUTES, key)
+          .replace(':contract', selectedContract?.contractId)
+          .replace(':dao', dao || ''),
       );
     });
 

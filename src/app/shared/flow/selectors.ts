@@ -31,6 +31,7 @@ export const selectFlow = createSelector(
     const currencyValue = currency.currency?.near?.usd || 0;
 
     return {
+      ...flow,
       totalIn: {
         ...flow.totalIn,
         count: (flow?.totalIn?.count || 0) * currencyValue,
@@ -40,16 +41,6 @@ export const selectFlow = createSelector(
         ...flow.totalOut,
         count: (flow?.totalOut?.count || 0) * currencyValue,
         countNear: flow?.totalOut?.count,
-      },
-      transactionsIn: {
-        ...flow.transactionsIn,
-        count: (flow?.transactionsIn?.count || 0) * currencyValue,
-        countNear: flow?.transactionsIn?.count,
-      },
-      transactionsOut: {
-        ...flow.transactionsOut,
-        count: (flow?.transactionsOut?.count || 0) * currencyValue,
-        countNear: flow?.transactionsOut?.count,
       },
     };
   },
@@ -69,14 +60,12 @@ export const selectFlowLeaderboard = createSelector(
 
 export const selectFlowTransactionsHistory = createSelector(
   (state: RootState) => getState(state).flowTransactionsHistory,
-  getCurrencyState,
-  (flow, currency) => updateMetricsDataWithCurrency(flow, currency),
+  (flow) => flow,
 );
 
 export const selectFlowTransactionsLeaderboard = createSelector(
   (state: RootState) => getState(state).flowTransactionsLeaderboard,
-  getCurrencyState,
-  (flow, currency) => updateLeaderboardDataWithCurrency(flow, currency),
+  (flow) => flow,
 );
 
 const { selectById: selectFlowDaoItem } = flowDaoAdapter.getSelectors(
