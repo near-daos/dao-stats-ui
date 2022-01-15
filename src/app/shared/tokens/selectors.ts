@@ -32,6 +32,11 @@ const updateTokensWithCurrency = (tokens: Tokens | null, currency = 0) => {
 const getState = (state: RootState) => state[tokensSlice.name];
 const getCurrencyState = (state: RootState) => state[currencySlice.name];
 
+export const selectTokensError = createSelector(
+  (state: RootState) => getState(state).error,
+  (error) => error,
+);
+
 export const selectTokens = createSelector(
   (state: RootState) => getState(state).tokens,
   getCurrencyState,

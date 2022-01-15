@@ -7,7 +7,7 @@ import {
   MetricsEntity,
 } from 'src/api';
 
-export type governanceState = {
+export type GovernanceState = {
   governance: Governance | null;
   governanceProposals: Metrics | null;
   governanceProposalsLeaderboard: Leaderboard | null;
@@ -19,7 +19,7 @@ export type governanceState = {
   governanceDaoProposals: EntityState<MetricsEntity>;
   governanceDaoProposalsTypes: EntityState<ProposalMetricsEntity>;
   governanceDaoVoteRate: EntityState<MetricsEntity>;
-  error: unknown;
+  error?: null | string;
 };
 
 export type ProposalMetricsEntity = ProposalMetrics & {

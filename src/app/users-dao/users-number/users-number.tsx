@@ -9,7 +9,7 @@ import { isSuccess, isFailed } from 'src/utils';
 import { getUsersDaoUsers } from 'src/app/shared/users/slice';
 import {
   selectUsersDaoUsersById,
-  selectorError,
+  selectorUsersError,
 } from 'src/app/shared/users/selectors';
 
 import styles from 'src/styles/page.module.scss';
@@ -20,7 +20,7 @@ export const UsersNumber: FC = () => {
   const dispatch = useAppDispatch();
 
   const users = useAppSelector(selectUsersDaoUsersById(dao));
-  const error = useAppSelector(selectorError);
+  const error = useAppSelector(selectorUsersError);
   const getUsersNumberLoading = useAppSelector(
     selectActionLoading(getUsersDaoUsers.typePrefix),
   );

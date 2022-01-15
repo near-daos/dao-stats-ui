@@ -17,6 +17,7 @@ import {
 
 import styles from 'src/styles/page.module.scss';
 import { ROUTES } from '../../../constants';
+import { getDao } from '../../shared';
 
 const tabOptions = [
   {
@@ -90,11 +91,18 @@ export const Members: FC = () => {
 
   const goToSingleDao = useCallback(
     (row) => {
-      history.push(
-        generatePath(ROUTES.usersMembersDao, { contract, dao: row.dao }),
-      );
+      dispatch(getDao({ contract, dao: row.dao }))
+        .then(() => {
+          history.push(
+            generatePath(ROUTES.usersMembersDao, { contract, dao: row.dao }),
+          );
+        })
+        .catch((err: unknown) => {
+          // eslint-disable-next-line no-console
+          console.error(err);
+        });
     },
-    [contract, history],
+    [contract, history, dispatch],
   );
 
   return (

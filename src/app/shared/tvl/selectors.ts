@@ -15,6 +15,11 @@ import {
 const getState = (state: RootState) => state[tvlSlice.name];
 const getCurrencyState = (state: RootState) => state[currencySlice.name];
 
+export const selectTvlError = createSelector(
+  (state: RootState) => getState(state).error,
+  (error) => error,
+);
+
 export const selectTvl = createSelector(
   (state: RootState) => getState(state).tvl,
   getCurrencyState,

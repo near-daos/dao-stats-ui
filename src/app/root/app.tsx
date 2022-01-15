@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Provider } from 'react-redux';
-import { Redirect, Route, Switch } from 'react-router';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 
 import { history } from '../../store/history';
@@ -32,167 +32,181 @@ import { FlowDao } from '../flow-dao';
 export const App: FC = () => (
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <UserData>
-        {(loadingContracts) => {
-          if (
-            loadingContracts === RequestStatus.PENDING ||
-            loadingContracts === RequestStatus.NOT_ASKED
-          ) {
-            return <Loading className={styles.loading} />;
-          }
+      <Route exact path={Object.values(ROUTES)}>
+        <UserData>
+          {(loadingContracts) => {
+            if (
+              loadingContracts === RequestStatus.PENDING ||
+              loadingContracts === RequestStatus.NOT_ASKED
+            ) {
+              return <Loading className={styles.loading} />;
+            }
 
-          return (
-            <Layout>
-              <Switch>
-                <Route exact path={ROUTES.index} component={MainPage} />
-                <Route
-                  exact
-                  path={ROUTES.generalInfo}
-                  component={GeneralInfo}
-                />
-                <Route
-                  exact
-                  path={ROUTES.generalInfoActiveDao}
-                  component={GeneralInfo}
-                />
-                <Route
-                  exact
-                  path={ROUTES.generalInfoGroups}
-                  component={GeneralInfo}
-                />
-                <Route
-                  exact
-                  path={ROUTES.generalInfoAverageGroups}
-                  component={GeneralInfo}
-                />
-                <Route
-                  exact
-                  path={ROUTES.generalInfoDao}
-                  component={GeneralInfoDao}
-                />
-                <Route
-                  exact
-                  path={ROUTES.generalInfoDaoGroups}
-                  component={GeneralInfoDao}
-                />
-                <Route exact path={ROUTES.users} component={Users} />
-                <Route exact path={ROUTES.usersMembers} component={Users} />
-                <Route
-                  exact
-                  path={ROUTES.usersAverageUsers}
-                  component={Users}
-                />
-                <Route
-                  exact
-                  path={ROUTES.usersInteractions}
-                  component={Users}
-                />
-                <Route
-                  exact
-                  path={ROUTES.usersAverageInteractions}
-                  component={Users}
-                />
+            return (
+              <Layout>
+                <Switch>
+                  <Route exact path={ROUTES.index} component={MainPage} />
+                  <Route
+                    exact
+                    path={ROUTES.generalInfo}
+                    component={GeneralInfo}
+                  />
+                  <Route
+                    exact
+                    path={ROUTES.generalInfoActiveDao}
+                    component={GeneralInfo}
+                  />
+                  <Route
+                    exact
+                    path={ROUTES.generalInfoGroups}
+                    component={GeneralInfo}
+                  />
+                  <Route
+                    exact
+                    path={ROUTES.generalInfoAverageGroups}
+                    component={GeneralInfo}
+                  />
+                  <Route
+                    exact
+                    path={ROUTES.generalInfoDao}
+                    component={GeneralInfoDao}
+                  />
+                  <Route
+                    exact
+                    path={ROUTES.generalInfoDaoGroups}
+                    component={GeneralInfoDao}
+                  />
+                  <Route exact path={ROUTES.users} component={Users} />
+                  <Route exact path={ROUTES.usersMembers} component={Users} />
+                  <Route
+                    exact
+                    path={ROUTES.usersAverageUsers}
+                    component={Users}
+                  />
+                  <Route
+                    exact
+                    path={ROUTES.usersInteractions}
+                    component={Users}
+                  />
+                  <Route
+                    exact
+                    path={ROUTES.usersAverageInteractions}
+                    component={Users}
+                  />
 
-                <Route exact path={ROUTES.usersDao} component={UsersDao} />
-                <Route
-                  exact
-                  path={ROUTES.usersMembersDao}
-                  component={UsersDao}
-                />
-                <Route
-                  exact
-                  path={ROUTES.usersInteractionsDao}
-                  component={UsersDao}
-                />
+                  <Route exact path={ROUTES.usersDao} component={UsersDao} />
+                  <Route
+                    exact
+                    path={ROUTES.usersMembersDao}
+                    component={UsersDao}
+                  />
+                  <Route
+                    exact
+                    path={ROUTES.usersInteractionsDao}
+                    component={UsersDao}
+                  />
 
-                <Route exact path={ROUTES.governance} component={Governance} />
-                <Route
-                  exact
-                  path={ROUTES.governanceProposalType}
-                  component={Governance}
-                />
-                <Route
-                  exact
-                  path={ROUTES.governanceVoteRate}
-                  component={Governance}
-                />
+                  <Route
+                    exact
+                    path={ROUTES.governance}
+                    component={Governance}
+                  />
+                  <Route
+                    exact
+                    path={ROUTES.governanceProposalType}
+                    component={Governance}
+                  />
+                  <Route
+                    exact
+                    path={ROUTES.governanceVoteRate}
+                    component={Governance}
+                  />
 
-                <Route
-                  exact
-                  path={ROUTES.governanceDao}
-                  component={GovernanceDao}
-                />
-                <Route
-                  exact
-                  path={ROUTES.governanceProposalTypeDao}
-                  component={GovernanceDao}
-                />
-                <Route
-                  exact
-                  path={ROUTES.governanceVoteRateDao}
-                  component={GovernanceDao}
-                />
+                  <Route
+                    exact
+                    path={ROUTES.governanceDao}
+                    component={GovernanceDao}
+                  />
+                  <Route
+                    exact
+                    path={ROUTES.governanceProposalTypeDao}
+                    component={GovernanceDao}
+                  />
+                  <Route
+                    exact
+                    path={ROUTES.governanceVoteRateDao}
+                    component={GovernanceDao}
+                  />
 
-                <Route exact path={ROUTES.flow} component={Flow} />
-                <Route exact path={ROUTES.flowOutgoingFunds} component={Flow} />
-                <Route
-                  exact
-                  path={ROUTES.flowIncomingTransactions}
-                  component={Flow}
-                />
-                <Route
-                  exact
-                  path={ROUTES.flowOutgoingTransactions}
-                  component={Flow}
-                />
-                <Route exact path={ROUTES.flowDao} component={FlowDao} />
-                <Route
-                  exact
-                  path={ROUTES.flowDaoOutgoingFunds}
-                  component={FlowDao}
-                />
-                <Route
-                  exact
-                  path={ROUTES.flowDaoIncomingTransactions}
-                  component={FlowDao}
-                />
-                <Route
-                  exact
-                  path={ROUTES.flowDaoOutgoingTransactions}
-                  component={FlowDao}
-                />
+                  <Route exact path={ROUTES.flow} component={Flow} />
+                  <Route
+                    exact
+                    path={ROUTES.flowOutgoingFunds}
+                    component={Flow}
+                  />
+                  <Route
+                    exact
+                    path={ROUTES.flowIncomingTransactions}
+                    component={Flow}
+                  />
+                  <Route
+                    exact
+                    path={ROUTES.flowOutgoingTransactions}
+                    component={Flow}
+                  />
+                  <Route exact path={ROUTES.flowDao} component={FlowDao} />
+                  <Route
+                    exact
+                    path={ROUTES.flowDaoOutgoingFunds}
+                    component={FlowDao}
+                  />
+                  <Route
+                    exact
+                    path={ROUTES.flowDaoIncomingTransactions}
+                    component={FlowDao}
+                  />
+                  <Route
+                    exact
+                    path={ROUTES.flowDaoOutgoingTransactions}
+                    component={FlowDao}
+                  />
 
-                <Route exact path={ROUTES.tvl} component={Tvl} />
-                <Route exact path={ROUTES.tvlAvgTvl} component={Tvl} />
-                <Route
-                  exact
-                  path={ROUTES.tvlBountiesAndGrantsVl}
-                  component={Tvl}
-                />
-                <Route exact path={ROUTES.tvlDao} component={TvlDao} />
-                <Route exact path={ROUTES.tvlDaoBountyVl} component={TvlDao} />
-                <Route exact path={ROUTES.tokens} component={Tokens} />
-                <Route exact path={ROUTES.tokensFtsVl} component={Tokens} />
-                <Route exact path={ROUTES.tokensNfts} component={Tokens} />
-                <Route exact path={ROUTES.tokensDao} component={TokensDao} />
-                <Route
-                  exact
-                  path={ROUTES.tokensFtsVlDao}
-                  component={TokensDao}
-                />
-                <Route
-                  exact
-                  path={ROUTES.tokensNftsDao}
-                  component={TokensDao}
-                />
-                <Route exact path={ROUTES.page404} component={Page404} />
-                <Route exact path={ROUTES.uiKit} component={UiKIt} />
-                <Redirect to={ROUTES.page404} />
-              </Switch>
-            </Layout>
-          );
-        }}
-      </UserData>
+                  <Route exact path={ROUTES.tvl} component={Tvl} />
+                  <Route exact path={ROUTES.tvlAvgTvl} component={Tvl} />
+                  <Route
+                    exact
+                    path={ROUTES.tvlBountiesAndGrantsVl}
+                    component={Tvl}
+                  />
+                  <Route exact path={ROUTES.tvlDao} component={TvlDao} />
+                  <Route
+                    exact
+                    path={ROUTES.tvlDaoBountyVl}
+                    component={TvlDao}
+                  />
+                  <Route exact path={ROUTES.tokens} component={Tokens} />
+                  <Route exact path={ROUTES.tokensFtsVl} component={Tokens} />
+                  <Route exact path={ROUTES.tokensNfts} component={Tokens} />
+                  <Route exact path={ROUTES.tokensDao} component={TokensDao} />
+                  <Route
+                    exact
+                    path={ROUTES.tokensFtsVlDao}
+                    component={TokensDao}
+                  />
+                  <Route
+                    exact
+                    path={ROUTES.tokensNftsDao}
+                    component={TokensDao}
+                  />
+                  <Route exact path={ROUTES.page404} component={Page404} />
+                  <Route exact path={ROUTES.uiKit} component={UiKIt} />
+                  <Redirect to={ROUTES.page404} />
+                </Switch>
+              </Layout>
+            );
+          }}
+        </UserData>
+      </Route>
     </ConnectedRouter>
   </Provider>
 );

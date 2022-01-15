@@ -18,7 +18,7 @@ import {
 
 import {
   GovernanceDaoEntity,
-  governanceState,
+  GovernanceState,
   ProposalMetricsEntity,
 } from './types';
 
@@ -33,7 +33,7 @@ export const governanceDaoVoteRateAdapter = createEntityAdapter<
   MetricsEntity
 >();
 
-const initialState: governanceState = {
+const initialState: GovernanceState = {
   governance: null,
   governanceProposals: null,
   governanceProposalsLeaderboard: null,
@@ -50,111 +50,66 @@ const initialState: governanceState = {
 
 export const getGovernance = createAsyncThunk(
   'governance/getGovernance',
-  async (params: Params) => {
-    const response = await governanceService.getGovernance(params);
-
-    return response.data;
-  },
+  async (params: Params) => governanceService.getGovernance(params),
 );
 
 export const getGovernanceProposals = createAsyncThunk(
   'governance/getGovernanceProposals',
-  async (params: HistoryParams) => {
-    const response = await governanceService.getGovernanceProposals(params);
-
-    return response.data;
-  },
+  async (params: HistoryParams) =>
+    governanceService.getGovernanceProposals(params),
 );
 
 export const getGovernanceProposalsLeaderboard = createAsyncThunk(
   'governance/getGovernanceProposalsLeaderboard',
-  async (params: Params) => {
-    const response = await governanceService.getGovernanceProposalsLeaderboard(
-      params,
-    );
-
-    return response.data;
-  },
+  async (params: Params) =>
+    governanceService.getGovernanceProposalsLeaderboard(params),
 );
 
 export const getGovernanceProposalsTypes = createAsyncThunk(
   'governance/getGovernanceProposalsTypes',
-  async (params: HistoryParams) => {
-    const response = await governanceService.getGovernanceProposalsTypes(
-      params,
-    );
-
-    return response.data;
-  },
+  async (params: HistoryParams) =>
+    governanceService.getGovernanceProposalsTypes(params),
 );
 
 export const getGovernanceProposalsTypesLeaderboard = createAsyncThunk(
   'governance/getGovernanceProposalsTypesLeaderboard',
-  async (params: Params) => {
-    const response = await governanceService.getGovernanceProposalsTypesLeaderboard(
-      params,
-    );
-
-    return response.data;
-  },
+  async (params: Params) =>
+    governanceService.getGovernanceProposalsTypesLeaderboard(params),
 );
 
 export const getGovernanceVoteRate = createAsyncThunk(
   'governance/getGovernanceVoteRate',
-  async (params: HistoryParams) => {
-    const response = await governanceService.getGovernanceVoteRate(params);
-
-    return response.data;
-  },
+  async (params: HistoryParams) =>
+    governanceService.getGovernanceVoteRate(params),
 );
 
 export const getGovernanceVoteRateLeaderboard = createAsyncThunk(
   'governance/getGovernanceVoteRateLeaderboard',
-  async (params: Params) => {
-    const response = await governanceService.getGovernanceVoteRateLeaderboard(
-      params,
-    );
-
-    return response.data;
-  },
+  async (params: Params) =>
+    governanceService.getGovernanceVoteRateLeaderboard(params),
 );
 
 export const getGovernanceDao = createAsyncThunk(
   'governance/getGovernanceDao',
-  async (params: DaoParams) => {
-    const response = await governanceService.getGovernanceDao(params);
-
-    return { id: params.dao, ...response.data };
-  },
+  async (params: DaoParams) => governanceService.getGovernanceDao(params),
 );
 
 export const getGovernanceDaoProposals = createAsyncThunk(
   'governance/getGovernanceDaoProposals',
-  async (params: DaoHistoryParams) => {
-    const response = await governanceService.getGovernanceDaoProposals(params);
-
-    return { id: params.dao, metrics: response.data.metrics };
-  },
+  async (params: DaoHistoryParams) =>
+    governanceService.getGovernanceDaoProposals(params),
 );
 
 export const getGovernanceDaoProposalsTypes = createAsyncThunk(
   'governance/getGovernanceDaoProposalsTypes',
-  async (params: DaoHistoryParams) => {
-    const response = await governanceService.getGovernanceDaoProposalsTypes(
-      params,
-    );
-
-    return { id: params.dao, metrics: response.data.metrics };
-  },
+  async (params: DaoHistoryParams) =>
+    governanceService.getGovernanceDaoProposalsTypes(params),
 );
 
 export const getGovernanceDaoVoteRate = createAsyncThunk(
   'governance/getGovernanceDaoVoteRate',
-  async (params: DaoHistoryParams) => {
-    const response = await governanceService.getGovernanceDaoVoteRate(params);
-
-    return { id: params.dao, metrics: response.data.metrics };
-  },
+  async (params: DaoHistoryParams) =>
+    governanceService.getGovernanceDaoVoteRate(params),
 );
 
 const isRejectedAction = isRejected(
@@ -188,17 +143,17 @@ export const governanceSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getGovernance.fulfilled, (state, { payload }) => {
-      state.governance = payload;
+      state.governance = payload.data;
     });
 
     builder.addCase(getGovernanceProposals.fulfilled, (state, { payload }) => {
-      state.governanceProposals = { metrics: payload.metrics };
+      state.governanceProposals = payload.data;
     });
 
     builder.addCase(
       getGovernanceProposalsLeaderboard.fulfilled,
       (state, { payload }) => {
-        state.governanceProposalsLeaderboard = payload;
+        state.governanceProposalsLeaderboard = payload.data;
       },
     );
 
@@ -207,10 +162,10 @@ export const governanceSlice = createSlice({
       (state, { payload }) => {
         state.governanceProposalsTypes = {
           metrics: {
-            governance: sortBy(payload.metrics.governance, 'timestamp'),
-            financial: sortBy(payload.metrics.financial, 'timestamp'),
-            bounties: sortBy(payload.metrics.bounties, 'timestamp'),
-            members: sortBy(payload.metrics.members, 'timestamp'),
+            governance: sortBy(payload.data.metrics.governance, 'timestamp'),
+            financial: sortBy(payload.data.metrics.financial, 'timestamp'),
+            bounties: sortBy(payload.data.metrics.bounties, 'timestamp'),
+            members: sortBy(payload.data.metrics.members, 'timestamp'),
           },
         };
       },
@@ -218,49 +173,79 @@ export const governanceSlice = createSlice({
     builder.addCase(
       getGovernanceProposalsTypesLeaderboard.fulfilled,
       (state, { payload }) => {
-        state.governanceProposalsTypesLeaderboard = payload;
+        state.governanceProposalsTypesLeaderboard = payload.data;
       },
     );
 
     builder.addCase(getGovernanceVoteRate.fulfilled, (state, { payload }) => {
       state.governanceVoteRate = {
-        metrics: sortBy(payload.metrics, 'timestamp'),
+        metrics: sortBy(payload.data.metrics, 'timestamp'),
       };
     });
 
     builder.addCase(
       getGovernanceVoteRateLeaderboard.fulfilled,
       (state, { payload }) => {
-        state.governanceVoteRateLeaderboard = payload;
+        state.governanceVoteRateLeaderboard = payload.data;
       },
     );
 
-    builder.addCase(getGovernanceDao.fulfilled, (state, { payload }) => {
-      governanceDaoAdapter.upsertOne(state.governanceDao, payload);
-    });
+    builder.addCase(
+      getGovernanceDao.fulfilled,
+      (
+        state,
+        {
+          payload,
+          meta: {
+            arg: { dao },
+          },
+        },
+      ) => {
+        governanceDaoAdapter.upsertOne(state.governanceDao, {
+          id: dao,
+          ...payload.data,
+        });
+      },
+    );
 
     builder.addCase(
       getGovernanceDaoProposals.fulfilled,
-      (state, { payload }) => {
+      (
+        state,
+        {
+          payload,
+          meta: {
+            arg: { dao },
+          },
+        },
+      ) => {
         governanceDaoProposalsAdapter.upsertOne(state.governanceDaoProposals, {
-          id: payload.id,
-          metrics: payload.metrics,
+          id: dao,
+          ...payload.data,
         });
       },
     );
 
     builder.addCase(
       getGovernanceDaoProposalsTypes.fulfilled,
-      (state, { payload }) => {
+      (
+        state,
+        {
+          payload,
+          meta: {
+            arg: { dao },
+          },
+        },
+      ) => {
         governanceDaoProposalsTypesAdapter.upsertOne(
           state.governanceDaoProposalsTypes,
           {
-            id: payload.id,
+            id: dao,
             metrics: {
-              bounties: payload.metrics.bounties,
-              financial: payload.metrics.financial,
-              governance: payload.metrics.governance,
-              members: payload.metrics.members,
+              bounties: payload.data.metrics.bounties,
+              financial: payload.data.metrics.financial,
+              governance: payload.data.metrics.governance,
+              members: payload.data.metrics.members,
             },
           },
         );
@@ -269,10 +254,18 @@ export const governanceSlice = createSlice({
 
     builder.addCase(
       getGovernanceDaoVoteRate.fulfilled,
-      (state, { payload }) => {
+      (
+        state,
+        {
+          payload,
+          meta: {
+            arg: { dao },
+          },
+        },
+      ) => {
         governanceDaoVoteRateAdapter.upsertOne(state.governanceDaoVoteRate, {
-          id: payload.id,
-          metrics: payload.metrics,
+          id: dao,
+          ...payload.data,
         });
       },
     );

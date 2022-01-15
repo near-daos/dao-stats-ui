@@ -1,7 +1,7 @@
 import { EntityState } from '@reduxjs/toolkit';
 import { Leaderboard, Metrics, Users, MetricsEntity } from 'src/api';
 
-export type usersState = {
+export type UsersState = {
   users: Users | null;
   usersUsers: Metrics | null;
   usersLeaderboard: Leaderboard | null;

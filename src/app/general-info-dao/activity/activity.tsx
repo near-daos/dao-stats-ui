@@ -1,51 +1,60 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useParams } from 'react-router';
+import { useMount } from 'react-use';
 
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { selectGeneralDaoActivityById } from 'src/app/shared/general/selectors';
+import {
+  selectGeneralDaoActivityById,
+  selectGeneralError,
+} from 'src/app/shared/general/selectors';
 import { getGeneralDaoActivity } from 'src/app/shared/general/slice';
 import { selectActionLoading } from 'src/store/loading';
-import { isSuccess, isPending } from 'src/utils';
+import { isSuccess, isPending, isFailed } from 'src/utils';
+import { Params } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
 export const Activity: FC = () => {
   const [period, setPeriod] = useState('All');
-  const { contract, dao } = useParams<{ dao: string; contract: string }>();
+  const { contract, dao } = useParams<Params>();
   const dispatch = useAppDispatch();
-  const activityItems = useAppSelector(selectGeneralDaoActivityById(dao));
+  const error = useAppSelector(selectGeneralError);
+  const activity = useAppSelector(selectGeneralDaoActivityById(dao));
   const getGeneralDaoActivityLoading = useAppSelector(
     selectActionLoading(getGeneralDaoActivity.typePrefix),
   );
 
-  useEffect(() => {
-    if (!activityItems && !isPending(getGeneralDaoActivityLoading)) {
+  useMount(() => {
+    if (!activity && !isPending(getGeneralDaoActivityLoading)) {
       dispatch(
         getGeneralDaoActivity({
           contract,
           dao,
         }),
-      ).catch((error: unknown) => {
+      ).catch((err: unknown) => {
         // eslint-disable-next-line no-console
-        console.error(error);
+        console.error(err);
       });
     }
-  }, [contract, dao, dispatch, getGeneralDaoActivityLoading, activityItems]);
+  });
 
-  const activityData = useFilterMetrics(period, activityItems);
-  const periods = usePeriods(activityItems?.metrics);
+  const activityData = useFilterMetrics(period, activity);
+  const periods = usePeriods(activity?.metrics);
 
   return (
     <>
-      <LoadingContainer hide={isSuccess(getGeneralDaoActivityLoading)} />
-
+      <LoadingContainer
+        hide={
+          isSuccess(getGeneralDaoActivityLoading) ||
+          isFailed(getGeneralDaoActivityLoading)
+        }
+      />
       <div className={styles.metricsContainer}>
-        {activityData?.metrics?.length === 0
-          ? 'It doesn`t have enough data to show chart'
-          : null}
-        {activityData ? (
+        {error ? <p className={styles.error}>{error}</p> : null}
+        {activityData?.metrics?.length === 0 ? 'Not enough data' : null}
+        {activityData && activityData?.metrics?.length > 0 ? (
           <ChartLine
             data={activityData}
             period={period}

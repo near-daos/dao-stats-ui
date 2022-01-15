@@ -16,14 +16,14 @@ import {
   MetricsEntity,
 } from 'src/api';
 
-import { UsersDaoEntity, usersState } from './types';
+import { UsersDaoEntity, UsersState } from './types';
 
 export const usersDaoAdapter = createEntityAdapter<UsersDaoEntity>();
 export const usersDaoUsersAdapter = createEntityAdapter<MetricsEntity>();
 export const usersDaoMembersAdapter = createEntityAdapter<MetricsEntity>();
 export const usersDaoInteractionsAdapter = createEntityAdapter<MetricsEntity>();
 
-const initialState: usersState = {
+const initialState: UsersState = {
   users: null,
   usersUsers: null,
   usersLeaderboard: null,
@@ -42,110 +42,64 @@ const initialState: usersState = {
 
 export const getUsers = createAsyncThunk(
   'users/getUsers',
-  async (params: Params) => {
-    const response = await usersService.getUsers(params);
-
-    return response.data;
-  },
+  async (params: Params) => usersService.getUsers(params),
 );
 
 export const getUsersUsers = createAsyncThunk(
   'users/getUsersUsers',
-  async (params: HistoryParams) => {
-    const response = await usersService.getUsersUsers(params);
-
-    return response.data;
-  },
+  async (params: HistoryParams) => usersService.getUsersUsers(params),
 );
 
 export const getUsersLeaderboard = createAsyncThunk(
   'users/getUsersLeaderboard',
-  async (params: Params) => {
-    const response = await usersService.getUsersLeaderboard(params);
-
-    return response.data;
-  },
+  async (params: Params) => usersService.getUsersLeaderboard(params),
 );
 
 export const getUsersMembers = createAsyncThunk(
   'users/getUsersMembers',
-  async (params: HistoryParams) => {
-    const response = await usersService.getUsersMembers(params);
-
-    return response.data;
-  },
+  async (params: HistoryParams) => usersService.getUsersMembers(params),
 );
 
 export const getUsersMembersLeaderboard = createAsyncThunk(
   'users/getUsersMembersLeaderboard',
-  async (params: Params) => {
-    const response = await usersService.getUsersMembersLeaderboard(params);
-
-    return response.data;
-  },
+  async (params: Params) => usersService.getUsersMembersLeaderboard(params),
 );
 
 export const getUsersAverageUsers = createAsyncThunk(
   'users/getUsersAverageUsers',
-  async (params: HistoryParams) => {
-    const response = await usersService.getUsersAverageUsers(params);
-
-    return response.data;
-  },
+  async (params: HistoryParams) => usersService.getUsersAverageUsers(params),
 );
 
 export const getUsersInteractions = createAsyncThunk(
   'users/getUsersInteractions',
-  async (params: HistoryParams) => {
-    const response = await usersService.getUsersInteractions(params);
-
-    return response.data;
-  },
+  async (params: HistoryParams) => usersService.getUsersInteractions(params),
 );
 
 export const getUsersInteractionsLeaderboard = createAsyncThunk(
   'users/getUsersInteractionsLeaderboard',
-  async (params: Params) => {
-    const response = await usersService.getUsersInteractionsLeaderboard(params);
-
-    return response.data;
-  },
+  async (params: Params) =>
+    usersService.getUsersInteractionsLeaderboard(params),
 );
 
 export const getUsersAverageInteractions = createAsyncThunk(
   'users/getUsersAverageInteractions',
-  async (params: HistoryParams) => {
-    const response = await usersService.getUsersAverageInteractions(params);
-
-    return response.data;
-  },
+  async (params: HistoryParams) =>
+    usersService.getUsersAverageInteractions(params),
 );
 
 export const getUsersDao = createAsyncThunk(
   'users/getUsersDao',
-  async (params: DaoParams) => {
-    const response = await usersService.getUsersDao(params);
-
-    return { id: params.dao, ...response.data };
-  },
+  async (params: DaoParams) => usersService.getUsersDao(params),
 );
 
 export const getUsersDaoUsers = createAsyncThunk(
   'users/getUsersDaoUsers',
-  async (params: DaoHistoryParams) => {
-    const response = await usersService.getUsersDaoUsers(params);
-
-    return { id: params.dao, metrics: response.data.metrics };
-  },
+  async (params: DaoHistoryParams) => usersService.getUsersDaoUsers(params),
 );
 
 export const getUsersDaoMembers = createAsyncThunk(
   'users/getUsersDaoMembers',
-  async (params: DaoHistoryParams) => {
-    const response = await usersService.getUsersDaoMembers(params);
-
-    return { id: params.dao, metrics: response.data.metrics };
-  },
+  async (params: DaoHistoryParams) => usersService.getUsersDaoMembers(params),
 );
 
 export const getUsersDaoInteractions = createAsyncThunk(
@@ -192,48 +146,40 @@ export const usersSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getUsers.fulfilled, (state, { payload }) => {
-      state.users = payload;
+      state.users = payload.data;
     });
 
     builder.addCase(getUsersUsers.fulfilled, (state, { payload }) => {
-      state.usersUsers = {
-        metrics: payload.metrics,
-      };
+      state.usersUsers = payload.data;
     });
 
     builder.addCase(getUsersLeaderboard.fulfilled, (state, { payload }) => {
-      state.usersLeaderboard = payload;
+      state.usersLeaderboard = payload.data;
     });
 
     builder.addCase(getUsersMembers.fulfilled, (state, { payload }) => {
-      state.usersMembers = {
-        metrics: payload.metrics,
-      };
+      state.usersMembers = payload.data;
     });
 
     builder.addCase(
       getUsersMembersLeaderboard.fulfilled,
       (state, { payload }) => {
-        state.usersMembersLeaderboard = payload;
+        state.usersMembersLeaderboard = payload.data;
       },
     );
 
     builder.addCase(getUsersAverageUsers.fulfilled, (state, { payload }) => {
-      state.usersAverageUsers = {
-        metrics: payload.metrics,
-      };
+      state.usersAverageUsers = payload.data;
     });
 
     builder.addCase(getUsersInteractions.fulfilled, (state, { payload }) => {
-      state.usersInteractions = {
-        metrics: payload.metrics,
-      };
+      state.usersInteractions = payload.data;
     });
 
     builder.addCase(
       getUsersInteractionsLeaderboard.fulfilled,
       (state, { payload }) => {
-        state.usersInteractionsLeaderboard = payload;
+        state.usersInteractionsLeaderboard = payload.data;
       },
     );
 
@@ -241,28 +187,61 @@ export const usersSlice = createSlice({
       getUsersAverageInteractions.fulfilled,
       (state, { payload }) => {
         state.usersAverageInteractions = {
-          metrics: sortBy(payload.metrics, 'timestamp'),
+          metrics: sortBy(payload.data.metrics, 'timestamp'),
         };
       },
     );
 
-    builder.addCase(getUsersDao.fulfilled, (state, { payload }) => {
-      usersDaoAdapter.upsertOne(state.usersDao, payload);
-    });
+    builder.addCase(
+      getUsersDao.fulfilled,
+      (
+        state,
+        {
+          payload,
+          meta: {
+            arg: { dao },
+          },
+        },
+      ) => {
+        usersDaoAdapter.upsertOne(state.usersDao, { id: dao, ...payload.data });
+      },
+    );
 
-    builder.addCase(getUsersDaoUsers.fulfilled, (state, { payload }) => {
-      usersDaoUsersAdapter.upsertOne(state.usersDaoUsers, {
-        id: payload.id,
-        metrics: payload.metrics,
-      });
-    });
+    builder.addCase(
+      getUsersDaoUsers.fulfilled,
+      (
+        state,
+        {
+          payload,
+          meta: {
+            arg: { dao },
+          },
+        },
+      ) => {
+        usersDaoUsersAdapter.upsertOne(state.usersDaoUsers, {
+          id: dao,
+          ...payload.data,
+        });
+      },
+    );
 
-    builder.addCase(getUsersDaoMembers.fulfilled, (state, { payload }) => {
-      usersDaoMembersAdapter.upsertOne(state.usersDaoMembers, {
-        id: payload.id,
-        metrics: payload.metrics,
-      });
-    });
+    builder.addCase(
+      getUsersDaoMembers.fulfilled,
+      (
+        state,
+        {
+          payload,
+          meta: {
+            arg: { dao },
+          },
+        },
+      ) => {
+        usersDaoMembersAdapter.upsertOne(state.usersDaoMembers, {
+          id: dao,
+          ...payload.data,
+        });
+      },
+    );
 
     builder.addCase(
       getUsersDaoInteractions.fulfilled,

@@ -3,21 +3,16 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RequestStatus } from 'src/store/types';
 import { currencyService } from 'src/api';
 
-import { currencyState } from './types';
+import { CurrencyState } from './types';
 
-const initialState: currencyState = {
+const initialState: CurrencyState = {
   currency: null,
   loading: RequestStatus.NOT_ASKED,
   error: null,
 };
 
-export const getCurrency = createAsyncThunk(
-  'contracts/getCurrency',
-  async () => {
-    const response = await currencyService.getCurrency();
-
-    return response.data;
-  },
+export const getCurrency = createAsyncThunk('contracts/getCurrency', async () =>
+  currencyService.getCurrency(),
 );
 
 export const currencySlice = createSlice({
@@ -28,7 +23,7 @@ export const currencySlice = createSlice({
     builder.addCase(getCurrency.fulfilled, (state, { payload }) => {
       state.loading = RequestStatus.SUCCESS;
       state.error = null;
-      state.currency = payload;
+      state.currency = payload.data;
     });
 
     builder.addCase(getCurrency.rejected, (state, { error }) => {

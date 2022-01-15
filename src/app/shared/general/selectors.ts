@@ -10,6 +10,11 @@ import {
 
 const getState = (state: RootState) => state[generalSlice.name];
 
+export const selectGeneralError = createSelector(
+  (state: RootState) => getState(state).error,
+  (error) => error,
+);
+
 export const selectGeneral = createSelector(
   (state: RootState) => getState(state).general,
   (data) => data,

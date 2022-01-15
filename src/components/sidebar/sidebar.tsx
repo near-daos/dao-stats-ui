@@ -1,16 +1,17 @@
 import React, { FC, useCallback, useMemo } from 'react';
-import { useHistory, useLocation, useParams } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import clsx from 'clsx';
-import { Params } from 'src/constants';
 import { useForbiddenRoutes, useRoutes } from 'src/hooks';
 import { useAppSelector } from 'src/store';
+import startCase from 'lodash/startCase';
 
 import { NavigationInfo } from '../navigation-info';
 import { NavigationList } from '../navigation-list';
 
 import styles from './sidebar.module.scss';
-import { selectorSelectedContract } from '../../app/shared';
+import { selectCurrentDao, selectSelectedContract } from '../../app/shared';
 import { NetworkSwitcher } from '../network-switcher';
+import { Dao } from '../../api';
 
 export type SidebarProps = {
   isOpen: boolean;
@@ -18,11 +19,11 @@ export type SidebarProps = {
 };
 
 export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
-  const selectedContract = useAppSelector(selectorSelectedContract);
+  const selectedContract = useAppSelector(selectSelectedContract);
+  const dao = useAppSelector(selectCurrentDao);
   const history = useHistory();
-  const { dao } = useParams<Params>();
   const location = useLocation();
-  const routes = useRoutes();
+  const routes = useRoutes(dao?.dao);
   const { isForbiddenSidebar } = useForbiddenRoutes();
 
   const handlerChangeActive = useCallback(
@@ -72,7 +73,7 @@ export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
       return [
         {
           label: 'Flow',
-          value: routes.flow,
+          value: routes.flowDao,
         },
         {
           label: 'TVL',
@@ -80,7 +81,7 @@ export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
         },
         {
           label: 'Tokens',
-          value: routes.tokensDao,
+          value: routes.tokensNftsDao,
         },
       ];
     }
@@ -101,6 +102,28 @@ export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
     ];
   }, [routes, dao]);
 
+  const getTitle = useCallback(
+    (daoObject: Dao | null) => {
+      if (daoObject?.dao) {
+        const splittedDaoArray = daoObject.dao.split('.');
+        const [, ...descriptionArray] = splittedDaoArray;
+
+        return {
+          title: `${startCase(splittedDaoArray[0])}`,
+          description: descriptionArray.join('.'),
+        };
+      }
+
+      return {
+        title: `${(selectedContract?.contractId || '').toUpperCase()} DAO`,
+        description: selectedContract?.contractName || '',
+      };
+    },
+    [selectedContract],
+  );
+
+  const { title, description } = getTitle(dao);
+
   return (
     <>
       <div
@@ -111,8 +134,8 @@ export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
       >
         <NavigationInfo
           className={styles.info}
-          title={`${(selectedContract?.contractId || '').toUpperCase()} DAO`}
-          description={selectedContract?.contractName || ''}
+          title={title}
+          description={description}
           direction="left"
           linePosition="start"
         />

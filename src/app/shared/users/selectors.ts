@@ -16,7 +16,7 @@ export const selectorUsers = createSelector(
   (data) => data,
 );
 
-export const selectorError = createSelector(
+export const selectorUsersError = createSelector(
   (state: RootState) => getState(state).error,
   (error) => error,
 );

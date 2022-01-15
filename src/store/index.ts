@@ -14,7 +14,7 @@ export const createStore = () =>
       getDefaultMiddleware({
         thunk: true,
         immutableCheck: true,
-        serializableCheck: true,
+        serializableCheck: false,
       }).concat(routerMiddleware, throwRejectedThunk),
     devTools: process.env.NODE_ENV !== 'production',
   });

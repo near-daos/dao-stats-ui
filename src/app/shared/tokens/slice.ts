@@ -15,14 +15,14 @@ import {
   MetricsEntity,
 } from 'src/api';
 
-import { TokensDaoEntity, tokensState } from './types';
+import { TokensDaoEntity, TokensState } from './types';
 
 export const tokensDaoAdapter = createEntityAdapter<TokensDaoEntity>();
 export const tokensDaoNftsAdapter = createEntityAdapter<MetricsEntity>();
 export const tokensDaoFtsAdapter = createEntityAdapter<MetricsEntity>();
 export const tokensDaoFtsVlAdapter = createEntityAdapter<MetricsEntity>();
 
-const initialState: tokensState = {
+const initialState: TokensState = {
   tokens: null,
   tokensNfts: null,
   tokensNftsLeaderboard: null,
@@ -39,101 +39,57 @@ const initialState: tokensState = {
 
 export const getTokens = createAsyncThunk(
   'governance/getTokens',
-  async (params: Params) => {
-    const response = await tokensService.getTokens(params);
-
-    return response.data;
-  },
+  async (params: Params) => tokensService.getTokens(params),
 );
 
 export const getTokensNfts = createAsyncThunk(
   'governance/getTokensNfts',
-  async (params: HistoryParams) => {
-    const response = await tokensService.getTokensNfts(params);
-
-    return response.data;
-  },
+  async (params: HistoryParams) => tokensService.getTokensNfts(params),
 );
 
 export const getTokensNftsLeaderboard = createAsyncThunk(
   'governance/getTokensNftsLeaderboard',
-  async (params: Params) => {
-    const response = await tokensService.getTokensNftsLeaderboard(params);
-
-    return response.data;
-  },
+  async (params: Params) => tokensService.getTokensNftsLeaderboard(params),
 );
 
 export const getTokensFts = createAsyncThunk(
   'governance/getTokensFts',
-  async (params: HistoryParams) => {
-    const response = await tokensService.getTokensFts(params);
-
-    return response.data;
-  },
+  async (params: HistoryParams) => tokensService.getTokensFts(params),
 );
 
 export const getTokensFtsLeaderboard = createAsyncThunk(
   'governance/getTokensFtsLeaderboard',
-  async (params: Params) => {
-    const response = await tokensService.getTokensFtsLeaderboard(params);
-
-    return response.data;
-  },
+  async (params: Params) => tokensService.getTokensFtsLeaderboard(params),
 );
 
 export const getTokensFtsVl = createAsyncThunk(
   'governance/getTokensFtsVl',
-  async (params: HistoryParams) => {
-    const response = await tokensService.getTokensFtsVl(params);
-
-    return response.data;
-  },
+  async (params: HistoryParams) => tokensService.getTokensFtsVl(params),
 );
 
 export const getTokensFtsVlLeaderboard = createAsyncThunk(
   'governance/getTokensFtsVlLeaderboard',
-  async (params: Params) => {
-    const response = await tokensService.getTokensFtsVlLeaderboard(params);
-
-    return response.data;
-  },
+  async (params: Params) => tokensService.getTokensFtsVlLeaderboard(params),
 );
 
 export const getTokensDao = createAsyncThunk(
   'governance/getTokensDao',
-  async (params: DaoParams) => {
-    const response = await tokensService.getTokensDao(params);
-
-    return { id: params.dao, ...response.data };
-  },
+  async (params: DaoParams) => tokensService.getTokensDao(params),
 );
 
 export const getTokensDaoNfts = createAsyncThunk(
   'governance/getTokensDaoNfts',
-  async (params: DaoHistoryParams) => {
-    const response = await tokensService.getTokensDaoNfts(params);
-
-    return { id: params.dao, metrics: response.data.metrics };
-  },
+  async (params: DaoHistoryParams) => tokensService.getTokensDaoNfts(params),
 );
 
 export const getTokensDaoFts = createAsyncThunk(
   'governance/getTokensDaoFts',
-  async (params: DaoHistoryParams) => {
-    const response = await tokensService.getTokensDaoFts(params);
-
-    return { id: params.dao, metrics: response.data.metrics };
-  },
+  async (params: DaoHistoryParams) => tokensService.getTokensDaoFts(params),
 );
 
 export const getTokensDaoFtsVl = createAsyncThunk(
   'governance/getTokensDaoFtsVl',
-  async (params: DaoHistoryParams) => {
-    const response = await tokensService.getTokensDaoFtsVl(params);
-
-    return { id: params.dao, metrics: response.data.metrics };
-  },
+  async (params: DaoHistoryParams) => tokensService.getTokensDaoFtsVl(params),
 );
 
 const isRejectedAction = isRejected(
@@ -169,63 +125,110 @@ export const tokensSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getTokens.fulfilled, (state, { payload }) => {
-      state.tokens = payload;
+      state.tokens = payload.data;
     });
 
     builder.addCase(getTokensNfts.fulfilled, (state, { payload }) => {
-      state.tokensNfts = payload;
+      state.tokensNfts = payload.data;
     });
 
     builder.addCase(
       getTokensNftsLeaderboard.fulfilled,
       (state, { payload }) => {
-        state.tokensNftsLeaderboard = payload;
+        state.tokensNftsLeaderboard = payload.data;
       },
     );
 
     builder.addCase(getTokensFts.fulfilled, (state, { payload }) => {
-      state.tokensFts = payload;
+      state.tokensFts = payload.data;
     });
 
     builder.addCase(getTokensFtsLeaderboard.fulfilled, (state, { payload }) => {
-      state.tokensFtsLeaderboard = payload;
+      state.tokensFtsLeaderboard = payload.data;
     });
 
     builder.addCase(getTokensFtsVl.fulfilled, (state, { payload }) => {
-      state.tokensFtsVl = payload;
+      state.tokensFtsVl = payload.data;
     });
 
     builder.addCase(
       getTokensFtsVlLeaderboard.fulfilled,
       (state, { payload }) => {
-        state.tokensFtsVlLeaderboard = payload;
+        state.tokensFtsVlLeaderboard = payload.data;
       },
     );
 
-    builder.addCase(getTokensDao.fulfilled, (state, { payload }) => {
-      tokensDaoAdapter.upsertOne(state.tokensDao, payload);
-    });
+    builder.addCase(
+      getTokensDao.fulfilled,
+      (
+        state,
+        {
+          payload,
+          meta: {
+            arg: { dao },
+          },
+        },
+      ) => {
+        tokensDaoAdapter.upsertOne(state.tokensDao, {
+          id: dao,
+          ...payload.data,
+        });
+      },
+    );
 
-    builder.addCase(getTokensDaoNfts.fulfilled, (state, { payload }) => {
-      tokensDaoNftsAdapter.upsertOne(state.tokensNftsDao, {
-        id: payload.id,
-        metrics: payload.metrics,
-      });
-    });
+    builder.addCase(
+      getTokensDaoNfts.fulfilled,
+      (
+        state,
+        {
+          payload,
+          meta: {
+            arg: { dao },
+          },
+        },
+      ) => {
+        tokensDaoNftsAdapter.upsertOne(state.tokensNftsDao, {
+          id: dao,
+          ...payload.data,
+        });
+      },
+    );
 
-    builder.addCase(getTokensDaoFts.fulfilled, (state, { payload }) => {
-      tokensDaoFtsAdapter.upsertOne(state.tokensFtsDao, {
-        id: payload.id,
-        metrics: payload.metrics,
-      });
-    });
+    builder.addCase(
+      getTokensDaoFts.fulfilled,
+      (
+        state,
+        {
+          payload,
+          meta: {
+            arg: { dao },
+          },
+        },
+      ) => {
+        tokensDaoFtsAdapter.upsertOne(state.tokensFtsDao, {
+          id: dao,
+          ...payload.data,
+        });
+      },
+    );
 
-    builder.addCase(getTokensDaoFtsVl.fulfilled, (state, { payload }) => {
-      tokensDaoFtsVlAdapter.upsertOne(state.tokensFtsVlDao, {
-        id: payload.id,
-        metrics: payload.metrics,
-      });
-    });
+    builder.addCase(
+      getTokensDaoFtsVl.fulfilled,
+      (
+        state,
+        {
+          payload,
+          meta: {
+            arg: { dao },
+          },
+        },
+      ) => {
+        tokensDaoFtsVlAdapter.upsertOne(state.tokensFtsVlDao, {
+          id: dao,
+          ...payload.data,
+        });
+      },
+    );
 
     builder.addMatcher(isRejectedAction, (state, { error }) => {
       state.error = error.message;

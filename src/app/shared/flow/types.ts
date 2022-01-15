@@ -2,7 +2,7 @@ import { RequestStatus } from 'src/store/types';
 import { EntityState } from '@reduxjs/toolkit';
 import { Flow, Leaderboard, Metrics, FlowMetricsEntity } from 'src/api';
 
-export type flowState = {
+export type FlowState = {
   flow: Flow | null;
   flowHistory: Metrics | null;
   flowLeaderboard: Leaderboard | null;
@@ -12,7 +12,7 @@ export type flowState = {
   flowDaoFunds: EntityState<FlowMetricsEntity>;
   flowDaoTransactions: EntityState<FlowMetricsEntity>;
   loading: RequestStatus;
-  error: unknown;
+  error?: string | null;
 };
 
 export type FlowDaoEntity = Flow & {

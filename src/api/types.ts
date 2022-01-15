@@ -52,8 +52,17 @@ export type Leaderboard = {
 
 export type DaoHistoryParams = DaoParams & History;
 
+export type Legal = {
+  legalStatus?: string;
+  legalLink?: string;
+};
+
 export type Metadata = {
-  image?: string;
+  displayName?: string;
+  flagCover?: string;
+  flagLogo?: string;
+  legal?: Legal;
+  links?: string[];
 };
 
 export type Dao = {

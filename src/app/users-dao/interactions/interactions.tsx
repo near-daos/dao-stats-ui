@@ -8,7 +8,7 @@ import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isFailed } from 'src/utils';
 import { getUsersDaoInteractions } from 'src/app/shared/users/slice';
 import {
-  selectorError,
+  selectorUsersError,
   selectUsersDaoInteractionById,
 } from 'src/app/shared/users/selectors';
 
@@ -18,7 +18,7 @@ export const Interactions: FC = () => {
   const [period, setPeriod] = useState('All');
   const { contract, dao } = useParams<{ dao: string; contract: string }>();
   const dispatch = useAppDispatch();
-  const error = useAppSelector(selectorError);
+  const error = useAppSelector(selectorUsersError);
   const users = useAppSelector(selectUsersDaoInteractionById(dao));
   const getUsersInteractionsLoading = useAppSelector(
     selectActionLoading(getUsersDaoInteractions.typePrefix),

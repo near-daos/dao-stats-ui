@@ -1,6 +1,9 @@
 import React, { FC } from 'react';
 import clsx from 'clsx';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router';
+
+import { useAppDispatch } from '../../store';
+import { clearDao } from '../../app/shared';
 
 import styles from './breadcrumbs.module.scss';
 
@@ -14,22 +17,31 @@ export interface BreadcrumbsProps {
   elements: BreadcrumbElement[];
 }
 
-export const Breadcrumbs: FC<BreadcrumbsProps> = ({ className, elements }) => (
-  <div className={clsx(styles.breadcrumbs, className)}>
-    {elements.map((element, elementIndex) => {
-      if (elements.length - 1 === elementIndex) {
-        return (
-          <div key={element.name} className={styles.link}>
-            {element.name}
-          </div>
-        );
-      }
+export const Breadcrumbs: FC<BreadcrumbsProps> = ({ className, elements }) => {
+  const dispatch = useAppDispatch();
+  const history = useHistory();
+  const clearFromDao = (link: string) => {
+    dispatch(clearDao());
+    history.push(link);
+  };
 
-      return (
-        <Link className={styles.link} to={element.url} key={element.name}>
-          {element.name}
-        </Link>
-      );
-    })}
-  </div>
-);
+  return (
+    <div className={clsx(styles.breadcrumbs, className)}>
+      {elements.map((element, elementIndex) => {
+        if (elements.length - 1 === elementIndex) {
+          return <span key={element.name}>{element.name}</span>;
+        }
+
+        return (
+          <button
+            className={styles.link}
+            onClick={() => clearFromDao(element.url)}
+            key={element.name}
+          >
+            {element.name}
+          </button>
+        );
+      })}
+    </div>
+  );
+};

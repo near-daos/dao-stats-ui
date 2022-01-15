@@ -71,7 +71,11 @@ export const AutocompleteDropdown: FC<AutocompleteProps> = ({
                 className: styles.dropDownItem,
               })}
             >
-              {option.image ? <div className={styles.image} /> : null}
+              {option.image ? (
+                <div className={styles.image}>
+                  <img src={`data:image/jpeg;base64, ${option.image}`} alt="" />
+                </div>
+              ) : null}
               {option.title ? (
                 <span className={styles.name}>{option.title}</span>
               ) : null}
