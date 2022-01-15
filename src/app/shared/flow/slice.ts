@@ -14,7 +14,7 @@ import {
   DaoHistoryParams,
 } from 'src/api';
 import { RequestStatus } from '../../../store/types';
-import { flowState, FlowDaoEntity } from './types';
+import { FlowState, FlowDaoEntity } from './types';
 
 export const flowDaoAdapter = createEntityAdapter<FlowDaoEntity>();
 export const flowDaoFundsAdapter = createEntityAdapter<FlowMetricsEntity>();
@@ -22,7 +22,7 @@ export const flowDaoTransactionsAdapter = createEntityAdapter<
   FlowMetricsEntity
 >();
 
-const initialState: flowState = {
+const initialState: FlowState = {
   flow: null,
   flowHistory: null,
   flowLeaderboard: null,
@@ -37,74 +37,43 @@ const initialState: flowState = {
 
 export const getFlow = createAsyncThunk(
   'flow/getFlow',
-  async (params: Params) => {
-    const response = await flowService.getFlow(params);
-
-    return response.data;
-  },
+  async (params: Params) => flowService.getFlow(params),
 );
 
 export const getFlowHistory = createAsyncThunk(
   'flow/getFlowHistory',
-  async (params: Params) => {
-    const response = await flowService.getFlowHistory(params);
-
-    return response.data;
-  },
+  async (params: Params) => flowService.getFlowHistory(params),
 );
 
 export const getFlowLeaderboard = createAsyncThunk(
   'flow/getFlowLeaderboard',
-  async (params: Params) => {
-    const response = await flowService.getFlowLeaderboard(params);
-
-    return response.data;
-  },
+  async (params: Params) => flowService.getFlowLeaderboard(params),
 );
 
 export const getFlowTransactionsHistory = createAsyncThunk(
   'flow/getFlowTransactionsHistory',
-  async (params: Params) => {
-    const response = await flowService.getFlowTransactionsHistory(params);
-
-    return response.data;
-  },
+  async (params: Params) => flowService.getFlowTransactionsHistory(params),
 );
 
 export const getFlowTransactionsLeaderboard = createAsyncThunk(
   'flow/getFlowTransactionsLeaderboard',
-  async (params: Params) => {
-    const response = await flowService.getFlowTransactionsLeaderboard(params);
-
-    return response.data;
-  },
+  async (params: Params) => flowService.getFlowTransactionsLeaderboard(params),
 );
 
 export const getFlowDao = createAsyncThunk(
   'flow/getFlowDao',
-  async (params: DaoParams) => {
-    const response = await flowService.getFlowDao(params);
-
-    return { id: params.dao, ...response.data };
-  },
+  async (params: DaoParams) => flowService.getFlowDao(params),
 );
 
 export const getFlowDaoFunds = createAsyncThunk(
   'flow/getFlowDaoFunds',
-  async (params: DaoHistoryParams) => {
-    const response = await flowService.getFlowDaoFunds(params);
-
-    return { id: params.dao, ...response.data };
-  },
+  async (params: DaoHistoryParams) => flowService.getFlowDaoFunds(params),
 );
 
 export const getFlowDaoTransactions = createAsyncThunk(
   'flow/getFlowDaoTransactions',
-  async (params: DaoHistoryParams) => {
-    const response = await flowService.getFlowDaoTransactions(params);
-
-    return { id: params.dao, metrics: response.data.metrics };
-  },
+  async (params: DaoHistoryParams) =>
+    flowService.getFlowDaoTransactions(params),
 );
 
 const isRejectedAction = isRejected(
@@ -134,50 +103,87 @@ export const flowSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getFlow.fulfilled, (state, { payload }) => {
-      state.flow = payload;
+      state.flow = payload.data;
     });
 
     builder.addCase(getFlowHistory.fulfilled, (state, { payload }) => {
-      state.flowHistory = payload;
+      state.flowHistory = payload.data;
     });
 
     builder.addCase(getFlowLeaderboard.fulfilled, (state, { payload }) => {
-      state.flowLeaderboard = payload;
+      state.flowLeaderboard = payload.data;
     });
 
     builder.addCase(
       getFlowTransactionsHistory.fulfilled,
       (state, { payload }) => {
-        state.flowTransactionsHistory = payload;
+        state.flowTransactionsHistory = payload.data;
       },
     );
 
     builder.addCase(
       getFlowTransactionsLeaderboard.fulfilled,
       (state, { payload }) => {
-        state.flowTransactionsLeaderboard = payload;
+        state.flowTransactionsLeaderboard = payload.data;
       },
     );
 
-    builder.addCase(getFlowDao.fulfilled, (state, { payload }) => {
-      flowDaoAdapter.upsertOne(state.flowDao, payload);
-    });
+    builder.addCase(
+      getFlowDao.fulfilled,
+      (
+        state,
+        {
+          payload,
+          meta: {
+            arg: { dao },
+          },
+        },
+      ) => {
+        flowDaoAdapter.upsertOne(state.flowDao, { id: dao, ...payload.data });
+      },
+    );
 
-    builder.addCase(getFlowDaoFunds.fulfilled, (state, { payload }) => {
-      flowDaoFundsAdapter.upsertOne(state.flowDaoFunds, payload);
-    });
+    builder.addCase(
+      getFlowDaoFunds.fulfilled,
+      (
+        state,
+        {
+          payload,
+          meta: {
+            arg: { dao },
+          },
+        },
+      ) => {
+        flowDaoFundsAdapter.upsertOne(state.flowDaoFunds, {
+          id: dao,
+          ...payload.data,
+        });
+      },
+    );
 
-    builder.addCase(getFlowDaoTransactions.fulfilled, (state, { payload }) => {
-      flowDaoTransactionsAdapter.upsertOne(state.flowDaoTransactions, payload);
-    });
+    builder.addCase(
+      getFlowDaoTransactions.fulfilled,
+      (
+        state,
+        {
+          payload,
+          meta: {
+            arg: { dao },
+          },
+        },
+      ) => {
+        flowDaoTransactionsAdapter.upsertOne(state.flowDaoTransactions, {
+          id: dao,
+          ...payload.data,
+        });
+      },
+    );
 
     builder.addMatcher(isRejectedAction, (state, { error }) => {
-      state.loading = RequestStatus.FAILED;
       state.error = error.message;
     });
 
     builder.addMatcher(isFulfilledAction, (state) => {
-      state.loading = RequestStatus.SUCCESS;
       state.error = null;
     });
   },

@@ -1,21 +1,25 @@
 import React, { ReactElement, useEffect } from 'react';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useLocalStorage } from 'react-use';
+import { useParams } from 'react-router';
+
 import { useAppDispatch, useAppSelector } from 'src/store';
 import {
-  selectorContractsLoadingState,
+  selectContractsLoadingState,
   getContracts,
   setContract,
   getCurrency,
+  getDao,
 } from 'src/app/shared';
-import { CURRENCY_KEY } from '../../constants';
+import { CURRENCY_KEY, Params } from '../../constants';
 
 type UserDataProps = {
   children: (loadingContracts: string) => ReactElement;
 };
 
 export const UserData = ({ children }: UserDataProps): ReactElement => {
-  const loadingContracts = useAppSelector(selectorContractsLoadingState);
+  const { dao, contract } = useParams<Params>();
+  const loadingContracts = useAppSelector(selectContractsLoadingState);
   const dispatch = useAppDispatch();
   const [, setValue] = useLocalStorage(CURRENCY_KEY);
 
@@ -28,7 +32,7 @@ export const UserData = ({ children }: UserDataProps): ReactElement => {
         setValue(currency);
 
         const contractResponse = await dispatch(getContracts());
-        const contracts = unwrapResult(contractResponse);
+        const contracts = unwrapResult(contractResponse).data;
 
         dispatch(setContract(contracts[0]));
       } catch (error: unknown) {
@@ -37,6 +41,14 @@ export const UserData = ({ children }: UserDataProps): ReactElement => {
       }
     })();
   }, [dispatch, setValue]);
+
+  useEffect(() => {
+    if (!dao || !contract) {
+      return;
+    }
+
+    dispatch(getDao({ contract, dao }));
+  }, [dispatch, dao, contract]);
 
   return <>{children(loadingContracts)}</>;
 };

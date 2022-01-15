@@ -2,8 +2,8 @@ import React, { FC, useState, useEffect, useCallback, useMemo } from 'react';
 import { generatePath, useHistory } from 'react-router';
 import debounce from 'lodash/debounce';
 import { useAppSelector } from 'src/store';
-import { selectorSelectedContract } from 'src/app/shared/contracts';
-import { autocompleteService, Dao } from 'src/api';
+import { selectSelectedContract } from 'src/app/shared/contracts';
+import { daosService, Dao } from 'src/api';
 import { ROUTES } from 'src/constants';
 
 import {
@@ -26,7 +26,7 @@ const prepareOptions = (daos: Dao[]): AutocompleteOption[] =>
     title: prepareTitleDao(dao.dao),
     id: dao.dao,
     description: dao.description,
-    image: dao.metadata?.image,
+    image: dao.metadata?.flagLogo,
   }));
 
 export const Autocomplete: FC<AutocompleteProps> = ({
@@ -38,7 +38,7 @@ export const Autocomplete: FC<AutocompleteProps> = ({
   const [searchValue, setSearchValue] = useState('');
   const [options, setOptions] = useState<AutocompleteOption[]>([]);
   const [isLoading, setLoading] = useState(false);
-  const selectedContract = useAppSelector(selectorSelectedContract);
+  const selectedContract = useAppSelector(selectSelectedContract);
 
   const onInputChange = useCallback((valueString: string) => {
     setSearchValue(valueString);
@@ -71,7 +71,7 @@ export const Autocomplete: FC<AutocompleteProps> = ({
   }, [searchValue]);
 
   const handleDebounced = (contract: string, input: string) =>
-    autocompleteService
+    daosService
       .getAutocomplete({
         contract,
         input,
@@ -103,15 +103,17 @@ export const Autocomplete: FC<AutocompleteProps> = ({
   }, [debouncedSearch, searchValue, selectedContract]);
 
   return (
-    <AutocompleteDropdown
-      isLoading={isLoading}
-      onChange={onChange}
-      onInputChange={onInputChange}
-      disabled={disabled}
-      options={options}
-      className={className}
-      dropdownClassName={dropdownClassName}
-    />
+    <>
+      <AutocompleteDropdown
+        isLoading={isLoading}
+        onChange={onChange}
+        onInputChange={onInputChange}
+        disabled={disabled}
+        options={options}
+        className={className}
+        dropdownClassName={dropdownClassName}
+      />
+    </>
   );
 };
 

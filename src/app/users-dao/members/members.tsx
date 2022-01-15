@@ -8,7 +8,7 @@ import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isFailed } from 'src/utils';
 import { getUsersDaoMembers } from 'src/app/shared/users/slice';
 import {
-  selectorError,
+  selectorUsersError,
   selectUsersDaoMembersById,
 } from 'src/app/shared/users/selectors';
 
@@ -19,7 +19,7 @@ export const Members: FC = () => {
   const { contract, dao } = useParams<{ dao: string; contract: string }>();
   const dispatch = useAppDispatch();
 
-  const error = useAppSelector(selectorError);
+  const error = useAppSelector(selectorUsersError);
   const users = useAppSelector(selectUsersDaoMembersById(dao));
   const getUsersNumberLoading = useAppSelector(
     selectActionLoading(getUsersDaoMembers.typePrefix),

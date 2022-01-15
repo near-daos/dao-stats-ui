@@ -15,6 +15,11 @@ import { RootState } from '../../../store/root-reducer';
 const getState = (state: RootState) => state[flowSlice.name];
 const getCurrencyState = (state: RootState) => state[currencySlice.name];
 
+export const selectFlowError = createSelector(
+  (state: RootState) => getState(state).error,
+  (error) => error,
+);
+
 export const selectLoading = createSelector(
   (state: RootState) => getState(state).loading,
   (data) => data,

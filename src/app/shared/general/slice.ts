@@ -5,6 +5,7 @@ import {
   isRejected,
   isFulfilled,
   createEntityAdapter,
+  createAction,
 } from '@reduxjs/toolkit';
 import sortBy from 'lodash/sortBy';
 import {
@@ -18,13 +19,13 @@ import {
 } from 'src/api';
 import { buildMetrics } from 'src/utils';
 
-import { generalState, GeneralDaoEntity } from './types';
+import { GeneralDaoEntity, GeneralState } from './types';
 
 export const generalDaoGroupsAdapter = createEntityAdapter<MetricsEntity>();
 export const generalDaoActivityAdapter = createEntityAdapter<MetricsEntity>();
 export const generalDaoAdapter = createEntityAdapter<GeneralDaoEntity>();
 
-const initialState: generalState = {
+const initialState: GeneralState = {
   general: null,
   generalDaos: null,
   generalActive: null,
@@ -40,93 +41,57 @@ const initialState: generalState = {
 
 export const getGeneral = createAsyncThunk(
   'general/getGeneral',
-  async (params: Params) => {
-    const response = await generalService.getGeneral(params);
-
-    return response.data;
-  },
+  async (params: Params) => generalService.getGeneral(params),
 );
 
 export const getGeneralDao = createAsyncThunk(
   'general/getGeneralDao',
-  async (params: DaoParams) => {
-    const response = await generalService.getGeneralDao(params);
-
-    return { id: params.dao, ...response.data };
-  },
+  async (params: DaoParams) => generalService.getGeneralDao(params),
 );
 
 export const getGeneralDaos = createAsyncThunk(
   'general/getGeneralDaos',
-  async (params: HistoryParams) => {
-    const response = await generalService.getGeneralDaos(params);
-
-    return response.data;
-  },
+  async (params: HistoryParams) => generalService.getGeneralDaos(params),
 );
 
 export const getGeneralActive = createAsyncThunk(
   'general/getGeneralActive',
-  async (params: HistoryParams) => {
-    const response = await generalService.getGeneralActive(params);
-
-    return response.data;
-  },
+  async (params: HistoryParams) => generalService.getGeneralActive(params),
 );
 
 export const getGeneralActiveLeaderboard = createAsyncThunk(
   'general/getGeneralActiveLeaderboard',
-  async (params: Params) => {
-    const response = await generalService.getGeneralActiveLeaderboard(params);
-
-    return response.data;
-  },
+  async (params: Params) => generalService.getGeneralActiveLeaderboard(params),
 );
 
 export const getGeneralGroups = createAsyncThunk(
   'general/getGeneralGroups',
-  async (params: HistoryParams) => {
-    const response = await generalService.getGeneralGroups(params);
-
-    return response.data;
-  },
+  async (params: HistoryParams) => generalService.getGeneralGroups(params),
 );
 
 export const getGeneralGroupsLeaderboard = createAsyncThunk(
   'general/getGeneralGroupsLeaderboard',
-  async (params: Params) => {
-    const response = await generalService.getGeneralGroupsLeaderboard(params);
-
-    return response.data;
-  },
+  async (params: Params) => generalService.getGeneralGroupsLeaderboard(params),
 );
 
 export const getGeneralAverageGroups = createAsyncThunk(
   'general/getGeneralAverageGroups',
-  async (params: Params) => {
-    const response = await generalService.getGeneralAverageGroups(params);
-
-    return response.data;
-  },
+  async (params: Params) => generalService.getGeneralAverageGroups(params),
 );
 
 export const getGeneralDaoGroups = createAsyncThunk(
   'general/getGeneralDaoGroups',
-  async (params: DaoHistoryParams) => {
-    const response = await generalService.getGeneralDaoGroups(params);
-
-    return { id: params.dao, metrics: response.data.metrics };
-  },
+  async (params: DaoHistoryParams) =>
+    generalService.getGeneralDaoGroups(params),
 );
 
 export const getGeneralDaoActivity = createAsyncThunk(
   'general/getGeneralDaoActivity',
-  async (params: DaoHistoryParams) => {
-    const response = await generalService.getGeneralDaoActivity(params);
-
-    return { id: params.dao, metrics: response.data.metrics };
-  },
+  async (params: DaoHistoryParams) =>
+    generalService.getGeneralDaoActivity(params),
 );
+
+export const clearGeneralError = createAction('general/getGeneralDaoActivity');
 
 const isRejectedAction = isRejected(
   getGeneral,
@@ -159,57 +124,97 @@ export const generalSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getGeneral.fulfilled, (state, { payload }) => {
-      state.general = payload;
+      state.general = payload.data;
     });
 
-    builder.addCase(getGeneralDao.fulfilled, (state, { payload }) => {
-      generalDaoAdapter.upsertOne(state.generalDao, payload);
-    });
+    builder.addCase(
+      getGeneralDao.fulfilled,
+      (
+        state,
+        {
+          payload,
+          meta: {
+            arg: { dao },
+          },
+        },
+      ) => {
+        generalDaoAdapter.upsertOne(state.generalDao, {
+          id: dao,
+          ...payload.data,
+        });
+      },
+    );
 
     builder.addCase(getGeneralDaos.fulfilled, (state, { payload }) => {
-      state.generalDaos = { metrics: payload.metrics };
+      state.generalDaos = payload.data;
     });
 
     builder.addCase(getGeneralActive.fulfilled, (state, { payload }) => {
-      state.generalActive = { metrics: payload.metrics };
+      state.generalActive = payload.data;
     });
 
     builder.addCase(
       getGeneralActiveLeaderboard.fulfilled,
       (state, { payload }) => {
-        state.generalActiveLeaderboard = payload;
+        state.generalActiveLeaderboard = payload.data;
       },
     );
 
     builder.addCase(getGeneralGroups.fulfilled, (state, { payload }) => {
       state.generalGroups = {
-        metrics: sortBy(payload.metrics, 'timestamp'),
+        metrics: sortBy(payload.data.metrics, 'timestamp'),
       };
     });
 
     builder.addCase(
       getGeneralGroupsLeaderboard.fulfilled,
       (state, { payload }) => {
-        state.generalGroupsLeaderboard = payload;
+        state.generalGroupsLeaderboard = payload.data;
       },
     );
 
     builder.addCase(getGeneralAverageGroups.fulfilled, (state, { payload }) => {
-      state.averageGroups = { metrics: payload.metrics };
+      state.averageGroups = payload.data;
     });
 
-    builder.addCase(getGeneralDaoGroups.fulfilled, (state, { payload }) => {
-      generalDaoGroupsAdapter.upsertOne(state.generalDaoGroups, {
-        id: payload.id,
-        metrics: payload.metrics,
-      });
-    });
+    builder.addCase(
+      getGeneralDaoGroups.fulfilled,
+      (
+        state,
+        {
+          payload,
+          meta: {
+            arg: { dao },
+          },
+        },
+      ) => {
+        generalDaoGroupsAdapter.upsertOne(state.generalDaoGroups, {
+          id: dao,
+          ...payload.data,
+        });
+      },
+    );
 
-    builder.addCase(getGeneralDaoActivity.fulfilled, (state, { payload }) => {
-      generalDaoActivityAdapter.upsertOne(state.generalDaoActivity, {
-        id: payload.id,
-        metrics: buildMetrics(payload.metrics, true) as MetricItem[],
-      });
+    builder.addCase(
+      getGeneralDaoActivity.fulfilled,
+      (
+        state,
+        {
+          payload,
+          meta: {
+            arg: { dao },
+          },
+        },
+      ) => {
+        generalDaoActivityAdapter.upsertOne(state.generalDaoActivity, {
+          id: dao,
+          metrics: buildMetrics(payload.data.metrics, true) as MetricItem[],
+        });
+      },
+    );
+
+    builder.addCase(clearGeneralError, (state) => {
+      state.error = null;
     });
 
     builder.addMatcher(isRejectedAction, (state, { error }) => {

@@ -91,7 +91,10 @@ export const Interactions: FC = () => {
   const goToSingleDao = useCallback(
     (row) => {
       history.push(
-        generatePath(ROUTES.usersInteractionsDao, { contract, dao: row.dao }),
+        generatePath(ROUTES.usersInteractionsDao, {
+          contract,
+          dao: row.dao,
+        }),
       );
     },
     [contract, history],

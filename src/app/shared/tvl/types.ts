@@ -1,7 +1,7 @@
 import { EntityState } from '@reduxjs/toolkit';
 import { Metrics, Leaderboard, MetricsEntity, Tvl, TvlDao } from 'src/api';
 
-export type tvlState = {
+export type TvlState = {
   tvl: Tvl | null;
   tvlTvl: Metrics | null;
   tvlLeaderboard: Leaderboard | null;
@@ -11,7 +11,7 @@ export type tvlState = {
   tvlDao: EntityState<TvlDaoEntity>;
   tvlDaoBountiesNumber: EntityState<MetricsEntity>;
   tvlDaoBountiesVl: EntityState<MetricsEntity>;
-  error: unknown;
+  error?: null | string;
 };
 
 export type TvlDaoEntity = TvlDao & {

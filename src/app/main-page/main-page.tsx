@@ -1,24 +1,29 @@
 import React, { FC, useEffect } from 'react';
 import startCase from 'lodash/startCase';
-import { useHistory } from 'react-router';
+import { generatePath, useHistory } from 'react-router';
 
 import { Button } from '../../components';
 import { useAppSelector } from '../../store';
-import { selectorSelectedContract } from '../shared';
+import { selectSelectedContract } from '../shared';
 import { useRoutes } from '../../hooks';
 import { infinity } from '../../icons';
 
 import styles from './main-page.module.scss';
+import { ROUTES } from '../../constants';
 
 export const MainPage: FC = () => {
-  const selectedContract = useAppSelector(selectorSelectedContract);
+  const selectedContract = useAppSelector(selectSelectedContract);
   const routes = useRoutes();
   const history = useHistory();
 
   useEffect(() => {
     const handleScroll = (event: WheelEvent) => {
       if (event.deltaY > 0) {
-        history.push(routes.generalInfo);
+        history.push(
+          generatePath(ROUTES.generalInfo, {
+            contract: selectedContract?.contractId,
+          }),
+        );
       }
     };
 
@@ -27,7 +32,7 @@ export const MainPage: FC = () => {
     return () => {
       window.removeEventListener('wheel', handleScroll);
     };
-  }, [history, routes]);
+  }, [history, routes, selectedContract?.contractId]);
 
   return (
     <div className={styles.mainPage}>

@@ -1,7 +1,7 @@
 import { EntityState } from '@reduxjs/toolkit';
 import { Metrics, Leaderboard, MetricsEntity, Tokens } from 'src/api';
 
-export type tokensState = {
+export type TokensState = {
   tokens: Tokens | null;
   tokensNfts: Metrics | null;
   tokensNftsLeaderboard: Leaderboard | null;
@@ -13,7 +13,7 @@ export type tokensState = {
   tokensNftsDao: EntityState<MetricsEntity>;
   tokensFtsDao: EntityState<MetricsEntity>;
   tokensFtsVlDao: EntityState<MetricsEntity>;
-  error: unknown;
+  error?: null | string;
 };
 
 export type TokensDaoEntity = Tokens & {

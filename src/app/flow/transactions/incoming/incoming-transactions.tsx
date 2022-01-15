@@ -6,7 +6,7 @@ import { ROUTES } from 'src/constants';
 import styles from 'src/styles/page.module.scss';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
-import { isSuccess, isPending, isNotAsked } from 'src/utils';
+import { isSuccess, isPending, isNotAsked, isFailed } from 'src/utils';
 import {
   getFlowTransactionsHistory,
   getFlowTransactionsLeaderboard,
@@ -47,35 +47,31 @@ export const IncomingTransactions: FC = () => {
   };
 
   useEffect(() => {
-    (async () => {
-      try {
-        if (
-          (!transactions || isNotAsked(getTransactionsLoading)) &&
-          !isPending(getTransactionsLoading)
-        ) {
-          await dispatch(
-            getFlowTransactionsHistory({
-              contract,
-            }),
-          );
-        }
-
-        if (
-          (!transactionsLeaderboard ||
-            isNotAsked(getTransactionsLeaderboardLoading)) &&
-          !isPending(getTransactionsLeaderboardLoading)
-        ) {
-          await dispatch(
-            getFlowTransactionsLeaderboard({
-              contract,
-            }),
-          );
-        }
-      } catch (error: unknown) {
+    if (
+      (!transactions || isNotAsked(getTransactionsLoading)) &&
+      !isPending(getTransactionsLoading)
+    ) {
+      dispatch(
+        getFlowTransactionsHistory({
+          contract,
+        }),
+      ).catch((error: unknown) => {
         // eslint-disable-next-line no-console
         console.error(error);
-      }
-    })();
+      });
+    }
+
+    if (
+      (!transactionsLeaderboard ||
+        isNotAsked(getTransactionsLeaderboardLoading)) &&
+      !isPending(getTransactionsLeaderboardLoading)
+    ) {
+      dispatch(
+        getFlowTransactionsLeaderboard({
+          contract,
+        }),
+      );
+    }
   }, [
     transactions,
     transactionsLeaderboard,
@@ -111,8 +107,10 @@ export const IncomingTransactions: FC = () => {
     <div className={styles.detailsContainer}>
       <LoadingContainer
         hide={
-          isSuccess(getTransactionsLoading) &&
-          isSuccess(getTransactionsLeaderboardLoading)
+          (isSuccess(getTransactionsLoading) &&
+            isSuccess(getTransactionsLeaderboardLoading)) ||
+          isFailed(getTransactionsLoading) ||
+          isFailed(getTransactionsLeaderboardLoading)
         }
       />
       <div className={styles.tabWrapper}>

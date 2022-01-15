@@ -20,7 +20,7 @@ import {
 import {
   getTokens,
   selectTokens,
-  selectorSelectedContract,
+  selectSelectedContract,
 } from 'src/app/shared';
 import { useAppDispatch, useAppSelector } from 'src/store';
 
@@ -39,7 +39,7 @@ export const Tokens: FC = () => {
   const { contract } = useParams<Params>();
   const dispatch = useAppDispatch();
   const tokens = useAppSelector(selectTokens);
-  const selectedContract = useAppSelector(selectorSelectedContract);
+  const selectedContract = useAppSelector(selectSelectedContract);
 
   useEffect(() => {
     (async () => {

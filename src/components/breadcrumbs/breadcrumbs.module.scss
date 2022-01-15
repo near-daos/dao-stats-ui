@@ -1,3 +1,4 @@
+@use 'src/styles/helpers';
 @use 'src/styles/typography';
 @use 'src/styles/functions';
 
@@ -9,7 +10,7 @@
 }
 
 .link {
+  @include typography.title-1;
+  @extend %button-reset;
   margin-right: functions.calc-rem(12);
-
-  text-decoration: none;
 }

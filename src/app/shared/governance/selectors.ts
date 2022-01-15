@@ -11,6 +11,11 @@ import {
 
 const getState = (state: RootState) => state[governanceSlice.name];
 
+export const selectGovernanceError = createSelector(
+  (state: RootState) => getState(state).error,
+  (error) => error,
+);
+
 export const selectGovernance = createSelector(
   (state: RootState) => getState(state).governance,
   (data) => data,

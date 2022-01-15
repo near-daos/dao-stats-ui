@@ -134,7 +134,7 @@ export const NumberOfProposals: FC = () => {
               { value: '' },
               { value: 'DAO Name' },
               { value: 'Number of Proposals' },
-              { value: 'Last 7 days', position: 'right' },
+              { value: 'Last month', position: 'right' },
             ]}
             type="line"
             dataRows={governanceProposalsLeaderboardData}

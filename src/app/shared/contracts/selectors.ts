@@ -1,21 +1,26 @@
 import { createSelector } from '@reduxjs/toolkit';
+import { RootState } from 'src/store/root-reducer';
 
 import { contractsSlice } from './slice';
-import { RootState } from '../../../store/root-reducer';
 
 const getState = (state: RootState) => state[contractsSlice.name];
 
-export const selectorContracts = createSelector(
+export const selectContactError = createSelector(
+  (state: RootState) => getState(state).error,
+  (error) => error,
+);
+
+export const selectContracts = createSelector(
   (state: RootState) => getState(state).contracts,
   (data) => data,
 );
 
-export const selectorContractsLoadingState = createSelector(
+export const selectContractsLoadingState = createSelector(
   (state: RootState) => getState(state).loading,
   (data) => data,
 );
 
-export const selectorSelectedContract = createSelector(
+export const selectSelectedContract = createSelector(
   (state: RootState) => getState(state).selectedContract,
   (data) => data,
 );

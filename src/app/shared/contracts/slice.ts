@@ -1,10 +1,10 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { RequestStatus } from '../../../store/types';
-import { contractState } from './types';
+import { ContractState } from './types';
 import { contractsService, Contract } from '../../../api';
 
-const initialState: contractState = {
+const initialState: ContractState = {
   selectedContract: null,
   contracts: null,
   loading: RequestStatus.NOT_ASKED,
@@ -13,11 +13,7 @@ const initialState: contractState = {
 
 export const getContracts = createAsyncThunk(
   'contracts/getContracts',
-  async () => {
-    const response = await contractsService.getContracts();
-
-    return response.data;
-  },
+  async () => contractsService.getContracts(),
 );
 
 export const setContract = createAction<Contract>('contracts/setContract');
@@ -33,7 +29,7 @@ export const contractsSlice = createSlice({
     builder.addCase(getContracts.fulfilled, (state, { payload }) => {
       state.loading = RequestStatus.SUCCESS;
       state.error = null;
-      state.contracts = payload;
+      state.contracts = payload.data;
     });
 
     builder.addCase(getContracts.rejected, (state, { error }) => {
