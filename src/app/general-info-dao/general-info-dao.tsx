@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import {
   useLocation,
   useParams,
@@ -8,8 +8,9 @@ import {
   Route,
   generatePath,
 } from 'react-router';
+import { useMount, useUnmount } from 'react-use';
 
-import { getGeneralDao } from 'src/app/shared/general/slice';
+import { clearGeneralError, getGeneralDao } from 'src/app/shared/general/slice';
 import { selectGeneralDaoById } from 'src/app/shared/general/selectors';
 import {
   Page,
@@ -35,14 +36,17 @@ export const GeneralInfoDao: FC = () => {
   const dispatch = useAppDispatch();
   const generalDao = useAppSelector(selectGeneralDaoById(dao));
 
-  useEffect(() => {
+  useMount(() => {
     if (!generalDao) {
       dispatch(getGeneralDao({ contract, dao })).catch((error: unknown) => {
-        // eslint-disable-next-line no-console
         console.error(error);
       });
     }
-  }, [generalDao, contract, dao, dispatch]);
+  });
+
+  useUnmount(() => {
+    dispatch(clearGeneralError());
+  });
 
   const breadcrumbs = useMemo(
     () => [

@@ -46,7 +46,6 @@ export const TvlHistory: FC = () => {
         getTvlHistory({
           contract,
         }),
-        // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
 
@@ -58,7 +57,6 @@ export const TvlHistory: FC = () => {
         getTvlLeaderboard({
           contract,
         }),
-        // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
   }, [dispatch, contract, getTvlLoading, getTvlLeaderboardLoading]);

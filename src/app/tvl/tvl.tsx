@@ -40,7 +40,6 @@ export const Tvl: FC = () => {
           await dispatch(getTvl({ contract }));
         }
       } catch (error: unknown) {
-        // eslint-disable-next-line no-console
         console.error(error);
       }
     })();

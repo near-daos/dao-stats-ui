@@ -49,7 +49,6 @@ export const Nfts: FC = () => {
         getTokensNfts({
           contract,
         }),
-        // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
 
@@ -61,7 +60,6 @@ export const Nfts: FC = () => {
         getTokensNftsLeaderboard({
           contract,
         }),
-        // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
   }, [

@@ -51,7 +51,6 @@ export const NumberOfProposals: FC = () => {
         getGovernanceProposals({
           contract,
         }),
-        // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
 
@@ -63,7 +62,6 @@ export const NumberOfProposals: FC = () => {
         getGovernanceProposalsLeaderboard({
           contract,
         }),
-        // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
   }, [

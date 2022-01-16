@@ -66,7 +66,7 @@ export const Autocomplete: FC<AutocompleteProps> = ({
       }
 
       if (location.pathname.includes('tokens')) {
-        route = ROUTES.tokensNftsDao;
+        route = ROUTES.tokensDao;
       }
 
       if (location.pathname.includes('tvl')) {
@@ -109,7 +109,6 @@ export const Autocomplete: FC<AutocompleteProps> = ({
         setLoading(false);
         setOptions(prepareOptions(response.data));
       })
-      // eslint-disable-next-line no-console
       .catch((error) => console.error(error));
 
   const debouncedSearch = useMemo(

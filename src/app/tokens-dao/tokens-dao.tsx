@@ -42,7 +42,6 @@ export const TokensDao: FC = () => {
           await dispatch(getTokensDao({ contract, dao }));
         }
       } catch (error: unknown) {
-        // eslint-disable-next-line no-console
         console.error(error);
       }
     })();
@@ -71,20 +70,18 @@ export const TokensDao: FC = () => {
             className={styles.widget}
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.tokensNftsDao,
+                path: ROUTES.tokensDao,
                 exact: true,
               }),
             )}
             onClick={() =>
-              history.push(
-                generatePath(ROUTES.tokensNftsDao, { contract, dao }),
-              )
+              history.push(generatePath(ROUTES.tokensDao, { contract, dao }))
             }
           >
             <WidgetInfo
-              title="Number of NFTs"
-              number={tokens?.nfts?.count}
-              percentages={tokens?.nfts?.growth}
+              title="Number of FTs"
+              number={tokens?.fts?.count}
+              percentages={tokens?.fts?.growth}
             />
           </WidgetTile>
           <WidgetTile
@@ -113,18 +110,20 @@ export const TokensDao: FC = () => {
             className={styles.widget}
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.tokensDao,
+                path: ROUTES.tokensNftsDao,
                 exact: true,
               }),
             )}
             onClick={() =>
-              history.push(generatePath(ROUTES.tokensDao, { contract, dao }))
+              history.push(
+                generatePath(ROUTES.tokensNftsDao, { contract, dao }),
+              )
             }
           >
             <WidgetInfo
-              title="Number of FTs"
-              number={tokens?.fts?.count}
-              percentages={tokens?.fts?.growth}
+              title="Number of NFTs"
+              number={tokens?.nfts?.count}
+              percentages={tokens?.nfts?.growth}
             />
           </WidgetTile>
         </Widgets>
@@ -132,8 +131,8 @@ export const TokensDao: FC = () => {
         <div className={styles.mainContent}>
           <Switch>
             <Route exact path={ROUTES.tokensDao} component={Fts} />
-            <Route path={ROUTES.tokensFtsVlDao} component={FtsVl} />
-            <Route path={ROUTES.tokensNftsDao} component={Nfts} />
+            <Route exact path={ROUTES.tokensFtsVlDao} component={FtsVl} />
+            <Route exact path={ROUTES.tokensNftsDao} component={Nfts} />
           </Switch>
         </div>
       </Page>

@@ -1,9 +1,7 @@
-/* eslint-disable no-param-reassign */
 import {
   createSlice,
   createAsyncThunk,
   isRejected,
-  isFulfilled,
   createEntityAdapter,
   createAction,
 } from '@reduxjs/toolkit';
@@ -38,6 +36,8 @@ const initialState: GeneralState = {
   generalDaoActivity: generalDaoActivityAdapter.getInitialState(),
   error: null,
 };
+
+export const clearGeneralError = createAction('general/clearGeneralError');
 
 export const getGeneral = createAsyncThunk(
   'general/getGeneral',
@@ -91,21 +91,7 @@ export const getGeneralDaoActivity = createAsyncThunk(
     generalService.getGeneralDaoActivity(params),
 );
 
-export const clearGeneralError = createAction('general/getGeneralDaoActivity');
-
 const isRejectedAction = isRejected(
-  getGeneral,
-  getGeneralActive,
-  getGeneralActiveLeaderboard,
-  getGeneralDao,
-  getGeneralDaos,
-  getGeneralGroups,
-  getGeneralGroupsLeaderboard,
-  getGeneralAverageGroups,
-  getGeneralDaoGroups,
-  getGeneralDaoActivity,
-);
-const isFulfilledAction = isFulfilled(
   getGeneral,
   getGeneralActive,
   getGeneralActiveLeaderboard,
@@ -219,10 +205,6 @@ export const generalSlice = createSlice({
 
     builder.addMatcher(isRejectedAction, (state, { error }) => {
       state.error = error.message;
-    });
-
-    builder.addMatcher(isFulfilledAction, (state) => {
-      state.error = null;
     });
   },
 });

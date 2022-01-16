@@ -4,8 +4,6 @@
 @import 'src/styles/helpers';
 
 .navigationList {
-  --background-color: transparent;
-  --line-color: transparent;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 
@@ -33,23 +31,15 @@
 
 .item {
   border-radius: functions.calc-rem(4);
-
-  &:active {
-    --line-color: var(--color-yellow-600);
-    --background-color: var(--color-grey-900);
-  }
-
-  @include media.desktop {
-    &:hover {
-      --line-color: var(--color-yellow-600);
-      --background-color: rgba(255, 255, 255, 0.03);
-    }
-  }
 }
 
 .active {
-  --line-color: var(--color-blue-500);
-  --background-color: rgba(255, 255, 255, 0.03);
+  .button {
+    background: var(--color-grey-900);
+    &::after {
+      background-color: var(--color-blue-500);
+    }
+  }
 }
 
 .disabled {
@@ -79,9 +69,16 @@
 
   color: var(--white);
 
-  background-color: var(--background-color);
+  transition: background-color linear 300ms;
 
-  transition: background-color ease-in-out 300ms;
+  @include media.desktop {
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.03);
+      &::after {
+        background-color: var(--color-yellow-600);
+      }
+    }
+  }
 
   &::after {
     width: functions.calc-rem(4);
@@ -91,12 +88,12 @@
     top: 0;
     left: 0;
 
-    background-color: var(--line-color);
+    background-color: transparent;
 
     border-top-left-radius: functions.calc-rem(4);
     border-bottom-left-radius: functions.calc-rem(4);
     content: '';
 
-    transition: background-color ease-in-out 300ms;
+    transition: background-color linear 300ms;
   }
 }

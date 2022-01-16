@@ -40,7 +40,6 @@ export const GovernanceDao: FC = () => {
 
   useMount(() => {
     dispatch(getGovernanceDao({ contract, dao })).catch((error: unknown) => {
-      // eslint-disable-next-line no-console
       console.error(error);
     });
   });

@@ -27,7 +27,6 @@ export const IncomingFunds: FC = () => {
         dao,
       }),
     ).catch((error: unknown) => {
-      // eslint-disable-next-line no-console
       console.error(error);
     });
   }, [contract, dao, dispatch]);

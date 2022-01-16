@@ -36,7 +36,6 @@ export const TvlDao: FC = () => {
 
   useEffect(() => {
     dispatch(getTvlDao({ contract, dao })).catch((error: unknown) => {
-      // eslint-disable-next-line no-console
       console.error(error);
     });
   }, [contract, dispatch, dao]);

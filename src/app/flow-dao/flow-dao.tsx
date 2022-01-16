@@ -39,7 +39,6 @@ export const FlowDao: FC = () => {
 
   useEffect(() => {
     dispatch(getFlowDao({ contract, dao })).catch((error: unknown) => {
-      // eslint-disable-next-line no-console
       console.error(error);
     });
   }, [contract, dao, dispatch]);

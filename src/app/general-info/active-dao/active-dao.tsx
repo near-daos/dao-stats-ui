@@ -52,7 +52,6 @@ export const ActiveDao: FC = () => {
         getGeneralActive({
           contract,
         }),
-        // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
 
@@ -64,7 +63,6 @@ export const ActiveDao: FC = () => {
         getGeneralActiveLeaderboard({
           contract,
         }),
-        // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
   }, [

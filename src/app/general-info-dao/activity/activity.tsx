@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import { useParams } from 'react-router';
-import { useMount } from 'react-use';
+import { useMount, useUnmount } from 'react-use';
 
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
@@ -9,7 +9,10 @@ import {
   selectGeneralDaoActivityById,
   selectGeneralError,
 } from 'src/app/shared/general/selectors';
-import { getGeneralDaoActivity } from 'src/app/shared/general/slice';
+import {
+  clearGeneralError,
+  getGeneralDaoActivity,
+} from 'src/app/shared/general/slice';
 import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isPending, isFailed } from 'src/utils';
 import { Params } from 'src/constants';
@@ -34,10 +37,13 @@ export const Activity: FC = () => {
           dao,
         }),
       ).catch((err: unknown) => {
-        // eslint-disable-next-line no-console
         console.error(err);
       });
     }
+  });
+
+  useUnmount(() => {
+    dispatch(clearGeneralError());
   });
 
   const activityData = useFilterMetrics(period, activity);

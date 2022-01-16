@@ -1,10 +1,9 @@
-/* eslint-disable no-param-reassign */
 import {
   createSlice,
   createAsyncThunk,
   isRejected,
-  isFulfilled,
   createEntityAdapter,
+  createAction,
 } from '@reduxjs/toolkit';
 import sortBy from 'lodash/sortBy';
 import {
@@ -39,6 +38,8 @@ const initialState: UsersState = {
   usersDaoInteractions: usersDaoInteractionsAdapter.getInitialState(),
   error: null,
 };
+
+export const clearUsersError = createAction('users/clearUsersError');
 
 export const getUsers = createAsyncThunk(
   'users/getUsers',
@@ -109,22 +110,6 @@ export const getUsersDaoInteractions = createAsyncThunk(
 );
 
 const isRejectedAction = isRejected(
-  getUsers,
-  getUsersUsers,
-  getUsersLeaderboard,
-  getUsersMembers,
-  getUsersMembersLeaderboard,
-  getUsersAverageUsers,
-  getUsersInteractions,
-  getUsersInteractionsLeaderboard,
-  getUsersAverageInteractions,
-  getUsersDao,
-  getUsersDaoUsers,
-  getUsersDaoMembers,
-  getUsersDaoInteractions,
-);
-
-const isFulfilledAction = isFulfilled(
   getUsers,
   getUsersUsers,
   getUsersLeaderboard,
@@ -261,12 +246,12 @@ export const usersSlice = createSlice({
       },
     );
 
-    builder.addMatcher(isRejectedAction, (state, { error }) => {
-      state.error = error.message;
+    builder.addCase(clearUsersError, (state) => {
+      state.error = null;
     });
 
-    builder.addMatcher(isFulfilledAction, (state) => {
-      state.error = null;
+    builder.addMatcher(isRejectedAction, (state, { error }) => {
+      state.error = error.message;
     });
   },
 });

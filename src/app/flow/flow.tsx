@@ -37,7 +37,6 @@ export const Flow: FC = () => {
   useEffect(() => {
     if (!flow) {
       dispatch(getFlow({ contract })).catch((error: unknown) => {
-        // eslint-disable-next-line no-console
         console.error(error);
       });
     }

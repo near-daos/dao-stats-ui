@@ -43,7 +43,6 @@ export const GeneralInfo: FC = () => {
           await dispatch(getGeneral({ contract }));
         }
       } catch (error: unknown) {
-        // eslint-disable-next-line no-console
         console.error(error);
       }
     })();

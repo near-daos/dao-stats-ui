@@ -30,7 +30,6 @@ export const VoteRate: FC = () => {
           contract,
           dao,
         }),
-        // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
   }, [contract, dao, dispatch, governanceVoteRate, governanceVoteRateLoading]);

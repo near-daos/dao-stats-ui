@@ -53,7 +53,6 @@ export const VoteRate: FC = () => {
         getGovernanceVoteRate({
           contract,
         }),
-        // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
 
@@ -65,7 +64,6 @@ export const VoteRate: FC = () => {
         getGovernanceVoteRateLeaderboard({
           contract,
         }),
-        // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
   }, [
