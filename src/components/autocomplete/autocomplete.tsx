@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect, useCallback, useMemo } from 'react';
-import { generatePath, useHistory } from 'react-router';
+import { generatePath, useHistory, useLocation } from 'react-router';
 import debounce from 'lodash/debounce';
 import { useAppSelector } from 'src/store';
 import { selectSelectedContract } from 'src/app/shared/contracts';
@@ -35,6 +35,7 @@ export const Autocomplete: FC<AutocompleteProps> = ({
   disabled,
 }) => {
   const history = useHistory();
+  const location = useLocation();
   const [searchValue, setSearchValue] = useState('');
   const [options, setOptions] = useState<AutocompleteOption[]>([]);
   const [isLoading, setLoading] = useState(false);
@@ -46,16 +47,44 @@ export const Autocomplete: FC<AutocompleteProps> = ({
 
   const onChange = useCallback(
     (selectedItem: AutocompleteOption | null) => {
-      if (selectedItem) {
-        history.push(
-          generatePath(ROUTES.generalInfoDao, {
-            dao: selectedItem.id,
-            contract: selectedContract?.contractId || '',
-          }),
-        );
+      if (!selectedItem) {
+        return;
       }
+
+      let route = ROUTES.generalInfoDao;
+
+      if (location.pathname.includes('general-info')) {
+        route = ROUTES.generalInfoDao;
+      }
+
+      if (location.pathname.includes('users')) {
+        route = ROUTES.usersDao;
+      }
+
+      if (location.pathname.includes('governance')) {
+        route = ROUTES.governanceDao;
+      }
+
+      if (location.pathname.includes('tokens')) {
+        route = ROUTES.tokensNftsDao;
+      }
+
+      if (location.pathname.includes('tvl')) {
+        route = ROUTES.tvlDao;
+      }
+
+      if (location.pathname.includes('flow')) {
+        route = ROUTES.flowDao;
+      }
+
+      history.push(
+        generatePath(route, {
+          dao: selectedItem.id,
+          contract: selectedContract?.contractId || '',
+        }),
+      );
     },
-    [history, selectedContract?.contractId],
+    [history, location.pathname, selectedContract?.contractId],
   );
 
   useEffect(() => {
@@ -103,17 +132,15 @@ export const Autocomplete: FC<AutocompleteProps> = ({
   }, [debouncedSearch, searchValue, selectedContract]);
 
   return (
-    <>
-      <AutocompleteDropdown
-        isLoading={isLoading}
-        onChange={onChange}
-        onInputChange={onInputChange}
-        disabled={disabled}
-        options={options}
-        className={className}
-        dropdownClassName={dropdownClassName}
-      />
-    </>
+    <AutocompleteDropdown
+      isLoading={isLoading}
+      onChange={onChange}
+      onInputChange={onInputChange}
+      disabled={disabled}
+      options={options}
+      className={className}
+      dropdownClassName={dropdownClassName}
+    />
   );
 };
 
