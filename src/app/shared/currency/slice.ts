@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RequestStatus } from 'src/store/types';
 import { currencyService } from 'src/api';

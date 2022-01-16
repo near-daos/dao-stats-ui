@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { RequestStatus } from '../../../store/types';
 import { ContractState } from './types';
