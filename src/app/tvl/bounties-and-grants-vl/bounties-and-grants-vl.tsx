@@ -50,7 +50,6 @@ export const BountiesAndGrantsVl: FC = () => {
         getTvlBountiesAndGrantsVl({
           contract,
         }),
-        // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
 
@@ -62,7 +61,6 @@ export const BountiesAndGrantsVl: FC = () => {
         getTvlBountiesAndGrantsVlLeaderboard({
           contract,
         }),
-        // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
   }, [dispatch, contract, getTvlLoading, getTvlLeaderboardLoading]);
@@ -85,7 +83,6 @@ export const BountiesAndGrantsVl: FC = () => {
           history.push(generatePath(ROUTES.tvlDao, { contract, dao: row.dao }));
         })
         .catch((err: unknown) => {
-          // eslint-disable-next-line no-console
           console.error(err);
         });
     },

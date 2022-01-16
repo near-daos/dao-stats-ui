@@ -5,18 +5,21 @@ import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
-import { isSuccess, isPending, isNotAsked } from 'src/utils';
+import { isSuccess, isPending, isNotAsked, isFailed } from 'src/utils';
 import {
+  clearUsersError,
   getUsersInteractions,
   getUsersInteractionsLeaderboard,
 } from 'src/app/shared/users/slice';
 import {
+  selectorUsersError,
   selectUsersInteractions,
   selectUsersInteractionsLeaderboard,
 } from 'src/app/shared/users/selectors';
+import { Params, ROUTES } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
-import { ROUTES } from '../../../constants';
+import { useUnmount } from 'react-use';
 
 const tabOptions = [
   {
@@ -30,9 +33,9 @@ export const Interactions: FC = () => {
   const [period, setPeriod] = useState('All');
   const history = useHistory();
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<Params>();
   const dispatch = useAppDispatch();
-
+  const error = useAppSelector(selectorUsersError);
   const users = useAppSelector(selectUsersInteractions);
   const usersLeaderboard = useAppSelector(selectUsersInteractionsLeaderboard);
   const getUsersInteractionsLoading = useAppSelector(
@@ -55,9 +58,8 @@ export const Interactions: FC = () => {
         getUsersInteractions({
           contract,
         }),
-      ).catch((error: unknown) => {
-        // eslint-disable-next-line no-console
-        console.error(error);
+      ).catch((err: unknown) => {
+        console.error(err);
       });
     }
 
@@ -69,9 +71,8 @@ export const Interactions: FC = () => {
         getUsersInteractionsLeaderboard({
           contract,
         }),
-      ).catch((error: unknown) => {
-        // eslint-disable-next-line no-console
-        console.error(error);
+      ).catch((err: unknown) => {
+        console.error(err);
       });
     }
   }, [
@@ -80,6 +81,10 @@ export const Interactions: FC = () => {
     getUsersInteractionsLoading,
     getUsersInteractionsLeaderboardLoading,
   ]);
+
+  useUnmount(() => {
+    dispatch(clearUsersError());
+  });
 
   const usersLeaderboardData = usePrepareLeaderboard({
     leaderboard: usersLeaderboard?.metrics ? usersLeaderboard.metrics : null,
@@ -104,8 +109,10 @@ export const Interactions: FC = () => {
     <div className={styles.detailsContainer}>
       <LoadingContainer
         hide={
-          isSuccess(getUsersInteractionsLoading) &&
-          isSuccess(getUsersInteractionsLeaderboardLoading)
+          (isSuccess(getUsersInteractionsLoading) &&
+            isSuccess(getUsersInteractionsLeaderboardLoading)) ||
+          isFailed(getUsersInteractionsLoading) ||
+          isFailed(getUsersInteractionsLeaderboardLoading)
         }
       />
 
@@ -117,9 +124,17 @@ export const Interactions: FC = () => {
           onChange={handleOnChange}
         />
       </div>
-
+      {activeTab === 'history-data' && usersData?.metrics?.length === 0
+        ? 'Not enough data'
+        : null}
+      {activeTab === 'leaderboard' && usersLeaderboardData.length === 0
+        ? 'Not enough data'
+        : null}
+      {error ? <p className={styles.error}>{error}</p> : null}
       <div className={styles.metricsContainer}>
-        {activeTab === 'history-data' && usersData ? (
+        {activeTab === 'history-data' &&
+        usersData &&
+        usersData?.metrics?.length ? (
           <ChartLine
             periods={periods}
             data={usersData}

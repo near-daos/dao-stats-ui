@@ -29,7 +29,6 @@ export const AverageGroups: FC = () => {
           contract,
         }),
       ).catch((error: unknown) => {
-        // eslint-disable-next-line no-console
         console.error(error);
       });
     }

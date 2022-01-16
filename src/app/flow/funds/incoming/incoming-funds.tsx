@@ -46,7 +46,7 @@ export const IncomingFunds: FC = () => {
       dispatch(
         getFlowHistory({
           contract,
-        }), // eslint-disable-next-line no-console
+        }),
       ).catch((error: unknown) => console.error(error));
     }
 
@@ -57,7 +57,7 @@ export const IncomingFunds: FC = () => {
       dispatch(
         getFlowLeaderboard({
           contract,
-        }), // eslint-disable-next-line no-console
+        }),
       ).catch((error: unknown) => console.error(error));
     }
   }, [contract, dispatch, getFundsLoading, getFundsLeaderboardLoading]);

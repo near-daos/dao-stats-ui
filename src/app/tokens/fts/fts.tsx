@@ -49,7 +49,6 @@ export const Fts: FC = () => {
         getTokensFts({
           contract,
         }),
-        // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
 
@@ -61,7 +60,6 @@ export const Fts: FC = () => {
         getTokensFtsLeaderboard({
           contract,
         }),
-        // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
   }, [dispatch, contract, getTokensFtsLoading, getTokensFtsLeaderboardLoading]);

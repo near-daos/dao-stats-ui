@@ -1,12 +1,16 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useParams } from 'react-router';
+import { useMount, useUnmount } from 'react-use';
 
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isFailed } from 'src/utils';
-import { getUsersDaoMembers } from 'src/app/shared/users/slice';
+import {
+  clearUsersError,
+  getUsersDaoMembers,
+} from 'src/app/shared/users/slice';
 import {
   selectorUsersError,
   selectUsersDaoMembersById,
@@ -25,17 +29,22 @@ export const Members: FC = () => {
     selectActionLoading(getUsersDaoMembers.typePrefix),
   );
 
-  useEffect(() => {
-    dispatch(
-      getUsersDaoMembers({
-        contract,
-        dao,
-      }),
-    ).catch((err: unknown) => {
-      // eslint-disable-next-line no-console
-      console.error(err);
-    });
-  }, [dao, contract, dispatch]);
+  useMount(() => {
+    if (!users) {
+      dispatch(
+        getUsersDaoMembers({
+          contract,
+          dao,
+        }),
+      ).catch((err: unknown) => {
+        console.error(err);
+      });
+    }
+  });
+
+  useUnmount(() => {
+    dispatch(clearUsersError());
+  });
 
   const usersData = useFilterMetrics(period, users);
   const periods = usePeriods(users?.metrics);
@@ -48,8 +57,9 @@ export const Members: FC = () => {
         }
       />
       {error ? <p className={styles.error}>{error}</p> : null}
+      {usersData?.metrics?.length === 0 ? 'Not enough data' : null}
       <div className={styles.metricsContainer}>
-        {usersData ? (
+        {usersData && usersData?.metrics?.length ? (
           <ChartLine
             periods={periods}
             data={usersData}

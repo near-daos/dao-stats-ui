@@ -27,7 +27,6 @@ export const Avg: FC = () => {
         getTvlAvgTvl({
           contract,
         }),
-        // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
   }, [dispatch, contract, getTvlLoading]);

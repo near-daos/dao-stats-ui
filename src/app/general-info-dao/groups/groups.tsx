@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import { useParams } from 'react-router';
-import { useMount } from 'react-use';
+import { useMount, useUnmount } from 'react-use';
 
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
@@ -9,7 +9,10 @@ import {
   selectGeneralError,
   selectGeneralDaoGroupsById,
 } from 'src/app/shared/general/selectors';
-import { getGeneralDaoGroups } from 'src/app/shared/general/slice';
+import {
+  clearGeneralError,
+  getGeneralDaoGroups,
+} from 'src/app/shared/general/slice';
 import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isPending, isFailed } from 'src/utils';
 
@@ -33,10 +36,13 @@ export const Groups: FC = () => {
           dao,
         }),
       ).catch((err: unknown) => {
-        // eslint-disable-next-line no-console
         console.error(err);
       });
     }
+  });
+
+  useUnmount(() => {
+    dispatch(clearGeneralError());
   });
 
   const groupsData = useFilterMetrics(period, groups);

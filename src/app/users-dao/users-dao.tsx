@@ -38,7 +38,6 @@ export const UsersDao: FC = () => {
 
   useEffect(() => {
     dispatch(getUsersDao({ dao, contract })).catch((error: unknown) => {
-      // eslint-disable-next-line no-console
       console.error(error);
     });
   }, [dao, contract, dispatch]);

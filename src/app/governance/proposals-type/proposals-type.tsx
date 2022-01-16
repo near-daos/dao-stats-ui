@@ -60,7 +60,6 @@ export const ProposalsType: FC = () => {
         getGovernanceProposalsTypes({
           contract,
         }),
-        // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
 
@@ -72,7 +71,6 @@ export const ProposalsType: FC = () => {
         getGovernanceProposalsTypesLeaderboard({
           contract,
         }),
-        // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
   }, [

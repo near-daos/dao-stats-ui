@@ -30,7 +30,6 @@ export const BountiesVl: FC = () => {
           contract,
           dao,
         }),
-        // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
   }, [dispatch, contract, getTvlDaoBountiesNumberLoading, tvl, dao]);

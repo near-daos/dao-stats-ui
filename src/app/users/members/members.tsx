@@ -1,16 +1,19 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { generatePath, useHistory, useParams } from 'react-router';
+import { useUnmount } from 'react-use';
 
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
-import { isSuccess, isPending, isNotAsked } from 'src/utils';
+import { isSuccess, isPending, isNotAsked, isFailed } from 'src/utils';
 import {
+  clearUsersError,
   getUsersMembers,
   getUsersMembersLeaderboard,
 } from 'src/app/shared/users/slice';
 import {
+  selectorUsersError,
   selectUsersMembers,
   selectUsersMembersLeaderboard,
 } from 'src/app/shared/users/selectors';
@@ -33,7 +36,7 @@ export const Members: FC = () => {
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
-
+  const error = useAppSelector(selectorUsersError);
   const users = useAppSelector(selectUsersMembers);
   const usersLeaderboard = useAppSelector(selectUsersMembersLeaderboard);
   const getUsersNumberLoading = useAppSelector(
@@ -56,9 +59,8 @@ export const Members: FC = () => {
         getUsersMembers({
           contract,
         }),
-      ).catch((error: unknown) => {
-        // eslint-disable-next-line no-console
-        console.error(error);
+      ).catch((err: unknown) => {
+        console.error(err);
       });
     }
 
@@ -70,9 +72,8 @@ export const Members: FC = () => {
         getUsersMembersLeaderboard({
           contract,
         }),
-      ).catch((error: unknown) => {
-        // eslint-disable-next-line no-console
-        console.error(error);
+      ).catch((err: unknown) => {
+        console.error(err);
       });
     }
   }, [
@@ -81,6 +82,10 @@ export const Members: FC = () => {
     getUsersNumberLoading,
     getUsersNumberLeaderboardLoading,
   ]);
+
+  useUnmount(() => {
+    dispatch(clearUsersError());
+  });
 
   const usersLeaderboardData = usePrepareLeaderboard({
     leaderboard: usersLeaderboard?.metrics ? usersLeaderboard.metrics : null,
@@ -98,7 +103,6 @@ export const Members: FC = () => {
           );
         })
         .catch((err: unknown) => {
-          // eslint-disable-next-line no-console
           console.error(err);
         });
     },
@@ -109,8 +113,10 @@ export const Members: FC = () => {
     <div className={styles.detailsContainer}>
       <LoadingContainer
         hide={
-          isSuccess(getUsersNumberLoading) &&
-          isSuccess(getUsersNumberLeaderboardLoading)
+          (isSuccess(getUsersNumberLoading) &&
+            isSuccess(getUsersNumberLeaderboardLoading)) ||
+          isFailed(getUsersNumberLoading) ||
+          isFailed(getUsersNumberLeaderboardLoading)
         }
       />
       <div className={styles.tabWrapper}>
@@ -121,9 +127,17 @@ export const Members: FC = () => {
           onChange={handleOnChange}
         />
       </div>
-
+      {activeTab === 'history-data' && usersData?.metrics?.length === 0
+        ? 'Not enough data'
+        : null}
+      {activeTab === 'leaderboard' && usersLeaderboardData.length === 0
+        ? 'Not enough data'
+        : null}
+      {error ? <p className={styles.error}>{error}</p> : null}
       <div className={styles.metricsContainer}>
-        {activeTab === 'history-data' && usersData ? (
+        {activeTab === 'history-data' &&
+        usersData &&
+        usersData?.metrics?.length ? (
           <ChartLine
             periods={periods}
             data={usersData}

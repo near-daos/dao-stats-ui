@@ -39,7 +39,7 @@ const initialState: UsersState = {
   error: null,
 };
 
-export const clearUsersError = createAction('users/getUsers');
+export const clearUsersError = createAction('users/clearUsersError');
 
 export const getUsers = createAsyncThunk(
   'users/getUsers',
@@ -192,7 +192,7 @@ export const usersSlice = createSlice({
       },
     );
 
-    /* builder.addCase(
+    builder.addCase(
       getUsersDaoUsers.fulfilled,
       (
         state,
@@ -208,7 +208,7 @@ export const usersSlice = createSlice({
           ...payload.data,
         });
       },
-    ); */
+    );
 
     builder.addCase(
       getUsersDaoMembers.fulfilled,

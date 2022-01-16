@@ -36,7 +36,6 @@ export const UserData = ({ children }: UserDataProps): ReactElement => {
 
         dispatch(setContract(contracts[0]));
       } catch (error: unknown) {
-        // eslint-disable-next-line no-console
         console.error(error);
       }
     })();
@@ -47,7 +46,7 @@ export const UserData = ({ children }: UserDataProps): ReactElement => {
       return;
     }
 
-    dispatch(getDao({ contract, dao }));
+    dispatch(getDao({ contract, dao })).catch((err) => console.error(err));
   }, [dispatch, dao, contract]);
 
   return <>{children(loadingContracts)}</>;

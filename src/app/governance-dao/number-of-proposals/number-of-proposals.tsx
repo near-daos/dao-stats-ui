@@ -28,7 +28,6 @@ export const NumberOfProposals: FC = () => {
         contract,
         dao,
       }),
-      // eslint-disable-next-line no-console
     ).catch((error: unknown) => console.error(error));
   });
 

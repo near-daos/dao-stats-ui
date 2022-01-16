@@ -81,7 +81,7 @@ export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
         },
         {
           label: 'Tokens',
-          value: routes.tokensNftsDao,
+          value: routes.tokensDao,
         },
       ];
     }
