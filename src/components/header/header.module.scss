@@ -68,10 +68,6 @@
   }
 }
 
-.tabs {
-  margin-right: functions.calc-rem(32);
-}
-
 .navigationInfo {
   margin: 0 0 0 functions.calc-rem(60);
 }
@@ -141,10 +137,15 @@
   }
 }
 
-.autocomplete {
+.rightPart {
   display: none;
 
   @include media.desktop {
-    display: block;
+    display: flex;
+    align-items: center;
   }
+}
+
+.tabs {
+  margin-right: functions.calc-rem(22);
 }
