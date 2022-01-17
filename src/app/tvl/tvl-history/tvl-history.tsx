@@ -105,7 +105,7 @@ export const TvlHistory: FC = () => {
               { value: '' },
               { value: 'DAO Name' },
               { value: 'Platform TVL' },
-              { value: 'Last 7 days', position: 'right' },
+              { value: 'Last Month', position: 'right' },
             ]}
             type="line"
             dataRows={activityLeaderboardData}

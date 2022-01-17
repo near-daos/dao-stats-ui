@@ -127,7 +127,7 @@ export const FtsVl: FC = () => {
               { value: '' },
               { value: 'DAO Name' },
               { value: 'VL of Fts' },
-              { value: 'Last 7 days', position: 'right' },
+              { value: 'Last Month', position: 'right' },
             ]}
             type="line"
             dataRows={activityLeaderboardData}

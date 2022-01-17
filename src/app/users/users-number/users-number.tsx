@@ -152,7 +152,7 @@ export const UsersNumber: FC = () => {
               { value: '' },
               { value: 'DAO Name' },
               { value: 'Users' },
-              { value: 'Last 7 days', position: 'right' },
+              { value: 'Last Month', position: 'right' },
             ]}
             type="line"
             dataRows={usersLeaderboardData}

@@ -124,7 +124,7 @@ export const Nfts: FC = () => {
               { value: '' },
               { value: 'DAO Name' },
               { value: 'Number of NFTs' },
-              { value: 'Last 7 days', position: 'right' },
+              { value: 'Last Month', position: 'right' },
             ]}
             type="line"
             dataRows={activityLeaderboardData}

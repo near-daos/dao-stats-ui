@@ -145,7 +145,7 @@ export const OutgoingTransactions: FC = () => {
               { value: '' },
               { value: 'DAO Name' },
               { value: 'Outgoing Transactions' },
-              { value: 'Last 7 days', position: 'right' },
+              { value: 'Last Month', position: 'right' },
             ]}
             type="line"
             dataRows={trasactionsLeaderboardData}
