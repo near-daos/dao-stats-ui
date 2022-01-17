@@ -14,7 +14,7 @@ import {
   getGeneralDaoGroups,
 } from 'src/app/shared/general/slice';
 import { selectActionLoading } from 'src/store/loading';
-import { isSuccess, isPending, isFailed } from 'src/utils';
+import { isSuccess, isFailed } from 'src/utils';
 
 import styles from 'src/styles/page.module.scss';
 
@@ -29,7 +29,7 @@ export const Groups: FC = () => {
   );
 
   useMount(() => {
-    if (!groups && !isPending(getGeneralDaoGroupsLoading)) {
+    if (!groups) {
       dispatch(
         getGeneralDaoGroups({
           contract,

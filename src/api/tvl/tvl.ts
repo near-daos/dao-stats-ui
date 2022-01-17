@@ -72,6 +72,14 @@ export class TvlService extends HttpService {
       `${params.contract}/tvl/${params.dao}/bounties/vl?${query}`,
     );
   }
+
+  async getTvlDaoTvl(
+    params: DaoHistoryParams,
+  ): Promise<AxiosResponse<Metrics>> {
+    const query = queryString.stringify({ from: params.from, to: params.to });
+
+    return this.get(`${params.contract}/tvl/${params.dao}/tvl?${query}`);
+  }
 }
 
 export const tvlService = new TvlService();

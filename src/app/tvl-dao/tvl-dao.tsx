@@ -25,6 +25,7 @@ import styles from 'src/styles/page.module.scss';
 
 import { BountiesNumber } from './bounties-number';
 import { BountiesVl } from './bounties-vl';
+import { Tvl } from './tvl';
 
 export const TvlDao: FC = () => {
   const location = useLocation();
@@ -115,7 +116,18 @@ export const TvlDao: FC = () => {
               percentages={tvl?.grants?.vl?.growth}
             />
           </WidgetTile> */}
-          <WidgetTile className={styles.widget}>
+          <WidgetTile
+            active={Boolean(
+              matchPath(location.pathname, {
+                path: ROUTES.tvlDaoTvl,
+                exact: true,
+              }),
+            )}
+            onClick={() =>
+              history.push(generatePath(ROUTES.tvlDaoTvl, { contract, dao }))
+            }
+            className={styles.widget}
+          >
             <WidgetInfo
               isCurrency
               isRoundNumber
@@ -129,7 +141,8 @@ export const TvlDao: FC = () => {
         <div className={styles.mainContent}>
           <Switch>
             <Route exact path={ROUTES.tvlDao} component={BountiesNumber} />
-            <Route path={ROUTES.tvlDaoBountyVl} component={BountiesVl} />
+            <Route exact path={ROUTES.tvlDaoBountyVl} component={BountiesVl} />
+            <Route exact path={ROUTES.tvlDaoTvl} component={Tvl} />
           </Switch>
         </div>
       </Page>

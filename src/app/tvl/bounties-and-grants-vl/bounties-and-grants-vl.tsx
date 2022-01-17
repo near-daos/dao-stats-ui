@@ -13,7 +13,6 @@ import {
   getTvlBountiesAndGrantsVl,
   selectTvlBountiesAndGrantsVl,
   selectTvlBountiesAndGrantsVlLeaderboard,
-  getDao,
 } from 'src/app/shared';
 
 import styles from 'src/styles/page.module.scss';
@@ -78,15 +77,9 @@ export const BountiesAndGrantsVl: FC = () => {
 
   const goToSingleDao = useCallback(
     (row) => {
-      dispatch(getDao({ contract, dao: row.dao }))
-        .then(() => {
-          history.push(generatePath(ROUTES.tvlDao, { contract, dao: row.dao }));
-        })
-        .catch((err: unknown) => {
-          console.error(err);
-        });
+      history.push(generatePath(ROUTES.tvlDao, { contract, dao: row.dao }));
     },
-    [contract, history, dispatch],
+    [contract, history],
   );
 
   return (
