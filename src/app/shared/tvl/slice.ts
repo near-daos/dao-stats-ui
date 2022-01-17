@@ -199,7 +199,7 @@ export const tvlSlice = createSlice({
           },
         },
       ) => {
-        tvlDaoBountiesNumberAdapter.upsertOne(state.tvlDaoBountiesNumber, {
+        tvlDaoTvlAdapter.upsertOne(state.tvlDaoTvl, {
           id: dao,
           ...payload.data,
         });
