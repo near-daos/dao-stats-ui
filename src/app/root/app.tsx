@@ -185,6 +185,7 @@ export const App: FC = () => (
                       path={ROUTES.tvlDaoBountyVl}
                       component={TvlDao}
                     />
+                    <Route exact path={ROUTES.tvlDaoTvl} component={TvlDao} />
                     <Route exact path={ROUTES.tokens} component={Tokens} />
                     <Route exact path={ROUTES.tokensFtsVl} component={Tokens} />
                     <Route exact path={ROUTES.tokensNfts} component={Tokens} />

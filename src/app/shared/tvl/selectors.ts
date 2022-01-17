@@ -160,3 +160,22 @@ export const selectTvlDaoBountiesVlById = (id?: string) =>
           })
         : null,
   );
+
+const {
+  selectById: selectTvlDaoTvlItem,
+} = tvlDaoBountiesVlAdapter.getSelectors(
+  (state: RootState) => state[tvlSlice.name].tvlDaoTvl,
+);
+
+export const selectTvlDaoTvlById = (id?: string) =>
+  createSelector(
+    (state: RootState) => (id ? selectTvlDaoTvlItem(state, id) : null),
+    getCurrencyState,
+    (tvl, currency) =>
+      tvl
+        ? updateMetricsDataWithCurrency({
+            metrics: tvl?.metrics,
+            currency: currency?.currency?.near?.usd || 0,
+          })
+        : null,
+  );

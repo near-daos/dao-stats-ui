@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import React, { FC, useCallback, useEffect, useState } from 'react';
+import { generatePath, useHistory, useParams } from 'react-router';
 
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
@@ -16,6 +16,7 @@ import {
   selectTvlLeaderboard,
 } from 'src/app/shared';
 import { Params } from '../../../api';
+import { ROUTES } from '../../../constants';
 
 const tabOptions = [
   {
@@ -28,7 +29,7 @@ const tabOptions = [
 export const TvlHistory: FC = () => {
   const [period, setPeriod] = useState('All');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
-
+  const history = useHistory();
   const { contract } = useParams<Params>();
   const dispatch = useAppDispatch();
   const tvl = useAppSelector(selectTvlTvl);
@@ -72,6 +73,13 @@ export const TvlHistory: FC = () => {
   const tvlData = useFilterMetrics(period, tvl);
   const periods = usePeriods(tvl?.metrics);
 
+  const goToSingleDao = useCallback(
+    (row) => {
+      history.push(generatePath(ROUTES.tvlDaoTvl, { contract, dao: row.dao }));
+    },
+    [contract, history],
+  );
+
   return (
     <div className={styles.detailsContainer}>
       <LoadingContainer
@@ -101,6 +109,7 @@ export const TvlHistory: FC = () => {
         {activeTab === 'leaderboard' && activityLeaderboardData ? (
           <Leaderboard
             isCurrency
+            onRowClick={goToSingleDao}
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },

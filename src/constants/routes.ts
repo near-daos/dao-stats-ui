@@ -42,6 +42,7 @@ export const ROUTES = {
   tvlFtsVl: '/:contract/tvl/tvl-vl',
   tvlDao: '/:contract/tvl/:dao',
   tvlDaoBountyVl: '/:contract/tvl/:dao/bounties/vl',
+  tvlDaoTvl: '/:contract/tvl/:dao/tvl',
 
   tokens: '/:contract/tokens',
   tokensFtsVl: '/:contract/tokens/fts-vl',

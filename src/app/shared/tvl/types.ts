@@ -11,6 +11,7 @@ export type TvlState = {
   tvlDao: EntityState<TvlDaoEntity>;
   tvlDaoBountiesNumber: EntityState<MetricsEntity>;
   tvlDaoBountiesVl: EntityState<MetricsEntity>;
+  tvlDaoTvl: EntityState<MetricsEntity>;
   error?: null | string;
 };
 

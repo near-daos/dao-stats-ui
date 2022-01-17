@@ -2,8 +2,8 @@ import {
   createSlice,
   createAsyncThunk,
   isRejected,
-  isFulfilled,
   createEntityAdapter,
+  createAction,
 } from '@reduxjs/toolkit';
 import {
   tvlService,
@@ -19,6 +19,7 @@ import { TvlDaoEntity, TvlState } from './types';
 export const tvlDaoAdapter = createEntityAdapter<TvlDaoEntity>();
 export const tvlDaoBountiesNumberAdapter = createEntityAdapter<MetricsEntity>();
 export const tvlDaoBountiesVlAdapter = createEntityAdapter<MetricsEntity>();
+export const tvlDaoTvlAdapter = createEntityAdapter<MetricsEntity>();
 
 const initialState: TvlState = {
   tvl: null,
@@ -30,6 +31,7 @@ const initialState: TvlState = {
   tvlDao: tvlDaoAdapter.getInitialState(),
   tvlDaoBountiesNumber: tvlDaoBountiesNumberAdapter.getInitialState(),
   tvlDaoBountiesVl: tvlDaoBountiesVlAdapter.getInitialState(),
+  tvlDaoTvl: tvlDaoTvlAdapter.getInitialState(),
   error: null,
 };
 
@@ -80,6 +82,13 @@ export const getTvlDaoBountiesVl = createAsyncThunk(
   async (params: DaoHistoryParams) => tvlService.getTvlDaoBountiesVl(params),
 );
 
+export const getTvlDaoTvl = createAsyncThunk(
+  'governance/getTvlDaoTvl',
+  async (params: DaoHistoryParams) => tvlService.getTvlDaoTvl(params),
+);
+
+export const clearTvlError = createAction('tvl/clearTvlError');
+
 const isRejectedAction = isRejected(
   getTvl,
   getTvlHistory,
@@ -90,17 +99,7 @@ const isRejectedAction = isRejected(
   getTvlDao,
   getTvlDaoBountiesNumber,
   getTvlDaoBountiesVl,
-);
-const isFulfilledAction = isFulfilled(
-  getTvl,
-  getTvlHistory,
-  getTvlLeaderboard,
-  getTvlAvgTvl,
-  getTvlBountiesAndGrantsVl,
-  getTvlBountiesAndGrantsVlLeaderboard,
-  getTvlDao,
-  getTvlDaoBountiesNumber,
-  getTvlDaoBountiesVl,
+  getTvlDaoTvl,
 );
 
 export const tvlSlice = createSlice({
@@ -189,12 +188,30 @@ export const tvlSlice = createSlice({
       },
     );
 
-    builder.addMatcher(isRejectedAction, (state, { error }) => {
-      state.error = error.message;
+    builder.addCase(
+      getTvlDaoTvl.fulfilled,
+      (
+        state,
+        {
+          payload,
+          meta: {
+            arg: { dao },
+          },
+        },
+      ) => {
+        tvlDaoBountiesNumberAdapter.upsertOne(state.tvlDaoBountiesNumber, {
+          id: dao,
+          ...payload.data,
+        });
+      },
+    );
+
+    builder.addCase(clearTvlError, (state) => {
+      state.error = null;
     });
 
-    builder.addMatcher(isFulfilledAction, (state) => {
-      state.error = null;
+    builder.addMatcher(isRejectedAction, (state, { error }) => {
+      state.error = error.message;
     });
   },
 });

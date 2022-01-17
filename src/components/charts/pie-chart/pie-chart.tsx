@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useMemo } from 'react';
-import { PieChart, Pie, Cell, Legend } from 'recharts';
+import { PieChart, Pie, Cell, Legend, ResponsiveContainer } from 'recharts';
 
 import startCase from 'lodash/startCase';
 
@@ -16,8 +16,6 @@ type PieChartData = {
 interface PieChartProps {
   title?: string;
   data?: PieChartData | null;
-  width?: number;
-  height?: number;
 }
 
 const updatePercent = (percentages: number) =>
@@ -26,8 +24,6 @@ const updatePercent = (percentages: number) =>
 export const ChartPie: React.FC<PieChartProps> = ({
   title = 'Average council size',
   data,
-  width = 200,
-  height = 293,
 }) => {
   const chartData = useMemo(
     () =>
@@ -95,28 +91,28 @@ export const ChartPie: React.FC<PieChartProps> = ({
   };
 
   return (
-    <PieChart width={width} height={height}>
-      <Legend align="left" verticalAlign="top" content={renderCustomLegend} />
-      <Pie
-        isAnimationActive={false}
-        data={chartData}
-        cx="50%"
-        cy="50%"
-        labelLine={false}
-        label={renderLabel}
-        outerRadius={74.5}
-        dataKey="value"
-        innerRadius={26}
-        strokeWidth={0}
-      >
-        {chartData.map((entry: { value: number }, index: number) => (
-          <Cell
-            key={`cell-${entry.value}`}
-            fill={COLORS[index % COLORS.length]}
-          />
-        ))}
-      </Pie>
-    </PieChart>
+    <ResponsiveContainer debounce={1} height={293} width="100%">
+      <PieChart>
+        <Legend align="left" verticalAlign="top" content={renderCustomLegend} />
+        <Pie
+          isAnimationActive={false}
+          data={chartData}
+          labelLine={false}
+          label={renderLabel}
+          outerRadius={74.5}
+          dataKey="value"
+          innerRadius={26}
+          strokeWidth={0}
+        >
+          {chartData.map((entry: { value: number }, index: number) => (
+            <Cell
+              key={`cell-${entry.value}`}
+              fill={COLORS[index % COLORS.length]}
+            />
+          ))}
+        </Pie>
+      </PieChart>
+    </ResponsiveContainer>
   );
 };
 
