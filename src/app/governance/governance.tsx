@@ -88,6 +88,7 @@ export const Governance: FC = () => {
             <WidgetInfo
               title="Vote through rate"
               number={governance?.voteRate?.count}
+              isPercentage
               percentages={governance?.voteRate?.growth}
             />
           </WidgetTile>

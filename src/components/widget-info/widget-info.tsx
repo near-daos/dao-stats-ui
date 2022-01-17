@@ -14,6 +14,7 @@ type WidgetInfoProps = {
   isRoundNumber?: boolean;
   isCurrency?: boolean;
   isSecondary?: boolean;
+  isPercentage?: boolean;
 };
 
 export const WidgetInfo: FC<WidgetInfoProps> = ({
@@ -25,6 +26,7 @@ export const WidgetInfo: FC<WidgetInfoProps> = ({
   isRoundNumber,
   isCurrency,
   isSecondary,
+  isPercentage,
 }) => (
   <div className={clsx(styles.widgetInfo, className)}>
     <div className={styles.top}>
@@ -36,14 +38,17 @@ export const WidgetInfo: FC<WidgetInfoProps> = ({
           })}
         >
           <SvgIcon icon="stats" className={styles.icon} />
-          {percentages}%
+          {percentages * 100}%
         </div>
       ) : null}
     </div>
     {number ? (
       <div className={clsx(styles.number, { [styles.title]: isSecondary })}>
         {isCurrency ? '$' : ''}
-        {isRoundNumber ? numeral(number).format('0,0') : number}
+        {isRoundNumber
+          ? numeral(number * (isPercentage ? 100 : 1)).format('0,0')
+          : number * (isPercentage ? 100 : 1)}
+        {isPercentage ? '%' : ''}
         {icon ? <SvgIcon icon={icon} className={styles.icon} /> : null}
       </div>
     ) : null}
