@@ -129,7 +129,7 @@ export const Groups: FC = () => {
               { value: '' },
               { value: 'DAO Name' },
               { value: 'Groups' },
-              { value: 'Last 7 days', position: 'right' },
+              { value: 'Last Month', position: 'right' },
             ]}
             type="line"
             dataRows={groupsLeaderboardData}

@@ -115,7 +115,7 @@ export const OutgoingFunds: FC = () => {
               { value: '' },
               { value: 'DAO Name' },
               { value: 'Total out' },
-              { value: 'Last 7 days', position: 'right' },
+              { value: 'Last Month', position: 'right' },
             ]}
             type="line"
             dataRows={fundsLeaderboardData}

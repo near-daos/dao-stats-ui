@@ -127,7 +127,7 @@ export const BountiesAndGrantsVl: FC = () => {
               { value: '' },
               { value: 'DAO Name' },
               { value: 'VL in Bounties/Grants' },
-              { value: 'Last 7 days', position: 'right' },
+              { value: 'Last Month', position: 'right' },
             ]}
             type="line"
             dataRows={activityLeaderboardData}

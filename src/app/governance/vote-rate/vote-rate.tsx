@@ -134,7 +134,7 @@ export const VoteRate: FC = () => {
               { value: 'DAO Name' },
               { value: '# of Proposals' },
               { value: 'Vote through rate' },
-              { value: 'Last 7 days', position: 'right' },
+              { value: 'Last Month', position: 'right' },
             ]}
             type="voteRate"
             dataRows={governanceVoteRateLeaderboardData}
