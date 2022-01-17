@@ -23,7 +23,7 @@
   transition: border-color 350ms;
 
   &:hover {
-    border: functions.calc-rem(2) solid var(--color-grey-700);
+    border: functions.calc-rem(2) solid var(--color-blue-500);
     @include media.desktop {
       border: functions.calc-rem(2) solid var(--color-chart-yellow);
     }
