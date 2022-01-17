@@ -2,28 +2,38 @@ import React, { FC, useEffect } from 'react';
 import startCase from 'lodash/startCase';
 import { generatePath, useHistory } from 'react-router';
 
-import { Button } from '../../components';
-import { useAppSelector } from '../../store';
-import { selectSelectedContract } from '../shared';
-import { useRoutes } from '../../hooks';
-import { infinity } from '../../icons';
+import { Button } from 'src/components';
+import { useAppSelector } from 'src/store';
+import { useRoutes } from 'src/hooks';
+import { infinity } from 'src/icons';
+import { ROUTES } from 'src/constants';
+import { selectCurrentDao, selectSelectedContract } from 'src/app/shared';
 
 import styles from './main-page.module.scss';
-import { ROUTES } from '../../constants';
 
 export const MainPage: FC = () => {
   const selectedContract = useAppSelector(selectSelectedContract);
+  const dao = useAppSelector(selectCurrentDao);
   const routes = useRoutes();
   const history = useHistory();
 
   useEffect(() => {
     const handleScroll = (event: WheelEvent) => {
       if (event.deltaY > 0) {
-        history.push(
-          generatePath(ROUTES.generalInfo, {
-            contract: selectedContract?.contractId,
-          }),
-        );
+        if (dao) {
+          history.push(
+            generatePath(ROUTES.generalInfoDao, {
+              contract: selectedContract?.contractId,
+              dao: dao.dao,
+            }),
+          );
+        } else {
+          history.push(
+            generatePath(ROUTES.generalInfo, {
+              contract: selectedContract?.contractId,
+            }),
+          );
+        }
       }
     };
 
@@ -32,7 +42,7 @@ export const MainPage: FC = () => {
     return () => {
       window.removeEventListener('wheel', handleScroll);
     };
-  }, [history, routes, selectedContract?.contractId]);
+  }, [dao, history, routes, selectedContract?.contractId]);
 
   return (
     <div className={styles.mainPage}>
