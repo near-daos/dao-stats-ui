@@ -1,5 +1,6 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useParams } from 'react-router';
+import { useMount } from 'react-use';
 
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
@@ -20,16 +21,18 @@ export const OutgoingFunds: FC = () => {
     selectActionLoading(getFlowDaoFunds.typePrefix),
   );
 
-  useEffect(() => {
-    dispatch(
-      getFlowDaoFunds({
-        contract,
-        dao,
-      }),
-    ).catch((error: unknown) => {
-      console.error(error);
-    });
-  }, [contract, dao, dispatch]);
+  useMount(() => {
+    if (!funds) {
+      dispatch(
+        getFlowDaoFunds({
+          contract,
+          dao,
+        }),
+      ).catch((error: unknown) => {
+        console.error(error);
+      });
+    }
+  });
 
   const fundsData = useFilterMetrics(period, funds);
   const periods = usePeriods(funds?.metrics);
@@ -43,10 +46,8 @@ export const OutgoingFunds: FC = () => {
       />
 
       <div className={styles.metricsContainer}>
-        {fundsData?.metrics?.length === 0
-          ? 'It doesn`t have enough data to show chart'
-          : null}
-        {fundsData ? (
+        {fundsData?.metrics?.length === 0 ? 'Not enough data' : null}
+        {fundsData && fundsData?.metrics?.length ? (
           <ChartLine
             isCurrency
             data={fundsData}

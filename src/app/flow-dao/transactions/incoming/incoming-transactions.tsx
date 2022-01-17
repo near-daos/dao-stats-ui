@@ -1,5 +1,6 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useParams } from 'react-router';
+import { useMount } from 'react-use';
 
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
@@ -7,7 +8,7 @@ import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectFlowDaoTransactionsById } from 'src/app/shared/flow/selectors';
 import { getFlowDaoTransactions } from 'src/app/shared/flow/slice';
 import { selectActionLoading } from 'src/store/loading';
-import { isSuccess, isPending } from 'src/utils';
+import { isFailed, isSuccess } from 'src/utils';
 
 import styles from 'src/styles/page.module.scss';
 
@@ -15,13 +16,13 @@ export const IncomingTransactions: FC = () => {
   const [period, setPeriod] = useState('All');
   const { contract, dao } = useParams<{ dao: string; contract: string }>();
   const dispatch = useAppDispatch();
-  const transaction = useAppSelector(selectFlowDaoTransactionsById(dao));
+  const transactions = useAppSelector(selectFlowDaoTransactionsById(dao));
   const getFlowDaoTransactionLoading = useAppSelector(
     selectActionLoading(getFlowDaoTransactions.typePrefix),
   );
 
-  useEffect(() => {
-    if (!transaction && !isPending(getFlowDaoTransactionLoading)) {
+  useMount(() => {
+    if (!transactions) {
       dispatch(
         getFlowDaoTransactions({
           contract,
@@ -31,22 +32,25 @@ export const IncomingTransactions: FC = () => {
         console.error(error);
       });
     }
-  }, [contract, dao, dispatch, getFlowDaoTransactionLoading, transaction]);
+  });
 
-  const transactionData = useFilterMetrics(period, transaction);
-  const periods = usePeriods(transaction?.metrics);
+  const transactionsData = useFilterMetrics(period, transactions);
+  const periods = usePeriods(transactions?.metrics);
 
   return (
     <>
-      <LoadingContainer hide={isSuccess(getFlowDaoTransactionLoading)} />
+      <LoadingContainer
+        hide={
+          isSuccess(getFlowDaoTransactionLoading) ||
+          isFailed(getFlowDaoTransactionLoading)
+        }
+      />
 
       <div className={styles.metricsContainer}>
-        {transactionData?.metrics?.length === 0
-          ? 'It doesn`t have enough data to show chart'
-          : null}
-        {transactionData ? (
+        {transactionsData?.metrics?.length === 0 ? 'Not enough data' : null}
+        {transactionsData && transactionsData?.metrics?.length ? (
           <ChartLine
-            data={transactionData}
+            data={transactionsData}
             period={period}
             setPeriod={setPeriod}
             periods={periods}

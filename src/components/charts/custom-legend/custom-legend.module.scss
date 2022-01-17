@@ -41,10 +41,10 @@
 
   transition: filter 0.2s ease-out, background-color 0.2s ease-out;
 
-  cursor: pointer;
-
-  &:hover {
+  &:hover:not(.withoutHover) {
     background-color: var(--color-grey-600);
+
+    cursor: pointer;
   }
 }
 

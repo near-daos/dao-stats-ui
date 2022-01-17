@@ -37,7 +37,10 @@
 }
 
 .breadcrumbs {
-  margin: functions.calc-rem(16) 0 functions.calc-rem(10);
+  margin: 0 0 functions.calc-rem(10);
+  @include media.desktop {
+    margin: functions.calc-rem(16) 0 functions.calc-rem(10);
+  }
 }
 
 .mainContent {

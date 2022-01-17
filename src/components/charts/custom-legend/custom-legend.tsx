@@ -46,6 +46,7 @@ export const CustomLegend: React.FC<CustomLegendProps> = ({
           <button
             className={clsx(styles.legendListBar, {
               [styles.disabled]: !activeLines.has(line.dataKey),
+              [styles.withoutHover]: activeLines.size === 1,
             })}
             key={`item-${line.dataKey}`}
             onClick={() => handleClick(line.dataKey)}

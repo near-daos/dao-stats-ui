@@ -16,12 +16,14 @@
   min-height: calc(100vh - 124px);
   max-width: functions.calc-rem(1216);
 
-  padding: functions.calc-rem(48) 0 0;
+  padding: 0;
   margin: 0 auto;
 
   display: flex;
   @include media.desktop {
     min-height: calc(100vh - 156px);
+
+    padding: functions.calc-rem(48) 0 0;
   }
 }
 
