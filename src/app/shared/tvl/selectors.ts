@@ -10,6 +10,7 @@ import {
   tvlDaoBountiesVlAdapter,
   tvlDaoBountiesNumberAdapter,
   tvlDaoAdapter,
+  tvlDaoTvlAdapter,
 } from './slice';
 
 const getState = (state: RootState) => state[tvlSlice.name];
@@ -161,9 +162,7 @@ export const selectTvlDaoBountiesVlById = (id?: string) =>
         : null,
   );
 
-const {
-  selectById: selectTvlDaoTvlItem,
-} = tvlDaoBountiesVlAdapter.getSelectors(
+const { selectById: selectTvlDaoTvlItem } = tvlDaoTvlAdapter.getSelectors(
   (state: RootState) => state[tvlSlice.name].tvlDaoTvl,
 );
 
