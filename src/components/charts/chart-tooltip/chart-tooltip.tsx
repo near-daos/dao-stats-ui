@@ -14,6 +14,7 @@ export interface ChartTooltipProps extends TooltipProps<number, string> {
   showArrow?: boolean;
   lines?: LineItem[];
   isCurrency?: boolean;
+  roundPattern?: string;
 }
 
 export const ChartTooltip: React.FC<ChartTooltipProps> = ({
@@ -26,6 +27,7 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
   showArrow,
   lines,
   isCurrency,
+  roundPattern = '0,0',
 }) => {
   const [arrowPosition, setArrowPosition] = useState('');
   const rootRef = useRef<HTMLDivElement>(null);
@@ -69,7 +71,8 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
             {lines ? lines[elementIndex].name : element.name}:
           </span>
           <span className={styles.value}>
-            {isCurrency ? '$' : ''} {numeral(element.value).format('0,0')}
+            {isCurrency ? '$' : ''}{' '}
+            {numeral(element.value).format(roundPattern)}
           </span>
         </div>
       ))}

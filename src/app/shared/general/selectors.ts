@@ -1,5 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from 'src/store/root-reducer';
+import numeral from 'numeral';
 
 import {
   generalDaoActivityAdapter,
@@ -17,7 +18,21 @@ export const selectGeneralError = createSelector(
 
 export const selectGeneral = createSelector(
   (state: RootState) => getState(state).general,
-  (data) => data,
+  (general) => {
+    if (!general) {
+      return null;
+    }
+
+    return {
+      ...general,
+      averageGroups: {
+        ...general?.averageGroups,
+        count: Number(
+          numeral(general?.averageGroups?.count || 0).format('0,0.00'),
+        ),
+      },
+    };
+  },
 );
 
 export const selectGeneralDaos = createSelector(

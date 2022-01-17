@@ -6,13 +6,14 @@ import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectGeneralAverageGroups } from 'src/app/shared/general/selectors';
 import { getGeneralAverageGroups } from 'src/app/shared/general/slice';
 import { selectActionLoading } from 'src/store/loading';
-import { isSuccess, isPending, isNotAsked } from 'src/utils';
+import { isSuccess, isPending, isNotAsked, isFailed } from 'src/utils';
+import { Params } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
 export const AverageGroups: FC = () => {
   const [period, setPeriod] = useState('All');
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<Params>();
   const dispatch = useAppDispatch();
   const averageGroups = useAppSelector(selectGeneralAverageGroups);
   const generalAverageGroupsLoading = useAppSelector(
@@ -39,10 +40,16 @@ export const AverageGroups: FC = () => {
 
   return (
     <>
-      <LoadingContainer hide={isSuccess(generalAverageGroupsLoading)} />
+      <LoadingContainer
+        hide={
+          isSuccess(generalAverageGroupsLoading) ||
+          isFailed(generalAverageGroupsLoading)
+        }
+      />
       <div className={styles.metricsContainer}>
         {averageGroupsData ? (
           <ChartLine
+            roundPattern="0,0.00"
             periods={periods}
             data={averageGroupsData}
             period={period}

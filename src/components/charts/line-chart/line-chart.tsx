@@ -31,6 +31,7 @@ type LineChartProps = {
   periods: Period[];
   setPeriod: (period: string) => void;
   isCurrency?: boolean;
+  roundPattern?: string;
 };
 
 export const ChartLine: React.FC<LineChartProps> = ({
@@ -41,6 +42,7 @@ export const ChartLine: React.FC<LineChartProps> = ({
   periods,
   setPeriod,
   isCurrency,
+  roundPattern,
 }) => {
   const [filterLines, setFilterLines] = useState(lines);
 
@@ -132,7 +134,13 @@ export const ChartLine: React.FC<LineChartProps> = ({
           />
         ))}
         <Tooltip
-          content={<ChartTooltip lines={lines} isCurrency={isCurrency} />}
+          content={
+            <ChartTooltip
+              lines={lines}
+              isCurrency={isCurrency}
+              roundPattern={roundPattern}
+            />
+          }
           cursor={{
             stroke: '#686767',
             strokeWidth: '0.5',
