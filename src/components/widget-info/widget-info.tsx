@@ -45,9 +45,7 @@ export const WidgetInfo: FC<WidgetInfoProps> = ({
     {number ? (
       <div className={clsx(styles.number, { [styles.title]: isSecondary })}>
         {isCurrency ? '$' : ''}
-        {isRoundNumber
-          ? numeral(number * (isPercentage ? 100 : 1)).format('0,0')
-          : number * (isPercentage ? 100 : 1)}
+        {isRoundNumber ? numeral(number).format('0,0') : number}
         {isPercentage ? '%' : ''}
         {icon ? <SvgIcon icon={icon} className={styles.icon} /> : null}
       </div>

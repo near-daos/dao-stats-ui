@@ -18,7 +18,15 @@ export const selectGovernanceError = createSelector(
 
 export const selectGovernance = createSelector(
   (state: RootState) => getState(state).governance,
-  (data) => data,
+  (data) =>
+    data
+      ? {
+          ...data,
+          voteRate: data?.voteRate
+            ? { ...data.voteRate, count: data.voteRate?.count * 100 }
+            : undefined,
+        }
+      : undefined,
 );
 
 export const selectGovernanceProposals = createSelector(
@@ -43,12 +51,33 @@ export const selectGovernanceProposalsTypesLeaderboard = createSelector(
 
 export const selectGovernanceVoteRate = createSelector(
   (state: RootState) => getState(state).governanceVoteRate,
-  (data) => data,
+  (data) =>
+    data
+      ? {
+          metrics: data?.metrics?.map((metric) => ({
+            ...metric,
+            count: metric.count * 100,
+          })),
+        }
+      : undefined,
 );
 
 export const selectGovernanceVoteRateLeaderboard = createSelector(
   (state: RootState) => getState(state).governanceVoteRateLeaderboard,
-  (data) => data,
+  (data) => ({
+    metrics: data?.metrics?.map((metric) => ({
+      ...metric,
+      voteRate: metric?.voteRate
+        ? { ...metric.voteRate, count: metric.voteRate.count * 100 }
+        : undefined,
+      overview: metric?.overview
+        ? metric.overview.map((item) => ({
+            ...item,
+            count: item.count * 100,
+          }))
+        : undefined,
+    })),
+  }),
 );
 
 const {
@@ -59,7 +88,25 @@ const {
 
 export const selectGovernanceDaoById = (id: string | undefined) => (
   state: RootState,
-) => (id ? selectGovernanceDaoItem(state, id) : null);
+) => {
+  if (!id) {
+    return null;
+  }
+
+  const governanceDao = selectGovernanceDaoItem(state, id);
+
+  if (!governanceDao) {
+    return governanceDao;
+  }
+
+  return {
+    ...governanceDao,
+    voteRate: {
+      ...governanceDao?.voteRate,
+      count: governanceDao?.voteRate?.count * 100,
+    },
+  };
+};
 
 const {
   selectById: selectGovernanceDaoProposalsItem,
@@ -90,4 +137,21 @@ const {
 
 export const selectGovernanceDaoVoteRateById = (id: string | undefined) => (
   state: RootState,
-) => (id ? selectGovernanceDaoVoteRateItem(state, id) : null);
+) => {
+  if (!id) {
+    return null;
+  }
+
+  const governanceDaoVoteRate = selectGovernanceDaoVoteRateItem(state, id);
+
+  if (!governanceDaoVoteRate) {
+    return governanceDaoVoteRate;
+  }
+
+  return {
+    metrics: governanceDaoVoteRate?.metrics.map((metric) => ({
+      ...metric,
+      count: metric.count * 100,
+    })),
+  };
+};
