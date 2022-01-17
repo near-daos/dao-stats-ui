@@ -49,7 +49,7 @@ export const VoteRate: FC = () => {
             setPeriod={setPeriod}
             lines={[
               {
-                name: 'Vote through rate',
+                name: 'Vote through rate, %',
                 color: '#E33F84',
                 dataKey: 'count',
               },

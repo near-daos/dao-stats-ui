@@ -49,6 +49,7 @@ interface LeaderboardProps extends HTMLProps<HTMLTableElement> {
   type: 'line' | 'doubleLine' | 'stacked' | 'voteRate';
   onRowClick?: (row: LeaderboardDataItem) => void;
   isCurrency?: boolean;
+  isPercentage?: boolean;
 }
 
 export const Leaderboard: FC<LeaderboardProps> = ({
@@ -128,6 +129,7 @@ export const Leaderboard: FC<LeaderboardProps> = ({
                     count={row?.voteRate?.voteRate?.count || 0}
                     growth={row?.voteRate?.voteRate?.growth || 0}
                     isCurrency={isCurrency}
+                    isPercentage
                   />
                 </td>
                 <td className={styles.cell}>

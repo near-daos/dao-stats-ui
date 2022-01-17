@@ -9,12 +9,19 @@ import styles from './amount.module.scss';
 
 export type AmountProps = TotalMetrics & {
   isCurrency?: boolean;
+  isPercentage?: boolean;
 };
 
-export const Amount: FC<AmountProps> = ({ count, growth, isCurrency }) => (
+export const Amount: FC<AmountProps> = ({
+  count,
+  growth,
+  isCurrency,
+  isPercentage,
+}) => (
   <div className={styles.amount}>
     <div className={styles.label}>
       {isCurrency ? '$' : ''} {numeral(count).format('0,0')}
+      {isPercentage ? '%' : ''}
     </div>
     {growth ? (
       <div
@@ -23,7 +30,7 @@ export const Amount: FC<AmountProps> = ({ count, growth, isCurrency }) => (
         })}
       >
         <SvgIcon icon="stats" className={styles.icon} />
-        {growth}%
+        {growth * 100}%
       </div>
     ) : null}
   </div>
