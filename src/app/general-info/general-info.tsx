@@ -125,7 +125,6 @@ export const GeneralInfo: FC = () => {
             )}
           >
             <WidgetInfo
-              isRoundNumber
               title="Avg. Groups/DAO"
               number={general?.averageGroups?.count}
               percentages={general?.averageGroups?.growth}
