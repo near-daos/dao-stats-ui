@@ -22,7 +22,6 @@ import { getTvl, selectTvl } from 'src/app/shared';
 import styles from 'src/styles/page.module.scss';
 
 import { TvlHistory } from './tvl-history';
-import { Avg } from './avg';
 import { BountiesAndGrantsVl } from './bounties-and-grants-vl';
 
 export const Tvl: FC = () => {
@@ -83,25 +82,6 @@ export const Tvl: FC = () => {
             className={styles.widget}
             active={Boolean(
               matchPath(location.pathname, {
-                path: ROUTES.tvlAvgTvl,
-                exact: true,
-              }),
-            )}
-            onClick={() => history.push(routes.tvlAvgTvl)}
-          >
-            <WidgetInfo
-              isCurrency
-              isRoundNumber
-              title="Avg. TVL per DAO"
-              number={tvl?.avgTvl?.count}
-              percentages={tvl?.avgTvl?.growth}
-            />
-          </WidgetTile>
-
-          <WidgetTile
-            className={styles.widget}
-            active={Boolean(
-              matchPath(location.pathname, {
                 path: ROUTES.tvlBountiesAndGrantsVl,
                 exact: true,
               }),
@@ -130,7 +110,6 @@ export const Tvl: FC = () => {
         <div className={styles.mainContent}>
           <Switch>
             <Route exact path={ROUTES.tvl} component={TvlHistory} />
-            <Route path={ROUTES.tvlAvgTvl} component={Avg} />
             <Route
               path={ROUTES.tvlBountiesAndGrantsVl}
               component={BountiesAndGrantsVl}

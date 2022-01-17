@@ -37,7 +37,6 @@ export const ROUTES = {
   flowDaoOutgoingTransactions: '/:contract/flow/:dao/outgoing-transactions',
 
   tvl: '/:contract/tvl',
-  tvlAvgTvl: '/:contract/tvl/avg-tvl',
   tvlBountiesAndGrantsVl: '/:contract/tvl/bounties-and-grants-vl',
   tvlFtsVl: '/:contract/tvl/tvl-vl',
   tvlDao: '/:contract/tvl/:dao',

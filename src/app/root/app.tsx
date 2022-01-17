@@ -173,7 +173,6 @@ export const App: FC = () => (
                     />
 
                     <Route exact path={ROUTES.tvl} component={Tvl} />
-                    <Route exact path={ROUTES.tvlAvgTvl} component={Tvl} />
                     <Route
                       exact
                       path={ROUTES.tvlBountiesAndGrantsVl}
