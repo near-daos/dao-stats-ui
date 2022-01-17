@@ -1,4 +1,5 @@
 @use 'src/styles/functions';
+@use 'src/styles/media';
 @import 'src/styles/typography';
 @import 'src/styles/helpers';
 
@@ -22,7 +23,10 @@
   transition: border-color 350ms;
 
   &:hover {
-    border: functions.calc-rem(2) solid var(--color-chart-yellow);
+    border: functions.calc-rem(2) solid var(--color-grey-700);
+    @include media.desktop {
+      border: functions.calc-rem(2) solid var(--color-chart-yellow);
+    }
   }
 }
 
