@@ -8,12 +8,12 @@ import { selectGeneralDaos } from 'src/app/shared/general/selectors';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isNotAsked, isPending } from 'src/utils';
-
+import { UrlParams } from 'src/constants';
 import styles from 'src/styles/page.module.scss';
 
 export const NumbersDao: FC = () => {
   const [period, setPeriod] = useState('All');
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const daos = useAppSelector(selectGeneralDaos);
   const getGeneralDaosLoading = useAppSelector(

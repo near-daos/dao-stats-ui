@@ -14,9 +14,9 @@ import {
   getGovernanceVoteRate,
   getGovernanceVoteRateLeaderboard,
 } from 'src/app/shared/governance/slice';
+import { ROUTES, UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
-import { ROUTES } from '../../../constants';
 
 const tabOptions = [
   {
@@ -30,7 +30,7 @@ export const VoteRate: FC = () => {
   const [period, setPeriod] = useState('All');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const history = useHistory();
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const governanceVoteRateLeaderboard = useAppSelector(
     selectGovernanceVoteRateLeaderboard,

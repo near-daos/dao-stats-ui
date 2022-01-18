@@ -15,13 +15,13 @@ import {
   selectorUsersError,
   selectUsersAverageUsers,
 } from 'src/app/shared/users/selectors';
-import { Params } from 'src/constants';
+import { UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
 export const AverageUsers: FC = () => {
   const dispatch = useAppDispatch();
-  const { contract } = useParams<Params>();
+  const { contract } = useParams<UrlParams>();
   const [period, setPeriod] = useState('All');
   const error = useAppSelector(selectorUsersError);
   const users = useAppSelector(selectUsersAverageUsers);

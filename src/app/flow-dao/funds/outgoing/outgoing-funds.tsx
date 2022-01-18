@@ -9,12 +9,13 @@ import { selectFlowDaoFundsById } from 'src/app/shared/flow/selectors';
 import { getFlowDaoFunds } from 'src/app/shared/flow/slice';
 import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isFailed } from 'src/utils';
+import { UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
 export const OutgoingFunds: FC = () => {
   const [period, setPeriod] = useState('All');
-  const { contract, dao } = useParams<{ dao: string; contract: string }>();
+  const { contract, dao } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const funds = useAppSelector(selectFlowDaoFundsById(dao));
   const getFlowDaoFundsLoading = useAppSelector(

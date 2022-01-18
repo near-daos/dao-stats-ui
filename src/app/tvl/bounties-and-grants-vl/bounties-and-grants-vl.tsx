@@ -6,8 +6,7 @@ import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { useFilterMetrics, usePrepareLeaderboard, usePeriods } from 'src/hooks';
 import { isPending, isSuccess, isNotAsked } from 'src/utils';
-import { ROUTES } from 'src/constants';
-import { Params } from 'src/api';
+import { ROUTES, UrlParams } from 'src/constants';
 import {
   getTvlBountiesAndGrantsVlLeaderboard,
   getTvlBountiesAndGrantsVl,
@@ -30,7 +29,7 @@ export const BountiesAndGrantsVl: FC = () => {
   const [period, setPeriod] = useState('All');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
 
-  const { contract } = useParams<Params>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const tvl = useAppSelector(selectTvlBountiesAndGrantsVl);
   const tvlLeaderboard = useAppSelector(

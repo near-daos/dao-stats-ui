@@ -13,9 +13,9 @@ import {
   getGovernanceProposals,
   getGovernanceProposalsLeaderboard,
 } from 'src/app/shared/governance/slice';
+import { UrlParams, ROUTES } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
-import { ROUTES } from '../../../constants';
 
 const tabOptions = [
   {
@@ -29,7 +29,7 @@ export const NumberOfProposals: FC = () => {
   const [period, setPeriod] = useState('All');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const history = useHistory();
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const governanceProposalsLeaderboard = useAppSelector(
     selectGovernanceProposalsLeaderboard,

@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import { useMount, useUnmount } from 'react-use';
 
 import { ChartLine, LoadingContainer } from 'src/components';
+import { UrlParams } from 'src/constants';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
@@ -20,7 +21,7 @@ import styles from 'src/styles/page.module.scss';
 
 export const Members: FC = () => {
   const [period, setPeriod] = useState('All');
-  const { contract, dao } = useParams<{ dao: string; contract: string }>();
+  const { contract, dao } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
 
   const error = useAppSelector(selectorUsersError);

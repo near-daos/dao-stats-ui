@@ -7,7 +7,7 @@ import {
   useLocation,
   useParams,
 } from 'react-router';
-import { ROUTES } from 'src/constants';
+import { UrlParams, ROUTES } from 'src/constants';
 import { useRoutes } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import {
@@ -31,7 +31,7 @@ export const Governance: FC = () => {
   const location = useLocation();
   const history = useHistory();
   const routes = useRoutes();
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const governance = useAppSelector(selectGovernance);
 

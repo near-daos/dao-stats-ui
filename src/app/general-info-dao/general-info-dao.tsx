@@ -21,7 +21,7 @@ import {
 } from 'src/components';
 import { useRoutes } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { ROUTES } from 'src/constants';
+import { ROUTES, UrlParams } from 'src/constants';
 import styles from 'src/styles/page.module.scss';
 
 import { Groups } from './groups';
@@ -30,7 +30,7 @@ import { Activity } from './activity';
 export const GeneralInfoDao: FC = () => {
   const location = useLocation();
   const history = useHistory();
-  const { contract, dao } = useParams<{ dao: string; contract: string }>();
+  const { contract, dao } = useParams<UrlParams>();
   const routes = useRoutes();
 
   const dispatch = useAppDispatch();

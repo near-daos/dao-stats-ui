@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import {
   Route,
   Switch,
@@ -7,19 +7,19 @@ import {
   useParams,
   matchPath,
 } from 'react-router';
+import { useMount } from 'react-use';
 import { useRoutes } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { ROUTES } from 'src/constants';
-import styles from 'src/styles/page.module.scss';
+import { ROUTES, UrlParams } from 'src/constants';
 import { getFlow, selectFlow } from 'src/app/shared/flow';
-
 import {
   Page,
   WidgetTile,
   WidgetInfo,
   Widgets,
   Breadcrumbs,
-} from '../../components';
+} from 'src/components';
+import styles from 'src/styles/page.module.scss';
 
 import { IncomingFunds } from './funds/incoming';
 import { IncomingTransactions } from './transactions/incoming';
@@ -30,17 +30,17 @@ export const Flow: FC = () => {
   const location = useLocation();
   const history = useHistory();
   const routes = useRoutes();
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const flow = useAppSelector(selectFlow);
 
-  useEffect(() => {
+  useMount(() => {
     if (!flow) {
       dispatch(getFlow({ contract })).catch((error: unknown) => {
         console.error(error);
       });
     }
-  }, [contract, dispatch, flow]);
+  });
 
   const breadcrumbs = useMemo(
     () => [

@@ -15,8 +15,7 @@ import {
   selectTvlTvl,
   selectTvlLeaderboard,
 } from 'src/app/shared';
-import { Params } from '../../../api';
-import { ROUTES } from '../../../constants';
+import { ROUTES, UrlParams } from 'src/constants';
 
 const tabOptions = [
   {
@@ -30,7 +29,7 @@ export const TvlHistory: FC = () => {
   const [period, setPeriod] = useState('All');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const history = useHistory();
-  const { contract } = useParams<Params>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const tvl = useAppSelector(selectTvlTvl);
   const tvlLeaderboard = useAppSelector(selectTvlLeaderboard);

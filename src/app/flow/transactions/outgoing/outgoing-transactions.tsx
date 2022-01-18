@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState, useCallback } from 'react';
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useParams, generatePath, useHistory } from 'react-router';
 import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
-import { ROUTES } from 'src/constants';
+import { ROUTES, UrlParams } from 'src/constants';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isPending, isNotAsked } from 'src/utils';
@@ -28,7 +28,7 @@ export const OutgoingTransactions: FC = () => {
   const [period, setPeriod] = useState('All');
   const history = useHistory();
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
 
   const transactions = useAppSelector(selectFlowTransactionsHistory);

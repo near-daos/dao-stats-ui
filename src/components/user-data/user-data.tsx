@@ -11,14 +11,14 @@ import {
   getCurrency,
   getDao,
 } from 'src/app/shared';
-import { CURRENCY_KEY, Params } from '../../constants';
+import { CURRENCY_KEY, UrlParams } from '../../constants';
 
 type UserDataProps = {
   children: (loadingContracts: string) => ReactElement;
 };
 
 export const UserData = ({ children }: UserDataProps): ReactElement => {
-  const { dao, contract } = useParams<Params>();
+  const { dao, contract } = useParams<UrlParams>();
   const loadingContracts = useAppSelector(selectContractsLoadingState);
   const dispatch = useAppDispatch();
   const [, setValue] = useLocalStorage(CURRENCY_KEY);

@@ -17,10 +17,10 @@ import {
   selectUsersMembers,
   selectUsersMembersLeaderboard,
 } from 'src/app/shared/users/selectors';
+import { ROUTES, UrlParams } from 'src/constants';
+import { getDao } from 'src/app/shared';
 
 import styles from 'src/styles/page.module.scss';
-import { ROUTES } from '../../../constants';
-import { getDao } from '../../shared';
 
 const tabOptions = [
   {
@@ -34,7 +34,7 @@ export const Members: FC = () => {
   const [period, setPeriod] = useState('All');
   const history = useHistory();
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const error = useAppSelector(selectorUsersError);
   const users = useAppSelector(selectUsersMembers);

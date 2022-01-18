@@ -64,4 +64,4 @@ export const SIDEBAR_FORBIDDEN_ROUTES = [
 
 export type Routes = typeof ROUTES;
 
-export type Params = { dao: string; contract: string };
+export type UrlParams = { dao: string; contract: string };

@@ -19,7 +19,7 @@ import {
   Widgets,
   Breadcrumbs,
 } from 'src/components';
-import { ROUTES } from 'src/constants';
+import { ROUTES, UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
@@ -33,7 +33,7 @@ export const Users: FC = () => {
   const location = useLocation();
   const history = useHistory();
   const routes = useRoutes();
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const users = useAppSelector(selectorUsers);
 

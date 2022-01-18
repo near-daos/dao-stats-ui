@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
 import { isPending, isSuccess } from 'src/utils';
-import { Params } from 'src/constants';
+import { UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
@@ -15,7 +15,7 @@ import { getTokensDaoFtsVl } from 'src/app/shared/tokens/slice';
 
 export const FtsVl: FC = () => {
   const [period, setPeriod] = useState('All');
-  const { contract, dao } = useParams<Params>();
+  const { contract, dao } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
 
   const tokens = useAppSelector(selectTokensFtsVlDaoById(dao));

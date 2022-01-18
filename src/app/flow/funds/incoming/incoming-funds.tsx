@@ -1,17 +1,22 @@
-import React, { FC, useEffect, useCallback, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useParams, useHistory, generatePath } from 'react-router';
 import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
-import { Params, ROUTES } from 'src/constants';
+import { UrlParams, ROUTES } from 'src/constants';
 import styles from 'src/styles/page.module.scss';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
-import { isSuccess, isPending, isNotAsked } from 'src/utils';
-import { getFlowHistory, getFlowLeaderboard } from 'src/app/shared/flow/slice';
+import { isSuccess, isNotAsked } from 'src/utils';
+import {
+  clearFlowError,
+  getFlowHistory,
+  getFlowLeaderboard,
+} from 'src/app/shared/flow/slice';
 import {
   selectFlowHistory,
   selectFlowLeaderboard,
 } from 'src/app/shared/flow/selectors';
+import { useMount, useUnmount } from 'react-use';
 
 const tabOptions = [
   {
@@ -25,9 +30,8 @@ export const IncomingFunds: FC = () => {
   const [period, setPeriod] = useState('All');
   const history = useHistory();
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
-  const { contract } = useParams<Params>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
-
   const funds = useAppSelector(selectFlowHistory);
   const fundsLeaderboard = useAppSelector(selectFlowLeaderboard);
   const getFundsLoading = useAppSelector(
@@ -41,8 +45,8 @@ export const IncomingFunds: FC = () => {
     setActiveTab(value);
   };
 
-  useEffect(() => {
-    if (isNotAsked(getFundsLoading) && !isPending(getFundsLoading)) {
+  useMount(() => {
+    if (isNotAsked(getFundsLoading)) {
       dispatch(
         getFlowHistory({
           contract,
@@ -50,17 +54,18 @@ export const IncomingFunds: FC = () => {
       ).catch((error: unknown) => console.error(error));
     }
 
-    if (
-      isNotAsked(getFundsLeaderboardLoading) &&
-      !isPending(getFundsLeaderboardLoading)
-    ) {
+    if (isNotAsked(getFundsLeaderboardLoading)) {
       dispatch(
         getFlowLeaderboard({
           contract,
         }),
       ).catch((error: unknown) => console.error(error));
     }
-  }, [contract, dispatch, getFundsLoading, getFundsLeaderboardLoading]);
+  });
+
+  useUnmount(() => {
+    dispatch(clearFlowError());
+  });
 
   const fundsLeaderboardData = usePrepareLeaderboard({
     leaderboard: fundsLeaderboard?.incoming ? fundsLeaderboard.incoming : null,
