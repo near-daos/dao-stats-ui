@@ -47,8 +47,6 @@
 
   position: relative;
 
-  background-color: var(--color-grey-900);
-
   border-radius: functions.calc-rem(7);
 
   @include media.mobile-only {
@@ -65,6 +63,7 @@
 
   @include media.desktop {
     width: functions.calc-rem(750);
+    background-color: var(--color-grey-900);
   }
 }
 
@@ -79,10 +78,13 @@
 .tabWrapper {
   height: functions.calc-rem(40);
 
-  padding-left: functions.calc-rem(30);
   padding-top: functions.calc-rem(10);
 
   border-bottom: functions.calc-rem(1) solid var(--color-grey-700);
+
+  @include media.desktop {
+    padding-left: functions.calc-rem(30);
+  }
 }
 
 .metricsContainer {
@@ -90,7 +92,7 @@
   height: 100%;
 
   padding: functions.calc-rem(10) functions.calc-rem(12) functions.calc-rem(10)
-    functions.calc-rem(12);
+    functions.calc-rem(0);
   @include media.desktop {
     padding: functions.calc-rem(10) functions.calc-rem(30)
       functions.calc-rem(10) functions.calc-rem(20);

@@ -70,12 +70,13 @@ export const Leaderboard: FC<LeaderboardProps> = ({
     >
       <thead>
         <tr>
-          {headerCells.map((headerCell) => (
+          {headerCells.map((headerCell, index) => (
             <th
               key={headerCell.value}
               className={clsx(styles.headerCell, {
                 [styles.headerCellRight]: headerCell.position === 'right',
               })}
+              colSpan={index === 2 && window.innerWidth < 1280 ? 2 : undefined}
             >
               {headerCell.value}
             </th>
@@ -111,6 +112,7 @@ export const Leaderboard: FC<LeaderboardProps> = ({
                     growth={row?.line?.totalMetrics?.growth}
                     rightAlign
                     data={row?.line?.metrics || []}
+                    width={window.innerWidth < 1280 ? 80 : 156}
                   />
                 </td>
               </>
