@@ -6,7 +6,14 @@ import {
   subMonths,
   subWeeks,
 } from 'date-fns';
-import { Period } from 'src/constants';
+import {
+  Period,
+  ONE_MONTH,
+  SIX_MONTHS,
+  THREE_MONTHS,
+  ONE_WEEK,
+  ONE_YEAR,
+} from 'src/constants';
 import { ChartDataItem } from '../components/charts/types';
 
 export const buildPeriods = (metrics?: ChartDataItem[]) => {
@@ -20,36 +27,36 @@ export const buildPeriods = (metrics?: ChartDataItem[]) => {
   const endDate = startOfDay(metrics[metrics.length - 1].timestamp);
 
   if (
-    isBefore(startDate, subYears(endDate, 1)) ||
-    isEqual(startDate, subYears(endDate, 1))
+    isBefore(startDate, subYears(endDate, ONE_YEAR)) ||
+    isEqual(startDate, subYears(endDate, ONE_YEAR))
   ) {
     periods.unshift('1y');
   }
 
   if (
-    isBefore(startDate, subMonths(endDate, 6)) ||
-    isEqual(startDate, subMonths(endDate, 6))
+    isBefore(startDate, subMonths(endDate, SIX_MONTHS)) ||
+    isEqual(startDate, subMonths(endDate, SIX_MONTHS))
   ) {
     periods.unshift('6m');
   }
 
   if (
-    isBefore(startDate, subMonths(endDate, 3)) ||
-    isEqual(startDate, subMonths(endDate, 3))
+    isBefore(startDate, subMonths(endDate, THREE_MONTHS)) ||
+    isEqual(startDate, subMonths(endDate, THREE_MONTHS))
   ) {
     periods.unshift('3m');
   }
 
   if (
-    isBefore(startDate, subMonths(endDate, 1)) ||
-    isEqual(startDate, subMonths(endDate, 1))
+    isBefore(startDate, subMonths(endDate, ONE_MONTH)) ||
+    isEqual(startDate, subMonths(endDate, ONE_MONTH))
   ) {
     periods.unshift('1m');
   }
 
   if (
-    isBefore(startDate, subWeeks(endDate, 1)) ||
-    isEqual(startDate, subWeeks(endDate, 1))
+    isBefore(startDate, subWeeks(endDate, ONE_WEEK)) ||
+    isEqual(startDate, subWeeks(endDate, ONE_WEEK))
   ) {
     periods.unshift('7d');
   }

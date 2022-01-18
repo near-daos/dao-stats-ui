@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import numeral from 'numeral';
 import clsx from 'clsx';
 import { TotalMetrics } from 'src/api';
+import { ONE_HUNDRED } from 'src/constants';
 
 import { SvgIcon } from '../../svgIcon';
 
@@ -30,7 +31,7 @@ export const Amount: FC<AmountProps> = ({
         })}
       >
         <SvgIcon icon="stats" className={styles.icon} />
-        {Math.round(growth * 100)}%
+        {Math.round(growth * ONE_HUNDRED)}%
       </div>
     ) : null}
   </div>

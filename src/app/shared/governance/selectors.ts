@@ -8,6 +8,7 @@ import {
   governanceDaoVoteRateAdapter,
   governanceSlice,
 } from './slice';
+import { ONE_HUNDRED } from '../../../constants';
 
 const getState = (state: RootState) => state[governanceSlice.name];
 
@@ -25,7 +26,7 @@ export const selectGovernance = createSelector(
           voteRate: data?.voteRate
             ? {
                 ...data.voteRate,
-                count: Math.round(data.voteRate?.count * 100),
+                count: Math.round(data.voteRate?.count * ONE_HUNDRED),
               }
             : undefined,
         }
@@ -59,7 +60,7 @@ export const selectGovernanceVoteRate = createSelector(
       ? {
           metrics: data?.metrics?.map((metric) => ({
             ...metric,
-            count: Math.round(metric.count * 100),
+            count: Math.round(metric.count * ONE_HUNDRED),
           })),
         }
       : undefined,
@@ -71,12 +72,15 @@ export const selectGovernanceVoteRateLeaderboard = createSelector(
     metrics: data?.metrics?.map((metric) => ({
       ...metric,
       voteRate: metric?.voteRate
-        ? { ...metric.voteRate, count: Math.round(metric.voteRate.count * 100) }
+        ? {
+            ...metric.voteRate,
+            count: Math.round(metric.voteRate.count * ONE_HUNDRED),
+          }
         : undefined,
       overview: metric?.overview
         ? metric.overview.map((item) => ({
             ...item,
-            count: Math.round(item.count * 100),
+            count: Math.round(item.count * ONE_HUNDRED),
           }))
         : undefined,
     })),
@@ -106,7 +110,7 @@ export const selectGovernanceDaoById = (id: string | undefined) => (
     ...governanceDao,
     voteRate: {
       ...governanceDao?.voteRate,
-      count: Math.round(governanceDao?.voteRate?.count * 100),
+      count: Math.round(governanceDao?.voteRate?.count * ONE_HUNDRED),
     },
   };
 };
@@ -154,7 +158,7 @@ export const selectGovernanceDaoVoteRateById = (id: string | undefined) => (
   return {
     metrics: governanceDaoVoteRate?.metrics.map((metric) => ({
       ...metric,
-      count: Math.round(metric.count * 100),
+      count: Math.round(metric.count * ONE_HUNDRED),
     })),
   };
 };

@@ -7,8 +7,8 @@ import {
   subWeeks,
   subYears,
 } from 'date-fns';
+import { Period, SIX_MONTHS, THREE_MONTHS } from 'src/constants';
 
-import { Period } from 'src/constants';
 import { MetricItem, FlowMetricsItem } from 'src/api';
 
 export const usePeriods = (metrics?: (MetricItem | FlowMetricsItem)[]) =>
@@ -30,15 +30,15 @@ export const usePeriods = (metrics?: (MetricItem | FlowMetricsItem)[]) =>
     }
 
     if (
-      isBefore(startDate, subMonths(endDate, 6)) ||
-      isEqual(startDate, subMonths(endDate, 6))
+      isBefore(startDate, subMonths(endDate, SIX_MONTHS)) ||
+      isEqual(startDate, subMonths(endDate, SIX_MONTHS))
     ) {
       periods.unshift('6m');
     }
 
     if (
-      isBefore(startDate, subMonths(endDate, 3)) ||
-      isEqual(startDate, subMonths(endDate, 3))
+      isBefore(startDate, subMonths(endDate, THREE_MONTHS)) ||
+      isEqual(startDate, subMonths(endDate, THREE_MONTHS))
     ) {
       periods.unshift('3m');
     }

@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
 import clsx from 'clsx';
 import numeral from 'numeral';
+import { ONE_HUNDRED } from 'src/constants';
+
 import { IconName, SvgIcon } from '../svgIcon';
 
 import styles from './widget-info.module.scss';
@@ -38,7 +40,7 @@ export const WidgetInfo: FC<WidgetInfoProps> = ({
           })}
         >
           <SvgIcon icon="stats" className={styles.icon} />
-          {Math.round(percentages * 100)}%
+          {Math.round(percentages * ONE_HUNDRED)}%
         </div>
       ) : null}
     </div>

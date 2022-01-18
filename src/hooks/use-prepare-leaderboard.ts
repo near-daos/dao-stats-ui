@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 
+import { ONE_HUNDRED } from 'src/constants';
 import { LeaderboardItem, Proposals } from 'src/api';
 import { LeaderboardDataItem } from 'src/components/leaderboard/leaderboard';
 import { TitleCellProps } from '../components/leaderboard/title-cell';
@@ -20,7 +21,7 @@ const prepareTitle = (dao: string): TitleCellProps => {
 };
 
 function percentage(partialValue: number, totalValue: number): number {
-  return parseInt(((100 * partialValue) / totalValue).toFixed(0), 10);
+  return parseInt(((ONE_HUNDRED * partialValue) / totalValue).toFixed(0), 10);
 }
 
 function prepareProposalsForChart(proposals?: Proposals): Proposals {

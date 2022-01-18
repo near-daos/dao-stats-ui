@@ -27,7 +27,12 @@
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
     "no-param-reassign": ["error", { "props": false }],
-    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "no-console": ["warn", { "allow": ["warn", "error", "info"] }],
+    "no-magic-numbers": ["error", { "ignoreDefaultValues": true,
+      "enforceConst": true,
+      "ignoreArrayIndexes": true,
+      "ignore": [1, 0, -1]
+    }],
     "padding-line-between-statements": [
       "error",
       // Always require blank lines after directive (like "use-strict"), except between directives
