@@ -1,8 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { subYears, subMonths, subDays, differenceInMonths } from 'date-fns';
+import { subYears, subMonths, differenceInMonths, subWeeks } from 'date-fns';
 import { MetricItem } from 'src/api';
 import { formatDate } from 'src/utils';
-import { ONE_BILLION, ONE_MILLION, ONE_THOUSAND } from './constants';
+import {
+  FIRST_DATE,
+  ONE_BILLION,
+  ONE_MILLION,
+  ONE_MONTH,
+  ONE_THOUSAND,
+  ONE_WEEK,
+  ONE_YEAR,
+  SIX_MONTHS,
+  THREE_MONTHS,
+} from 'src/constants';
 import { ChartDataItem } from './types';
 
 export const getDateFromSelectedDate = (
@@ -12,20 +22,19 @@ export const getDateFromSelectedDate = (
   const currentDate = date || new Date();
 
   switch (range) {
-    case 'All':
-      return subYears(currentDate, 30).getTime();
     case '1y':
-      return subYears(currentDate, 1).getTime();
+      return subYears(currentDate, ONE_YEAR).getTime();
     case '6m':
-      return subMonths(currentDate, 6).getTime();
+      return subMonths(currentDate, SIX_MONTHS).getTime();
     case '3m':
-      return subMonths(currentDate, 3).getTime();
+      return subMonths(currentDate, THREE_MONTHS).getTime();
     case '1m':
-      return subMonths(currentDate, 1).getTime();
+      return subMonths(currentDate, ONE_MONTH).getTime();
     case '7d':
-      return subDays(currentDate, 7).getTime();
+      return subWeeks(currentDate, ONE_WEEK).getTime();
+    case 'All':
     default:
-      return subYears(currentDate, 1).getTime();
+      return FIRST_DATE;
   }
 };
 
@@ -72,8 +81,8 @@ export const yTickFormatter = (value: number): string => {
     return '0';
   }
 
-  if (value >= 1000) {
-    return `${value % 1000}M`;
+  if (value >= ONE_THOUSAND) {
+    return `${value % ONE_THOUSAND}M`;
   }
 
   return `${value}K`;

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useMemo } from 'react';
 import { PieChart, Pie, Cell, Legend, ResponsiveContainer } from 'recharts';
+import { ONE_HUNDRED } from 'src/constants';
 
 import startCase from 'lodash/startCase';
 
@@ -19,7 +20,7 @@ interface PieChartProps {
 }
 
 const updatePercent = (percentages: number) =>
-  parseInt((percentages * 100).toFixed(0), 10);
+  parseInt((percentages * ONE_HUNDRED).toFixed(0), 10);
 
 export const ChartPie: React.FC<PieChartProps> = ({
   title = 'Average council size',
@@ -65,25 +66,30 @@ export const ChartPie: React.FC<PieChartProps> = ({
     outerRadius,
     percent,
   }: any) => {
-    const RADIAN = Math.PI / 180;
+    const STRAIGHT_ANGLE = 180;
+    const K = 0.5;
+    const SHIFT = 15;
+    const MAX_NUMBER = 9;
+    const FONT_WEIGHT = 500;
+    const RADIAN = Math.PI / STRAIGHT_ANGLE;
     const sin = Math.sin(-RADIAN * midAngle);
     const cos = Math.cos(-RADIAN * midAngle);
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const radius = innerRadius + (outerRadius - innerRadius) * K;
     const x = cx + radius * cos;
     const y = cy + radius * sin;
-    const sx = cx + (outerRadius + 15) * cos;
-    const sy = cy + (outerRadius + 15) * sin;
+    const sx = cx + (outerRadius + SHIFT) * cos;
+    const sy = cy + (outerRadius + SHIFT) * sin;
 
     const updatedPercent = updatePercent(percent);
 
     return (
       <text
-        x={updatedPercent >= 9 ? x : sx}
-        y={updatedPercent >= 9 ? y : sy}
+        x={updatedPercent >= MAX_NUMBER ? x : sx}
+        y={updatedPercent >= MAX_NUMBER ? y : sy}
         fill="white"
         textAnchor="middle"
         dominantBaseline="central"
-        style={{ fontWeight: 500, fontSize: '12px' }}
+        style={{ fontWeight: FONT_WEIGHT, fontSize: '12px' }}
       >
         {`${updatedPercent}%`}
       </text>
