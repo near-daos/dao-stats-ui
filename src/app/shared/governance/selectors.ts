@@ -23,7 +23,10 @@ export const selectGovernance = createSelector(
       ? {
           ...data,
           voteRate: data?.voteRate
-            ? { ...data.voteRate, count: data.voteRate?.count * 100 }
+            ? {
+                ...data.voteRate,
+                count: Math.round(data.voteRate?.count * 100),
+              }
             : undefined,
         }
       : undefined,
@@ -56,7 +59,7 @@ export const selectGovernanceVoteRate = createSelector(
       ? {
           metrics: data?.metrics?.map((metric) => ({
             ...metric,
-            count: metric.count * 100,
+            count: Math.round(metric.count * 100),
           })),
         }
       : undefined,
@@ -68,12 +71,12 @@ export const selectGovernanceVoteRateLeaderboard = createSelector(
     metrics: data?.metrics?.map((metric) => ({
       ...metric,
       voteRate: metric?.voteRate
-        ? { ...metric.voteRate, count: metric.voteRate.count * 100 }
+        ? { ...metric.voteRate, count: Math.round(metric.voteRate.count * 100) }
         : undefined,
       overview: metric?.overview
         ? metric.overview.map((item) => ({
             ...item,
-            count: item.count * 100,
+            count: Math.round(item.count * 100),
           }))
         : undefined,
     })),
@@ -103,7 +106,7 @@ export const selectGovernanceDaoById = (id: string | undefined) => (
     ...governanceDao,
     voteRate: {
       ...governanceDao?.voteRate,
-      count: governanceDao?.voteRate?.count * 100,
+      count: Math.round(governanceDao?.voteRate?.count * 100),
     },
   };
 };
@@ -151,7 +154,7 @@ export const selectGovernanceDaoVoteRateById = (id: string | undefined) => (
   return {
     metrics: governanceDaoVoteRate?.metrics.map((metric) => ({
       ...metric,
-      count: metric.count * 100,
+      count: Math.round(metric.count * 100),
     })),
   };
 };

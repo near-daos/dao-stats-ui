@@ -30,7 +30,7 @@ export const Amount: FC<AmountProps> = ({
         })}
       >
         <SvgIcon icon="stats" className={styles.icon} />
-        {growth * 100}%
+        {Math.round(growth * 100)}%
       </div>
     ) : null}
   </div>
