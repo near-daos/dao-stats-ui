@@ -38,7 +38,7 @@ export const WidgetInfo: FC<WidgetInfoProps> = ({
           })}
         >
           <SvgIcon icon="stats" className={styles.icon} />
-          {percentages * 100}%
+          {Math.round(percentages * 100)}%
         </div>
       ) : null}
     </div>
