@@ -14,6 +14,12 @@ type LeaderboardHeaderCellProps = {
   position?: 'left' | 'right';
 };
 
+const mediaSizes = {
+  desktop: 1280,
+  smallTinyChart: 80,
+  defaultTinyChart: 156,
+};
+
 export type LeaderboardDataItem = {
   id: number;
   dao?: string;
@@ -76,7 +82,11 @@ export const Leaderboard: FC<LeaderboardProps> = ({
               className={clsx(styles.headerCell, {
                 [styles.headerCellRight]: headerCell.position === 'right',
               })}
-              colSpan={index === 2 && window.innerWidth < 1280 ? 2 : undefined}
+              colSpan={
+                index === 2 && window.innerWidth < mediaSizes.desktop
+                  ? 2
+                  : undefined
+              }
             >
               {headerCell.value}
             </th>
@@ -112,7 +122,11 @@ export const Leaderboard: FC<LeaderboardProps> = ({
                     growth={row?.line?.totalMetrics?.growth}
                     rightAlign
                     data={row?.line?.metrics || []}
-                    width={window.innerWidth < 1280 ? 80 : 156}
+                    width={
+                      window.innerWidth < mediaSizes.desktop
+                        ? mediaSizes.smallTinyChart
+                        : mediaSizes.defaultTinyChart
+                    }
                   />
                 </td>
               </>
