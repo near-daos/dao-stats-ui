@@ -1,12 +1,18 @@
 import React, { FC, useState } from 'react';
 import { useParams } from 'react-router';
-import { useMount } from 'react-use';
+import { useMount, useUnmount } from 'react-use';
 
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { selectFlowDaoTransactionsById } from 'src/app/shared/flow/selectors';
-import { getFlowDaoTransactions } from 'src/app/shared/flow/slice';
+import {
+  selectFlowDaoTransactionsById,
+  selectFlowError,
+} from 'src/app/shared/flow/selectors';
+import {
+  clearFlowError,
+  getFlowDaoTransactions,
+} from 'src/app/shared/flow/slice';
 import { selectActionLoading } from 'src/store/loading';
 import { isFailed, isSuccess } from 'src/utils';
 import { UrlParams } from 'src/constants';
@@ -17,6 +23,7 @@ export const IncomingTransactions: FC = () => {
   const [period, setPeriod] = useState('All');
   const { contract, dao } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
+  const error = useAppSelector(selectFlowError);
   const transactions = useAppSelector(selectFlowDaoTransactionsById(dao));
   const getFlowDaoTransactionLoading = useAppSelector(
     selectActionLoading(getFlowDaoTransactions.typePrefix),
@@ -29,10 +36,12 @@ export const IncomingTransactions: FC = () => {
           contract,
           dao,
         }),
-      ).catch((error: unknown) => {
-        console.error(error);
-      });
+      ).catch((err: unknown) => console.error(err));
     }
+  });
+
+  useUnmount(() => {
+    dispatch(clearFlowError());
   });
 
   const transactionsData = useFilterMetrics(period, transactions);
@@ -46,10 +55,10 @@ export const IncomingTransactions: FC = () => {
           isFailed(getFlowDaoTransactionLoading)
         }
       />
-
+      {error ? <p className={styles.error}>{error}</p> : null}
+      {transactionsData?.metrics?.length === 0 ? 'Not enough data' : null}
       <div className={styles.metricsContainer}>
-        {transactionsData?.metrics?.length === 0 ? 'Not enough data' : null}
-        {transactionsData && transactionsData?.metrics?.length ? (
+        {transactionsData?.metrics?.length ? (
           <ChartLine
             data={transactionsData}
             period={period}

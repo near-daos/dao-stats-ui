@@ -1,12 +1,15 @@
 import React, { FC, useState } from 'react';
 import { useParams } from 'react-router';
-import { useMount } from 'react-use';
+import { useMount, useUnmount } from 'react-use';
 
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { selectFlowDaoFundsById } from 'src/app/shared/flow/selectors';
-import { getFlowDaoFunds } from 'src/app/shared/flow/slice';
+import {
+  selectFlowDaoFundsById,
+  selectFlowError,
+} from 'src/app/shared/flow/selectors';
+import { clearFlowError, getFlowDaoFunds } from 'src/app/shared/flow/slice';
 import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isFailed } from 'src/utils';
 import { UrlParams } from 'src/constants';
@@ -18,6 +21,7 @@ export const OutgoingFunds: FC = () => {
   const { contract, dao } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const funds = useAppSelector(selectFlowDaoFundsById(dao));
+  const error = useAppSelector(selectFlowError);
   const getFlowDaoFundsLoading = useAppSelector(
     selectActionLoading(getFlowDaoFunds.typePrefix),
   );
@@ -29,10 +33,12 @@ export const OutgoingFunds: FC = () => {
           contract,
           dao,
         }),
-      ).catch((error: unknown) => {
-        console.error(error);
-      });
+      ).catch((err: unknown) => console.error(err));
     }
+  });
+
+  useUnmount(() => {
+    dispatch(clearFlowError());
   });
 
   const fundsData = useFilterMetrics(period, funds);
@@ -45,9 +51,9 @@ export const OutgoingFunds: FC = () => {
           isSuccess(getFlowDaoFundsLoading) || isFailed(getFlowDaoFundsLoading)
         }
       />
-
+      {fundsData?.metrics?.length === 0 ? 'Not enough data' : null}
+      {error ? <p className={styles.error}>{error}</p> : null}
       <div className={styles.metricsContainer}>
-        {fundsData?.metrics?.length === 0 ? 'Not enough data' : null}
         {fundsData && fundsData?.metrics?.length ? (
           <ChartLine
             isCurrency

@@ -1,4 +1,5 @@
-import React, { FC, useEffect, useState, useCallback } from 'react';
+import React, { FC, useState, useCallback } from 'react';
+import { useUnmount, useMount } from 'react-use';
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useParams, generatePath, useHistory } from 'react-router';
 import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
@@ -6,12 +7,14 @@ import { ROUTES, UrlParams } from 'src/constants';
 import styles from 'src/styles/page.module.scss';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
-import { isSuccess, isPending, isNotAsked, isFailed } from 'src/utils';
+import { isSuccess, isFailed } from 'src/utils';
 import {
+  clearFlowError,
   getFlowTransactionsHistory,
   getFlowTransactionsLeaderboard,
 } from 'src/app/shared/flow/slice';
 import {
+  selectFlowError,
   selectFlowTransactionsHistory,
   selectFlowTransactionsLeaderboard,
 } from 'src/app/shared/flow/selectors';
@@ -30,7 +33,7 @@ export const IncomingTransactions: FC = () => {
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
-
+  const error = useAppSelector(selectFlowError);
   const transactions = useAppSelector(selectFlowTransactionsHistory);
   const transactionsLeaderboard = useAppSelector(
     selectFlowTransactionsLeaderboard,
@@ -46,40 +49,27 @@ export const IncomingTransactions: FC = () => {
     setActiveTab(value);
   };
 
-  useEffect(() => {
-    if (
-      (!transactions || isNotAsked(getTransactionsLoading)) &&
-      !isPending(getTransactionsLoading)
-    ) {
+  useMount(() => {
+    if (!transactions) {
       dispatch(
         getFlowTransactionsHistory({
           contract,
         }),
-      ).catch((error: unknown) => {
-        console.error(error);
-      });
+      ).catch((err: unknown) => console.error(err));
     }
 
-    if (
-      (!transactionsLeaderboard ||
-        isNotAsked(getTransactionsLeaderboardLoading)) &&
-      !isPending(getTransactionsLeaderboardLoading)
-    ) {
+    if (!transactionsLeaderboard) {
       dispatch(
         getFlowTransactionsLeaderboard({
           contract,
         }),
-      );
+      ).catch((err: unknown) => console.error(err));
     }
-  }, [
-    transactions,
-    transactionsLeaderboard,
-    period,
-    contract,
-    dispatch,
-    getTransactionsLoading,
-    getTransactionsLeaderboardLoading,
-  ]);
+  });
+
+  useUnmount(() => {
+    dispatch(clearFlowError());
+  });
 
   const transactionsData = useFilterMetrics(period, transactions);
   const periods = usePeriods(transactions?.metrics);
@@ -120,9 +110,15 @@ export const IncomingTransactions: FC = () => {
           onChange={handleOnChange}
         />
       </div>
-
+      {activeTab === 'history-data' && transactionsData?.metrics?.length === 0
+        ? 'Not enough data'
+        : null}
+      {activeTab === 'leaderboard' && transactionsLeaderboardData.length === 0
+        ? 'Not enough data'
+        : null}
+      {error ? <p className={styles.error}>{error}</p> : null}
       <div className={styles.metricsContainer}>
-        {activeTab === 'history-data' && transactionsData ? (
+        {activeTab === 'history-data' && transactionsData?.metrics?.length ? (
           <ChartLine
             data={transactionsData}
             periods={periods}
@@ -137,7 +133,7 @@ export const IncomingTransactions: FC = () => {
             ]}
           />
         ) : null}
-        {activeTab === 'leaderboard' && transactionsLeaderboardData ? (
+        {activeTab === 'leaderboard' && transactionsLeaderboardData.length ? (
           <Leaderboard
             onRowClick={goToSingleDao}
             headerCells={[

@@ -1,4 +1,5 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
+import { useMount } from 'react-use';
 import {
   Switch,
   Route,
@@ -36,11 +37,13 @@ export const UsersDao: FC = () => {
   const dispatch = useAppDispatch();
   const users = useAppSelector(selectUsersDaoById(dao));
 
-  useEffect(() => {
-    dispatch(getUsersDao({ dao, contract })).catch((error: unknown) => {
-      console.error(error);
-    });
-  }, [dao, contract, dispatch]);
+  useMount(() => {
+    if (!users) {
+      dispatch(getUsersDao({ dao, contract })).catch((error: unknown) => {
+        console.error(error);
+      });
+    }
+  });
 
   const breadcrumbs = useMemo(
     () => [
