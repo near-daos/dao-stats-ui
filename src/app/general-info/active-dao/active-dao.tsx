@@ -116,7 +116,11 @@ export const ActiveDao: FC = () => {
             period={period}
             setPeriod={setPeriod}
             lines={[
-              { name: 'Active DAOs', color: '#E33F84', dataKey: 'count' },
+              {
+                name: 'Weekly Active DAOs',
+                color: '#E33F84',
+                dataKey: 'count',
+              },
             ]}
           />
         ) : null}

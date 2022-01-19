@@ -54,7 +54,7 @@ export const App: FC = () => (
                     />
                     <Route
                       exact
-                      path={ROUTES.generalInfoActiveDao}
+                      path={ROUTES.generalInfoDaoCount}
                       component={GeneralInfo}
                     />
                     <Route

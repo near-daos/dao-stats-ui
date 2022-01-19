@@ -4,7 +4,7 @@ export const ROUTES = {
   page404: '/404',
 
   generalInfo: '/:contract/general-info',
-  generalInfoActiveDao: '/:contract/general-info/dao-active',
+  generalInfoDaoCount: '/:contract/general-info/dao-count',
   generalInfoGroups: '/:contract/general-info/groups',
   generalInfoAverageGroups: '/:contract/general-info/average-groups',
   generalInfoDao: '/:contract/general-info/:dao',

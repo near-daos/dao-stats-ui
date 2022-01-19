@@ -65,27 +65,10 @@ export const GeneralInfo: FC = () => {
         <Widgets>
           <WidgetTile
             className={styles.widget}
+            onClick={() => history.push(routes.generalInfo)}
             active={Boolean(
               matchPath(location.pathname, {
                 path: ROUTES.generalInfo,
-                exact: true,
-              }),
-            )}
-            onClick={() => history.push(routes.generalInfo)}
-          >
-            <WidgetInfo
-              title="Number of DAOs"
-              number={general?.dao?.count}
-              percentages={general?.dao?.growth}
-            />
-          </WidgetTile>
-
-          <WidgetTile
-            className={styles.widget}
-            onClick={() => history.push(routes.generalInfoActiveDao)}
-            active={Boolean(
-              matchPath(location.pathname, {
-                path: ROUTES.generalInfoActiveDao,
                 exact: true,
               }),
             )}
@@ -94,6 +77,23 @@ export const GeneralInfo: FC = () => {
               title="Active DAOs"
               number={general?.activity?.count}
               percentages={general?.activity?.growth}
+            />
+          </WidgetTile>
+
+          <WidgetTile
+            className={styles.widget}
+            active={Boolean(
+              matchPath(location.pathname, {
+                path: ROUTES.generalInfoDaoCount,
+                exact: true,
+              }),
+            )}
+            onClick={() => history.push(routes.generalInfoDaoCount)}
+          >
+            <WidgetInfo
+              title="Number of DAOs"
+              number={general?.dao?.count}
+              percentages={general?.dao?.growth}
             />
           </WidgetTile>
 
@@ -134,11 +134,11 @@ export const GeneralInfo: FC = () => {
 
         <div className={styles.mainContent}>
           <Switch>
-            <Route exact path={ROUTES.generalInfo} component={NumbersDao} />
+            <Route exact path={ROUTES.generalInfo} component={ActiveDao} />
             <Route
               exact
-              path={ROUTES.generalInfoActiveDao}
-              component={ActiveDao}
+              path={ROUTES.generalInfoDaoCount}
+              component={NumbersDao}
             />
             <Route exact path={ROUTES.generalInfoGroups} component={Groups} />
             <Route
