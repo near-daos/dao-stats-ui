@@ -1,17 +1,23 @@
-import React, { FC, useEffect, useState, useCallback } from 'react';
+import React, { FC, useState, useCallback } from 'react';
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useParams, generatePath, useHistory } from 'react-router';
 import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
-import { ROUTES } from 'src/constants';
+import { ROUTES, UrlParams } from 'src/constants';
 import styles from 'src/styles/page.module.scss';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
-import { isSuccess, isPending, isNotAsked } from 'src/utils';
-import { getFlowHistory, getFlowLeaderboard } from 'src/app/shared/flow/slice';
+import { isSuccess, isFailed } from 'src/utils';
+import {
+  clearFlowError,
+  getFlowHistory,
+  getFlowLeaderboard,
+} from 'src/app/shared/flow/slice';
 import {
   selectFlowHistory,
   selectFlowLeaderboard,
+  selectFlowError,
 } from 'src/app/shared/flow/selectors';
+import { useMount, useUnmount } from 'react-use';
 
 const tabOptions = [
   {
@@ -25,9 +31,9 @@ export const OutgoingFunds: FC = () => {
   const [period, setPeriod] = useState('All');
   const history = useHistory();
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
-
+  const error = useAppSelector(selectFlowError);
   const funds = useAppSelector(selectFlowHistory);
   const fundsLeaderboard = useAppSelector(selectFlowLeaderboard);
   const getFundsLoading = useAppSelector(
@@ -41,26 +47,27 @@ export const OutgoingFunds: FC = () => {
     setActiveTab(value);
   };
 
-  useEffect(() => {
-    if (isNotAsked(getFundsLoading) && !isPending(getFundsLoading)) {
+  useMount(() => {
+    if (!funds) {
       dispatch(
         getFlowHistory({
           contract,
         }),
-      ).catch((error: unknown) => console.error(error));
+      ).catch((err: unknown) => console.error(err));
     }
 
-    if (
-      isNotAsked(getFundsLeaderboardLoading) &&
-      !isPending(getFundsLeaderboardLoading)
-    ) {
+    if (!funds) {
       dispatch(
         getFlowLeaderboard({
           contract,
         }),
-      ).catch((error: unknown) => console.error(error));
+      ).catch((err: unknown) => console.error(err));
     }
-  }, [contract, dispatch, getFundsLoading, getFundsLeaderboardLoading]);
+  });
+
+  useUnmount(() => {
+    dispatch(clearFlowError());
+  });
 
   const fundsLeaderboardData = usePrepareLeaderboard({
     leaderboard: fundsLeaderboard?.outgoing ? fundsLeaderboard.outgoing : null,
@@ -82,7 +89,10 @@ export const OutgoingFunds: FC = () => {
     <div className={styles.detailsContainer}>
       <LoadingContainer
         hide={
-          isSuccess(getFundsLoading) && isSuccess(getFundsLeaderboardLoading)
+          (isSuccess(getFundsLoading) &&
+            isSuccess(getFundsLeaderboardLoading)) ||
+          isFailed(getFundsLoading) ||
+          isFailed(getFundsLeaderboardLoading)
         }
       />
       <div className={styles.tabWrapper}>
@@ -93,9 +103,15 @@ export const OutgoingFunds: FC = () => {
           onChange={handleOnChange}
         />
       </div>
-
+      {activeTab === 'history-data' && fundsData?.metrics?.length === 0
+        ? 'Not enough data'
+        : null}
+      {activeTab === 'leaderboard' && fundsLeaderboardData.length === 0
+        ? 'Not enough data'
+        : null}
+      {error ? <p className={styles.error}>{error}</p> : null}
       <div className={styles.metricsContainer}>
-        {activeTab === 'history-data' && fundsData ? (
+        {activeTab === 'history-data' && fundsData?.metrics?.length ? (
           <ChartLine
             isCurrency
             data={fundsData}
@@ -107,7 +123,7 @@ export const OutgoingFunds: FC = () => {
             ]}
           />
         ) : null}
-        {activeTab === 'leaderboard' && fundsLeaderboardData ? (
+        {activeTab === 'leaderboard' && fundsLeaderboardData.length ? (
           <Leaderboard
             isCurrency
             onRowClick={goToSingleDao}

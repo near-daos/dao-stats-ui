@@ -17,7 +17,7 @@ import {
 } from 'src/app/shared/general/slice';
 
 import styles from 'src/styles/page.module.scss';
-import { ROUTES } from '../../../constants';
+import { ROUTES, UrlParams } from '../../../constants';
 
 const tabOptions = [
   {
@@ -32,7 +32,7 @@ export const ActiveDao: FC = () => {
   const [period, setPeriod] = useState('All');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
 
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const active = useAppSelector(selectGeneralActive);
   const activeLeaderboard = useAppSelector(selectGeneralActiveLeaderboard);

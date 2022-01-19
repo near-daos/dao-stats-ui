@@ -7,7 +7,7 @@ import {
   useLocation,
   useParams,
 } from 'react-router';
-import { Params, ROUTES } from 'src/constants';
+import { ROUTES, UrlParams } from 'src/constants';
 import { useRoutes } from 'src/hooks';
 
 import {
@@ -36,7 +36,7 @@ export const Tokens: FC = () => {
   const location = useLocation();
   const history = useHistory();
   const routes = useRoutes();
-  const { contract } = useParams<Params>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const tokens = useAppSelector(selectTokens);
   const selectedContract = useAppSelector(selectSelectedContract);

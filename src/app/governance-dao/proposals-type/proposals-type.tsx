@@ -12,12 +12,13 @@ import { isPending, isSuccess } from 'src/utils';
 import { selectActionLoading } from 'src/store/loading';
 import { selectGovernanceDaoProposalsTypesById } from 'src/app/shared/governance/selectors';
 import { getGovernanceDaoProposalsTypes } from 'src/app/shared/governance/slice';
+import { UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
 export const ProposalsType: FC = () => {
   const [period, setPeriod] = useState('All');
-  const { contract, dao } = useParams<{ dao: string; contract: string }>();
+  const { contract, dao } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const governanceProposalsTypes = useAppSelector(
     selectGovernanceDaoProposalsTypesById(dao),

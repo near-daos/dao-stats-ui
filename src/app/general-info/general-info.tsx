@@ -19,7 +19,7 @@ import {
 } from 'src/components';
 import { useRoutes } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { ROUTES } from 'src/constants';
+import { ROUTES, UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
@@ -32,7 +32,7 @@ export const GeneralInfo: FC = () => {
   const location = useLocation();
   const history = useHistory();
   const routes = useRoutes();
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const general = useAppSelector(selectGeneral);
 

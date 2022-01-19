@@ -16,7 +16,7 @@ import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isPending, isNotAsked } from 'src/utils';
 
 import styles from 'src/styles/page.module.scss';
-import { ROUTES } from '../../../constants';
+import { ROUTES, UrlParams } from 'src/constants';
 
 const tabOptions = [
   {
@@ -30,7 +30,7 @@ export const Groups: FC = () => {
   const [period, setPeriod] = useState('All');
   const history = useHistory();
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const groups = useAppSelector(selectGeneralGroups);
   const groupsLeaderboard = useAppSelector(selectGeneralGroupsLeaderboard);

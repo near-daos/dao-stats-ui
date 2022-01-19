@@ -10,7 +10,7 @@ import {
   useLocation,
   useParams,
 } from 'react-router';
-import { ROUTES } from 'src/constants';
+import { ROUTES, UrlParams } from 'src/constants';
 import { useRoutes } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import {
@@ -23,7 +23,6 @@ import {
 } from 'src/components';
 import { selectGovernanceDaoById } from 'src/app/shared/governance/selectors';
 import { getGovernanceDao } from 'src/app/shared/governance/slice';
-
 import styles from 'src/styles/page.module.scss';
 
 import { NumberOfProposals } from './number-of-proposals';
@@ -34,7 +33,7 @@ export const GovernanceDao: FC = () => {
   const location = useLocation();
   const history = useHistory();
   const routes = useRoutes();
-  const { contract, dao } = useParams<{ dao: string; contract: string }>();
+  const { contract, dao } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const governance = useAppSelector(selectGovernanceDaoById(dao));
 

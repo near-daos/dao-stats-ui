@@ -19,7 +19,7 @@ import {
 } from 'src/app/shared/users/selectors';
 
 import styles from 'src/styles/page.module.scss';
-import { ROUTES } from '../../../constants';
+import { ROUTES, UrlParams } from '../../../constants';
 import { getDao } from '../../shared';
 
 const tabOptions = [
@@ -34,7 +34,7 @@ export const UsersNumber: FC = () => {
   const [period, setPeriod] = useState('All');
   const history = useHistory();
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const error = useAppSelector(selectorUsersError);
 

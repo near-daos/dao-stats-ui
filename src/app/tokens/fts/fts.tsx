@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { useFilterMetrics, usePrepareLeaderboard, usePeriods } from 'src/hooks';
 import { isPending, isSuccess, isNotAsked } from 'src/utils';
-import { ROUTES } from 'src/constants';
+import { ROUTES, UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
@@ -32,7 +32,7 @@ export const Fts: FC = () => {
   const [period, setPeriod] = useState('All');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
 
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const tokens = useAppSelector(selectTokensFts);
   const tokensLeaderboard = useAppSelector(selectTokensFtsLeaderboard);

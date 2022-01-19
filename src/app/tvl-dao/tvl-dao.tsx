@@ -8,7 +8,7 @@ import {
   useLocation,
   useParams,
 } from 'react-router';
-import { Params, ROUTES } from 'src/constants';
+import { UrlParams, ROUTES } from 'src/constants';
 import { useRoutes } from 'src/hooks';
 
 import {
@@ -31,7 +31,7 @@ export const TvlDao: FC = () => {
   const location = useLocation();
   const history = useHistory();
   const routes = useRoutes();
-  const { contract, dao } = useParams<Params>();
+  const { contract, dao } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const tvl = useAppSelector(selectTvlDaoById(dao));
 

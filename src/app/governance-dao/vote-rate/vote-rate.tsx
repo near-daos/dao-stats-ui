@@ -8,12 +8,13 @@ import { selectActionLoading } from 'src/store/loading';
 import { isPending, isSuccess } from 'src/utils';
 import { selectGovernanceDaoVoteRateById } from 'src/app/shared/governance/selectors';
 import { getGovernanceDaoVoteRate } from 'src/app/shared/governance/slice';
+import { UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
 export const VoteRate: FC = () => {
   const [period, setPeriod] = useState('All');
-  const { contract, dao } = useParams<{ dao: string; contract: string }>();
+  const { contract, dao } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const governanceVoteRate = useAppSelector(
     selectGovernanceDaoVoteRateById(dao),

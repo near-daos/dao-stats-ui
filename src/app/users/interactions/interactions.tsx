@@ -16,7 +16,7 @@ import {
   selectUsersInteractions,
   selectUsersInteractionsLeaderboard,
 } from 'src/app/shared/users/selectors';
-import { Params, ROUTES } from 'src/constants';
+import { ROUTES, UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 import { useUnmount } from 'react-use';
@@ -33,7 +33,7 @@ export const Interactions: FC = () => {
   const [period, setPeriod] = useState('All');
   const history = useHistory();
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
-  const { contract } = useParams<Params>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const error = useAppSelector(selectorUsersError);
   const users = useAppSelector(selectUsersInteractions);

@@ -1,4 +1,5 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
+import { useMount } from 'react-use';
 import {
   Switch,
   Route,
@@ -20,7 +21,7 @@ import {
   Widgets,
   Breadcrumbs,
 } from 'src/components';
-import { ROUTES } from 'src/constants';
+import { ROUTES, UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
@@ -32,15 +33,17 @@ export const UsersDao: FC = () => {
   const location = useLocation();
   const history = useHistory();
   const routes = useRoutes();
-  const { contract, dao } = useParams<{ dao: string; contract: string }>();
+  const { contract, dao } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const users = useAppSelector(selectUsersDaoById(dao));
 
-  useEffect(() => {
-    dispatch(getUsersDao({ dao, contract })).catch((error: unknown) => {
-      console.error(error);
-    });
-  }, [dao, contract, dispatch]);
+  useMount(() => {
+    if (!users) {
+      dispatch(getUsersDao({ dao, contract })).catch((error: unknown) => {
+        console.error(error);
+      });
+    }
+  });
 
   const breadcrumbs = useMemo(
     () => [

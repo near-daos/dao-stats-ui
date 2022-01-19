@@ -7,13 +7,13 @@ import { selectGeneralAverageGroups } from 'src/app/shared/general/selectors';
 import { getGeneralAverageGroups } from 'src/app/shared/general/slice';
 import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isPending, isNotAsked, isFailed } from 'src/utils';
-import { Params } from 'src/constants';
+import { UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
 export const AverageGroups: FC = () => {
   const [period, setPeriod] = useState('All');
-  const { contract } = useParams<Params>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const averageGroups = useAppSelector(selectGeneralAverageGroups);
   const generalAverageGroupsLoading = useAppSelector(
