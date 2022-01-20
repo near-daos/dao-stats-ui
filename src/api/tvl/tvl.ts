@@ -27,12 +27,6 @@ export class TvlService extends HttpService {
     return this.get(`${params.contract}/tvl/tvl/leaderboard`);
   }
 
-  async getTvlAvgTvl(params: HistoryParams): Promise<AxiosResponse<Metrics>> {
-    const query = queryString.stringify({ from: params.from, to: params.to });
-
-    return this.get(`${params.contract}/tvl/avg-tvl?${query}`);
-  }
-
   async getTvlBountiesAndGrantsVl(
     params: HistoryParams,
   ): Promise<AxiosResponse<Metrics>> {

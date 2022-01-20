@@ -114,3 +114,15 @@ export type MetricsEntity = Metrics & {
 export type FlowMetricsEntity = FlowMetrics & {
   id: string;
 };
+
+export enum Currency {
+  USD = 'USD',
+}
+
+export enum Coin {
+  NEAR = 'NEAR',
+}
+
+export type PriceParams = { currency: Currency; coin: Coin };
+
+export type PriceParamsHistory = PriceParams & History;

@@ -1,9 +1,9 @@
 import { AxiosResponse } from 'axios';
 import { HttpService } from '../http-service';
-import { Currency } from './types';
+import { CurrentCurrency } from './types';
 
 export class CurrencyService extends HttpService {
-  async getCurrency(): Promise<AxiosResponse<Currency>> {
+  async getCurrency(): Promise<AxiosResponse<CurrentCurrency>> {
     return this.get('/api/v3/simple/price?ids=near&vs_currencies=usd', {
       baseURL: 'https://api.coingecko.com',
     });

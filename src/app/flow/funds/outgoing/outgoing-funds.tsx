@@ -106,14 +106,12 @@ export const OutgoingFunds: FC = () => {
       {activeTab === 'history-data' && fundsData?.metrics?.length === 0
         ? 'Not enough data'
         : null}
-      {activeTab === 'leaderboard' && fundsLeaderboardData.length === 0
-        ? 'Not enough data'
-        : null}
       {error ? <p className={styles.error}>{error}</p> : null}
       <div className={styles.metricsContainer}>
-        {activeTab === 'history-data' && fundsData?.metrics?.length ? (
+        {activeTab === 'history-data' &&
+        fundsData &&
+        fundsData?.metrics?.length ? (
           <ChartLine
-            isCurrency
             data={fundsData}
             period={period}
             setPeriod={setPeriod}

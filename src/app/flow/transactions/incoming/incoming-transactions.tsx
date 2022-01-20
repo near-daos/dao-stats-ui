@@ -113,12 +113,11 @@ export const IncomingTransactions: FC = () => {
       {activeTab === 'history-data' && transactionsData?.metrics?.length === 0
         ? 'Not enough data'
         : null}
-      {activeTab === 'leaderboard' && transactionsLeaderboardData.length === 0
-        ? 'Not enough data'
-        : null}
       {error ? <p className={styles.error}>{error}</p> : null}
       <div className={styles.metricsContainer}>
-        {activeTab === 'history-data' && transactionsData?.metrics?.length ? (
+        {activeTab === 'history-data' &&
+        transactionsData &&
+        transactionsData?.metrics?.length ? (
           <ChartLine
             data={transactionsData}
             periods={periods}
