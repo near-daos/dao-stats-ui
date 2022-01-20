@@ -14,6 +14,7 @@ import {
   tokensDaoFtsVlAdapter,
   tokensDaoFtsAdapter,
 } from './slice';
+import { marketSlice } from '../market';
 
 const updateTokensWithCurrency = (tokens: Tokens | null, currency = 0) => {
   if (!tokens) {
@@ -31,6 +32,7 @@ const updateTokensWithCurrency = (tokens: Tokens | null, currency = 0) => {
 
 const getState = (state: RootState) => state[tokensSlice.name];
 const getCurrencyState = (state: RootState) => state[currencySlice.name];
+const getMarketState = (state: RootState) => state[marketSlice.name];
 
 export const selectTokensError = createSelector(
   (state: RootState) => getState(state).error,
@@ -66,11 +68,11 @@ export const selectTokensFtsLeaderboard = createSelector(
 
 export const selectTokensFtsVl = createSelector(
   (state: RootState) => getState(state).tokensFtsVl,
-  getCurrencyState,
-  (tokens, currency) =>
+  getMarketState,
+  (tokens, market) =>
     updateMetricsDataWithCurrency({
       metrics: tokens?.metrics,
-      currency: currency?.currency?.near?.usd || 0,
+      priceItems: market?.price || [],
     }),
 );
 
@@ -125,12 +127,12 @@ const {
 export const selectTokensFtsVlDaoById = (id: string | undefined) =>
   createSelector(
     (state: RootState) => (id ? selectTokensFtsVlDaoItem(state, id) : null),
-    getCurrencyState,
-    (tokens, currency) =>
+    getMarketState,
+    (tokens, market) =>
       tokens
         ? updateMetricsDataWithCurrency({
             metrics: tokens?.metrics,
-            currency: currency?.currency?.near?.usd || 0,
+            priceItems: market?.price || [],
           })
         : null,
   );

@@ -59,7 +59,7 @@ export const OutgoingTransactions: FC = () => {
             periods={periods}
             lines={[
               {
-                name: 'Outgoing of Transactions',
+                name: 'Outgoing Transactions',
                 color: '#E33F84',
                 dataKey: 'outgoing',
               },

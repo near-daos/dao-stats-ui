@@ -1,9 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { currencySlice } from 'src/app/shared/currency';
-import {
-  updateLeaderboardDataWithCurrency,
-  updateMetricsDataWithCurrency,
-} from 'src/utils/update-data-with-currency';
+import { updateLeaderboardDataWithCurrency } from 'src/utils/update-data-with-currency';
 import {
   flowSlice,
   flowDaoAdapter,
@@ -56,13 +53,7 @@ export const selectFlow = createSelector(
 
 export const selectFlowHistory = createSelector(
   (state: RootState) => getState(state).flowHistory,
-  getCurrencyState,
-  (flow, currency) =>
-    updateMetricsDataWithCurrency({
-      metrics: flow?.metrics,
-      currency: currency?.currency?.near?.usd || 0,
-      keys: ['incoming', 'outgoing'],
-    }),
+  (flow) => flow,
 );
 
 export const selectFlowLeaderboard = createSelector(
@@ -120,19 +111,9 @@ const { selectById: selectFlowDaoFundsItem } = flowDaoFundsAdapter.getSelectors(
   (state: RootState) => state[flowSlice.name].flowDaoFunds,
 );
 
-export const selectFlowDaoFundsById = (id: string | undefined) =>
-  createSelector(
-    (state: RootState) => (id ? selectFlowDaoFundsItem(state, id) : null),
-    getCurrencyState,
-    (flow, currency) =>
-      flow
-        ? updateMetricsDataWithCurrency({
-            metrics: flow?.metrics,
-            currency: currency?.currency?.near?.usd || 0,
-            keys: ['incoming', 'outgoing'],
-          })
-        : null,
-  );
+export const selectFlowDaoFundsById = (id: string | undefined) => (
+  state: RootState,
+) => (id ? selectFlowDaoFundsItem(state, id) : null);
 
 const {
   selectById: selectFlowDaoTransactionsItem,

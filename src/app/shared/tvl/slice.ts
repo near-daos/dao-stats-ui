@@ -25,7 +25,6 @@ const initialState: TvlState = {
   tvl: null,
   tvlTvl: null,
   tvlLeaderboard: null,
-  tvlAvgTvl: null,
   tvlBountiesAndGrantsVL: null,
   tvlBountiesAndGrantsVlLeaderboard: null,
   tvlDao: tvlDaoAdapter.getInitialState(),
@@ -48,11 +47,6 @@ export const getTvlHistory = createAsyncThunk(
 export const getTvlLeaderboard = createAsyncThunk(
   'governance/getTvlLeaderboard',
   async (params: Params) => tvlService.getTvlLeaderboard(params),
-);
-
-export const getTvlAvgTvl = createAsyncThunk(
-  'governance/getTvlAvgTvl',
-  async (params: HistoryParams) => tvlService.getTvlAvgTvl(params),
 );
 
 export const getTvlBountiesAndGrantsVl = createAsyncThunk(
@@ -93,7 +87,6 @@ const isRejectedAction = isRejected(
   getTvl,
   getTvlHistory,
   getTvlLeaderboard,
-  getTvlAvgTvl,
   getTvlBountiesAndGrantsVl,
   getTvlBountiesAndGrantsVlLeaderboard,
   getTvlDao,
@@ -117,10 +110,6 @@ export const tvlSlice = createSlice({
 
     builder.addCase(getTvlLeaderboard.fulfilled, (state, { payload }) => {
       state.tvlLeaderboard = payload.data;
-    });
-
-    builder.addCase(getTvlAvgTvl.fulfilled, (state, { payload }) => {
-      state.tvlAvgTvl = payload.data;
     });
 
     builder.addCase(

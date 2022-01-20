@@ -56,7 +56,6 @@ export const IncomingFunds: FC = () => {
       <div className={styles.metricsContainer}>
         {fundsData?.metrics?.length ? (
           <ChartLine
-            isCurrency
             data={fundsData}
             period={period}
             setPeriod={setPeriod}

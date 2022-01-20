@@ -5,13 +5,15 @@ import { useParams } from 'react-router';
 
 import { useAppDispatch, useAppSelector } from 'src/store';
 import {
-  selectContractsLoadingState,
   getContracts,
-  setContract,
   getCurrency,
   getDao,
+  getPrice,
+  selectContractsLoadingState,
+  setContract,
 } from 'src/app/shared';
 import { CURRENCY_KEY, UrlParams } from '../../constants';
+import { Coin, Currency } from '../../api';
 
 type UserDataProps = {
   children: (loadingContracts: string) => ReactElement;
@@ -33,6 +35,8 @@ export const UserData = ({ children }: UserDataProps): ReactElement => {
 
         const contractResponse = await dispatch(getContracts());
         const contracts = unwrapResult(contractResponse).data;
+
+        await dispatch(getPrice({ currency: Currency.USD, coin: Coin.NEAR }));
 
         dispatch(setContract(contracts[0]));
       } catch (error: unknown) {

@@ -2,6 +2,6 @@ export type Usd = {
   usd: number;
 };
 
-export type Currency = {
+export type CurrentCurrency = {
   near: Usd;
 };
