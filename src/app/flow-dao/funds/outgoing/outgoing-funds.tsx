@@ -56,6 +56,7 @@ export const OutgoingFunds: FC = () => {
       <div className={styles.metricsContainer}>
         {fundsData && fundsData?.metrics?.length ? (
           <ChartLine
+            isNear
             data={fundsData}
             period={period}
             setPeriod={setPeriod}

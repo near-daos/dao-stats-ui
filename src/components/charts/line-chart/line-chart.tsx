@@ -31,6 +31,7 @@ type LineChartProps = {
   periods: Period[];
   setPeriod: (period: string) => void;
   isCurrency?: boolean;
+  isNear?: boolean;
   roundPattern?: string;
 };
 
@@ -42,6 +43,7 @@ export const ChartLine: React.FC<LineChartProps> = ({
   periods,
   setPeriod,
   isCurrency,
+  isNear,
   roundPattern,
 }) => {
   const [filterLines, setFilterLines] = useState(lines);
@@ -86,6 +88,7 @@ export const ChartLine: React.FC<LineChartProps> = ({
           iconType="circle"
           content={
             <CustomLegend
+              isNear={isNear}
               lines={lines}
               period={period}
               periods={periods}
@@ -138,6 +141,7 @@ export const ChartLine: React.FC<LineChartProps> = ({
             <ChartTooltip
               lines={lines}
               isCurrency={isCurrency}
+              isNear={isNear}
               roundPattern={roundPattern}
             />
           }
