@@ -1,4 +1,5 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
+import { useMount } from 'react-use';
 import {
   matchPath,
   Route,
@@ -32,17 +33,11 @@ export const Tvl: FC = () => {
   const dispatch = useAppDispatch();
   const tvl = useAppSelector(selectTvl);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        if (!tvl) {
-          await dispatch(getTvl({ contract }));
-        }
-      } catch (error: unknown) {
-        console.error(error);
-      }
-    })();
-  }, [tvl, contract, dispatch]);
+  useMount(() => {
+    if (!tvl) {
+      dispatch(getTvl({ contract })).catch((err) => console.error(err));
+    }
+  });
 
   const breadcrumbs = useMemo(
     () => [

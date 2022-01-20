@@ -39,9 +39,9 @@ export const UsersDao: FC = () => {
 
   useMount(() => {
     if (!users) {
-      dispatch(getUsersDao({ dao, contract })).catch((error: unknown) => {
-        console.error(error);
-      });
+      dispatch(getUsersDao({ dao, contract })).catch((error) =>
+        console.error(error),
+      );
     }
   });
 

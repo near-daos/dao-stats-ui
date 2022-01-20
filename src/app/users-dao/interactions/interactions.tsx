@@ -36,9 +36,7 @@ export const Interactions: FC = () => {
           contract,
           dao,
         }),
-      ).catch((err: unknown) => {
-        console.error(err);
-      });
+      ).catch((err: unknown) => console.error(err));
     }
   });
 

@@ -2,8 +2,8 @@ import {
   createSlice,
   createAsyncThunk,
   isRejected,
-  isFulfilled,
   createEntityAdapter,
+  createAction,
 } from '@reduxjs/toolkit';
 import sortBy from 'lodash/sortBy';
 import {
@@ -46,6 +46,10 @@ const initialState: GovernanceState = {
   governanceDaoVoteRate: governanceDaoVoteRateAdapter.getInitialState(),
   error: null,
 };
+
+export const clearGovernanceError = createAction(
+  'governance/clearGovernanceError',
+);
 
 export const getGovernance = createAsyncThunk(
   'governance/getGovernance',
@@ -112,18 +116,6 @@ export const getGovernanceDaoVoteRate = createAsyncThunk(
 );
 
 const isRejectedAction = isRejected(
-  getGovernance,
-  getGovernanceProposals,
-  getGovernanceProposalsLeaderboard,
-  getGovernanceProposalsTypes,
-  getGovernanceVoteRate,
-  getGovernanceVoteRateLeaderboard,
-  getGovernanceDao,
-  getGovernanceDaoProposals,
-  getGovernanceDaoProposalsTypes,
-  getGovernanceDaoVoteRate,
-);
-const isFulfilledAction = isFulfilled(
   getGovernance,
   getGovernanceProposals,
   getGovernanceProposalsLeaderboard,
@@ -269,12 +261,12 @@ export const governanceSlice = createSlice({
       },
     );
 
-    builder.addMatcher(isRejectedAction, (state, { error }) => {
-      state.error = error.message;
+    builder.addCase(clearGovernanceError, (state) => {
+      state.error = null;
     });
 
-    builder.addMatcher(isFulfilledAction, (state) => {
-      state.error = null;
+    builder.addMatcher(isRejectedAction, (state, { error }) => {
+      state.error = error.message;
     });
   },
 });

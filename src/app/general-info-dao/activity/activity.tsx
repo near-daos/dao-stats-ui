@@ -58,8 +58,8 @@ export const Activity: FC = () => {
         }
       />
       <div className={styles.metricsContainer}>
-        {error ? <p className={styles.error}>{error}</p> : null}
         {activityData?.metrics?.length === 0 ? 'Not enough data' : null}
+        {error ? <p className={styles.error}>{error}</p> : null}
         {activityData && activityData?.metrics?.length > 0 ? (
           <ChartLine
             data={activityData}

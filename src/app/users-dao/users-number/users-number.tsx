@@ -34,9 +34,7 @@ export const UsersNumber: FC = () => {
           contract,
           dao,
         }),
-      ).catch((err) => {
-        console.error(err.response);
-      });
+      ).catch((err) => console.error(err));
     }
   });
 

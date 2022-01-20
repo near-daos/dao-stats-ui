@@ -8,9 +8,9 @@ import {
   Route,
   generatePath,
 } from 'react-router';
-import { useMount, useUnmount } from 'react-use';
+import { useMount } from 'react-use';
 
-import { clearGeneralError, getGeneralDao } from 'src/app/shared/general/slice';
+import { getGeneralDao } from 'src/app/shared/general/slice';
 import { selectGeneralDaoById } from 'src/app/shared/general/selectors';
 import {
   Page,
@@ -42,10 +42,6 @@ export const GeneralInfoDao: FC = () => {
         console.error(error);
       });
     }
-  });
-
-  useUnmount(() => {
-    dispatch(clearGeneralError());
   });
 
   const breadcrumbs = useMemo(

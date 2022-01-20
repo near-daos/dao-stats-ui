@@ -1,11 +1,12 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { generatePath, useHistory, useParams } from 'react-router';
+import { useMount, useUnmount } from 'react-use';
 
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { useFilterMetrics, usePrepareLeaderboard, usePeriods } from 'src/hooks';
-import { isPending, isSuccess, isNotAsked } from 'src/utils';
+import { isFailed, isSuccess } from 'src/utils';
 
 import styles from 'src/styles/page.module.scss';
 
@@ -14,6 +15,8 @@ import {
   getTvlLeaderboard,
   selectTvlTvl,
   selectTvlLeaderboard,
+  clearTvlError,
+  selectTvlError,
 } from 'src/app/shared';
 import { ROUTES, UrlParams } from 'src/constants';
 
@@ -29,6 +32,7 @@ export const TvlHistory: FC = () => {
   const [period, setPeriod] = useState('All');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const history = useHistory();
+  const error = useAppSelector(selectTvlError);
   const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const tvl = useAppSelector(selectTvlTvl);
@@ -40,26 +44,27 @@ export const TvlHistory: FC = () => {
     selectActionLoading(getTvlLeaderboard.typePrefix),
   );
 
-  useEffect(() => {
-    if (isNotAsked(getTvlLoading) && !isPending(getTvlLoading)) {
+  useMount(() => {
+    if (!tvl) {
       dispatch(
         getTvlHistory({
           contract,
         }),
-      ).catch((error: unknown) => console.error(error));
+      ).catch((err) => console.error(err));
     }
 
-    if (
-      isNotAsked(getTvlLeaderboardLoading) &&
-      !isPending(getTvlLeaderboardLoading)
-    ) {
+    if (!tvlLeaderboard) {
       dispatch(
         getTvlLeaderboard({
           contract,
         }),
-      ).catch((error: unknown) => console.error(error));
+      ).catch((err) => console.error(err));
     }
-  }, [dispatch, contract, getTvlLoading, getTvlLeaderboardLoading]);
+  });
+
+  useUnmount(() => {
+    dispatch(clearTvlError());
+  });
 
   const handleOnChange = (value: string) => {
     setActiveTab(value);
@@ -82,7 +87,11 @@ export const TvlHistory: FC = () => {
   return (
     <div className={styles.detailsContainer}>
       <LoadingContainer
-        hide={isSuccess(getTvlLoading) && isSuccess(getTvlLeaderboardLoading)}
+        hide={
+          (isSuccess(getTvlLoading) && isSuccess(getTvlLeaderboardLoading)) ||
+          isFailed(getTvlLoading) ||
+          isFailed(getTvlLeaderboardLoading)
+        }
       />
       <div className={styles.tabWrapper}>
         <Tabs
@@ -92,6 +101,8 @@ export const TvlHistory: FC = () => {
           onChange={handleOnChange}
         />
       </div>
+      {error ? <p className={styles.error}>{error}</p> : null}
+      {tvlData?.metrics?.length === 0 ? 'Not enough data' : null}
       <div className={styles.metricsContainer}>
         {activeTab === 'history-data' && tvlData ? (
           <ChartLine

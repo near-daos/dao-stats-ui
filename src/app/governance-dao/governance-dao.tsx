@@ -38,9 +38,9 @@ export const GovernanceDao: FC = () => {
   const governance = useAppSelector(selectGovernanceDaoById(dao));
 
   useMount(() => {
-    dispatch(getGovernanceDao({ contract, dao })).catch((error: unknown) => {
-      console.error(error);
-    });
+    dispatch(getGovernanceDao({ contract, dao })).catch((err) =>
+      console.error(err),
+    );
   });
 
   const breadcrumbs = useMemo(

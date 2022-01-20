@@ -1,4 +1,5 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
+import { useMount } from 'react-use';
 import {
   matchPath,
   Route,
@@ -41,17 +42,11 @@ export const Tokens: FC = () => {
   const tokens = useAppSelector(selectTokens);
   const selectedContract = useAppSelector(selectSelectedContract);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        if (!tokens) {
-          await dispatch(getTokens({ contract }));
-        }
-      } catch (error: unknown) {
-        console.error(error);
-      }
-    })();
-  }, [tokens, contract, dispatch]);
+  useMount(() => {
+    if (!tokens) {
+      dispatch(getTokens({ contract })).catch((err) => console.error(err));
+    }
+  });
 
   const breadcrumbs = useMemo(
     () => [

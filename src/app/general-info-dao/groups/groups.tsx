@@ -57,8 +57,8 @@ export const Groups: FC = () => {
         }
       />
       <div className={styles.metricsContainer}>
-        {error ? <p className={styles.error}>{error}</p> : null}
         {groupsData?.metrics?.length === 0 ? 'Not enough data' : null}
+        {error ? <p className={styles.error}>{error}</p> : null}
         {groupsData && groupsData?.metrics?.length > 0 ? (
           <ChartLine
             periods={periods}

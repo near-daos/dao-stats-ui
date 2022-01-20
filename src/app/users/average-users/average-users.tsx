@@ -1,6 +1,6 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useParams } from 'react-router';
-import { useUnmount } from 'react-use';
+import { useUnmount, useMount } from 'react-use';
 
 import { ChartLine, LoadingContainer } from 'src/components';
 import { isNotAsked, isSuccess, isPending, isFailed } from 'src/utils';
@@ -29,17 +29,15 @@ export const AverageUsers: FC = () => {
     selectActionLoading(getUsersAverageUsers.typePrefix),
   );
 
-  useEffect(() => {
+  useMount(() => {
     if (isNotAsked(getUsersLoading) && !isPending(getUsersLoading)) {
       dispatch(
         getUsersAverageUsers({
           contract,
         }),
-      ).catch((err: unknown) => {
-        console.error(err);
-      });
+      ).catch((err: unknown) => console.error(err));
     }
-  }, [getUsersLoading, contract, dispatch]);
+  });
 
   useUnmount(() => {
     dispatch(clearUsersError());
