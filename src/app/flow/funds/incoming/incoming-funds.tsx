@@ -114,6 +114,7 @@ export const IncomingFunds: FC = () => {
         fundsData &&
         fundsData?.metrics?.length ? (
           <ChartLine
+            isNear
             data={fundsData}
             period={period}
             setPeriod={setPeriod}

@@ -8,8 +8,10 @@ import { COLORS } from '../constants';
 import { LineItem } from '../types';
 
 import styles from './custom-legend.module.scss';
+import { SvgIcon } from '../../svgIcon';
 
 export interface CustomLegendProps extends LegendProps, RangeFilterProps {
+  isNear?: boolean;
   lines?: LineItem[];
   onFilterSelect?: (disabled: string[]) => void;
 }
@@ -20,6 +22,7 @@ export const CustomLegend: React.FC<CustomLegendProps> = ({
   periods,
   setPeriod,
   lines = [],
+  isNear,
 }) => {
   const [activeLines, setActiveLines] = useState<Set<string>>(
     new Set(lines.map((line) => line.dataKey)),
@@ -56,6 +59,9 @@ export const CustomLegend: React.FC<CustomLegendProps> = ({
               className={styles.legendListSvg}
             />
             <span className={styles.legendListValue}>{line.name}</span>
+            {isNear ? (
+              <SvgIcon icon="near" className={styles.nearIcon} />
+            ) : null}
           </button>
         ))}
       </div>

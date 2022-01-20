@@ -14,6 +14,9 @@ type LeaderboardHeaderCellProps = {
   position?: 'left' | 'right';
 };
 
+const SECOND_COLUMN = 2;
+const COUNT_COLSPAN = 2;
+
 const mediaSizes = {
   desktop: 1280,
   smallTinyChart: 80,
@@ -83,8 +86,9 @@ export const Leaderboard: FC<LeaderboardProps> = ({
                 [styles.headerCellRight]: headerCell.position === 'right',
               })}
               colSpan={
-                index === 2 && window.innerWidth < mediaSizes.desktop
-                  ? 2
+                index === SECOND_COLUMN &&
+                window.innerWidth < mediaSizes.desktop
+                  ? COUNT_COLSPAN
                   : undefined
               }
             >
