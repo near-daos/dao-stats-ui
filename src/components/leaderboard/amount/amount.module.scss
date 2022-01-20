@@ -1,10 +1,15 @@
 @use 'src/styles/functions';
+@use 'src/styles/media';
 @import 'src/styles/typography';
 
 .amount {
-  @include title-3;
-  
+  @include title-4;
+
   padding: 0 functions.calc-rem(24) 0 0;
+
+  @include media.desktop {
+    @include title-3;
+  }
 }
 
 .label {
@@ -31,7 +36,7 @@
 
 .zeroGrowth {
   color: var(--color-grey-500);
-  
+
   .icon {
     display: none;
   }

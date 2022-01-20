@@ -32,8 +32,20 @@
   color: var(--color-grey-500);
 
   text-align: left;
+  &:first-child {
+    display: none;
+
+    @include media.desktop {
+      display: table-cell;
+    }
+  }
   &:last-child {
-    padding-right: functions.calc-rem(32);
+    display: none;
+
+    @include media.desktop {
+      display: table-cell;
+      padding-right: functions.calc-rem(32);
+    }
   }
 }
 
@@ -56,6 +68,12 @@
     width: functions.calc-rem(24);
 
     padding: 0 functions.calc-rem(15) 0 functions.calc-rem(32);
+
+    display: none;
+
+    @include media.desktop {
+      display: table-cell;
+    }
   }
 
   &:nth-child(2) {
@@ -63,7 +81,9 @@
   }
 
   &:last-child {
-    padding-right: functions.calc-rem(32);
+    @include media.desktop {
+      padding-right: functions.calc-rem(32);
+    }
   }
 }
 
