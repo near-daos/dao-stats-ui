@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import {
   Switch,
   Route,
@@ -7,6 +7,7 @@ import {
   useHistory,
   matchPath,
 } from 'react-router';
+import { useMount } from 'react-use';
 
 import { getGeneral } from 'src/app/shared/general/slice';
 import { selectGeneral } from 'src/app/shared/general/selectors';
@@ -36,17 +37,11 @@ export const GeneralInfo: FC = () => {
   const dispatch = useAppDispatch();
   const general = useAppSelector(selectGeneral);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        if (!general) {
-          await dispatch(getGeneral({ contract }));
-        }
-      } catch (error: unknown) {
-        console.error(error);
-      }
-    })();
-  }, [general, contract, dispatch]);
+  useMount(() => {
+    if (!general) {
+      dispatch(getGeneral({ contract })).catch((err) => console.error(err));
+    }
+  });
 
   const breadcrumbs = useMemo(
     () => [

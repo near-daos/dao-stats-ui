@@ -1,20 +1,23 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { generatePath, useHistory, useParams } from 'react-router';
+import { useMount, useUnmount } from 'react-use';
 
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { useFilterMetrics, usePrepareLeaderboard, usePeriods } from 'src/hooks';
-import { isPending, isSuccess, isNotAsked } from 'src/utils';
+import { isSuccess, isFailed } from 'src/utils';
 import { ROUTES, UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
 import {
+  selectTokensError,
   selectTokensFtsVl,
   selectTokensFtsVlLeaderboard,
 } from 'src/app/shared/tokens/selectors';
 import {
+  clearTokensError,
   getTokensFtsVl,
   getTokensFtsVlLeaderboard,
 } from 'src/app/shared/tokens/slice';
@@ -31,7 +34,7 @@ export const FtsVl: FC = () => {
   const history = useHistory();
   const [period, setPeriod] = useState('All');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
-
+  const error = useAppSelector(selectTokensError);
   const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const tokens = useAppSelector(selectTokensFtsVl);
@@ -43,34 +46,27 @@ export const FtsVl: FC = () => {
     selectActionLoading(getTokensFtsVlLeaderboard.typePrefix),
   );
 
-  useEffect(() => {
-    if (
-      isNotAsked(getTokensFtsVlLoading) &&
-      !isPending(getTokensFtsVlLoading)
-    ) {
+  useMount(() => {
+    if (!tokens) {
       dispatch(
         getTokensFtsVl({
           contract,
         }),
-      ).catch((error: unknown) => console.error(error));
+      ).catch((err) => console.error(err));
     }
 
-    if (
-      isNotAsked(getTokensFtsVlLeaderboardLoading) &&
-      !isPending(getTokensFtsVlLeaderboardLoading)
-    ) {
+    if (!tokensLeaderboard) {
       dispatch(
         getTokensFtsVlLeaderboard({
           contract,
         }),
-      ).catch((error: unknown) => console.error(error));
+      ).catch((err) => console.error(err));
     }
-  }, [
-    dispatch,
-    contract,
-    getTokensFtsVlLoading,
-    getTokensFtsVlLeaderboardLoading,
-  ]);
+  });
+
+  useUnmount(() => {
+    dispatch(clearTokensError());
+  });
 
   const handleOnChange = (value: string) => {
     setActiveTab(value);
@@ -96,8 +92,10 @@ export const FtsVl: FC = () => {
     <div className={styles.detailsContainer}>
       <LoadingContainer
         hide={
-          isSuccess(getTokensFtsVlLoading) &&
-          isSuccess(getTokensFtsVlLeaderboardLoading)
+          (isSuccess(getTokensFtsVlLoading) &&
+            isSuccess(getTokensFtsVlLeaderboardLoading)) ||
+          isFailed(getTokensFtsVlLoading) ||
+          isFailed(getTokensFtsVlLeaderboardLoading)
         }
       />
       <div className={styles.tabWrapper}>
@@ -108,8 +106,12 @@ export const FtsVl: FC = () => {
           onChange={handleOnChange}
         />
       </div>
+      {error ? <p className={styles.error}>{error}</p> : null}
+      {tokensData?.metrics?.length === 0 ? 'Not enough data' : null}
       <div className={styles.metricsContainer}>
-        {activeTab === 'history-data' && tokensData ? (
+        {activeTab === 'history-data' &&
+        tokensData &&
+        tokensData?.metrics?.length ? (
           <ChartLine
             isCurrency
             periods={periods}

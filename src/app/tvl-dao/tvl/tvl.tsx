@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import { useParams } from 'react-router';
+import { useMount, useUnmount } from 'react-use';
 
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
@@ -15,7 +16,6 @@ import {
   selectTvlError,
 } from 'src/app/shared/tvl/selectors';
 import { clearTvlError, getTvlDaoTvl } from 'src/app/shared/tvl/slice';
-import { useMount, useUnmount } from 'react-use';
 
 export const Tvl: FC = () => {
   const [period, setPeriod] = useState('All');

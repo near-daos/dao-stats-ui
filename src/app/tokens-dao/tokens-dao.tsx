@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import {
   generatePath,
   matchPath,
@@ -8,6 +8,7 @@ import {
   useLocation,
   useParams,
 } from 'react-router';
+import { useMount } from 'react-use';
 import { UrlParams, ROUTES } from 'src/constants';
 import { useRoutes } from 'src/hooks';
 
@@ -35,17 +36,13 @@ export const TokensDao: FC = () => {
   const dispatch = useAppDispatch();
   const tokens = useAppSelector(selectTokensDaoById(dao));
 
-  useEffect(() => {
-    (async () => {
-      try {
-        if (!tokens) {
-          await dispatch(getTokensDao({ contract, dao }));
-        }
-      } catch (error: unknown) {
-        console.error(error);
-      }
-    })();
-  }, [tokens, contract, dispatch, dao]);
+  useMount(() => {
+    if (!tokens) {
+      dispatch(getTokensDao({ contract, dao })).catch((err) =>
+        console.error(err),
+      );
+    }
+  });
 
   const breadcrumbs = useMemo(
     () => [

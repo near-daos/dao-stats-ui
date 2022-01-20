@@ -1,45 +1,59 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useParams } from 'react-router';
+import { useMount, useUnmount } from 'react-use';
 
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
-import { isPending, isSuccess } from 'src/utils';
+import { isFailed, isSuccess } from 'src/utils';
 import { UrlParams } from 'src/constants';
+import {
+  selectTvlDaoBountiesVlById,
+  selectTvlError,
+} from 'src/app/shared/tvl/selectors';
+import { clearTvlError, getTvlDaoBountiesVl } from 'src/app/shared/tvl/slice';
 
 import styles from 'src/styles/page.module.scss';
-
-import { selectTvlDaoBountiesVlById } from 'src/app/shared/tvl/selectors';
-import { getTvlDaoBountiesVl } from 'src/app/shared/tvl/slice';
 
 export const BountiesVl: FC = () => {
   const [period, setPeriod] = useState('All');
   const { contract, dao } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
-
+  const error = useAppSelector(selectTvlError);
   const tvl = useAppSelector(selectTvlDaoBountiesVlById(dao));
   const getTvlDaoBountiesNumberLoading = useAppSelector(
     selectActionLoading(getTvlDaoBountiesVl.typePrefix),
   );
 
-  useEffect(() => {
-    if (!tvl && !isPending(getTvlDaoBountiesNumberLoading)) {
+  useMount(() => {
+    if (!tvl) {
       dispatch(
         getTvlDaoBountiesVl({
           contract,
           dao,
         }),
-      ).catch((error: unknown) => console.error(error));
+      ).catch((err) => console.error(err));
     }
-  }, [dispatch, contract, getTvlDaoBountiesNumberLoading, tvl, dao]);
+  });
+
+  useUnmount(() => {
+    dispatch(clearTvlError());
+  });
 
   const tvlData = useFilterMetrics(period, tvl);
   const periods = usePeriods(tvl?.metrics);
 
   return (
     <>
-      <LoadingContainer hide={isSuccess(getTvlDaoBountiesNumberLoading)} />
+      <LoadingContainer
+        hide={
+          isSuccess(getTvlDaoBountiesNumberLoading) ||
+          isFailed(getTvlDaoBountiesNumberLoading)
+        }
+      />
+      {error ? <p className={styles.error}>{error}</p> : null}
+      {tvlData?.metrics?.length === 0 ? 'Not enough data' : null}
       <div className={styles.metricsContainer}>
         {tvlData ? (
           <ChartLine

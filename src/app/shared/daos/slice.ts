@@ -6,10 +6,9 @@ import {
   isFulfilled,
   createAction,
 } from '@reduxjs/toolkit';
-
-import { RequestStatus } from '../../../store/types';
+import { daosService, InputParams, DaoParams } from 'src/api';
+import { RequestStatus } from 'src/store/types';
 import { DaoState } from './types';
-import { daosService, InputParams, DaoParams } from '../../../api';
 
 const initialState: DaoState = {
   autocomplete: null,

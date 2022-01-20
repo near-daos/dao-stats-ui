@@ -1,11 +1,12 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { generatePath, useHistory, useParams } from 'react-router';
+import { useUnmount, useMount } from 'react-use';
 
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
-import { isSuccess, isPending, isNotAsked, isFailed } from 'src/utils';
+import { isSuccess, isFailed } from 'src/utils';
 import {
   clearUsersError,
   getUsersInteractions,
@@ -19,7 +20,6 @@ import {
 import { ROUTES, UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
-import { useUnmount } from 'react-use';
 
 const tabOptions = [
   {
@@ -49,38 +49,23 @@ export const Interactions: FC = () => {
     setActiveTab(value);
   };
 
-  useEffect(() => {
-    if (
-      isNotAsked(getUsersInteractionsLoading) &&
-      !isPending(getUsersInteractionsLoading)
-    ) {
+  useMount(() => {
+    if (!users) {
       dispatch(
         getUsersInteractions({
           contract,
         }),
-      ).catch((err: unknown) => {
-        console.error(err);
-      });
+      ).catch((err: unknown) => console.error(err));
     }
 
-    if (
-      isNotAsked(getUsersInteractionsLeaderboardLoading) &&
-      !isPending(getUsersInteractionsLeaderboardLoading)
-    ) {
+    if (!usersLeaderboard) {
       dispatch(
         getUsersInteractionsLeaderboard({
           contract,
         }),
-      ).catch((err: unknown) => {
-        console.error(err);
-      });
+      ).catch((err: unknown) => console.error(err));
     }
-  }, [
-    contract,
-    dispatch,
-    getUsersInteractionsLoading,
-    getUsersInteractionsLeaderboardLoading,
-  ]);
+  });
 
   useUnmount(() => {
     dispatch(clearUsersError());
@@ -125,9 +110,6 @@ export const Interactions: FC = () => {
         />
       </div>
       {activeTab === 'history-data' && usersData?.metrics?.length === 0
-        ? 'Not enough data'
-        : null}
-      {activeTab === 'leaderboard' && usersLeaderboardData.length === 0
         ? 'Not enough data'
         : null}
       {error ? <p className={styles.error}>{error}</p> : null}

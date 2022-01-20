@@ -37,9 +37,7 @@ export const Members: FC = () => {
           contract,
           dao,
         }),
-      ).catch((err: unknown) => {
-        console.error(err);
-      });
+      ).catch((err) => console.error(err));
     }
   });
 

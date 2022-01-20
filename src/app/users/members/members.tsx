@@ -1,12 +1,12 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { generatePath, useHistory, useParams } from 'react-router';
-import { useUnmount } from 'react-use';
+import { useUnmount, useMount } from 'react-use';
 
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
-import { isSuccess, isPending, isNotAsked, isFailed } from 'src/utils';
+import { isSuccess, isFailed } from 'src/utils';
 import {
   clearUsersError,
   getUsersMembers,
@@ -18,7 +18,6 @@ import {
   selectUsersMembersLeaderboard,
 } from 'src/app/shared/users/selectors';
 import { ROUTES, UrlParams } from 'src/constants';
-import { getDao } from 'src/app/shared';
 
 import styles from 'src/styles/page.module.scss';
 
@@ -50,38 +49,23 @@ export const Members: FC = () => {
     setActiveTab(value);
   };
 
-  useEffect(() => {
-    if (
-      isNotAsked(getUsersNumberLoading) &&
-      !isPending(getUsersNumberLoading)
-    ) {
+  useMount(() => {
+    if (!users) {
       dispatch(
         getUsersMembers({
           contract,
         }),
-      ).catch((err: unknown) => {
-        console.error(err);
-      });
+      ).catch((err: unknown) => console.error(err));
     }
 
-    if (
-      isNotAsked(getUsersNumberLeaderboardLoading) &&
-      !isPending(getUsersNumberLeaderboardLoading)
-    ) {
+    if (!usersLeaderboard) {
       dispatch(
         getUsersMembersLeaderboard({
           contract,
         }),
-      ).catch((err: unknown) => {
-        console.error(err);
-      });
+      ).catch((err: unknown) => console.error(err));
     }
-  }, [
-    contract,
-    dispatch,
-    getUsersNumberLoading,
-    getUsersNumberLeaderboardLoading,
-  ]);
+  });
 
   useUnmount(() => {
     dispatch(clearUsersError());
@@ -96,17 +80,11 @@ export const Members: FC = () => {
 
   const goToSingleDao = useCallback(
     (row) => {
-      dispatch(getDao({ contract, dao: row.dao }))
-        .then(() => {
-          history.push(
-            generatePath(ROUTES.usersMembersDao, { contract, dao: row.dao }),
-          );
-        })
-        .catch((err: unknown) => {
-          console.error(err);
-        });
+      history.push(
+        generatePath(ROUTES.usersMembersDao, { contract, dao: row.dao }),
+      );
     },
-    [contract, history, dispatch],
+    [contract, history],
   );
 
   return (
@@ -128,9 +106,6 @@ export const Members: FC = () => {
         />
       </div>
       {activeTab === 'history-data' && usersData?.metrics?.length === 0
-        ? 'Not enough data'
-        : null}
-      {activeTab === 'leaderboard' && usersLeaderboardData.length === 0
         ? 'Not enough data'
         : null}
       {error ? <p className={styles.error}>{error}</p> : null}
