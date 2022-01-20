@@ -36,7 +36,13 @@ export const UserData = ({ children }: UserDataProps): ReactElement => {
         const contractResponse = await dispatch(getContracts());
         const contracts = unwrapResult(contractResponse).data;
 
-        await dispatch(getPrice({ currency: Currency.USD, coin: Coin.NEAR }));
+        await dispatch(
+          getPrice({
+            currency: Currency.USD,
+            coin: Coin.NEAR,
+            to: String(new Date().getTime()),
+          }),
+        );
 
         dispatch(setContract(contracts[0]));
       } catch (error: unknown) {

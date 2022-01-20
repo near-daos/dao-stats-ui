@@ -1,4 +1,4 @@
-import { isSameDay } from 'date-fns';
+import { isEqual, startOfDay } from 'date-fns';
 import { Leaderboard, MetricItem, FlowMetricsItem, Price } from '../api';
 
 type updateMetricsDataWithCurrencyArguments = {
@@ -12,7 +12,7 @@ export const calculateCount = (
   count: number,
 ) => {
   const foundPrice = priceItems.find((price) =>
-    isSameDay(price.date, timestamp),
+    isEqual(startOfDay(price.date), startOfDay(timestamp)),
   );
 
   const countResult = foundPrice ? parseFloat(foundPrice.price) * count : count;
