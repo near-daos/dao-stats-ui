@@ -60,7 +60,9 @@ export const CustomLegend: React.FC<CustomLegendProps> = ({
             />
             <span className={styles.legendListValue}>{line.name}</span>
             {isNear ? (
-              <SvgIcon icon="near" className={styles.nearIcon} />
+              <>
+                , <SvgIcon icon="near" className={styles.nearIcon} />
+              </>
             ) : null}
           </button>
         ))}

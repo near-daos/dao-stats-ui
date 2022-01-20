@@ -73,15 +73,14 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
         >
           <Dot color={element.color || ''} className={styles.dot} />
           <span className={styles.name}>
-            {lines ? lines[elementIndex].name : element.name}{' '}
-            {isNear ? (
-              <SvgIcon icon="near" className={styles.nearIcon} />
-            ) : null}
-            :
+            {lines ? lines[elementIndex].name : element.name} :
           </span>
           <span className={styles.value}>
             {isCurrency ? '$' : null}{' '}
             {numeral(element.value).format(roundPattern)}
+            {isNear ? (
+              <SvgIcon icon="near" className={styles.nearIcon} />
+            ) : null}
           </span>
         </div>
       ))}
