@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
 import clsx from 'clsx';
 
+import { ONE_HUNDRED } from 'src/constants';
+
 import { SvgIcon } from '../svgIcon';
 
 import styles from './amount.module.scss';
@@ -26,7 +28,7 @@ export const Amount: FC<AmountProps> = ({
       })}
     >
       <SvgIcon icon="stats" className={styles.icon} />
-      {Math.round((percentages || 0) * 100)}%
+      {Math.round((percentages || 0) * ONE_HUNDRED)}%
     </div>
   </div>
 );
