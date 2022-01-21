@@ -66,3 +66,14 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+We want short dns name for mainnet
+*/}}
+{{- define "dao-stats-ui.hosts" -}}
+{{- if hasPrefix "mainnet-" .Values.ingress.host  -}}
+    {{ toJson (list (trimPrefix "mainnet-" .Values.ingress.host) .Values.ingress.host) }}
+{{- else -}}
+    {{ toJson (list .Values.ingress.host) }}
+{{- end -}}
+{{- end -}}

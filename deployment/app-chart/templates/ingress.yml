@@ -10,16 +10,20 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - {{ .Values.ingress.host }}
+{{- range include "dao-stats-ui.hosts" . | fromJsonArray }}
+    - {{ . }}
+{{- end}}
     secretName: {{ include "dao-stats-ui.fullname" . }}-tls-secret
   rules:
-  - host: {{ .Values.ingress.host }}
+{{- range include "dao-stats-ui.hosts" . | fromJsonArray }}
+  - host: {{ . }}
     http:
       paths:
         - path: /
           backend:
             service:
-              name: {{ include "dao-stats-ui.fullname" . }}
+              name: {{ include "dao-stats-ui.fullname" $ }}
               port:
                 number: 80
           pathType: ImplementationSpecific
+{{- end}}
