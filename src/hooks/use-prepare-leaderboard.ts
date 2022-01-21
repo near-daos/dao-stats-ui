@@ -1,4 +1,6 @@
 import { useMemo } from 'react';
+
+import { ONE_HUNDRED } from 'src/constants';
 import { LeaderboardItem, Proposals } from 'src/api';
 import { LeaderboardDataItem } from 'src/components/leaderboard/leaderboard';
 import { TitleCellProps } from '../components/leaderboard/title-cell';
@@ -6,6 +8,7 @@ import { TitleCellProps } from '../components/leaderboard/title-cell';
 type usePrepareLeaderboardProps = {
   leaderboard: LeaderboardItem[] | null;
   type?: string;
+  withCurrency?: boolean;
 };
 
 const prepareTitle = (dao: string): TitleCellProps => {
@@ -18,7 +21,7 @@ const prepareTitle = (dao: string): TitleCellProps => {
 };
 
 function percentage(partialValue: number, totalValue: number): number {
-  return parseInt(((100 * partialValue) / totalValue).toFixed(0), 10);
+  return parseInt(((ONE_HUNDRED * partialValue) / totalValue).toFixed(0), 10);
 }
 
 function prepareProposalsForChart(proposals?: Proposals): Proposals {
@@ -53,6 +56,7 @@ export const usePrepareLeaderboard = ({
     if (type === 'single') {
       return leaderboard.map((leaderboardItem, index) => ({
         id: index,
+        dao: leaderboardItem.dao,
         titleCell: prepareTitle(leaderboardItem.dao),
         line: {
           totalMetrics: leaderboardItem?.activity,
@@ -61,9 +65,23 @@ export const usePrepareLeaderboard = ({
       }));
     }
 
+    if (type === 'voteRate') {
+      return leaderboard.map((leaderboardItem, index) => ({
+        id: index,
+        dao: leaderboardItem.dao,
+        titleCell: prepareTitle(leaderboardItem.dao),
+        voteRate: {
+          voteRate: leaderboardItem?.voteRate,
+          proposals: leaderboardItem?.proposals,
+          metrics: leaderboardItem?.overview,
+        },
+      }));
+    }
+
     if (type === 'stacked') {
       return leaderboard.map((leaderboardItem, index) => ({
         id: index,
+        dao: leaderboardItem.dao,
         titleCell: prepareTitle(leaderboardItem.dao),
         proposals: prepareProposalsForChart(leaderboardItem?.proposalsByType),
       }));

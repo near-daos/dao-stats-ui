@@ -37,6 +37,8 @@ export type Proposals = {
 export type LeaderboardItem = {
   dao: string;
   proposalsByType?: Proposals;
+  proposals?: TotalMetrics;
+  voteRate?: TotalMetrics;
   activity?: TotalMetrics;
   overview?: MetricItem[];
 };
@@ -44,21 +46,46 @@ export type LeaderboardItem = {
 export type Leaderboard = {
   leaderboard?: LeaderboardItem[];
   metrics?: LeaderboardItem[];
+  incoming?: LeaderboardItem[];
+  outgoing?: LeaderboardItem[];
 };
 
 export type DaoHistoryParams = DaoParams & History;
+
+export type Legal = {
+  legalStatus?: string;
+  legalLink?: string;
+};
+
+export type Metadata = {
+  displayName?: string;
+  flagCover?: string;
+  flagLogo?: string;
+  legal?: Legal;
+  links?: string[];
+};
 
 export type Dao = {
   createdAt: string;
   dao: string;
   contractId: string;
-  description: string | null;
-  metadata: string | null;
+  description: string;
+  metadata: Metadata;
+};
+
+export type TvlTotalMetrics = {
+  number: TotalMetrics;
+  vl: TotalMetrics;
+};
+
+export type FlowTotalMetrics = {
+  number: TotalMetrics;
 };
 
 export type TotalMetrics = {
   count: number;
   growth: number;
+  countNear?: number;
 };
 
 export type MetricItem = {
@@ -68,4 +95,22 @@ export type MetricItem = {
 
 export type Metrics = {
   metrics: MetricItem[];
+};
+
+export type FlowMetricsItem = {
+  timestamp: number;
+  incoming: number;
+  outgoing: number;
+};
+
+export type FlowMetrics = {
+  metrics: FlowMetricsItem[];
+};
+
+export type MetricsEntity = Metrics & {
+  id: string;
+};
+
+export type FlowMetricsEntity = FlowMetrics & {
+  id: string;
 };

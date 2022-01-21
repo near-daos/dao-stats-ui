@@ -1,0 +1,18 @@
+@use 'src/styles/helpers';
+@use 'src/styles/typography';
+@use 'src/styles/functions';
+
+.breadcrumbs {
+  @include typography.title-1;
+  margin: 0 0 functions.calc-rem(16);
+
+  display: flex;
+
+  flex-wrap: wrap;
+}
+
+.link {
+  @include typography.title-1;
+  @extend %button-reset;
+  margin-right: functions.calc-rem(12);
+}

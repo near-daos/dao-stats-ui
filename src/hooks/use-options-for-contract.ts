@@ -3,10 +3,10 @@ import startCase from 'lodash/startCase';
 import { TabOption } from 'src/components/tabs/tabs';
 
 import { useAppSelector } from '../store';
-import { selectorContracts } from '../app/shared';
+import { selectContracts } from '../app/shared';
 
 export const useOptionsForContract = (): TabOption[] => {
-  const contracts = useAppSelector(selectorContracts);
+  const contracts = useAppSelector(selectContracts);
 
   return useMemo(() => {
     if (contracts) {

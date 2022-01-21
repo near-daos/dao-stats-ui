@@ -1,6 +1,7 @@
-@use '../../styles/functions';
-@import '../../styles/typography';
-@import '../../styles/helpers';
+@use 'src/styles/functions';
+@use 'src/styles/media';
+@import 'src/styles/typography';
+@import 'src/styles/helpers';
 
 .widgetTile {
   @extend %button-reset;
@@ -22,7 +23,10 @@
   transition: border-color 350ms;
 
   &:hover {
-    border: functions.calc-rem(2) solid var(--color-chart-yellow);
+    border: functions.calc-rem(2) solid var(--color-blue-500);
+    @include media.desktop {
+      border: functions.calc-rem(2) solid var(--color-chart-yellow);
+    }
   }
 }
 
@@ -34,4 +38,8 @@
   pointer-events: none;
 
   opacity: 0.3;
+}
+
+.withoutHover {
+  pointer-events: none;
 }

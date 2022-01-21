@@ -1,19 +1,23 @@
-import React, { FC, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import React, { FC, useCallback, useEffect, useState } from 'react';
+import { generatePath, useHistory, useParams } from 'react-router';
 
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
-import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
+import { useFilterMetrics, usePrepareLeaderboard, usePeriods } from 'src/hooks';
 import { isPending, isSuccess, isNotAsked } from 'src/utils';
 
 import {
   selectGeneralActive,
   selectGeneralActiveLeaderboard,
-} from '../selectors';
-import { getGeneralActive, getGeneralActiveLeaderboard } from '../slice';
+} from 'src/app/shared/general/selectors';
+import {
+  getGeneralActive,
+  getGeneralActiveLeaderboard,
+} from 'src/app/shared/general/slice';
 
-import styles from '../general-info.module.scss';
+import styles from 'src/styles/page.module.scss';
+import { ROUTES } from '../../../constants';
 
 const tabOptions = [
   {
@@ -24,7 +28,8 @@ const tabOptions = [
 ];
 
 export const ActiveDao: FC = () => {
-  const [period, setPeriod] = useState('1y');
+  const history = useHistory();
+  const [period, setPeriod] = useState('All');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
 
   const { contract } = useParams<{ contract: string }>();
@@ -40,34 +45,30 @@ export const ActiveDao: FC = () => {
 
   useEffect(() => {
     if (
-      (!active || isNotAsked(getGeneralActiveLoading)) &&
+      isNotAsked(getGeneralActiveLoading) &&
       !isPending(getGeneralActiveLoading)
     ) {
       dispatch(
         getGeneralActive({
           contract,
         }),
-        // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
 
     if (
-      (!activeLeaderboard || isNotAsked(getGeneralActiveLeaderboardLoading)) &&
+      isNotAsked(getGeneralActiveLeaderboardLoading) &&
       !isPending(getGeneralActiveLeaderboardLoading)
     ) {
       dispatch(
         getGeneralActiveLeaderboard({
           contract,
         }),
-        // eslint-disable-next-line no-console
       ).catch((error: unknown) => console.error(error));
     }
   }, [
     dispatch,
     contract,
-    active,
     getGeneralActiveLoading,
-    activeLeaderboard,
     getGeneralActiveLeaderboardLoading,
   ]);
 
@@ -80,6 +81,16 @@ export const ActiveDao: FC = () => {
   });
 
   const activeData = useFilterMetrics(period, active);
+  const periods = usePeriods(active?.metrics);
+
+  const goToSingleDao = useCallback(
+    (row) => {
+      history.push(
+        generatePath(ROUTES.generalInfoDao, { contract, dao: row.dao }),
+      );
+    },
+    [contract, history],
+  );
 
   return (
     <div className={styles.detailsContainer}>
@@ -100,21 +111,27 @@ export const ActiveDao: FC = () => {
       <div className={styles.metricsContainer}>
         {activeTab === 'history-data' && activeData ? (
           <ChartLine
+            periods={periods}
             data={activeData}
             period={period}
             setPeriod={setPeriod}
             lines={[
-              { name: 'Active DAOs', color: '#E33F84', dataKey: 'count' },
+              {
+                name: 'Weekly Active DAOs',
+                color: '#E33F84',
+                dataKey: 'count',
+              },
             ]}
           />
         ) : null}
         {activeTab === 'leaderboard' && activityLeaderboardData ? (
           <Leaderboard
+            onRowClick={goToSingleDao}
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
               { value: 'DAOs activity' },
-              { value: 'Last 7 days', position: 'right' },
+              { value: 'Last Month', position: 'right' },
             ]}
             type="line"
             dataRows={activityLeaderboardData}

@@ -1,23 +1,30 @@
-@use '../../styles/mixins';
-@use '../../styles/functions';
-@import '../../styles/typography';
+@use 'src/styles/mixins';
+@use 'src/styles/functions';
+@use 'src/styles/media';
+@import 'src/styles/typography';
 
 .root {
+  width: functions.calc-rem(587);
+
   position: relative;
 
-  display: flex;
+  display: none;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+
+  @include media.desktop {
+    display: flex;
+  }
 }
 
 .overlayDropdown {
-  width: 67%;
+  width: functions.calc-rem(405);
 
   padding: functions.calc-rem(4) functions.calc-rem(2) 0 0;
 
   position: absolute;
-  top: 100%;
+  top: calc(100% + 3px);
 
   left: 0;
   z-index: 100;
@@ -90,7 +97,7 @@
 
 .name {
   @include title-3();
-  width: functions.calc-rem(100);
+  width: functions.calc-rem(150);
 
   color: var(--white);
 }
@@ -120,4 +127,13 @@
   @include caption-1();
 
   color: var(--color-grey-300);
+}
+
+.loading {
+  width: functions.calc-rem(130);
+  height: functions.calc-rem(100);
+
+  margin: functions.calc-rem(24) auto;
+
+  display: block;
 }

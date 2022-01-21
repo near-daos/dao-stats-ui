@@ -26,9 +26,16 @@
 
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
+    "no-param-reassign": ["error", { "props": false }],
+    "no-console": ["warn", { "allow": ["warn", "error", "info"] }],
+    "no-magic-numbers": ["error", { "ignoreDefaultValues": true,
+      "enforceConst": true,
+      "ignoreArrayIndexes": true,
+      "ignore": [1, 0, -1]
+    }],
     "padding-line-between-statements": [
       "error",
-      // Always require blank lines after directive (like 'use-strict'), except between directives
+      // Always require blank lines after directive (like "use-strict"), except between directives
       { "blankLine": "always", "prev": "directive", "next": "*" },
       { "blankLine": "any", "prev": "directive", "next": "directive" },
       // Always require blank lines after import, except between imports
@@ -69,10 +76,18 @@
     "prettier/prettier": ["error"],
 
     // TypeScript
-    "@typescript-eslint/no-unused-vars": "warn",
     "@typescript-eslint/explicit-member-accessibility": "off",
     "@typescript-eslint/no-object-literal-type-assertion": "off",
-
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-this-alias": "error",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/ban-ts-comment": "warn",
+    "@typescript-eslint/no-empty-interface": "error",
+    
     // React
     "react/require-default-props": "off",
     "react/jsx-one-expression-per-line": "off",
@@ -80,6 +95,7 @@
     "react/prop-types": ["off", {}],
     "react/jsx-props-no-spreading": "off",
     "react/button-has-type": "off",
+    "react-hooks/exhaustive-deps": "warn",
 
     // import
     "import/prefer-default-export": "off",

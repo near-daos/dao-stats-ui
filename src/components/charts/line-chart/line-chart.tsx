@@ -11,18 +11,27 @@ import {
 } from 'recharts';
 
 import { CustomLegend } from 'src/components/charts/custom-legend';
+import { Period } from 'src/constants';
+
 import { ChartTooltip } from '../chart-tooltip';
 import { tickStyles } from '../constants';
-import { LineItem } from '../types';
+import { ChartDataItem, LineItem } from '../types';
 
-import { tickXFormatter } from '../helpers';
+import { tickXFormatter, tickYFormatter } from '../helpers';
+
+type LineChartData = {
+  metrics: ChartDataItem[];
+};
 
 type LineChartProps = {
   width?: number;
   lines?: LineItem[];
-  data: any | null;
+  data: LineChartData | null;
   period: string;
+  periods: Period[];
   setPeriod: (period: string) => void;
+  isCurrency?: boolean;
+  roundPattern?: string;
 };
 
 export const ChartLine: React.FC<LineChartProps> = ({
@@ -30,7 +39,10 @@ export const ChartLine: React.FC<LineChartProps> = ({
   data = { metrics: [] },
   width = 685,
   period,
+  periods,
   setPeriod,
+  isCurrency,
+  roundPattern,
 }) => {
   const [filterLines, setFilterLines] = useState(lines);
 
@@ -65,17 +77,8 @@ export const ChartLine: React.FC<LineChartProps> = ({
     </g>
   );
 
-  // HOTFIX, waiting to fix bug from lib - https://github.com/recharts/recharts/issues/2704
-  React.useEffect(() => {
-    const id = setTimeout(() => {
-      window.dispatchEvent(new Event('resize'));
-    }, 1000);
-
-    return () => clearTimeout(id);
-  }, []);
-
   return (
-    <ResponsiveContainer>
+    <ResponsiveContainer debounce={1}>
       <LineChart data={data?.metrics}>
         <Legend
           align="left"
@@ -85,6 +88,7 @@ export const ChartLine: React.FC<LineChartProps> = ({
             <CustomLegend
               lines={lines}
               period={period}
+              periods={periods}
               setPeriod={(periodType) => setPeriod(periodType)}
               onFilterSelect={(filteredNames) =>
                 setFilterLines(
@@ -104,17 +108,19 @@ export const ChartLine: React.FC<LineChartProps> = ({
           interval={0}
           tickLine={false}
           style={tickStyles}
-          width={30}
+          width={35}
+          tickFormatter={tickYFormatter}
         />
         <XAxis
           stroke="#393838"
           dataKey="timestamp"
           tickMargin={12}
-          tickCount={6}
           tickLine={false}
-          tickFormatter={(value) => tickXFormatter(value, period)}
+          tickFormatter={(value) =>
+            tickXFormatter(data?.metrics as ChartDataItem[], value, period)
+          }
           style={tickStyles}
-          minTickGap={15}
+          minTickGap={60}
         />
         {filterLines.map((filterLine) => (
           <Line
@@ -128,7 +134,13 @@ export const ChartLine: React.FC<LineChartProps> = ({
           />
         ))}
         <Tooltip
-          content={<ChartTooltip lines={lines} />}
+          content={
+            <ChartTooltip
+              lines={lines}
+              isCurrency={isCurrency}
+              roundPattern={roundPattern}
+            />
+          }
           cursor={{
             stroke: '#686767',
             strokeWidth: '0.5',

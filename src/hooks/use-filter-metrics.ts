@@ -1,19 +1,30 @@
 import { useMemo } from 'react';
-import { getDateFromMow } from 'src/components/charts/helpers';
-import { Metrics } from 'src/api';
+import { FlowMetricsItem, MetricItem } from 'src/api';
+import { getDateFromSelectedDate } from 'src/components/charts/helpers';
 
 export const useFilterMetrics = (
   period: string,
-  metricsData: Metrics | null,
-): Metrics | null =>
-  useMemo(
-    () =>
-      metricsData?.metrics
-        ? {
-            metrics: metricsData?.metrics.filter(
-              (metric) => metric.timestamp > getDateFromMow(period),
-            ),
-          }
-        : null,
-    [metricsData, period],
-  );
+  metricsData?: { metrics: (MetricItem | FlowMetricsItem)[] } | null,
+) =>
+  useMemo(() => {
+    if (period === 'All') {
+      return metricsData || null;
+    }
+
+    if (
+      !metricsData ||
+      !metricsData?.metrics ||
+      !metricsData?.metrics?.length
+    ) {
+      return null;
+    }
+
+    const endDate =
+      metricsData.metrics[metricsData.metrics.length - 1].timestamp;
+
+    return {
+      metrics: metricsData.metrics.filter(
+        (metric) => metric.timestamp > getDateFromSelectedDate(period, endDate),
+      ),
+    };
+  }, [metricsData, period]);

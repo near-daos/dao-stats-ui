@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import { LegendProps } from 'recharts';
-import { LineItem } from 'src/components/charts/types';
 
 import { Dot } from '../svg/dot';
 import { RangeFilter, RangeFilterProps } from '../range-filter';
+import { COLORS } from '../constants';
+import { LineItem } from '../types';
 
 import styles from './custom-legend.module.scss';
-import { COLORS } from '../constants';
 
 export interface CustomLegendProps extends LegendProps, RangeFilterProps {
   lines?: LineItem[];
@@ -17,6 +17,7 @@ export interface CustomLegendProps extends LegendProps, RangeFilterProps {
 export const CustomLegend: React.FC<CustomLegendProps> = ({
   period,
   onFilterSelect,
+  periods,
   setPeriod,
   lines = [],
 }) => {
@@ -45,6 +46,7 @@ export const CustomLegend: React.FC<CustomLegendProps> = ({
           <button
             className={clsx(styles.legendListBar, {
               [styles.disabled]: !activeLines.has(line.dataKey),
+              [styles.withoutHover]: activeLines.size === 1,
             })}
             key={`item-${line.dataKey}`}
             onClick={() => handleClick(line.dataKey)}
@@ -57,11 +59,7 @@ export const CustomLegend: React.FC<CustomLegendProps> = ({
           </button>
         ))}
       </div>
-      <RangeFilter
-        period={period}
-        setPeriod={setPeriod}
-        periods={['7d', '1m', '3m', '6m', '1y', 'All']}
-      />
+      <RangeFilter period={period} setPeriod={setPeriod} periods={periods} />
     </div>
   );
 };

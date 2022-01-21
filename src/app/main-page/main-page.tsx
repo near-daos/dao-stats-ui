@@ -1,31 +1,48 @@
 import React, { FC, useEffect } from 'react';
 import startCase from 'lodash/startCase';
-import { useHistory } from 'react-router';
+import { generatePath, useHistory } from 'react-router';
 
-import { Search, Button, NetworkSwitcher } from '../../components';
-import { useAppSelector } from '../../store';
-import { selectorSelectedContract } from '../shared';
-import { useRoutes } from '../../hooks';
-import { infinity } from '../../icons';
+import { Button } from 'src/components';
+import { useAppSelector } from 'src/store';
+import { useRoutes } from 'src/hooks';
+import { infinity } from 'src/icons';
+import { ROUTES } from 'src/constants';
+import { selectCurrentDao, selectSelectedContract } from 'src/app/shared';
 
 import styles from './main-page.module.scss';
 
 export const MainPage: FC = () => {
-  const selectedContract = useAppSelector(selectorSelectedContract);
+  const selectedContract = useAppSelector(selectSelectedContract);
+  const dao = useAppSelector(selectCurrentDao);
   const routes = useRoutes();
   const history = useHistory();
 
   useEffect(() => {
-    const handleScroll = (event: any) => {
-      if (event.wheelDelta < 0) {
-        history.push(routes.generalInfo);
+    const handleScroll = (event: WheelEvent) => {
+      if (event.deltaY > 0) {
+        if (dao) {
+          history.push(
+            generatePath(ROUTES.generalInfoDao, {
+              contract: selectedContract?.contractId,
+              dao: dao.dao,
+            }),
+          );
+        } else {
+          history.push(
+            generatePath(ROUTES.generalInfo, {
+              contract: selectedContract?.contractId,
+            }),
+          );
+        }
       }
     };
 
     window.addEventListener('wheel', handleScroll);
 
-    return () => window.removeEventListener('wheel', handleScroll);
-  }, [history, routes.generalInfo]);
+    return () => {
+      window.removeEventListener('wheel', handleScroll);
+    };
+  }, [dao, history, routes, selectedContract?.contractId]);
 
   return (
     <div className={styles.mainPage}>
@@ -37,14 +54,6 @@ export const MainPage: FC = () => {
         For <img className={styles.image} src={infinity} alt="Error 404" />{' '}
         communities
       </h2>
-
-      {/* <NetworkSwitcher className={styles.switcher} /> */}
-
-      {/* <Search
-        disabled
-        className={styles.search}
-        networkSwitcherClass={styles.switcherDesktop}
-      /> */}
 
       <p className={styles.info}>
         {startCase(selectedContract?.contractId)} DAO

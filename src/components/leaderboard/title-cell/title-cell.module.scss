@@ -1,5 +1,5 @@
-@use '../../../styles/functions';
-@import '../../../styles/typography';
+@use 'src/styles/functions';
+@import 'src/styles/typography';
 
 .titleCell {
   padding: 0 functions.calc-rem(24) 0 0;
@@ -37,7 +37,6 @@
   align-items: center;
 
   color: var(--color-grey-500);
-
 
   white-space: nowrap;
 }

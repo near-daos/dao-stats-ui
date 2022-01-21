@@ -13,6 +13,17 @@ export class HttpService {
       },
       ...config,
     });
+
+    this.client.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response.data) {
+          throw error.response.data.message;
+        }
+
+        throw error;
+      },
+    );
   }
 
   get<T = unknown, R = AxiosResponse<T>>(

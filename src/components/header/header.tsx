@@ -1,16 +1,21 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-
-import { Autocomplete, AutocompleteOption } from '../autocomplete/autocomplete';
-import { useForbiddenRoutes } from '../../hooks';
+import desktopLogo from 'src/images/logo-mobile.svg';
+import mobileLogo from 'src/images/daostats.svg';
+import { useForbiddenRoutes } from 'src/hooks';
+import startCase from 'lodash/startCase';
+import { generatePath, useHistory } from 'react-router';
+import { useAppDispatch, useAppSelector } from 'src/store';
+import { clearDao, selectContracts } from 'src/app/shared';
+import { ROUTES } from 'src/constants';
 
 import { SvgIcon } from '../svgIcon/svgIcon';
 
 import styles from './header.module.scss';
 
-import desktopLogo from '../../images/logo-mobile.svg';
-import mobileLogo from '../../images/daostats.svg';
 import { NetworkSwitcher } from '../network-switcher';
+import { Autocomplete } from '../autocomplete';
+import { Tabs } from '../tabs';
 
 export type HeaderProps = {
   isOpen: boolean;
@@ -18,10 +23,26 @@ export type HeaderProps = {
 };
 
 export const Header: FC<HeaderProps> = ({ isOpen, setOpen }) => {
-  const { isForbiddenHeader, isForbiddenFooter } = useForbiddenRoutes();
-  const [dropdownValue, setDropDownValue] = useState<AutocompleteOption | null>(
-    null,
-  );
+  const { isForbiddenHeader } = useForbiddenRoutes();
+  const contracts = useAppSelector(selectContracts);
+  const dispatch = useAppDispatch();
+  const history = useHistory();
+
+  const tabOptions = useMemo(() => {
+    if (!contracts) {
+      return [];
+    }
+
+    return contracts.map((contract) => ({
+      value: contract.contractId,
+      label: startCase(contract.contractId),
+    }));
+  }, [contracts]);
+
+  const onOptionChange = (value: string) => {
+    history.push(generatePath(ROUTES.generalInfo, { contract: value }));
+    dispatch(clearDao());
+  };
 
   return (
     <div className={styles.header}>
@@ -34,41 +55,28 @@ export const Header: FC<HeaderProps> = ({ isOpen, setOpen }) => {
         <img className={styles.mobileImage} src={mobileLogo} alt="Dao Stats" />
       </Link>
       {!isForbiddenHeader ? (
-        <>
-          {/* <div className={styles.headerControls}>
-            <h1 className={styles.title}>Sputnik DAO</h1>
-            <h3 className={styles.description}>Average values for all DAOs</h3>
+        <div className={styles.rightPart}>
+          <Tabs
+            onChange={onOptionChange}
+            variant="small"
+            options={tabOptions}
+            className={styles.tabs}
+          />
+          <Autocomplete />
+        </div>
+      ) : null}
+      <button
+        type="button"
+        className={styles.mobileIcon}
+        onClick={() => setOpen(!isOpen)}
+      >
+        <SvgIcon icon={isOpen ? 'close' : 'burger'} />
+      </button>
 
-            <button type="button" className={styles.mobileIcon}>
-              <SvgIcon icon="search" />
-            </button>          </div> */}
-          {!isForbiddenFooter ? (
-            <button
-              type="button"
-              className={styles.mobileIcon}
-              onClick={() => setOpen(!isOpen)}
-            >
-              <SvgIcon icon={isOpen ? 'close' : 'burger'} />
-            </button>
-          ) : null}
-
-          <div className={styles.main}>
-            <NetworkSwitcher />
-            {/* <Autocomplete
-              disabled
-              className={styles.search}
-              // options={dropdownOptions}
-              value={dropdownValue}
-              onChange={(selectedItem) => setDropDownValue(selectedItem)}
-            />
-             <NavigationInfo
-              className={styles.navigationInfo}
-              title="Sputnik DAO"
-              description="Average values for all DAOs"
-              color="blue"
-            /> */}
-          </div>
-        </>
+      {isForbiddenHeader ? (
+        <div className={styles.main}>
+          <NetworkSwitcher />
+        </div>
       ) : null}
     </div>
   );

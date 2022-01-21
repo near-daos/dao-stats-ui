@@ -1,42 +1,54 @@
-/* eslint-disable no-param-reassign */
 import {
   createSlice,
   createAsyncThunk,
   isPending,
   isRejected,
   isFulfilled,
+  createAction,
 } from '@reduxjs/toolkit';
 
 import { RequestStatus } from '../../../store/types';
-import { daoState } from './types';
-import { autocompleteService, InputParams } from '../../../api';
+import { DaoState } from './types';
+import { daosService, InputParams, DaoParams } from '../../../api';
 
-const initialState: daoState = {
+const initialState: DaoState = {
   autocomplete: null,
+  dao: null,
   loading: RequestStatus.NOT_ASKED,
   error: null,
 };
 
 export const getDao = createAsyncThunk(
-  'autocomplete/getAutocomplete',
-  async (params: InputParams) => {
-    const response = await autocompleteService.getAutocomplete(params);
-
-    return response.data;
-  },
+  'dao/getDao',
+  async (params: DaoParams) => daosService.getDao(params),
 );
 
-const isPendingAction = isPending(getDao);
-const isRejectedAction = isRejected(getDao);
-const isFulfilledAction = isFulfilled(getDao);
+export const getAutocompleteValue = createAsyncThunk(
+  'dao/getAutocompleteValue',
+  async (params: InputParams) => daosService.getAutocomplete(params),
+);
+
+export const clearDao = createAction('dao/clearDao');
+
+const isPendingAction = isPending(getDao, getAutocompleteValue);
+const isRejectedAction = isRejected(getDao, getAutocompleteValue);
+const isFulfilledAction = isFulfilled(getDao, getAutocompleteValue);
 
 export const daoSlice = createSlice({
   name: 'dao',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(getAutocompleteValue.fulfilled, (state, { payload }) => {
+      state.autocomplete = payload.data;
+    });
+
     builder.addCase(getDao.fulfilled, (state, { payload }) => {
-      state.autocomplete = payload;
+      state.dao = payload.data;
+    });
+
+    builder.addCase(clearDao, (state) => {
+      state.dao = null;
     });
 
     builder.addMatcher(isRejectedAction, (state, { error }) => {

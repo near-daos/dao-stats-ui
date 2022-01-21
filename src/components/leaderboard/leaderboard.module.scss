@@ -9,11 +9,11 @@
 
   overflow-y: auto;
   @include media.mobile-only {
-    height: functions.calc-rem(290)
+    height: functions.calc-rem(290);
   }
 
   @include media.tablet-portrait {
-    height: functions.calc-rem(290)
+    height: functions.calc-rem(290);
   }
 
   @include media.tablet-landscape {
@@ -45,13 +45,6 @@
   height: functions.calc-rem(80);
 
   transition: background linear 300ms;
-  &:hover {
-    background: var(--color-grey-800);
-  }
-
-  &:active {
-    background: var(--color-grey-600);
-  }
 }
 
 .cell {
@@ -78,4 +71,15 @@
   display: flex;
   justify-content: flex-start;
   gap: functions.calc-rem(32);
+}
+
+.hover {
+  cursor: pointer;
+  &:hover {
+    background: var(--color-grey-800);
+  }
+
+  &:active {
+    background: var(--color-grey-600);
+  }
 }

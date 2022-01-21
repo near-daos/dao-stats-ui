@@ -1,18 +1,22 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
+import { useParams, generatePath, useHistory } from 'react-router';
+
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
-import { useParams } from 'react-router';
-import { useFilterMetrics, usePrepareLeaderboard } from 'src/hooks';
-import { useAppDispatch, useAppSelector } from '../../../store';
+import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
+import { useAppDispatch, useAppSelector } from 'src/store';
 import {
   selectGeneralGroups,
   selectGeneralGroupsLeaderboard,
-} from '../selectors';
-import { getGeneralGroupsLeaderboard, getGeneralGroups } from '../slice';
+} from 'src/app/shared/general/selectors';
+import {
+  getGeneralGroupsLeaderboard,
+  getGeneralGroups,
+} from 'src/app/shared/general/slice';
+import { selectActionLoading } from 'src/store/loading';
+import { isSuccess, isPending, isNotAsked } from 'src/utils';
 
-import { selectActionLoading } from '../../../store/loading';
-import { isSuccess, isPending, isNotAsked } from '../../../utils';
-
-import styles from '../general-info.module.scss';
+import styles from 'src/styles/page.module.scss';
+import { ROUTES } from '../../../constants';
 
 const tabOptions = [
   {
@@ -23,8 +27,8 @@ const tabOptions = [
 ];
 
 export const Groups: FC = () => {
-  const [period, setPeriod] = useState('1y');
-
+  const [period, setPeriod] = useState('All');
+  const history = useHistory();
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const { contract } = useParams<{ contract: string }>();
   const dispatch = useAppDispatch();
@@ -42,38 +46,32 @@ export const Groups: FC = () => {
   };
 
   useEffect(() => {
-    (async () => {
-      try {
-        if (
-          (!groups || isNotAsked(getGeneralGroupsLoading)) &&
-          !isPending(getGeneralGroupsLoading)
-        ) {
-          await dispatch(
-            getGeneralGroups({
-              contract,
-            }),
-          );
-        }
-
-        if (
-          (!groupsLeaderboard || isNotAsked(getGeneralGroupsLoading)) &&
-          !isPending(getGeneralGroupsLeaderboardLoading)
-        ) {
-          await dispatch(
-            getGeneralGroupsLeaderboard({
-              contract,
-            }),
-          );
-        }
-      } catch (error: unknown) {
-        // eslint-disable-next-line no-console
+    if (
+      isNotAsked(getGeneralGroupsLoading) &&
+      !isPending(getGeneralGroupsLoading)
+    ) {
+      dispatch(
+        getGeneralGroups({
+          contract,
+        }),
+      ).catch((error: unknown) => {
         console.error(error);
-      }
-    })();
+      });
+    }
+
+    if (
+      isNotAsked(getGeneralGroupsLoading) &&
+      !isPending(getGeneralGroupsLeaderboardLoading)
+    ) {
+      dispatch(
+        getGeneralGroupsLeaderboard({
+          contract,
+        }),
+      ).catch((error: unknown) => {
+        console.error(error);
+      });
+    }
   }, [
-    groups,
-    groupsLeaderboard,
-    period,
     contract,
     dispatch,
     getGeneralGroupsLoading,
@@ -85,6 +83,16 @@ export const Groups: FC = () => {
   });
 
   const groupsData = useFilterMetrics(period, groups);
+  const periods = usePeriods(groups?.metrics);
+
+  const goToSingleDao = useCallback(
+    (row) => {
+      history.push(
+        generatePath(ROUTES.generalInfoDaoGroups, { contract, dao: row.dao }),
+      );
+    },
+    [contract, history],
+  );
 
   return (
     <div className={styles.detailsContainer}>
@@ -107,6 +115,7 @@ export const Groups: FC = () => {
       <div className={styles.metricsContainer}>
         {activeTab === 'history-data' && groupsData ? (
           <ChartLine
+            periods={periods}
             data={groupsData}
             period={period}
             setPeriod={setPeriod}
@@ -115,11 +124,12 @@ export const Groups: FC = () => {
         ) : null}
         {activeTab === 'leaderboard' && groupsLeaderboardData ? (
           <Leaderboard
+            onRowClick={goToSingleDao}
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
               { value: 'Groups' },
-              { value: 'Last 7 days', position: 'right' },
+              { value: 'Last Month', position: 'right' },
             ]}
             type="line"
             dataRows={groupsLeaderboardData}

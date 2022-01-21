@@ -26,7 +26,7 @@ export const Amount: FC<AmountProps> = ({
       })}
     >
       <SvgIcon icon="stats" className={styles.icon} />
-      {percentages}%
+      {Math.round((percentages || 0) * 100)}%
     </div>
   </div>
 );

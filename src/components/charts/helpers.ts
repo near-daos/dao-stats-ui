@@ -1,25 +1,40 @@
-import { subYears, subMonths, subDays, startOfDay, format } from 'date-fns';
-import { MetricItem } from '../../api';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { subYears, subMonths, differenceInMonths, subWeeks } from 'date-fns';
+import { MetricItem } from 'src/api';
+import { formatDate } from 'src/utils';
+import {
+  FIRST_DATE,
+  ONE_BILLION,
+  ONE_MILLION,
+  ONE_MONTH,
+  ONE_THOUSAND,
+  ONE_WEEK,
+  ONE_YEAR,
+  SIX_MONTHS,
+  THREE_MONTHS,
+} from 'src/constants';
+import { ChartDataItem } from './types';
 
-export const getDateFromMow = (range: string): number | string => {
-  const currentDateStartedFromDay = startOfDay(new Date());
+export const getDateFromSelectedDate = (
+  range: string,
+  date?: number,
+): number | string => {
+  const currentDate = date || new Date();
 
   switch (range) {
-    case 'All':
-      // todo temporary solution
-      return subYears(currentDateStartedFromDay, 30).getTime();
     case '1y':
-      return subYears(currentDateStartedFromDay, 1).getTime();
+      return subYears(currentDate, ONE_YEAR).getTime();
     case '6m':
-      return subMonths(currentDateStartedFromDay, 6).getTime();
+      return subMonths(currentDate, SIX_MONTHS).getTime();
     case '3m':
-      return subMonths(currentDateStartedFromDay, 3).getTime();
+      return subMonths(currentDate, THREE_MONTHS).getTime();
     case '1m':
-      return subMonths(currentDateStartedFromDay, 1).getTime();
+      return subMonths(currentDate, ONE_MONTH).getTime();
     case '7d':
-      return subDays(currentDateStartedFromDay, 7).getTime();
+      return subWeeks(currentDate, ONE_WEEK).getTime();
+    case 'All':
     default:
-      return subYears(currentDateStartedFromDay, 1).getTime();
+      return FIRST_DATE;
   }
 };
 
@@ -66,14 +81,15 @@ export const yTickFormatter = (value: number): string => {
     return '0';
   }
 
-  if (value >= 1000) {
-    return `${value % 1000}M`;
+  if (value >= ONE_THOUSAND) {
+    return `${value % ONE_THOUSAND}M`;
   }
 
   return `${value}K`;
 };
 
 export const tickXFormatter = (
+  metrics: ChartDataItem[],
   value: number | string,
   period: string,
 ): string => {
@@ -81,15 +97,37 @@ export const tickXFormatter = (
     return 'auto';
   }
 
+  // Working around current issue with X Axis tick labels
+  const diffInMonths = differenceInMonths(
+    metrics?.[metrics.length - 1]?.timestamp,
+    metrics?.[0]?.timestamp,
+  );
+
   switch (period) {
     case 'All':
     case '1y':
-      return format(new Date(value), 'LLL');
+      return formatDate(value, `${diffInMonths > 1 ? '' : 'd'} LLL`);
     case '6m':
     case '3m':
     case '1m':
     case '7d':
     default:
-      return format(new Date(value), 'd LLL');
+      return formatDate(value, 'd LLL');
   }
+};
+
+export const tickYFormatter = (value: number) => {
+  if (value >= ONE_BILLION) {
+    return `${value / ONE_BILLION}B`;
+  }
+
+  if (value >= ONE_MILLION) {
+    return `${value / ONE_MILLION}M`;
+  }
+
+  if (value >= ONE_THOUSAND) {
+    return `${value / ONE_THOUSAND}K`;
+  }
+
+  return `${value}`;
 };

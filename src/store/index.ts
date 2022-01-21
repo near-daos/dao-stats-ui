@@ -4,6 +4,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import { rootReducer, RootState } from './root-reducer';
 import { routerMiddleware } from './history';
+import { throwRejectedThunk } from './throw-rejected-thunk';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const createStore = () =>
@@ -13,8 +14,8 @@ export const createStore = () =>
       getDefaultMiddleware({
         thunk: true,
         immutableCheck: true,
-        serializableCheck: true,
-      }).concat(routerMiddleware),
+        serializableCheck: false,
+      }).concat(routerMiddleware, throwRejectedThunk),
     devTools: process.env.NODE_ENV !== 'production',
   });
 
