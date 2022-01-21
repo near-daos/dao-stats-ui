@@ -11,12 +11,15 @@ export const NetworkSwitcher: FC<NetworkSwitcherProps> = ({ className }) => (
   <div className={clsx(styles.networks, className)}>
     <a
       href={
-        `${process.env.REACT_APP_MAINNET}${window.location.pathname}` || '/'
+        `${window.__RUNTIME_CONFIG__.REACT_APP_MAINNET}${window.location.pathname}` ||
+        '/'
       }
       className={clsx(styles.networkItem, {
         [styles.active]:
-          window.location.origin === process.env.REACT_APP_MAINNET ||
-          window.location.origin === process.env.REACT_APP_MAIN_SITE,
+          window.location.origin ===
+            window.__RUNTIME_CONFIG__.REACT_APP_MAINNET ||
+          window.location.origin ===
+            window.__RUNTIME_CONFIG__.REACT_APP_MAIN_SITE,
       })}
     >
       Mainnet
@@ -24,11 +27,13 @@ export const NetworkSwitcher: FC<NetworkSwitcherProps> = ({ className }) => (
 
     <a
       href={
-        `${process.env.REACT_APP_TESTNET}${window.location.pathname}` || '/'
+        `${window.__RUNTIME_CONFIG__.REACT_APP_TESTNET}${window.location.pathname}` ||
+        '/'
       }
       className={clsx(styles.networkItem, {
         [styles.active]:
-          window.location.origin === process.env.REACT_APP_TESTNET,
+          window.location.origin ===
+          window.__RUNTIME_CONFIG__.REACT_APP_TESTNET,
       })}
     >
       Testnet
