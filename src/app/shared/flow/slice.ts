@@ -2,8 +2,8 @@ import {
   createSlice,
   createAsyncThunk,
   isRejected,
-  isFulfilled,
   createEntityAdapter,
+  createAction,
 } from '@reduxjs/toolkit';
 import {
   flowService,
@@ -33,6 +33,8 @@ const initialState: FlowState = {
   loading: RequestStatus.NOT_ASKED,
   error: null,
 };
+
+export const clearFlowError = createAction('flow/clearFlowError');
 
 export const getFlow = createAsyncThunk(
   'flow/getFlow',
@@ -76,16 +78,6 @@ export const getFlowDaoTransactions = createAsyncThunk(
 );
 
 const isRejectedAction = isRejected(
-  getFlow,
-  getFlowDao,
-  getFlowHistory,
-  getFlowLeaderboard,
-  getFlowTransactionsHistory,
-  getFlowTransactionsLeaderboard,
-  getFlowDaoFunds,
-  getFlowDaoTransactions,
-);
-const isFulfilledAction = isFulfilled(
   getFlow,
   getFlowDao,
   getFlowHistory,
@@ -178,12 +170,12 @@ export const flowSlice = createSlice({
       },
     );
 
-    builder.addMatcher(isRejectedAction, (state, { error }) => {
-      state.error = error.message;
+    builder.addCase(clearFlowError, (state) => {
+      state.error = null;
     });
 
-    builder.addMatcher(isFulfilledAction, (state) => {
-      state.error = null;
+    builder.addMatcher(isRejectedAction, (state, { error }) => {
+      state.error = error.message;
     });
   },
 });

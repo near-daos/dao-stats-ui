@@ -1,4 +1,5 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
+import { useMount } from 'react-use';
 import {
   matchPath,
   Route,
@@ -7,7 +8,7 @@ import {
   useLocation,
   useParams,
 } from 'react-router';
-import { ROUTES } from 'src/constants';
+import { UrlParams, ROUTES } from 'src/constants';
 import { useRoutes } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import {
@@ -31,17 +32,15 @@ export const Governance: FC = () => {
   const location = useLocation();
   const history = useHistory();
   const routes = useRoutes();
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const governance = useAppSelector(selectGovernance);
 
-  useEffect(() => {
+  useMount(() => {
     if (!governance) {
-      dispatch(getGovernance({ contract })).catch((error: unknown) => {
-        console.error(error);
-      });
+      dispatch(getGovernance({ contract })).catch((err) => console.error(err));
     }
-  }, [governance, contract, dispatch]);
+  });
 
   const breadcrumbs = useMemo(
     () => [

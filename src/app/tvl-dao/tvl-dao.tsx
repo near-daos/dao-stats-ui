@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import {
   generatePath,
   matchPath,
@@ -8,7 +8,9 @@ import {
   useLocation,
   useParams,
 } from 'react-router';
-import { Params, ROUTES } from 'src/constants';
+import { useMount } from 'react-use';
+
+import { UrlParams, ROUTES } from 'src/constants';
 import { useRoutes } from 'src/hooks';
 
 import {
@@ -31,15 +33,15 @@ export const TvlDao: FC = () => {
   const location = useLocation();
   const history = useHistory();
   const routes = useRoutes();
-  const { contract, dao } = useParams<Params>();
+  const { contract, dao } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const tvl = useAppSelector(selectTvlDaoById(dao));
 
-  useEffect(() => {
-    dispatch(getTvlDao({ contract, dao })).catch((error: unknown) => {
-      console.error(error);
-    });
-  }, [contract, dispatch, dao]);
+  useMount(() => {
+    dispatch(getTvlDao({ contract, dao })).catch((error) =>
+      console.error(error),
+    );
+  });
 
   const breadcrumbs = useMemo(
     () => [

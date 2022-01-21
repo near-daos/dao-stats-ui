@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { TooltipProps } from 'recharts';
 import numeral from 'numeral';
 import { formatDate } from 'src/utils';
-
+import { SvgIcon } from '../../svgIcon';
 import { Dot } from '../svg/dot';
 
 import { LineItem } from '../types';
@@ -14,6 +14,7 @@ export interface ChartTooltipProps extends TooltipProps<number, string> {
   showArrow?: boolean;
   lines?: LineItem[];
   isCurrency?: boolean;
+  isNear?: boolean;
   roundPattern?: string;
 }
 
@@ -28,6 +29,7 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
   lines,
   isCurrency,
   roundPattern = '0,0',
+  isNear,
 }) => {
   const [arrowPosition, setArrowPosition] = useState('');
   const rootRef = useRef<HTMLDivElement>(null);
@@ -65,14 +67,20 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
     >
       <p className={styles.label}>{formatDate(label, 'EEEE, LLL d, yyyy')}</p>
       {payload.map((element, elementIndex) => (
-        <div key={`item-${element.dataKey}-${element.value}`}>
+        <div
+          className={styles.element}
+          key={`item-${element.dataKey}-${element.value}`}
+        >
           <Dot color={element.color || ''} className={styles.dot} />
           <span className={styles.name}>
-            {lines ? lines[elementIndex].name : element.name}:
+            {lines ? lines[elementIndex].name : element.name} :
           </span>
           <span className={styles.value}>
-            {isCurrency ? '$' : ''}{' '}
+            {isCurrency ? '$' : null}{' '}
             {numeral(element.value).format(roundPattern)}
+            {isNear ? (
+              <SvgIcon icon="near" className={styles.nearIcon} />
+            ) : null}
           </span>
         </div>
       ))}

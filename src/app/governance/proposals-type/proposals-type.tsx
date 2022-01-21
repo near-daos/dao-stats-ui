@@ -1,5 +1,6 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { generatePath, useParams, useHistory } from 'react-router';
+import { useMount, useUnmount } from 'react-use';
 
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
@@ -9,19 +10,21 @@ import {
   usePeriods,
   usePrepareLeaderboard,
 } from 'src/hooks';
-import { isNotAsked, isPending, isSuccess } from 'src/utils';
+import { isFailed, isSuccess } from 'src/utils';
 import { selectActionLoading } from 'src/store/loading';
 import {
+  selectGovernanceError,
   selectGovernanceProposalsTypes,
   selectGovernanceProposalsTypesLeaderboard,
 } from 'src/app/shared/governance/selectors';
 import {
+  clearGovernanceError,
   getGovernanceProposalsTypes,
   getGovernanceProposalsTypesLeaderboard,
 } from 'src/app/shared/governance/slice';
+import { ROUTES, UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
-import { ROUTES } from '../../../constants';
 
 const tabOptions = [
   {
@@ -35,7 +38,8 @@ export const ProposalsType: FC = () => {
   const [period, setPeriod] = useState('All');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const history = useHistory();
-  const { contract } = useParams<{ contract: string }>();
+  const error = useAppSelector(selectGovernanceError);
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const governanceProposalsTypes = useAppSelector(
     selectGovernanceProposalsTypes,
@@ -51,35 +55,27 @@ export const ProposalsType: FC = () => {
     selectActionLoading(getGovernanceProposalsTypes.typePrefix),
   );
 
-  useEffect(() => {
-    if (
-      isNotAsked(governanceProposalsTypesLoading) &&
-      !isPending(governanceProposalsTypesLoading)
-    ) {
+  useMount(() => {
+    if (!governanceProposalsTypes) {
       dispatch(
         getGovernanceProposalsTypes({
           contract,
         }),
-      ).catch((error: unknown) => console.error(error));
+      ).catch((err) => console.error(err));
     }
 
-    if (
-      isNotAsked(governanceProposalsTypesLeaderboardLoading) &&
-      !isPending(governanceProposalsTypesLeaderboardLoading)
-    ) {
+    if (!governanceProposalsTypesLeaderboard) {
       dispatch(
         getGovernanceProposalsTypesLeaderboard({
           contract,
         }),
-      ).catch((error: unknown) => console.error(error));
+      ).catch((err) => console.error(err));
     }
-  }, [
-    period,
-    contract,
-    dispatch,
-    governanceProposalsTypesLoading,
-    governanceProposalsTypesLeaderboardLoading,
-  ]);
+  });
+
+  useUnmount(() => {
+    dispatch(clearGovernanceError());
+  });
 
   const handleOnChange = (value: string) => {
     setActiveTab(value);
@@ -119,8 +115,10 @@ export const ProposalsType: FC = () => {
     <div className={styles.detailsContainer}>
       <LoadingContainer
         hide={
-          isSuccess(governanceProposalsTypesLoading) &&
-          isSuccess(governanceProposalsTypesLeaderboardLoading)
+          (isSuccess(governanceProposalsTypesLoading) &&
+            isSuccess(governanceProposalsTypesLeaderboardLoading)) ||
+          isFailed(governanceProposalsTypesLoading) ||
+          isFailed(governanceProposalsTypesLeaderboardLoading)
         }
       />
       <div className={styles.tabWrapper}>
@@ -131,9 +129,14 @@ export const ProposalsType: FC = () => {
           onChange={handleOnChange}
         />
       </div>
+      {error ? <p className={styles.error}>{error}</p> : null}
+      {governanceProposalsTypesFilteredData?.metrics?.length === 0
+        ? 'Not enough data'
+        : null}
       <div className={styles.metricsContainer}>
         {activeTab === 'history-data' &&
-        governanceProposalsTypesFilteredData ? (
+        governanceProposalsTypesFilteredData &&
+        governanceProposalsTypesFilteredData?.metrics?.length ? (
           <ChartLine
             periods={periods}
             data={governanceProposalsTypesFilteredData}

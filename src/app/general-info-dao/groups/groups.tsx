@@ -15,12 +15,12 @@ import {
 } from 'src/app/shared/general/slice';
 import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isFailed } from 'src/utils';
-
+import { UrlParams } from 'src/constants';
 import styles from 'src/styles/page.module.scss';
 
 export const Groups: FC = () => {
   const [period, setPeriod] = useState('All');
-  const { contract, dao } = useParams<{ dao: string; contract: string }>();
+  const { contract, dao } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const error = useAppSelector(selectGeneralError);
   const groups = useAppSelector(selectGeneralDaoGroupsById(dao));
@@ -57,8 +57,8 @@ export const Groups: FC = () => {
         }
       />
       <div className={styles.metricsContainer}>
-        {error ? <p className={styles.error}>{error}</p> : null}
         {groupsData?.metrics?.length === 0 ? 'Not enough data' : null}
+        {error ? <p className={styles.error}>{error}</p> : null}
         {groupsData && groupsData?.metrics?.length > 0 ? (
           <ChartLine
             periods={periods}

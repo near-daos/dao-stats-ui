@@ -1,17 +1,28 @@
-import get from 'lodash/get';
-import set from 'lodash/set';
-import { Leaderboard, MetricItem, FlowMetricsItem } from '../api';
+import { isEqual, startOfDay } from 'date-fns';
+import { Leaderboard, MetricItem, FlowMetricsItem, Price } from '../api';
 
 type updateMetricsDataWithCurrencyArguments = {
-  metrics?: (MetricItem | FlowMetricsItem)[];
-  currency: number;
-  keys?: string[];
+  metrics?: MetricItem[];
+  priceItems: Price[];
+};
+
+export const calculateCount = (
+  priceItems: Price[],
+  timestamp: number,
+  count: number,
+) => {
+  const foundPrice = priceItems.find((price) =>
+    isEqual(startOfDay(price.date), startOfDay(timestamp)),
+  );
+
+  const countResult = foundPrice ? parseFloat(foundPrice.price) * count : count;
+
+  return Number(countResult) || 0;
 };
 
 export const updateMetricsDataWithCurrency = ({
   metrics,
-  currency = 0,
-  keys = ['count'],
+  priceItems,
 }: updateMetricsDataWithCurrencyArguments): {
   metrics: (MetricItem | FlowMetricsItem)[];
 } | null => {
@@ -19,18 +30,11 @@ export const updateMetricsDataWithCurrency = ({
     return null;
   }
 
-  const res = metrics.map((metric: MetricItem | FlowMetricsItem) => {
-    const result = { ...metric };
-
-    keys.forEach((key) => {
-      set(result, key, get(metric, key) * currency);
-    });
-
-    return result;
-  });
-
   return {
-    metrics: res,
+    metrics: metrics.map((metric) => ({
+      ...metric,
+      count: calculateCount(priceItems, metric.timestamp, metric.count),
+    })),
   };
 };
 

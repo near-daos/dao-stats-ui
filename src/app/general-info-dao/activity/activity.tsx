@@ -15,13 +15,13 @@ import {
 } from 'src/app/shared/general/slice';
 import { selectActionLoading } from 'src/store/loading';
 import { isSuccess, isPending, isFailed } from 'src/utils';
-import { Params } from 'src/constants';
+import { UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
 export const Activity: FC = () => {
   const [period, setPeriod] = useState('All');
-  const { contract, dao } = useParams<Params>();
+  const { contract, dao } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const error = useAppSelector(selectGeneralError);
   const activity = useAppSelector(selectGeneralDaoActivityById(dao));
@@ -58,8 +58,8 @@ export const Activity: FC = () => {
         }
       />
       <div className={styles.metricsContainer}>
-        {error ? <p className={styles.error}>{error}</p> : null}
         {activityData?.metrics?.length === 0 ? 'Not enough data' : null}
+        {error ? <p className={styles.error}>{error}</p> : null}
         {activityData && activityData?.metrics?.length > 0 ? (
           <ChartLine
             data={activityData}

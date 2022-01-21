@@ -1,4 +1,3 @@
-export * from './types';
 export * from './general';
 export * from './governance';
 export * from './users';
@@ -8,3 +7,5 @@ export * from './flow';
 export * from './tokens';
 export * from './currency';
 export * from './tvl';
+export * from './market';
+export * from './types';

@@ -2,8 +2,8 @@ import {
   createSlice,
   createAsyncThunk,
   isRejected,
-  isFulfilled,
   createEntityAdapter,
+  createAction,
 } from '@reduxjs/toolkit';
 import {
   tokensService,
@@ -36,75 +36,64 @@ const initialState: TokensState = {
   error: null,
 };
 
+export const clearTokensError = createAction('tokens/clearTokensError');
+
 export const getTokens = createAsyncThunk(
-  'governance/getTokens',
+  'tokens/getTokens',
   async (params: Params) => tokensService.getTokens(params),
 );
 
 export const getTokensNfts = createAsyncThunk(
-  'governance/getTokensNfts',
+  'tokens/getTokensNfts',
   async (params: HistoryParams) => tokensService.getTokensNfts(params),
 );
 
 export const getTokensNftsLeaderboard = createAsyncThunk(
-  'governance/getTokensNftsLeaderboard',
+  'tokens/getTokensNftsLeaderboard',
   async (params: Params) => tokensService.getTokensNftsLeaderboard(params),
 );
 
 export const getTokensFts = createAsyncThunk(
-  'governance/getTokensFts',
+  'tokens/getTokensFts',
   async (params: HistoryParams) => tokensService.getTokensFts(params),
 );
 
 export const getTokensFtsLeaderboard = createAsyncThunk(
-  'governance/getTokensFtsLeaderboard',
+  'tokens/getTokensFtsLeaderboard',
   async (params: Params) => tokensService.getTokensFtsLeaderboard(params),
 );
 
 export const getTokensFtsVl = createAsyncThunk(
-  'governance/getTokensFtsVl',
+  'tokens/getTokensFtsVl',
   async (params: HistoryParams) => tokensService.getTokensFtsVl(params),
 );
 
 export const getTokensFtsVlLeaderboard = createAsyncThunk(
-  'governance/getTokensFtsVlLeaderboard',
+  'tokens/getTokensFtsVlLeaderboard',
   async (params: Params) => tokensService.getTokensFtsVlLeaderboard(params),
 );
 
 export const getTokensDao = createAsyncThunk(
-  'governance/getTokensDao',
+  'tokens/getTokensDao',
   async (params: DaoParams) => tokensService.getTokensDao(params),
 );
 
 export const getTokensDaoNfts = createAsyncThunk(
-  'governance/getTokensDaoNfts',
+  'tokens/getTokensDaoNfts',
   async (params: DaoHistoryParams) => tokensService.getTokensDaoNfts(params),
 );
 
 export const getTokensDaoFts = createAsyncThunk(
-  'governance/getTokensDaoFts',
+  'tokens/getTokensDaoFts',
   async (params: DaoHistoryParams) => tokensService.getTokensDaoFts(params),
 );
 
 export const getTokensDaoFtsVl = createAsyncThunk(
-  'governance/getTokensDaoFtsVl',
+  'tokens/getTokensDaoFtsVl',
   async (params: DaoHistoryParams) => tokensService.getTokensDaoFtsVl(params),
 );
 
 const isRejectedAction = isRejected(
-  getTokens,
-  getTokensNfts,
-  getTokensNftsLeaderboard,
-  getTokensFts,
-  getTokensFtsLeaderboard,
-  getTokensFtsVl,
-  getTokensFtsVlLeaderboard,
-  getTokensDao,
-  getTokensDaoNfts,
-  getTokensDaoFts,
-  getTokensDaoFtsVl,
-);
-const isFulfilledAction = isFulfilled(
   getTokens,
   getTokensNfts,
   getTokensNftsLeaderboard,
@@ -229,12 +218,12 @@ export const tokensSlice = createSlice({
       },
     );
 
-    builder.addMatcher(isRejectedAction, (state, { error }) => {
-      state.error = error.message;
+    builder.addCase(clearTokensError, (state) => {
+      state.error = null;
     });
 
-    builder.addMatcher(isFulfilledAction, (state) => {
-      state.error = null;
+    builder.addMatcher(isRejectedAction, (state, { error }) => {
+      state.error = error.message;
     });
   },
 });

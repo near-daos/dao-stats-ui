@@ -15,13 +15,13 @@ import {
   selectorUsersError,
   selectUsersDaoInteractionById,
 } from 'src/app/shared/users/selectors';
-import { Params } from 'src/constants';
+import { UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
 export const Interactions: FC = () => {
   const [period, setPeriod] = useState('All');
-  const { contract, dao } = useParams<Params>();
+  const { contract, dao } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const error = useAppSelector(selectorUsersError);
   const users = useAppSelector(selectUsersDaoInteractionById(dao));
@@ -36,9 +36,7 @@ export const Interactions: FC = () => {
           contract,
           dao,
         }),
-      ).catch((err: unknown) => {
-        console.error(err);
-      });
+      ).catch((err: unknown) => console.error(err));
     }
   });
 

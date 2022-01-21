@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import {
   Switch,
   Route,
@@ -7,6 +7,8 @@ import {
   useParams,
   matchPath,
 } from 'react-router';
+import { useMount } from 'react-use';
+
 import { useRoutes } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 
@@ -19,7 +21,7 @@ import {
   Widgets,
   Breadcrumbs,
 } from 'src/components';
-import { ROUTES } from 'src/constants';
+import { ROUTES, UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
@@ -33,21 +35,17 @@ export const Users: FC = () => {
   const location = useLocation();
   const history = useHistory();
   const routes = useRoutes();
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const users = useAppSelector(selectorUsers);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        if (!users) {
-          await dispatch(getUsers({ contract }));
-        }
-      } catch (error: unknown) {
-        console.error(error);
-      }
-    })();
-  }, [contract, dispatch, users]);
+  useMount(() => {
+    if (!users) {
+      dispatch(getUsers({ contract })).catch((err: unknown) =>
+        console.error(err),
+      );
+    }
+  });
 
   const breadcrumbs = useMemo(
     () => [

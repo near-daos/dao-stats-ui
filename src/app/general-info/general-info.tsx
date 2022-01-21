@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import {
   Switch,
   Route,
@@ -7,6 +7,7 @@ import {
   useHistory,
   matchPath,
 } from 'react-router';
+import { useMount } from 'react-use';
 
 import { getGeneral } from 'src/app/shared/general/slice';
 import { selectGeneral } from 'src/app/shared/general/selectors';
@@ -19,7 +20,7 @@ import {
 } from 'src/components';
 import { useRoutes } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { ROUTES } from 'src/constants';
+import { ROUTES, UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
@@ -32,21 +33,15 @@ export const GeneralInfo: FC = () => {
   const location = useLocation();
   const history = useHistory();
   const routes = useRoutes();
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const general = useAppSelector(selectGeneral);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        if (!general) {
-          await dispatch(getGeneral({ contract }));
-        }
-      } catch (error: unknown) {
-        console.error(error);
-      }
-    })();
-  }, [general, contract, dispatch]);
+  useMount(() => {
+    if (!general) {
+      dispatch(getGeneral({ contract })).catch((err) => console.error(err));
+    }
+  });
 
   const breadcrumbs = useMemo(
     () => [

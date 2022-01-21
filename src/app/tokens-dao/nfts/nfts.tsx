@@ -1,50 +1,65 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useParams } from 'react-router';
 
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
-import { isPending, isSuccess } from 'src/utils';
-import { Params } from 'src/constants';
+import { isFailed, isSuccess } from 'src/utils';
+import { UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
-import { selectTokensNftsDaoById } from 'src/app/shared/tokens/selectors';
-import { getTokensDaoNfts } from 'src/app/shared/tokens/slice';
+import {
+  selectTokensError,
+  selectTokensNftsDaoById,
+} from 'src/app/shared/tokens/selectors';
+import {
+  clearTokensError,
+  getTokensDaoNfts,
+} from 'src/app/shared/tokens/slice';
+import { useMount, useUnmount } from 'react-use';
 
 export const Nfts: FC = () => {
   const [period, setPeriod] = useState('All');
-
-  const { contract, dao } = useParams<Params>();
+  const error = useAppSelector(selectTokensError);
+  const { contract, dao } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const tokens = useAppSelector(selectTokensNftsDaoById(dao));
   const getTokensNftsLoading = useAppSelector(
     selectActionLoading(getTokensDaoNfts.typePrefix),
   );
 
-  useEffect(() => {
-    if (!tokens && !isPending(getTokensNftsLoading)) {
+  useMount(() => {
+    if (!tokens) {
       dispatch(
         getTokensDaoNfts({
           contract,
           dao,
         }),
-      ).catch((error: unknown) => console.error(error));
+      ).catch((err) => console.error(err));
     }
-  }, [dispatch, contract, getTokensNftsLoading, dao, tokens]);
+  });
 
-  const activeData = useFilterMetrics(period, tokens);
+  useUnmount(() => {
+    dispatch(clearTokensError());
+  });
+
+  const tokensData = useFilterMetrics(period, tokens);
   const periods = usePeriods(tokens?.metrics);
 
   return (
     <>
-      <LoadingContainer hide={isSuccess(getTokensNftsLoading)} />
+      <LoadingContainer
+        hide={isSuccess(getTokensNftsLoading) || isFailed(getTokensNftsLoading)}
+      />
+      {error ? <p className={styles.error}>{error}</p> : null}
+      {tokensData?.metrics?.length === 0 ? 'Not enough data' : null}
       <div className={styles.metricsContainer}>
-        {activeData ? (
+        {tokensData && tokensData?.metrics?.length ? (
           <ChartLine
             periods={periods}
-            data={activeData}
+            data={tokensData}
             period={period}
             setPeriod={setPeriod}
             lines={[

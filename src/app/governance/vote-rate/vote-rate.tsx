@@ -1,22 +1,25 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { generatePath, useParams, useHistory } from 'react-router';
 
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
 import { selectActionLoading } from 'src/store/loading';
-import { isNotAsked, isPending, isSuccess } from 'src/utils';
+import { isFailed, isSuccess } from 'src/utils';
 import {
+  selectGovernanceError,
   selectGovernanceVoteRate,
   selectGovernanceVoteRateLeaderboard,
 } from 'src/app/shared/governance/selectors';
 import {
+  clearGovernanceError,
   getGovernanceVoteRate,
   getGovernanceVoteRateLeaderboard,
 } from 'src/app/shared/governance/slice';
+import { ROUTES, UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
-import { ROUTES } from '../../../constants';
+import { useMount, useUnmount } from 'react-use';
 
 const tabOptions = [
   {
@@ -30,13 +33,13 @@ export const VoteRate: FC = () => {
   const [period, setPeriod] = useState('All');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const history = useHistory();
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
+  const error = useAppSelector(selectGovernanceError);
+  const governanceVoteRate = useAppSelector(selectGovernanceVoteRate);
   const governanceVoteRateLeaderboard = useAppSelector(
     selectGovernanceVoteRateLeaderboard,
   );
-  const governanceVoteRate = useAppSelector(selectGovernanceVoteRate);
-
   const governanceVoteRateLeaderboardLoading = useAppSelector(
     selectActionLoading(getGovernanceVoteRateLeaderboard.typePrefix),
   );
@@ -44,34 +47,27 @@ export const VoteRate: FC = () => {
     selectActionLoading(getGovernanceVoteRate.typePrefix),
   );
 
-  useEffect(() => {
-    if (
-      isNotAsked(governanceVoteRateLoading) &&
-      !isPending(governanceVoteRateLoading)
-    ) {
+  useMount(() => {
+    if (!governanceVoteRate) {
       dispatch(
         getGovernanceVoteRate({
           contract,
         }),
-      ).catch((error: unknown) => console.error(error));
+      ).catch((err) => console.error(err));
     }
 
-    if (
-      isNotAsked(governanceVoteRateLeaderboardLoading) &&
-      !isPending(governanceVoteRateLeaderboardLoading)
-    ) {
+    if (!governanceVoteRateLeaderboard) {
       dispatch(
         getGovernanceVoteRateLeaderboard({
           contract,
         }),
-      ).catch((error: unknown) => console.error(error));
+      ).catch((err) => console.error(err));
     }
-  }, [
-    contract,
-    dispatch,
-    governanceVoteRateLoading,
-    governanceVoteRateLeaderboardLoading,
-  ]);
+  });
+
+  useUnmount(() => {
+    dispatch(clearGovernanceError());
+  });
 
   const handleOnChange = (value: string) => {
     setActiveTab(value);
@@ -98,8 +94,10 @@ export const VoteRate: FC = () => {
     <div className={styles.detailsContainer}>
       <LoadingContainer
         hide={
-          isSuccess(governanceVoteRateLoading) &&
-          isSuccess(governanceVoteRateLeaderboardLoading)
+          (isSuccess(governanceVoteRateLoading) &&
+            isSuccess(governanceVoteRateLeaderboardLoading)) ||
+          isFailed(governanceVoteRateLoading) ||
+          isFailed(governanceVoteRateLeaderboardLoading)
         }
       />
       <div className={styles.tabWrapper}>
@@ -110,8 +108,12 @@ export const VoteRate: FC = () => {
           onChange={handleOnChange}
         />
       </div>
+      {error ? <p className={styles.error}>{error}</p> : null}
+      {governanceVoteRateData?.metrics?.length === 0 ? 'Not enough data' : null}
       <div className={styles.metricsContainer}>
-        {activeTab === 'history-data' && governanceVoteRateData ? (
+        {activeTab === 'history-data' &&
+        governanceVoteRateData &&
+        governanceVoteRateData?.metrics?.length ? (
           <ChartLine
             periods={periods}
             data={governanceVoteRateData}

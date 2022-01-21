@@ -1,9 +1,9 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useParams } from 'react-router';
-import { useUnmount } from 'react-use';
+import { useUnmount, useMount } from 'react-use';
 
 import { ChartLine, LoadingContainer } from 'src/components';
-import { isNotAsked, isSuccess, isPending, isFailed } from 'src/utils';
+import { isSuccess, isFailed } from 'src/utils';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
@@ -15,14 +15,14 @@ import {
   selectorUsersError,
   selectUsersAverageInteractions,
 } from 'src/app/shared/users/selectors';
-import { Params } from 'src/constants';
+import { UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
 export const AverageInteractions: FC = () => {
   const [period, setPeriod] = useState('All');
 
-  const { contract } = useParams<Params>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const error = useAppSelector(selectorUsersError);
   const users = useAppSelector(selectUsersAverageInteractions);
@@ -30,17 +30,15 @@ export const AverageInteractions: FC = () => {
     selectActionLoading(getUsersAverageInteractions.typePrefix),
   );
 
-  useEffect(() => {
-    if (isNotAsked(getUsersLoading) && !isPending(getUsersLoading)) {
+  useMount(() => {
+    if (!users) {
       dispatch(
         getUsersAverageInteractions({
           contract,
         }),
-      ).catch((err: unknown) => {
-        console.error(err);
-      });
+      ).catch((err: unknown) => console.error(err));
     }
-  }, [getUsersLoading, contract, dispatch]);
+  });
 
   useUnmount(() => {
     dispatch(clearUsersError());

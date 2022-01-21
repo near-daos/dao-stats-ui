@@ -5,7 +5,6 @@ export type TvlState = {
   tvl: Tvl | null;
   tvlTvl: Metrics | null;
   tvlLeaderboard: Leaderboard | null;
-  tvlAvgTvl: Metrics | null;
   tvlBountiesAndGrantsVL: Metrics | null;
   tvlBountiesAndGrantsVlLeaderboard: Leaderboard | null;
   tvlDao: EntityState<TvlDaoEntity>;

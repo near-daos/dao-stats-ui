@@ -1,5 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from 'src/store/root-reducer';
+import { ONE_HUNDRED } from 'src/constants';
 
 import {
   governanceDaoAdapter,
@@ -8,7 +9,6 @@ import {
   governanceDaoVoteRateAdapter,
   governanceSlice,
 } from './slice';
-import { ONE_HUNDRED } from '../../../constants';
 
 const getState = (state: RootState) => state[governanceSlice.name];
 

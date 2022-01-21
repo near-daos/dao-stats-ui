@@ -12,12 +12,13 @@ import {
   selectUsersDaoUsersById,
   selectorUsersError,
 } from 'src/app/shared/users/selectors';
+import { UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
 export const UsersNumber: FC = () => {
   const [period, setPeriod] = useState('All');
-  const { contract, dao } = useParams<{ dao: string; contract: string }>();
+  const { contract, dao } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
 
   const users = useAppSelector(selectUsersDaoUsersById(dao));
@@ -33,9 +34,7 @@ export const UsersNumber: FC = () => {
           contract,
           dao,
         }),
-      ).catch((err) => {
-        console.error(err.response);
-      });
+      ).catch((err) => console.error(err));
     }
   });
 

@@ -1,23 +1,26 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { generatePath, useHistory, useParams } from 'react-router';
+import { useMount, useUnmount } from 'react-use';
 
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { useFilterMetrics, usePrepareLeaderboard, usePeriods } from 'src/hooks';
-import { isPending, isSuccess, isNotAsked } from 'src/utils';
+import { isSuccess, isFailed } from 'src/utils';
 
 import {
   selectGeneralActive,
   selectGeneralActiveLeaderboard,
+  selectGeneralError,
 } from 'src/app/shared/general/selectors';
 import {
+  clearGeneralError,
   getGeneralActive,
   getGeneralActiveLeaderboard,
 } from 'src/app/shared/general/slice';
 
 import styles from 'src/styles/page.module.scss';
-import { ROUTES } from '../../../constants';
+import { ROUTES, UrlParams } from '../../../constants';
 
 const tabOptions = [
   {
@@ -31,8 +34,8 @@ export const ActiveDao: FC = () => {
   const history = useHistory();
   const [period, setPeriod] = useState('All');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
-
-  const { contract } = useParams<{ contract: string }>();
+  const error = useAppSelector(selectGeneralError);
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const active = useAppSelector(selectGeneralActive);
   const activeLeaderboard = useAppSelector(selectGeneralActiveLeaderboard);
@@ -43,34 +46,27 @@ export const ActiveDao: FC = () => {
     selectActionLoading(getGeneralActiveLeaderboard.typePrefix),
   );
 
-  useEffect(() => {
-    if (
-      isNotAsked(getGeneralActiveLoading) &&
-      !isPending(getGeneralActiveLoading)
-    ) {
+  useMount(() => {
+    if (!active) {
       dispatch(
         getGeneralActive({
           contract,
         }),
-      ).catch((error: unknown) => console.error(error));
+      ).catch((err: unknown) => console.error(err));
     }
 
-    if (
-      isNotAsked(getGeneralActiveLeaderboardLoading) &&
-      !isPending(getGeneralActiveLeaderboardLoading)
-    ) {
+    if (!activeLeaderboard) {
       dispatch(
         getGeneralActiveLeaderboard({
           contract,
         }),
-      ).catch((error: unknown) => console.error(error));
+      ).catch((err: unknown) => console.error(err));
     }
-  }, [
-    dispatch,
-    contract,
-    getGeneralActiveLoading,
-    getGeneralActiveLeaderboardLoading,
-  ]);
+  });
+
+  useUnmount(() => {
+    dispatch(clearGeneralError());
+  });
 
   const handleOnChange = (value: string) => {
     setActiveTab(value);
@@ -96,8 +92,10 @@ export const ActiveDao: FC = () => {
     <div className={styles.detailsContainer}>
       <LoadingContainer
         hide={
-          isSuccess(getGeneralActiveLoading) &&
-          isSuccess(getGeneralActiveLeaderboardLoading)
+          (isSuccess(getGeneralActiveLoading) &&
+            isSuccess(getGeneralActiveLeaderboardLoading)) ||
+          isFailed(getGeneralActiveLoading) ||
+          isFailed(getGeneralActiveLeaderboardLoading)
         }
       />
       <div className={styles.tabWrapper}>
@@ -108,8 +106,14 @@ export const ActiveDao: FC = () => {
           onChange={handleOnChange}
         />
       </div>
+      {activeTab === 'history-data' && activeData?.metrics?.length === 0
+        ? 'Not enough data'
+        : null}
+      {error ? <p className={styles.error}>{error}</p> : null}
       <div className={styles.metricsContainer}>
-        {activeTab === 'history-data' && activeData ? (
+        {activeTab === 'history-data' &&
+        activeData &&
+        activeData.metrics.length ? (
           <ChartLine
             periods={periods}
             data={activeData}

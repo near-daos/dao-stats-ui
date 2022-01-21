@@ -10,7 +10,7 @@ const initialState: CurrencyState = {
   error: null,
 };
 
-export const getCurrency = createAsyncThunk('contracts/getCurrency', async () =>
+export const getCurrency = createAsyncThunk('currency/getCurrency', async () =>
   currencyService.getCurrency(),
 );
 

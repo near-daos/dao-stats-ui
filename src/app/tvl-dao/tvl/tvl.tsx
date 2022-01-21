@@ -1,12 +1,13 @@
 import React, { FC, useState } from 'react';
 import { useParams } from 'react-router';
+import { useMount, useUnmount } from 'react-use';
 
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
 import { isFailed, isSuccess } from 'src/utils';
-import { Params } from 'src/constants';
+import { UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
@@ -15,11 +16,10 @@ import {
   selectTvlError,
 } from 'src/app/shared/tvl/selectors';
 import { clearTvlError, getTvlDaoTvl } from 'src/app/shared/tvl/slice';
-import { useMount, useUnmount } from 'react-use';
 
 export const Tvl: FC = () => {
   const [period, setPeriod] = useState('All');
-  const { contract, dao } = useParams<Params>();
+  const { contract, dao } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const error = useAppSelector(selectTvlError);
   const tvl = useAppSelector(selectTvlDaoTvlById(dao));

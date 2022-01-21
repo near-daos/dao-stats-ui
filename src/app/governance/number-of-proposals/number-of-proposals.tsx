@@ -1,21 +1,24 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { ChartLine, Tabs, Leaderboard, LoadingContainer } from 'src/components';
 import { generatePath, useHistory, useParams } from 'react-router';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
-import { isNotAsked, isPending, isSuccess } from 'src/utils';
+import { isFailed, isSuccess } from 'src/utils';
 import { selectActionLoading } from 'src/store/loading';
 import {
+  selectGovernanceError,
   selectGovernanceProposals,
   selectGovernanceProposalsLeaderboard,
 } from 'src/app/shared/governance/selectors';
 import {
+  clearGovernanceError,
   getGovernanceProposals,
   getGovernanceProposalsLeaderboard,
 } from 'src/app/shared/governance/slice';
+import { UrlParams, ROUTES } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
-import { ROUTES } from '../../../constants';
+import { useMount, useUnmount } from 'react-use';
 
 const tabOptions = [
   {
@@ -29,7 +32,8 @@ export const NumberOfProposals: FC = () => {
   const [period, setPeriod] = useState('All');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
   const history = useHistory();
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<UrlParams>();
+  const error = useAppSelector(selectGovernanceError);
   const dispatch = useAppDispatch();
   const governanceProposalsLeaderboard = useAppSelector(
     selectGovernanceProposalsLeaderboard,
@@ -42,34 +46,27 @@ export const NumberOfProposals: FC = () => {
     selectActionLoading(getGovernanceProposals.typePrefix),
   );
 
-  useEffect(() => {
-    if (
-      isNotAsked(governanceProposalsLoading) &&
-      !isPending(governanceProposalsLoading)
-    ) {
+  useMount(() => {
+    if (!governanceProposals) {
       dispatch(
         getGovernanceProposals({
           contract,
         }),
-      ).catch((error: unknown) => console.error(error));
+      ).catch((err) => console.error(err));
     }
 
-    if (
-      isNotAsked(governanceProposalsLeaderboardLoading) &&
-      !isPending(governanceProposalsLeaderboardLoading)
-    ) {
+    if (!governanceProposalsLeaderboard) {
       dispatch(
         getGovernanceProposalsLeaderboard({
           contract,
         }),
-      ).catch((error: unknown) => console.error(error));
+      ).catch((err) => console.error(err));
     }
-  }, [
-    contract,
-    dispatch,
-    governanceProposalsLoading,
-    governanceProposalsLeaderboardLoading,
-  ]);
+  });
+
+  useUnmount(() => {
+    dispatch(clearGovernanceError());
+  });
 
   const handleOnChange = (value: string) => {
     setActiveTab(value);
@@ -97,8 +94,10 @@ export const NumberOfProposals: FC = () => {
     <div className={styles.detailsContainer}>
       <LoadingContainer
         hide={
-          isSuccess(governanceProposalsLoading) &&
-          isSuccess(governanceProposalsLeaderboardLoading)
+          (isSuccess(governanceProposalsLoading) &&
+            isSuccess(governanceProposalsLeaderboardLoading)) ||
+          isFailed(governanceProposalsLoading) ||
+          isFailed(governanceProposalsLeaderboardLoading)
         }
       />
       <div className={styles.tabWrapper}>
@@ -109,8 +108,14 @@ export const NumberOfProposals: FC = () => {
           onChange={handleOnChange}
         />
       </div>
+      {error ? <p className={styles.error}>{error}</p> : null}
+      {governanceProposalsData?.metrics?.length === 0
+        ? 'Not enough data'
+        : null}
       <div className={styles.metricsContainer}>
-        {activeTab === 'history-data' && governanceProposalsData ? (
+        {activeTab === 'history-data' &&
+        governanceProposalsData &&
+        governanceProposalsData?.metrics?.length ? (
           <ChartLine
             periods={periods}
             data={governanceProposalsData}

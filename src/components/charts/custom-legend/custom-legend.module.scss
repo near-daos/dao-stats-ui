@@ -59,3 +59,10 @@
 .disabled {
   filter: opacity(0.3);
 }
+
+.nearIcon {
+  width: functions.calc-rem(16);
+  height: functions.calc-rem(16);
+
+  margin-left: functions.calc-rem(5);
+}

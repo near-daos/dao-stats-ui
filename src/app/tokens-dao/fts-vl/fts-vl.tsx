@@ -1,47 +1,63 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useParams } from 'react-router';
 
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
-import { isPending, isSuccess } from 'src/utils';
-import { Params } from 'src/constants';
+import { isFailed, isSuccess } from 'src/utils';
+import { UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
-import { selectTokensFtsVlDaoById } from 'src/app/shared/tokens/selectors';
-import { getTokensDaoFtsVl } from 'src/app/shared/tokens/slice';
+import {
+  selectTokensError,
+  selectTokensFtsVlDaoById,
+} from 'src/app/shared/tokens/selectors';
+import {
+  clearTokensError,
+  getTokensDaoFtsVl,
+} from 'src/app/shared/tokens/slice';
+import { useMount, useUnmount } from 'react-use';
 
 export const FtsVl: FC = () => {
   const [period, setPeriod] = useState('All');
-  const { contract, dao } = useParams<Params>();
+  const { contract, dao } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
+  const error = useAppSelector(selectTokensError);
 
   const tokens = useAppSelector(selectTokensFtsVlDaoById(dao));
   const getTokensLoading = useAppSelector(
     selectActionLoading(getTokensDaoFtsVl.typePrefix),
   );
 
-  useEffect(() => {
-    if (!tokens && !isPending(getTokensLoading)) {
+  useMount(() => {
+    if (!tokens) {
       dispatch(
         getTokensDaoFtsVl({
           contract,
           dao,
         }),
-      ).catch((error: unknown) => console.error(error));
+      ).catch((err: unknown) => console.error(err));
     }
-  }, [dispatch, contract, getTokensLoading, tokens, dao]);
+  });
+
+  useUnmount(() => {
+    dispatch(clearTokensError());
+  });
 
   const tokensData = useFilterMetrics(period, tokens);
   const periods = usePeriods(tokens?.metrics);
 
   return (
     <>
-      <LoadingContainer hide={isSuccess(getTokensLoading)} />
+      <LoadingContainer
+        hide={isSuccess(getTokensLoading) || isFailed(getTokensLoading)}
+      />
+      {error ? <p className={styles.error}>{error}</p> : null}
+      {tokensData?.metrics?.length === 0 ? 'Not enough data' : null}
       <div className={styles.metricsContainer}>
-        {tokensData ? (
+        {tokensData && tokensData?.metrics?.length ? (
           <ChartLine
             isCurrency
             periods={periods}

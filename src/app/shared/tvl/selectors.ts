@@ -1,6 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from 'src/store/root-reducer';
 import { currencySlice } from 'src/app/shared/currency';
+import { marketSlice } from 'src/app/shared/market';
 import {
   updateLeaderboardDataWithCurrency,
   updateMetricsDataWithCurrency,
@@ -15,6 +16,7 @@ import {
 
 const getState = (state: RootState) => state[tvlSlice.name];
 const getCurrencyState = (state: RootState) => state[currencySlice.name];
+const getMarketState = (state: RootState) => state[marketSlice.name];
 
 export const selectTvlError = createSelector(
   (state: RootState) => getState(state).error,
@@ -54,12 +56,17 @@ export const selectTvl = createSelector(
 
 export const selectTvlTvl = createSelector(
   (state: RootState) => getState(state).tvlTvl,
-  getCurrencyState,
-  (tvl, currency) =>
-    updateMetricsDataWithCurrency({
+  getMarketState,
+  (tvl, market) => {
+    if (!tvl) {
+      return null;
+    }
+
+    return updateMetricsDataWithCurrency({
       metrics: tvl?.metrics,
-      currency: currency?.currency?.near?.usd || 0,
-    }),
+      priceItems: market?.price || [],
+    });
+  },
 );
 
 export const selectTvlLeaderboard = createSelector(
@@ -69,23 +76,13 @@ export const selectTvlLeaderboard = createSelector(
     updateLeaderboardDataWithCurrency(tvl, currency?.currency?.near?.usd || 0),
 );
 
-export const selectTvlAvgTvl = createSelector(
-  (state: RootState) => getState(state).tvlAvgTvl,
-  getCurrencyState,
-  (tvl, currency) =>
-    updateMetricsDataWithCurrency({
-      metrics: tvl?.metrics,
-      currency: currency?.currency?.near?.usd || 0,
-    }),
-);
-
 export const selectTvlBountiesAndGrantsVl = createSelector(
   (state: RootState) => getState(state).tvlBountiesAndGrantsVL,
-  getCurrencyState,
-  (tvl, currency) =>
+  getMarketState,
+  (tvl, market) =>
     updateMetricsDataWithCurrency({
       metrics: tvl?.metrics,
-      currency: currency?.currency?.near?.usd || 0,
+      priceItems: market?.price || [],
     }),
 );
 
@@ -152,12 +149,12 @@ const {
 export const selectTvlDaoBountiesVlById = (id?: string) =>
   createSelector(
     (state: RootState) => (id ? selectTvlDaoBountiesVlItem(state, id) : null),
-    getCurrencyState,
-    (tvl, currency) =>
+    getMarketState,
+    (tvl, market) =>
       tvl
         ? updateMetricsDataWithCurrency({
             metrics: tvl?.metrics,
-            currency: currency?.currency?.near?.usd || 0,
+            priceItems: market?.price || [],
           })
         : null,
   );
@@ -169,12 +166,12 @@ const { selectById: selectTvlDaoTvlItem } = tvlDaoTvlAdapter.getSelectors(
 export const selectTvlDaoTvlById = (id?: string) =>
   createSelector(
     (state: RootState) => (id ? selectTvlDaoTvlItem(state, id) : null),
-    getCurrencyState,
-    (tvl, currency) =>
+    getMarketState,
+    (tvl, market) =>
       tvl
         ? updateMetricsDataWithCurrency({
             metrics: tvl?.metrics,
-            currency: currency?.currency?.near?.usd || 0,
+            priceItems: market?.price || [],
           })
         : null,
   );

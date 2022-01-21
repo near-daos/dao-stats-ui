@@ -25,7 +25,6 @@ const initialState: TvlState = {
   tvl: null,
   tvlTvl: null,
   tvlLeaderboard: null,
-  tvlAvgTvl: null,
   tvlBountiesAndGrantsVL: null,
   tvlBountiesAndGrantsVlLeaderboard: null,
   tvlDao: tvlDaoAdapter.getInitialState(),
@@ -35,55 +34,49 @@ const initialState: TvlState = {
   error: null,
 };
 
-export const getTvl = createAsyncThunk(
-  'governance/getTvl',
-  async (params: Params) => tvlService.getTvl(params),
+export const getTvl = createAsyncThunk('tvl/getTvl', async (params: Params) =>
+  tvlService.getTvl(params),
 );
 
 export const getTvlHistory = createAsyncThunk(
-  'governance/getTvlHistory',
+  'tvl/getTvlHistory',
   async (params: HistoryParams) => tvlService.getTvlHistory(params),
 );
 
 export const getTvlLeaderboard = createAsyncThunk(
-  'governance/getTvlLeaderboard',
+  'tvl/getTvlLeaderboard',
   async (params: Params) => tvlService.getTvlLeaderboard(params),
 );
 
-export const getTvlAvgTvl = createAsyncThunk(
-  'governance/getTvlAvgTvl',
-  async (params: HistoryParams) => tvlService.getTvlAvgTvl(params),
-);
-
 export const getTvlBountiesAndGrantsVl = createAsyncThunk(
-  'governance/getTvlBountiesAndGrantsVl',
+  'tvl/getTvlBountiesAndGrantsVl',
   async (params: HistoryParams) => tvlService.getTvlBountiesAndGrantsVl(params),
 );
 
 export const getTvlBountiesAndGrantsVlLeaderboard = createAsyncThunk(
-  'governance/getTvlBountiesAndGrantsVlLeaderboard',
+  'tvl/getTvlBountiesAndGrantsVlLeaderboard',
   async (params: Params) =>
     tvlService.getTvlBountiesAndGrantsVlLeaderboard(params),
 );
 
 export const getTvlDao = createAsyncThunk(
-  'governance/getTvlDao',
+  'tvl/getTvlDao',
   async (params: DaoParams) => tvlService.getTvlDao(params),
 );
 
 export const getTvlDaoBountiesNumber = createAsyncThunk(
-  'governance/getTvlDaoBountiesNumber',
+  'tvl/getTvlDaoBountiesNumber',
   async (params: DaoHistoryParams) =>
     tvlService.getTvlDaoBountiesNumber(params),
 );
 
 export const getTvlDaoBountiesVl = createAsyncThunk(
-  'governance/getTvlDaoBountiesVl',
+  'tvl/getTvlDaoBountiesVl',
   async (params: DaoHistoryParams) => tvlService.getTvlDaoBountiesVl(params),
 );
 
 export const getTvlDaoTvl = createAsyncThunk(
-  'governance/getTvlDaoTvl',
+  'tvl/getTvlDaoTvl',
   async (params: DaoHistoryParams) => tvlService.getTvlDaoTvl(params),
 );
 
@@ -93,7 +86,6 @@ const isRejectedAction = isRejected(
   getTvl,
   getTvlHistory,
   getTvlLeaderboard,
-  getTvlAvgTvl,
   getTvlBountiesAndGrantsVl,
   getTvlBountiesAndGrantsVlLeaderboard,
   getTvlDao,
@@ -117,10 +109,6 @@ export const tvlSlice = createSlice({
 
     builder.addCase(getTvlLeaderboard.fulfilled, (state, { payload }) => {
       state.tvlLeaderboard = payload.data;
-    });
-
-    builder.addCase(getTvlAvgTvl.fulfilled, (state, { payload }) => {
-      state.tvlAvgTvl = payload.data;
     });
 
     builder.addCase(

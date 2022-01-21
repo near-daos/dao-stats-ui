@@ -1,22 +1,25 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { useParams, generatePath, useHistory } from 'react-router';
+import { useMount, useUnmount } from 'react-use';
 
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import {
+  selectGeneralError,
   selectGeneralGroups,
   selectGeneralGroupsLeaderboard,
 } from 'src/app/shared/general/selectors';
 import {
   getGeneralGroupsLeaderboard,
   getGeneralGroups,
+  clearGeneralError,
 } from 'src/app/shared/general/slice';
 import { selectActionLoading } from 'src/store/loading';
-import { isSuccess, isPending, isNotAsked } from 'src/utils';
+import { isSuccess, isFailed } from 'src/utils';
 
 import styles from 'src/styles/page.module.scss';
-import { ROUTES } from '../../../constants';
+import { ROUTES, UrlParams } from 'src/constants';
 
 const tabOptions = [
   {
@@ -30,8 +33,9 @@ export const Groups: FC = () => {
   const [period, setPeriod] = useState('All');
   const history = useHistory();
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
-  const { contract } = useParams<{ contract: string }>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
+  const error = useAppSelector(selectGeneralError);
   const groups = useAppSelector(selectGeneralGroups);
   const groupsLeaderboard = useAppSelector(selectGeneralGroupsLeaderboard);
   const getGeneralGroupsLoading = useAppSelector(
@@ -45,38 +49,27 @@ export const Groups: FC = () => {
     setActiveTab(value);
   };
 
-  useEffect(() => {
-    if (
-      isNotAsked(getGeneralGroupsLoading) &&
-      !isPending(getGeneralGroupsLoading)
-    ) {
+  useMount(() => {
+    if (!groups) {
       dispatch(
         getGeneralGroups({
           contract,
         }),
-      ).catch((error: unknown) => {
-        console.error(error);
-      });
+      ).catch((err: unknown) => console.error(err));
     }
 
-    if (
-      isNotAsked(getGeneralGroupsLoading) &&
-      !isPending(getGeneralGroupsLeaderboardLoading)
-    ) {
+    if (!groupsLeaderboard) {
       dispatch(
         getGeneralGroupsLeaderboard({
           contract,
         }),
-      ).catch((error: unknown) => {
-        console.error(error);
-      });
+      ).catch((err: unknown) => console.error(err));
     }
-  }, [
-    contract,
-    dispatch,
-    getGeneralGroupsLoading,
-    getGeneralGroupsLeaderboardLoading,
-  ]);
+  });
+
+  useUnmount(() => {
+    dispatch(clearGeneralError());
+  });
 
   const groupsLeaderboardData = usePrepareLeaderboard({
     leaderboard: groupsLeaderboard?.metrics ? groupsLeaderboard.metrics : null,
@@ -98,8 +91,10 @@ export const Groups: FC = () => {
     <div className={styles.detailsContainer}>
       <LoadingContainer
         hide={
-          isSuccess(getGeneralGroupsLoading) &&
-          isSuccess(getGeneralGroupsLeaderboardLoading)
+          (isSuccess(getGeneralGroupsLoading) &&
+            isSuccess(getGeneralGroupsLeaderboardLoading)) ||
+          isFailed(getGeneralGroupsLoading) ||
+          isFailed(getGeneralGroupsLeaderboardLoading)
         }
       />
 
@@ -111,9 +106,12 @@ export const Groups: FC = () => {
           onChange={handleOnChange}
         />
       </div>
-
+      {groupsData?.metrics?.length === 0 ? 'Not enough data' : null}
+      {error ? <p className={styles.error}>{error}</p> : null}
       <div className={styles.metricsContainer}>
-        {activeTab === 'history-data' && groupsData ? (
+        {activeTab === 'history-data' &&
+        groupsData &&
+        groupsData.metrics.length ? (
           <ChartLine
             periods={periods}
             data={groupsData}

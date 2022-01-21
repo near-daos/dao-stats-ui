@@ -1,39 +1,49 @@
-import React, { FC, useEffect, useState } from 'react';
-import { ChartLine, LoadingContainer } from 'src/components';
+import React, { FC, useState } from 'react';
+import { useUnmount, useMount } from 'react-use';
 import { useParams } from 'react-router';
+
+import { ChartLine, LoadingContainer } from 'src/components';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { selectGeneralAverageGroups } from 'src/app/shared/general/selectors';
-import { getGeneralAverageGroups } from 'src/app/shared/general/slice';
+import {
+  selectGeneralAverageGroups,
+  selectGeneralError,
+} from 'src/app/shared/general/selectors';
+import {
+  clearGeneralError,
+  getGeneralAverageGroups,
+} from 'src/app/shared/general/slice';
 import { selectActionLoading } from 'src/store/loading';
-import { isSuccess, isPending, isNotAsked, isFailed } from 'src/utils';
-import { Params } from 'src/constants';
+import { isSuccess, isFailed } from 'src/utils';
+import { UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
 export const AverageGroups: FC = () => {
   const [period, setPeriod] = useState('All');
-  const { contract } = useParams<Params>();
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
+  const error = useAppSelector(selectGeneralError);
   const averageGroups = useAppSelector(selectGeneralAverageGroups);
   const generalAverageGroupsLoading = useAppSelector(
     selectActionLoading(getGeneralAverageGroups.typePrefix),
   );
 
-  useEffect(() => {
-    if (
-      isNotAsked(generalAverageGroupsLoading) &&
-      !isPending(generalAverageGroupsLoading)
-    ) {
+  useMount(() => {
+    if (!averageGroups) {
       dispatch(
         getGeneralAverageGroups({
           contract,
         }),
-      ).catch((error: unknown) => {
-        console.error(error);
+      ).catch((err: unknown) => {
+        console.error(err);
       });
     }
-  }, [contract, dispatch, generalAverageGroupsLoading]);
+  });
+
+  useUnmount(() => {
+    dispatch(clearGeneralError());
+  });
 
   const averageGroupsData = useFilterMetrics(period, averageGroups);
   const periods = usePeriods(averageGroups?.metrics);
@@ -46,8 +56,10 @@ export const AverageGroups: FC = () => {
           isFailed(generalAverageGroupsLoading)
         }
       />
+      {averageGroupsData?.metrics?.length === 0 ? 'Not enough data' : null}
+      {error ? <p className={styles.error}>{error}</p> : null}
       <div className={styles.metricsContainer}>
-        {averageGroupsData ? (
+        {averageGroupsData && averageGroupsData.metrics.length ? (
           <ChartLine
             roundPattern="0,0.00"
             periods={periods}

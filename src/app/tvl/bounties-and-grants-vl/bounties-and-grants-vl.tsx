@@ -1,21 +1,23 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { generatePath, useHistory, useParams } from 'react-router';
 
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/store/loading';
 import { useFilterMetrics, usePrepareLeaderboard, usePeriods } from 'src/hooks';
-import { isPending, isSuccess, isNotAsked } from 'src/utils';
-import { ROUTES } from 'src/constants';
-import { Params } from 'src/api';
+import { isFailed, isSuccess } from 'src/utils';
+import { ROUTES, UrlParams } from 'src/constants';
 import {
   getTvlBountiesAndGrantsVlLeaderboard,
   getTvlBountiesAndGrantsVl,
   selectTvlBountiesAndGrantsVl,
   selectTvlBountiesAndGrantsVlLeaderboard,
+  clearTvlError,
+  selectTvlError,
 } from 'src/app/shared';
 
 import styles from 'src/styles/page.module.scss';
+import { useMount, useUnmount } from 'react-use';
 
 const tabOptions = [
   {
@@ -29,8 +31,8 @@ export const BountiesAndGrantsVl: FC = () => {
   const history = useHistory();
   const [period, setPeriod] = useState('All');
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
-
-  const { contract } = useParams<Params>();
+  const error = useAppSelector(selectTvlError);
+  const { contract } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const tvl = useAppSelector(selectTvlBountiesAndGrantsVl);
   const tvlLeaderboard = useAppSelector(
@@ -43,26 +45,27 @@ export const BountiesAndGrantsVl: FC = () => {
     selectActionLoading(getTvlBountiesAndGrantsVlLeaderboard.typePrefix),
   );
 
-  useEffect(() => {
-    if (isNotAsked(getTvlLoading) && !isPending(getTvlLoading)) {
+  useMount(() => {
+    if (!tvl) {
       dispatch(
         getTvlBountiesAndGrantsVl({
           contract,
         }),
-      ).catch((error: unknown) => console.error(error));
+      ).catch((err) => console.error(err));
     }
 
-    if (
-      isNotAsked(getTvlLeaderboardLoading) &&
-      !isPending(getTvlLeaderboardLoading)
-    ) {
+    if (!tvlLeaderboard) {
       dispatch(
         getTvlBountiesAndGrantsVlLeaderboard({
           contract,
         }),
-      ).catch((error: unknown) => console.error(error));
+      ).catch((err) => console.error(err));
     }
-  }, [dispatch, contract, getTvlLoading, getTvlLeaderboardLoading]);
+  });
+
+  useUnmount(() => {
+    dispatch(clearTvlError());
+  });
 
   const handleOnChange = (value: string) => {
     setActiveTab(value);
@@ -85,7 +88,11 @@ export const BountiesAndGrantsVl: FC = () => {
   return (
     <div className={styles.detailsContainer}>
       <LoadingContainer
-        hide={isSuccess(getTvlLoading) && isSuccess(getTvlLeaderboardLoading)}
+        hide={
+          (isSuccess(getTvlLoading) && isSuccess(getTvlLeaderboardLoading)) ||
+          isFailed(getTvlLoading) ||
+          isFailed(getTvlLeaderboardLoading)
+        }
       />
       <div className={styles.tabWrapper}>
         <Tabs
@@ -95,8 +102,10 @@ export const BountiesAndGrantsVl: FC = () => {
           onChange={handleOnChange}
         />
       </div>
+      {error ? <p className={styles.error}>{error}</p> : null}
+      {tvlData?.metrics?.length === 0 ? 'Not enough data' : null}
       <div className={styles.metricsContainer}>
-        {activeTab === 'history-data' && tvlData ? (
+        {activeTab === 'history-data' && tvlData && tvlData?.metrics?.length ? (
           <ChartLine
             isCurrency
             periods={periods}
