@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-const BASE_URL = `${process.env.REACT_APP_API_ENDPOINT}/api/v1`;
+const BASE_URL = `${window.__RUNTIME_CONFIG__.REACT_APP_API_ENDPOINT}/api/v1`;
 
 export class HttpService {
   private readonly client: AxiosInstance;

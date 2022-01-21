@@ -75,6 +75,9 @@
     // prettier
     "prettier/prettier": ["error"],
 
+    // JavaScript
+    "no-underscore-dangle": [ "error", { "allow": [ "__RUNTIME_CONFIG__" ] } ],
+
     // TypeScript
     "@typescript-eslint/explicit-member-accessibility": "off",
     "@typescript-eslint/no-object-literal-type-assertion": "off",
