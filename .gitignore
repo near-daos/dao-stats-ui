@@ -50,6 +50,7 @@ Thumbs.db
 
 # generated assets
 public/sprite-icons.svg
+public/runtime-env.js
 
 # eslint
 .eslintcache

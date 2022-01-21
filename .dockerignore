@@ -1,0 +1,30 @@
+
+# Versioning and metadata
+.git
+.gitignore
+.dockerignore
+
+# IDEs
+.vscode
+
+# Build dependencies
+build
+dist
+node_modules
+coverage
+
+# Docker compose 
+docker-compose.yml
+docker-compose-*.yml
+
+# Files not required for production
+.editorconfig
+Dockerfile
+README.md
+tslint.json
+nodemon.json
+
+deployment
+k8s
+samples
+test

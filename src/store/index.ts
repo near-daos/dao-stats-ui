@@ -16,7 +16,7 @@ export const createStore = () =>
         immutableCheck: true,
         serializableCheck: false,
       }).concat(routerMiddleware, throwRejectedThunk),
-    devTools: process.env.NODE_ENV !== 'production',
+    devTools: window.__RUNTIME_CONFIG__.NODE_ENV !== 'production',
   });
 
 export const store = createStore();

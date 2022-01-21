@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dao-stats-ui-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: "letsencrypt-development"
+    nginx.org/websocket-services: {{ include "dao-stats-ui.fullname" . }}
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - {{ .Values.ingress.host }}
+    secretName: {{ include "dao-stats-ui.fullname" . }}-tls-secret
+  rules:
+  - host: {{ .Values.ingress.host }}
+    http:
+      paths:
+        - path: /
+          backend:
+            service:
+              name: {{ include "dao-stats-ui.fullname" . }}
+              port:
+                number: 80
+          pathType: ImplementationSpecific
