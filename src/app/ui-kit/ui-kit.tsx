@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 
 import {
   Button,
-  // ChartBar,
   Autocomplete,
   Header,
   Leaderboard,
@@ -17,8 +16,6 @@ import {
   WidgetInfo,
   WidgetTile,
 } from 'src/components';
-// import { getRechartsData } from '../../components/charts/rechartsData';
-// import logo from '../../images/sputnik.png';
 
 import styles from './ui-kit.module.scss';
 
@@ -26,7 +23,6 @@ const tableMock3: LeaderboardDataItem[] = [
   {
     id: 1,
     titleCell: {
-      // logo,
       label: 'jonathan',
       domain: '.sputnikdao.near',
     },
@@ -35,7 +31,6 @@ const tableMock3: LeaderboardDataItem[] = [
   {
     id: 2,
     titleCell: {
-      // logo,
       label: 'JBN',
       domain: '.example.test',
     },
@@ -44,7 +39,6 @@ const tableMock3: LeaderboardDataItem[] = [
   {
     id: 3,
     titleCell: {
-      // logo,
       label: 'Oklahoma',
       domain: '.oklahoma.okh',
     },
@@ -53,7 +47,6 @@ const tableMock3: LeaderboardDataItem[] = [
   {
     id: 4,
     titleCell: {
-      // logo,
       label: 'ProfTool',
       domain: '.proftool.com',
     },
@@ -76,12 +69,9 @@ const navigationOptions = [
   },
 ];
 
-// const rechartsData = getRechartsData();
-
 export const leaderboardData = [
   {
     id: 1,
-    // logo,
     label: 'jonathan',
     domain: '.sputnikdao.near',
     activity: 9290,
@@ -122,7 +112,6 @@ export const leaderboardData = [
   },
   {
     id: 2,
-    // logo,
     label: 'JBN',
     domain: '.example.test',
     activity: 8654,
@@ -163,7 +152,6 @@ export const leaderboardData = [
   },
   {
     id: 3,
-    // logo,
     label: 'Oklahoma',
     domain: '.oklahoma.okh',
     activity: 5887,
@@ -204,7 +192,6 @@ export const leaderboardData = [
   },
   {
     id: 4,
-    // logo,
     label: 'ProfTool',
     domain: '.proftool.com',
     activity: 1544,
@@ -408,41 +395,6 @@ export const UiKIt: FC = () => (
       </div>
     </section>
     <section className={styles.section}>
-      <div className={styles.sectionHeader}>Chart Line Widget</div>
-      <div className={styles.container}>
-        {/*  <ChartLine data={rechartsData} /> */}
-      </div>
-    </section>
-    <section className={styles.section}>
-      <div className={styles.sectionHeader}>Chart Bar Widget</div>
-      <div className={styles.container}>
-        {/* <ChartBar data={rechartsData} /> */}
-      </div>
-    </section>
-    <section className={styles.section}>
-      <div className={styles.sectionHeader}>Chart Bar Widget</div>
-      <div className={styles.container}>
-        <div className={styles.column}>
-          <WidgetTile>{/* <ChartPie data={pieData[0]} /> */}</WidgetTile>
-        </div>
-        <div className={styles.column}>
-          <WidgetTile>{/* <ChartPie data={pieData[1]} /> */}</WidgetTile>
-        </div>
-      </div>
-    </section>
-    <section className={styles.section}>
-      <div className={styles.sectionHeader}>Chart Bar Widget</div>
-      <div className={styles.container}>
-        {/* <ChartBar data={rechartsData} /> */}
-        <div className={styles.column}>
-          <WidgetTile active>{/* <ChartPie data={pieData[2]} /> */}</WidgetTile>
-        </div>
-        <div className={styles.column}>
-          <WidgetTile>{/* <ChartPie data={pieData[3]} /> */}</WidgetTile>
-        </div>
-      </div>
-    </section>
-    <section className={styles.section}>
       <div className={styles.sectionHeader}>Info Widget</div>
       <div className={styles.container}>
         <div className={styles.column}>
@@ -471,44 +423,7 @@ export const UiKIt: FC = () => (
       </div>
     </section>
     <section className={styles.section}>
-      <div className={styles.sectionHeader}>Stacked chart</div>
-      <div className={styles.container}>
-        {/* <StackedChart proposals={{}} /> */}
-      </div>
-    </section>
-    <section className={styles.section}>
-      <div className={styles.sectionHeader}>Leaderboard type 1</div>
-      <div className={styles.container}>
-        {/* <Leaderboard
-            headerCells={[
-              { value: '' },
-              { value: 'DAO Name' },
-              { value: 'DAOs activity' },
-              { value: 'Last Month', position: 'right' },
-            ]}
-            type="line"
-            dataRows={tableMock1}
-          /> */}
-      </div>
-    </section>
-    <section className={styles.section}>
-      <div className={styles.sectionHeader}>Leaderboard type 2</div>
-      <div className={styles.container}>
-        {/* <Leaderboard
-            headerCells={[
-              { value: '' },
-              { value: 'DAO Name' },
-
-              { value: 'Number of Bounties' },
-              { value: 'VL of Bounties' },
-            ]}
-            type="doubleLine"
-            dataRows={tableMock2}
-          /> */}
-      </div>
-    </section>
-    <section className={styles.section}>
-      <div className={styles.sectionHeader}>Leaderboard type 3</div>
+      <div className={styles.sectionHeader}>Leaderboard</div>
       <div className={styles.container}>
         <Leaderboard
           headerCells={[

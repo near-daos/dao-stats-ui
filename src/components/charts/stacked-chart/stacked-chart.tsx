@@ -18,7 +18,7 @@ export const StackedChart: FC<StackedChartProps> = ({
   <div className={clsx(styles.stackedChart, className)}>
     <div className={styles.barWrapper}>
       {Object.values(proposals)?.map(
-        (value, index: number) =>
+        (value, index) =>
           value !== 0 && (
             <div
               // eslint-disable-next-line react/no-array-index-key
@@ -30,7 +30,7 @@ export const StackedChart: FC<StackedChartProps> = ({
       )}
     </div>
     <div className={styles.valuesWrapper}>
-      {Object.values(proposals).map((value, index: number) => (
+      {Object.values(proposals).map((value, index) => (
         <div className={styles.valueContainer}>
           <div className={styles.dot} style={{ background: COLORS[index] }} />
           <div

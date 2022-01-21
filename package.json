@@ -94,7 +94,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "bitbucket:magicpowered/dao-stats-ui"
+    "url": "github:near-daos/dao-stats-ui"
   },
   "husky": {
     "hooks": {
