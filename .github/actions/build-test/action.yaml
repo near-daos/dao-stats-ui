@@ -11,5 +11,5 @@ runs:
     run: |
       yarn install
       yarn test || true
-      yarn lint . || true
+      yarn lint || true
       yarn build
