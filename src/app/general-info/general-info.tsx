@@ -69,7 +69,7 @@ export const GeneralInfo: FC = () => {
             )}
           >
             <WidgetInfo
-              title="Active DAOs"
+              title="Monthly Active DAOs"
               number={general?.activity?.count}
               percentages={general?.activity?.growth}
             />
