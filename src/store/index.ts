@@ -6,7 +6,6 @@ import { rootReducer, RootState } from './root-reducer';
 import { routerMiddleware } from './history';
 import { throwRejectedThunk } from './throw-rejected-thunk';
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const createStore = () =>
   configureStore({
     reducer: rootReducer,
