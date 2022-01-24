@@ -77,7 +77,7 @@ export const FlowDao: FC = () => {
             <WidgetInfo
               isCurrency
               isRoundNumber
-              title="Total in"
+              title="Total In"
               number={flow?.totalIn?.count}
               percentages={flow?.totalIn?.growth}
             />

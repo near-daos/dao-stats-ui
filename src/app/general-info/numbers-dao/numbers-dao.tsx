@@ -61,7 +61,7 @@ export const NumbersDao: FC = () => {
             period={period}
             setPeriod={setPeriod}
             lines={[
-              { name: 'Number of dao', color: '#E33F84', dataKey: 'count' },
+              { name: 'Number of DAOs', color: '#E33F84', dataKey: 'count' },
             ]}
           />
         ) : null}

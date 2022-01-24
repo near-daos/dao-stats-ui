@@ -129,7 +129,7 @@ export const OutgoingFunds: FC = () => {
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
-              { value: 'Total out' },
+              { value: 'Total Out' },
               { value: 'Last Month', position: 'right' },
             ]}
             type="line"
