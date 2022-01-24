@@ -79,21 +79,6 @@ export const TvlDao: FC = () => {
             percentages={tvl?.bounties?.vl?.growth}
           />
         </WidgetTile>
-        {/*  <WidgetTile className={styles.widget}>
-            <WidgetInfo
-              isRoundNumber
-              title="Number of Grants"
-              number={tvl?.grants?.number?.count}
-              percentages={tvl?.grants?.number?.growth}
-            />
-            <WidgetInfo
-              isCurrency
-              isRoundNumber
-              title="VL of Grants"
-              number={tvl?.grants?.vl?.count}
-              percentages={tvl?.grants?.vl?.growth}
-            />
-          </WidgetTile> */}
         <WidgetTile
           active={Boolean(
             matchPath(location.pathname, {
