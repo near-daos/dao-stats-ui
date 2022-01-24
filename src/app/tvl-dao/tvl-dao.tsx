@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC } from 'react';
 import {
   generatePath,
   matchPath,
@@ -11,7 +11,6 @@ import {
 import { useMount } from 'react-use';
 
 import { UrlParams, ROUTES } from 'src/constants';
-import { useRoutes } from 'src/hooks';
 
 import { Page, WidgetTile, WidgetInfo, Widgets } from 'src/components';
 import { getTvlDao, selectTvlDaoById } from 'src/app/shared';
@@ -26,7 +25,6 @@ import { Tvl } from './tvl';
 export const TvlDao: FC = () => {
   const location = useLocation();
   const history = useHistory();
-  const routes = useRoutes();
   const { contract, dao } = useParams<UrlParams>();
   const dispatch = useAppDispatch();
   const tvl = useAppSelector(selectTvlDaoById(dao));

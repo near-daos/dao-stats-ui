@@ -1,57 +1,110 @@
 @use 'src/styles/typography';
 @use 'src/styles/functions';
+@use 'src/styles/media';
 
 @import 'src/styles/helpers';
 
 .breadcrumbs {
+  padding: 0 functions.calc-rem(12);
+
   display: flex;
   align-items: center;
-  
-  padding: 0 functions.calc-rem(12);
-  margin: functions.calc-rem(12) 0 functions.calc-rem(28);
+}
+
+.contractNameWrapper {
+  display: flex;
+  flex-direction: column;
+
+  @include media.desktop {
+    flex-direction: row;
+  }
 }
 
 .contractName {
-  @include typography.heading-2;
-  
+  @include typography.title-3;
+
   margin: 0 functions.calc-rem(12) 0 0;
-  
+
   color: var(--white);
+
+  @include media.desktop {
+    @include typography.heading-2;
+  }
 }
 
 .info {
   @include typography.caption-1;
-  
-  padding: functions.calc-rem(7) functions.calc-rem(7) functions.calc-rem(8) functions.calc-rem(12);
+
   color: var(--color-grey-200);
-  
-  background: rgba(255, 255, 255, 0.03);
-  
+
+  background: none;
+
   border-radius: functions.calc-rem(8);
+
+  white-space: nowrap;
+
+  @include media.desktop {
+    padding: functions.calc-rem(7) functions.calc-rem(7) functions.calc-rem(8)
+      functions.calc-rem(12);
+
+    margin-top: functions.calc-rem(6);
+
+    background: rgba(255, 255, 255, 0.03);
+  }
 }
 
 .backButton {
   @extend %button-reset;
   @include typography.heading-2;
-  
+
   color: var(--color-yellow-600);
+  @include media.mobile-only {
+    @include typography.title-3;
+
+    margin-right: functions.calc-rem(8);
+  }
 }
 
 .separator {
-  @include typography.heading-2;
+  @include typography.heading-1;
+
+  margin: 0 functions.calc-rem(12);
 
   color: var(--color-grey-400);
+  @include media.mobile-only {
+    display: none;
+  }
+  @include media.desktop {
+    @include typography.heading-2;
 
-  margin: 0 functions.calc-rem(8);
+    margin: 0 functions.calc-rem(8);
+  }
+}
+
+.daoTitleWrapper {
+  @extend %button-reset;
+
+  display: flex;
+  flex-direction: column;
+  @include media.desktop {
+    flex-direction: row;
+  }
 }
 
 .dao {
-  @include typography.heading-2;
-
+  @include typography.title-2;
   color: var(--white);
+
+  @include media.desktop {
+    @include typography.heading-2;
+  }
 }
 
 .daoContract {
-  @include typography.heading-2;
+  @include typography.title-4;
   color: var(--color-grey-400);
+
+  @include media.desktop {
+    @include typography.heading-2;
+  }
 }

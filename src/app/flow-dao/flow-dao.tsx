@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC } from 'react';
 import { useMount } from 'react-use';
 
 import {
@@ -14,7 +14,6 @@ import {
 import { getFlowDao } from 'src/app/shared/flow/slice';
 import { selectFlowDaoById } from 'src/app/shared/flow/selectors';
 import { Page, WidgetTile, WidgetInfo, Widgets } from 'src/components';
-import { useRoutes } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { UrlParams, ROUTES } from 'src/constants';
 import styles from 'src/styles/page.module.scss';
@@ -28,7 +27,6 @@ export const FlowDao: FC = () => {
   const location = useLocation();
   const history = useHistory();
   const { contract, dao } = useParams<UrlParams>();
-  const routes = useRoutes();
 
   const dispatch = useAppDispatch();
   const flow = useAppSelector(selectFlowDaoById(dao));

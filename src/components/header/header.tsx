@@ -12,6 +12,7 @@ import styles from './header.module.scss';
 
 import { NetworkSwitcher } from '../network-switcher';
 import { Autocomplete } from '../autocomplete';
+import { Breadcrumbs } from '../breadcrumbs';
 
 export type HeaderProps = {
   isOpen: boolean;
@@ -23,14 +24,26 @@ export const Header: FC<HeaderProps> = ({ isOpen, setOpen }) => {
 
   return (
     <div className={styles.header}>
-      <Link to="/" className={styles.logo}>
-        <img
-          className={styles.desktopImage}
-          src={desktopLogo}
-          alt="Dao Stats"
-        />
-        <img className={styles.mobileImage} src={mobileLogo} alt="Dao Stats" />
-      </Link>
+      <div className={styles.leftPart}>
+        <Link to="/" className={styles.logo}>
+          <img
+            className={styles.desktopImage}
+            src={desktopLogo}
+            alt="Dao Stats"
+          />
+          <img
+            className={styles.mobileImage}
+            src={mobileLogo}
+            alt="Dao Stats"
+          />
+        </Link>
+        {!isForbiddenHeader ? (
+          <>
+            <div className={styles.divider} />
+            <Breadcrumbs className={styles.breadcrumbs} />
+          </>
+        ) : null}
+      </div>
       {!isForbiddenHeader ? <Autocomplete /> : null}
       <button
         type="button"

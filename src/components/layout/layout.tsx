@@ -17,7 +17,9 @@ export const Layout: FC = ({ children }) => {
     <div className={styles.layout}>
       <Header isOpen={isOpen} setOpen={setOpen} />
       <div className={styles.container}>
-        {!isForbiddenHeader ? <Breadcrumbs /> : null}
+        {!isForbiddenHeader ? (
+          <Breadcrumbs className={styles.breadcrumbs} />
+        ) : null}
         <div className={styles.wrapper}>
           <Sidebar isOpen={isOpen} setOpen={setOpen} />
           <div className={styles.page}>{children}</div>

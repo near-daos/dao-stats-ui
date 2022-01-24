@@ -10,7 +10,6 @@ import {
 } from 'react-router';
 import { useMount } from 'react-use';
 import { UrlParams, ROUTES } from 'src/constants';
-import { useRoutes } from 'src/hooks';
 
 import { Page, WidgetTile, WidgetInfo, Widgets } from 'src/components';
 import { getTokensDao, selectTokensDaoById } from 'src/app/shared';

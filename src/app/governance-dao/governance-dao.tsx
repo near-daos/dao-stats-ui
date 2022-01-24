@@ -11,7 +11,6 @@ import {
   useParams,
 } from 'react-router';
 import { ROUTES, UrlParams } from 'src/constants';
-import { useRoutes } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import {
   Page,

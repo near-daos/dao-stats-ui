@@ -32,6 +32,10 @@
   }
 }
 
+.leftPart {
+  display: flex;
+}
+
 .headerControls {
   display: flex;
   flex-direction: column;
@@ -77,6 +81,9 @@
 }
 
 .logo {
+  display: flex;
+  flex-shrink: 0;
+
   @include media.desktop {
     margin: 0 0 0 functions.calc-rem(12);
   }
@@ -131,6 +138,27 @@
 .description,
 .mobileIcon {
   display: block;
+
+  @include media.desktop {
+    display: none;
+  }
+}
+
+.header .breadcrumbs {
+  @include media.desktop {
+    display: none;
+  }
+}
+
+.divider {
+  width: functions.calc-rem(1);
+  height: functions.calc-rem(40);
+
+  margin-left: functions.calc-rem(13);
+
+  display: flex;
+
+  background: var(--color-grey-800);
 
   @include media.desktop {
     display: none;

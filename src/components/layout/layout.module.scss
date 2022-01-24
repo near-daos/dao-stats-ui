@@ -42,3 +42,13 @@
     padding: 0 0 functions.calc-rem(12);
   }
 }
+
+.breadcrumbs {
+  margin: functions.calc-rem(12) 0 functions.calc-rem(28);
+
+  display: none;
+
+  @include media.desktop {
+    display: flex;
+  }
+}
