@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC } from 'react';
 import { useMount } from 'react-use';
 import {
   matchPath,
@@ -9,13 +9,7 @@ import {
   useParams,
 } from 'react-router';
 import { ROUTES, UrlParams } from 'src/constants';
-import {
-  Page,
-  WidgetTile,
-  WidgetInfo,
-  Breadcrumbs,
-  Widgets,
-} from 'src/components';
+import { Page, WidgetTile, WidgetInfo, Widgets } from 'src/components';
 
 import { useRoutes } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
@@ -39,60 +33,48 @@ export const Tvl: FC = () => {
     }
   });
 
-  const breadcrumbs = useMemo(
-    () => [
-      {
-        url: routes.tvl,
-        name: 'TVL',
-      },
-    ],
-    [routes],
-  );
-
   return (
-    <>
-      <Breadcrumbs elements={breadcrumbs} className={styles.breadcrumbs} />
-      <Page>
-        <Widgets>
-          <WidgetTile
-            className={styles.widget}
-            active={Boolean(
-              matchPath(location.pathname, {
-                path: ROUTES.tvl,
-                exact: true,
-              }),
-            )}
-            onClick={() => history.push(routes.tvl)}
-          >
-            <WidgetInfo
-              isCurrency
-              isRoundNumber
-              title="Platform TVL"
-              number={tvl?.tvl?.count}
-              percentages={tvl?.tvl?.growth}
-            />
-          </WidgetTile>
+    <Page title="TVL">
+      <Widgets>
+        <WidgetTile
+          className={styles.widget}
+          active={Boolean(
+            matchPath(location.pathname, {
+              path: ROUTES.tvl,
+              exact: true,
+            }),
+          )}
+          onClick={() => history.push(routes.tvl)}
+        >
+          <WidgetInfo
+            isCurrency
+            isRoundNumber
+            title="Platform TVL"
+            number={tvl?.tvl?.count}
+            percentages={tvl?.tvl?.growth}
+          />
+        </WidgetTile>
 
-          <WidgetTile
-            className={styles.widget}
-            active={Boolean(
-              matchPath(location.pathname, {
-                path: ROUTES.tvlBountiesAndGrantsVl,
-                exact: true,
-              }),
-            )}
-            onClick={() => history.push(routes.tvlBountiesAndGrantsVl)}
-          >
-            <WidgetInfo
-              isCurrency
-              isRoundNumber
-              title="VL in Bounties/Grants"
-              number={tvl?.bountiesAndGrantsVl?.count}
-              percentages={tvl?.bountiesAndGrantsVl?.growth}
-            />
-          </WidgetTile>
+        <WidgetTile
+          className={styles.widget}
+          active={Boolean(
+            matchPath(location.pathname, {
+              path: ROUTES.tvlBountiesAndGrantsVl,
+              exact: true,
+            }),
+          )}
+          onClick={() => history.push(routes.tvlBountiesAndGrantsVl)}
+        >
+          <WidgetInfo
+            isCurrency
+            isRoundNumber
+            title="VL in Bounties/Grants"
+            number={tvl?.bountiesAndGrantsVl?.count}
+            percentages={tvl?.bountiesAndGrantsVl?.growth}
+          />
+        </WidgetTile>
 
-          {/* <WidgetTile className={styles.widget}>
+        {/* <WidgetTile className={styles.widget}>
             <WidgetInfo
               isCurrency
               isRoundNumber
@@ -101,17 +83,16 @@ export const Tvl: FC = () => {
               percentages={tvl?.ftsVl?.growth}
             />
           </WidgetTile> */}
-        </Widgets>
-        <div className={styles.mainContent}>
-          <Switch>
-            <Route exact path={ROUTES.tvl} component={TvlHistory} />
-            <Route
-              path={ROUTES.tvlBountiesAndGrantsVl}
-              component={BountiesAndGrantsVl}
-            />
-          </Switch>
-        </div>
-      </Page>
-    </>
+      </Widgets>
+      <div className={styles.mainContent}>
+        <Switch>
+          <Route exact path={ROUTES.tvl} component={TvlHistory} />
+          <Route
+            path={ROUTES.tvlBountiesAndGrantsVl}
+            component={BountiesAndGrantsVl}
+          />
+        </Switch>
+      </div>
+    </Page>
   );
 };

@@ -1,18 +1,57 @@
-@use 'src/styles/helpers';
 @use 'src/styles/typography';
 @use 'src/styles/functions';
 
+@import 'src/styles/helpers';
+
 .breadcrumbs {
-  @include typography.title-1;
-  margin: 0 0 functions.calc-rem(16);
-
   display: flex;
-
-  flex-wrap: wrap;
+  align-items: center;
+  
+  padding: 0 functions.calc-rem(12);
+  margin: functions.calc-rem(12) 0 functions.calc-rem(28);
 }
 
-.link {
-  @include typography.title-1;
+.contractName {
+  @include typography.heading-2;
+  
+  margin: 0 functions.calc-rem(12) 0 0;
+  
+  color: var(--white);
+}
+
+.info {
+  @include typography.caption-1;
+  
+  padding: functions.calc-rem(7) functions.calc-rem(7) functions.calc-rem(8) functions.calc-rem(12);
+  color: var(--color-grey-200);
+  
+  background: rgba(255, 255, 255, 0.03);
+  
+  border-radius: functions.calc-rem(8);
+}
+
+.backButton {
   @extend %button-reset;
-  margin-right: functions.calc-rem(12);
+  @include typography.heading-2;
+  
+  color: var(--color-yellow-600);
+}
+
+.separator {
+  @include typography.heading-2;
+
+  color: var(--color-grey-400);
+
+  margin: 0 functions.calc-rem(8);
+}
+
+.dao {
+  @include typography.heading-2;
+
+  color: var(--white);
+}
+
+.daoContract {
+  @include typography.heading-2;
+  color: var(--color-grey-400);
 }

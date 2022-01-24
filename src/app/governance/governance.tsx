@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC } from 'react';
 import { useMount } from 'react-use';
 import {
   matchPath,
@@ -17,7 +17,6 @@ import {
   WidgetInfo,
   ChartPie,
   Widgets,
-  Breadcrumbs,
 } from 'src/components';
 import { selectGovernance } from 'src/app/shared/governance/selectors';
 import { getGovernance } from 'src/app/shared/governance/slice';
@@ -42,91 +41,70 @@ export const Governance: FC = () => {
     }
   });
 
-  const breadcrumbs = useMemo(
-    () => [
-      {
-        url: routes.governance,
-        name: 'Governance',
-      },
-    ],
-    [routes],
-  );
-
   return (
-    <>
-      <Breadcrumbs elements={breadcrumbs} className={styles.breadcrumbs} />
-      <Page>
-        <Widgets>
-          <WidgetTile
-            className={styles.widget}
-            active={Boolean(
-              matchPath(location.pathname, {
-                path: ROUTES.governance,
-                exact: true,
-              }),
-            )}
-            onClick={() => history.push(routes.governance)}
-          >
-            <WidgetInfo
-              isRoundNumber
-              title="Number of Proposals"
-              number={governance?.proposals?.count}
-              percentages={governance?.proposals?.growth}
-            />
-          </WidgetTile>
-          <WidgetTile
-            className={styles.widget}
-            active={Boolean(
-              matchPath(location.pathname, {
-                path: ROUTES.governanceVoteRate,
-                exact: true,
-              }),
-            )}
-            onClick={() => history.push(routes.governanceVoteRate)}
-          >
-            <WidgetInfo
-              title="Vote through rate"
-              number={governance?.voteRate?.count}
-              isPercentage
-              percentages={governance?.voteRate?.growth}
-            />
-          </WidgetTile>
-          <WidgetTile
-            className={styles.widget}
-            active={Boolean(
-              matchPath(location.pathname, {
-                path: ROUTES.governanceProposalType,
-                exact: true,
-              }),
-            )}
-            onClick={() => history.push(routes.governanceProposalType)}
-          >
-            <ChartPie
-              data={governance?.proposalsByType}
-              title="Proposals by type"
-            />
-          </WidgetTile>
-        </Widgets>
+    <Page title="Governance">
+      <Widgets>
+        <WidgetTile
+          className={styles.widget}
+          active={Boolean(
+            matchPath(location.pathname, {
+              path: ROUTES.governance,
+              exact: true,
+            }),
+          )}
+          onClick={() => history.push(routes.governance)}
+        >
+          <WidgetInfo
+            isRoundNumber
+            title="Number of Proposals"
+            number={governance?.proposals?.count}
+            percentages={governance?.proposals?.growth}
+          />
+        </WidgetTile>
+        <WidgetTile
+          className={styles.widget}
+          active={Boolean(
+            matchPath(location.pathname, {
+              path: ROUTES.governanceVoteRate,
+              exact: true,
+            }),
+          )}
+          onClick={() => history.push(routes.governanceVoteRate)}
+        >
+          <WidgetInfo
+            title="Vote through rate"
+            number={governance?.voteRate?.count}
+            isPercentage
+            percentages={governance?.voteRate?.growth}
+          />
+        </WidgetTile>
+        <WidgetTile
+          className={styles.widget}
+          active={Boolean(
+            matchPath(location.pathname, {
+              path: ROUTES.governanceProposalType,
+              exact: true,
+            }),
+          )}
+          onClick={() => history.push(routes.governanceProposalType)}
+        >
+          <ChartPie
+            data={governance?.proposalsByType}
+            title="Proposals by type"
+          />
+        </WidgetTile>
+      </Widgets>
 
-        <div className={styles.mainContent}>
-          <Switch>
-            <Route
-              exact
-              path={ROUTES.governance}
-              component={NumberOfProposals}
-            />
-            <Route
-              path={ROUTES.governanceProposalType}
-              component={ProposalsType}
-            />
-            <Route
-              exact
-              path={ROUTES.governanceVoteRate}
-              component={VoteRate}
-            />
-          </Switch>
-        </div>
-      </Page>
-    </>
+      <div className={styles.mainContent}>
+        <Switch>
+          <Route exact path={ROUTES.governance} component={NumberOfProposals} />
+          <Route
+            path={ROUTES.governanceProposalType}
+            component={ProposalsType}
+          />
+          <Route exact path={ROUTES.governanceVoteRate} component={VoteRate} />
+        </Switch>
+      </div>
+    </Page>
   );
 };

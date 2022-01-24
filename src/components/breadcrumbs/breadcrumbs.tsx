@@ -1,47 +1,39 @@
 import React, { FC } from 'react';
+import startCase from 'lodash/startCase';
 import clsx from 'clsx';
-import { useHistory } from 'react-router';
-
-import { useAppDispatch } from '../../store';
-import { clearDao } from '../../app/shared';
 
 import styles from './breadcrumbs.module.scss';
+import { useAppSelector } from '../../store';
+import { selectCurrentDao, selectSelectedContract } from '../../app/shared';
+import { Button } from '../button';
 
-export type BreadcrumbElement = {
-  url: string;
-  name: string;
+export type BreadcrumbsProps = {
+  className?: string;
 };
 
-export interface BreadcrumbsProps {
-  className?: string;
-  elements: BreadcrumbElement[];
-}
-
-export const Breadcrumbs: FC<BreadcrumbsProps> = ({ className, elements }) => {
-  const dispatch = useAppDispatch();
-  const history = useHistory();
-  const clearFromDao = (link: string) => {
-    dispatch(clearDao());
-    history.push(link);
-  };
+export const Breadcrumbs: FC<BreadcrumbsProps> = ({ className }) => {
+  const selectedContract = useAppSelector(selectSelectedContract);
+  const selectedDao = useAppSelector(selectCurrentDao);
 
   return (
     <div className={clsx(styles.breadcrumbs, className)}>
-      {elements.map((element, elementIndex) => {
-        if (elements.length - 1 === elementIndex) {
-          return <span key={element.name}>{element.name}</span>;
-        }
-
-        return (
-          <button
-            className={styles.link}
-            onClick={() => clearFromDao(element.url)}
-            key={element.name}
-          >
-            {element.name}
+      {!selectedDao ? (
+        <>
+          <div className={styles.contractName}>
+            {startCase(selectedContract?.contractId || '')}
+          </div>
+          <div className={styles.info}>Average values for all DAOs</div>
+        </>
+      ) : (
+        <>
+          <button className={styles.backButton}>
+            {startCase(selectedContract?.contractId || '')}
           </button>
-        );
-      })}
+          <div className={styles.separator}>/</div>
+          <div className={styles.dao}>{selectedDao.dao}</div>
+          <div className={styles.daoContract}>{selectedDao.dao}</div>
+        </>
+      )}
     </div>
   );
 };

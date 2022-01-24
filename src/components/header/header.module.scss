@@ -136,16 +136,3 @@
     display: none;
   }
 }
-
-.rightPart {
-  display: none;
-
-  @include media.desktop {
-    display: flex;
-    align-items: center;
-  }
-}
-
-.tabs {
-  margin-right: functions.calc-rem(22);
-}
