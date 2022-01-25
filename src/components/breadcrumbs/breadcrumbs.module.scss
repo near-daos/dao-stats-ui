@@ -52,6 +52,8 @@
       functions.calc-rem(12);
 
     background: rgba(255, 255, 255, 0.03);
+
+    transform: translateY(functions.calc-rem(3));
   }
 }
 
@@ -59,11 +61,46 @@
   @extend %button-reset;
   @include typography.heading-2;
 
+  overflow: hidden;
+
+  position: relative;
+
+  display: inline-block;
+
   color: var(--color-yellow-600);
+
+  &:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  &::after {
+    width: 100%;
+    // fix for the chrome browser
+    height: functions.calc-rem(1.2);
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    background: currentColor;
+
+    transform: scaleX(0);
+    transform-origin: right;
+
+    transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1) 0.2s;
+    transition-delay: 0s;
+    content: '';
+  }
+
   @include media.mobile-only {
     @include typography.title-3;
 
     margin-right: functions.calc-rem(8);
+
+    &::after {
+      content: none;
+    }
   }
 }
 
@@ -116,6 +153,8 @@
 .tooltipCopySuccess {
   padding: functions.calc-rem(8) functions.calc-rem(12) !important;
 
+  margin-top: functions.calc-rem(14) !important;
+
   color: var(--white) !important;
   background: var(--color-grey-800) !important;
 
@@ -137,7 +176,7 @@
 .tooltipBackButton {
   margin-left: functions.calc-rem(50) !important;
   &::after {
-    left: 20px !important;
+    left: functions.calc-rem(20) !important;
   }
 }
 
