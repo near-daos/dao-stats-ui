@@ -1,4 +1,6 @@
 @use 'src/styles/media';
+@use 'src/styles/typography';
+@use 'src/styles/functions';
 
 .page {
   display: flex;
@@ -12,4 +14,9 @@
   @include media.desktop {
     flex-direction: row;
   }
+}
+
+.title {
+  @include typography.title-1;
+  margin: 0 0 functions.calc-rem(16);
 }

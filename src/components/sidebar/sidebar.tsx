@@ -1,17 +1,16 @@
 import React, { FC, useCallback, useMemo } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import clsx from 'clsx';
+
 import { useForbiddenRoutes, useRoutes } from 'src/hooks';
 import { useAppSelector } from 'src/store';
-import startCase from 'lodash/startCase';
+import { selectCurrentDao } from 'src/app/shared';
 
-import { NavigationInfo } from '../navigation-info';
 import { NavigationList } from '../navigation-list';
 
-import styles from './sidebar.module.scss';
-import { selectCurrentDao, selectSelectedContract } from '../../app/shared';
 import { NetworkSwitcher } from '../network-switcher';
-import { Dao } from '../../api';
+
+import styles from './sidebar.module.scss';
 
 export type SidebarProps = {
   isOpen: boolean;
@@ -19,7 +18,6 @@ export type SidebarProps = {
 };
 
 export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
-  const selectedContract = useAppSelector(selectSelectedContract);
   const dao = useAppSelector(selectCurrentDao);
   const history = useHistory();
   const location = useLocation();
@@ -102,28 +100,6 @@ export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
     ];
   }, [routes, dao]);
 
-  const getTitle = useCallback(
-    (daoObject: Dao | null) => {
-      if (daoObject?.dao) {
-        const splittedDaoArray = daoObject.dao.split('.');
-        const [, ...descriptionArray] = splittedDaoArray;
-
-        return {
-          title: `${startCase(splittedDaoArray[0])}`,
-          description: descriptionArray.join('.'),
-        };
-      }
-
-      return {
-        title: `${(selectedContract?.contractId || '').toUpperCase()} DAO`,
-        description: selectedContract?.contractName || '',
-      };
-    },
-    [selectedContract],
-  );
-
-  const { title, description } = getTitle(dao);
-
   return (
     <>
       <div
@@ -132,13 +108,6 @@ export const Sidebar: FC<SidebarProps> = ({ isOpen, setOpen }) => {
           [styles.hideOnDesktopMainPage]: isForbiddenSidebar,
         })}
       >
-        <NavigationInfo
-          className={styles.info}
-          title={title}
-          description={description}
-          direction="left"
-          linePosition="start"
-        />
         <NavigationList
           title="Overview"
           selectedValue={location.pathname}

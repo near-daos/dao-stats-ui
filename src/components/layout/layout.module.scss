@@ -20,11 +20,15 @@
   margin: 0 auto;
 
   display: flex;
+  flex-direction: column;
+
   @include media.desktop {
     min-height: calc(100vh - 156px);
-
-    padding: functions.calc-rem(48) 0 0;
   }
+}
+
+.wrapper {
+  display: flex;
 }
 
 .page {
@@ -36,5 +40,15 @@
 
   @include media.desktop {
     padding: 0 0 functions.calc-rem(12);
+  }
+}
+
+.breadcrumbs {
+  margin: functions.calc-rem(12) 0 functions.calc-rem(28);
+
+  display: none;
+
+  @include media.desktop {
+    display: flex;
   }
 }
