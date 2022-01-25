@@ -3,7 +3,6 @@ import { generatePath, useHistory, useParams } from 'react-router';
 
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { selectActionLoading } from 'src/app/shared';
 import { useFilterMetrics, usePrepareLeaderboard, usePeriods } from 'src/hooks';
 import { isFailed, isSuccess } from 'src/utils';
 import { ROUTES, UrlParams } from 'src/constants';
@@ -14,6 +13,7 @@ import {
   selectTvlBountiesAndGrantsVlLeaderboard,
   clearTvlError,
   selectTvlError,
+  selectActionLoading,
 } from 'src/app/shared';
 
 import styles from 'src/styles/page.module.scss';
