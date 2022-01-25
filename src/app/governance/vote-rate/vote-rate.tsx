@@ -4,7 +4,7 @@ import { generatePath, useParams, useHistory } from 'react-router';
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
-import { selectActionLoading } from 'src/store/loading';
+import { selectActionLoading } from 'src/app/shared';
 import { isFailed, isSuccess } from 'src/utils';
 import {
   selectGovernanceError,

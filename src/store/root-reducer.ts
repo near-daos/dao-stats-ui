@@ -21,12 +21,12 @@ import { TvlState } from 'src/app/shared/tvl/types';
 import { tvlSlice } from 'src/app/shared/tvl/slice';
 import { MarketState } from 'src/app/shared/market/types';
 import { marketSlice } from 'src/app/shared/market/slice';
-import { LoadingState, loadingReducer } from './loading';
+import { LoadingState } from 'src/app/shared/loading/types';
+import { loadingSlice } from 'src/app/shared/loading/slice';
 
 import { routerReducer } from './history';
 
 export type RootState = CombinedState<{
-  loading: LoadingState;
   router: RouterState<unknown>;
   [governanceSlice.name]: GovernanceState;
   [generalSlice.name]: GeneralState;
@@ -38,10 +38,10 @@ export type RootState = CombinedState<{
   [currencySlice.name]: CurrencyState;
   [tvlSlice.name]: TvlState;
   [marketSlice.name]: MarketState;
+  [loadingSlice.name]: LoadingState;
 }>;
 
 export const rootReducer = combineReducers({
-  loading: loadingReducer,
   router: routerReducer,
   [governanceSlice.name]: governanceSlice.reducer,
   [generalSlice.name]: generalSlice.reducer,
@@ -53,4 +53,5 @@ export const rootReducer = combineReducers({
   [currencySlice.name]: currencySlice.reducer,
   [tvlSlice.name]: tvlSlice.reducer,
   [marketSlice.name]: marketSlice.reducer,
+  [loadingSlice.name]: loadingSlice.reducer,
 });

@@ -13,7 +13,7 @@ import {
   selectGeneralError,
 } from 'src/app/shared/general/selectors';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { selectActionLoading } from 'src/store/loading';
+import { selectActionLoading } from 'src/app/shared';
 import { isSuccess, isFailed } from 'src/utils';
 import { UrlParams } from 'src/constants';
 
