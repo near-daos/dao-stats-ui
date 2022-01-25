@@ -1,8 +1,8 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, useMemo, useRef } from 'react';
 import startCase from 'lodash/startCase';
 import clsx from 'clsx';
 import { useHistory, useLocation } from 'react-router';
-
+import ReactTooltip from 'react-tooltip';
 import { useRoutes } from 'src/hooks';
 import {
   clearDao,
@@ -19,6 +19,7 @@ export type BreadcrumbsProps = {
 };
 
 export const Breadcrumbs: FC<BreadcrumbsProps> = ({ className }) => {
+  const tooltipSuccess = useRef<HTMLDivElement | null>(null);
   const dispatch = useAppDispatch();
 
   const selectedContract = useAppSelector(selectSelectedContract);
@@ -48,7 +49,9 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({ className }) => {
 
   const handlerCopyText = () => {
     if (selectedDao?.dao) {
-      copyTextToClipboard(selectedDao.dao);
+      copyTextToClipboard(selectedDao.dao).then(() => {
+        ReactTooltip.show(tooltipSuccess?.current as Element);
+      });
     }
   };
 
@@ -101,16 +104,34 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({ className }) => {
         </div>
       ) : (
         <>
-          <button onClick={handleBackClick} className={styles.backButton}>
+          <button
+            onClick={handleBackClick}
+            className={styles.backButton}
+            data-tip="See analytics for platform"
+            data-class={styles.tooltipBackButton}
+          >
             {startCase(selectedContract?.contractId || '')}
           </button>
           <div className={styles.separator}>/</div>
           <button className={styles.daoTitleWrapper} onClick={handlerCopyText}>
-            <div className={styles.dao}>{daoInfo.title}</div>
-            <div className={styles.daoContract}>{daoInfo.contract}</div>
+            <div
+              className={styles.dao}
+              data-tip="Click to copy DAO name"
+              data-class={styles.tooltipCopy}
+            >
+              {daoInfo.title}
+              <div
+                data-delay-hide="2000"
+                data-tip="Copied!"
+                data-class={styles.tooltipCopySuccess}
+                ref={tooltipSuccess}
+              />
+            </div>
           </button>
+          <div className={styles.daoContract}>{daoInfo.contract}</div>
         </>
       )}
+      {selectedDao ? <ReactTooltip place="bottom" effect="solid" /> : null}
     </div>
   );
 };

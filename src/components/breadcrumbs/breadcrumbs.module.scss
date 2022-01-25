@@ -9,6 +9,10 @@
 
   display: flex;
   align-items: center;
+
+  @include media.desktop {
+    height: functions.calc-rem(40);
+  }
 }
 
 .contractNameWrapper {
@@ -46,8 +50,6 @@
   @include media.desktop {
     padding: functions.calc-rem(7) functions.calc-rem(7) functions.calc-rem(8)
       functions.calc-rem(12);
-
-    margin-top: functions.calc-rem(6);
 
     background: rgba(255, 255, 255, 0.03);
   }
@@ -106,5 +108,42 @@
 
   @include media.desktop {
     @include typography.heading-2;
+  }
+}
+
+.tooltipBackButton,
+.tooltipCopy,
+.tooltipCopySuccess {
+  padding: functions.calc-rem(8) functions.calc-rem(12) !important;
+
+  color: var(--white) !important;
+  background: var(--color-grey-800) !important;
+
+  border-radius: functions.calc-rem(4) !important;
+
+  font-weight: 400 !important;
+  font-size: functions.calc-rem(12) !important;
+  font-style: normal !important;
+  line-height: functions.calc-rem(20) !important;
+}
+
+.tooltipBackButton,
+.tooltipCopy {
+  &::after {
+    border-bottom-color: var(--color-grey-800) !important;
+  }
+}
+
+.tooltipBackButton {
+  margin-left: functions.calc-rem(50) !important;
+  &::after {
+    left: 20px !important;
+  }
+}
+
+.tooltipCopySuccess {
+  background: var(--color-success-shade) !important;
+  &::after {
+    border-bottom-color: var(--color-success-shade) !important;
   }
 }
