@@ -18,6 +18,8 @@ export type BreadcrumbsProps = {
   className?: string;
 };
 
+const HIDE_DELAY = 2000;
+
 export const Breadcrumbs: FC<BreadcrumbsProps> = ({ className }) => {
   const tooltipSuccess = useRef<HTMLDivElement | null>(null);
   const dispatch = useAppDispatch();
@@ -51,6 +53,10 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({ className }) => {
     if (selectedDao?.dao) {
       copyTextToClipboard(selectedDao.dao).then(() => {
         ReactTooltip.show(tooltipSuccess?.current as Element);
+
+        setTimeout(() => {
+          ReactTooltip.hide(tooltipSuccess?.current as Element);
+        }, HIDE_DELAY);
       });
     }
   };
@@ -121,17 +127,27 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({ className }) => {
             >
               {daoInfo.title}
               <div
-                data-delay-hide="2000"
                 data-tip="Copied!"
                 data-class={styles.tooltipCopySuccess}
                 ref={tooltipSuccess}
+                data-for="success-copy"
               />
             </div>
+            <div className={styles.daoContract}>{daoInfo.contract}</div>
           </button>
-          <div className={styles.daoContract}>{daoInfo.contract}</div>
         </>
       )}
-      {selectedDao ? <ReactTooltip place="bottom" effect="solid" /> : null}
+      {selectedDao ? (
+        <>
+          <ReactTooltip place="bottom" effect="solid" />
+          <ReactTooltip
+            place="bottom"
+            effect="solid"
+            id="success-copy"
+            clickable
+          />
+        </>
+      ) : null}
     </div>
   );
 };
