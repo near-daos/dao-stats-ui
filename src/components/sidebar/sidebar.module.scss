@@ -30,7 +30,7 @@
   transition: transform 0.3s ease-in-out;
 
   @include media.desktop {
-    padding-left: 0;
+    padding: 0 0 0 functions.calc-rem(20);
 
     position: initial;
 

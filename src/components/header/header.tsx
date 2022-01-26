@@ -52,7 +52,11 @@ export const Header: FC<HeaderProps> = ({ isOpen, setOpen }) => {
             className={styles.mobileIcon}
             onClick={() => setOpen(!isOpen)}
           >
-            <SvgIcon icon={isOpen ? 'close' : 'burger'} />
+            {isOpen ? (
+              <SvgIcon icon="close" className={styles.closeIcon} />
+            ) : (
+              <SvgIcon icon="burger" />
+            )}
           </button>
         </>
       ) : null}

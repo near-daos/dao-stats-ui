@@ -41,28 +41,6 @@
   flex-direction: column;
 }
 
-@keyframes hide {
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes show {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.mobileIcon svg {
-  animation: show linear 0.1s 1 forwards;
-  &:active {
-    animation: hide linear 0.1s 1 forwards;
-  }
-}
-
 .header .networkSwitcher {
   width: functions.calc-rem(158);
 
@@ -126,9 +104,15 @@
 
   padding: 0;
 
+  color: var(--color-grey-200);
+
   background-color: transparent;
 
   border: 0;
+}
+
+.closeIcon {
+  color: var(--white);
 }
 
 .title,
