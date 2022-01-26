@@ -78,6 +78,7 @@ export const App: FC = () => (
                       component={GeneralInfoDao}
                     />
                     <Route exact path={ROUTES.users} component={Users} />
+                    <Route exact path={ROUTES.usersAll} component={Users} />
                     <Route exact path={ROUTES.usersMembers} component={Users} />
                     <Route
                       exact
@@ -96,6 +97,11 @@ export const App: FC = () => (
                     />
 
                     <Route exact path={ROUTES.usersDao} component={UsersDao} />
+                    <Route
+                      exact
+                      path={ROUTES.usersDaoAll}
+                      component={UsersDao}
+                    />
                     <Route
                       exact
                       path={ROUTES.usersMembersDao}

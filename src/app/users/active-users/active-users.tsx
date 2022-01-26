@@ -1,25 +1,26 @@
 import React, { FC, useCallback, useState } from 'react';
 import { generatePath, useHistory, useParams } from 'react-router';
-import { useUnmount, useMount } from 'react-use';
+import { useMount, useUnmount } from 'react-use';
 
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { selectActionLoading } from 'src/app/shared';
-import { isSuccess, isFailed } from 'src/utils';
+import { isFailed, isSuccess } from 'src/utils';
 import {
-  getUsersUsers,
-  getUsersLeaderboard,
   clearUsersError,
+  getUsersActiveUsers,
+  getUsersActiveUsersLeaderboard,
 } from 'src/app/shared/users/slice';
 import {
-  selectUsersUsers,
-  selectUsersLeaderboard,
   selectorUsersError,
+  selectUsersActiveUsers,
+  selectUsersActiveUsersLeaderboard,
 } from 'src/app/shared/users/selectors';
 
 import styles from 'src/styles/page.module.scss';
 import { ROUTES, UrlParams } from '../../../constants';
+import { Interval } from '../../../api';
 
 const tabOptions = [
   {
@@ -29,7 +30,7 @@ const tabOptions = [
   { label: 'Leaderboard', value: 'leaderboard' },
 ];
 
-export const UsersNumber: FC = () => {
+export const ActiveUsers: FC = () => {
   const [period, setPeriod] = useState('All');
   const history = useHistory();
   const [activeTab, setActiveTab] = useState(tabOptions[0].value);
@@ -37,13 +38,13 @@ export const UsersNumber: FC = () => {
   const dispatch = useAppDispatch();
   const error = useAppSelector(selectorUsersError);
 
-  const users = useAppSelector(selectUsersUsers);
-  const usersLeaderboard = useAppSelector(selectUsersLeaderboard);
-  const getUsersNumberLoading = useAppSelector(
-    selectActionLoading(getUsersUsers.typePrefix),
+  const users = useAppSelector(selectUsersActiveUsers);
+  const usersLeaderboard = useAppSelector(selectUsersActiveUsersLeaderboard);
+  const getUsersActiveUsersLoading = useAppSelector(
+    selectActionLoading(getUsersActiveUsers.typePrefix),
   );
-  const getUsersNumberLeaderboardLoading = useAppSelector(
-    selectActionLoading(getUsersLeaderboard.typePrefix),
+  const getUsersActiveUsersLeaderboardLoading = useAppSelector(
+    selectActionLoading(getUsersActiveUsersLeaderboard.typePrefix),
   );
 
   const handleOnChange = (value: string) => {
@@ -53,16 +54,18 @@ export const UsersNumber: FC = () => {
   useMount(() => {
     if (!users) {
       dispatch(
-        getUsersUsers({
+        getUsersActiveUsers({
           contract,
+          interval: Interval.WEEK,
         }),
       ).catch((err: unknown) => console.error(err));
     }
 
     if (!usersLeaderboard) {
       dispatch(
-        getUsersLeaderboard({
+        getUsersActiveUsersLeaderboard({
           contract,
+          interval: Interval.WEEK,
         }),
       ).catch((err: unknown) => console.error(err));
     }
@@ -77,13 +80,11 @@ export const UsersNumber: FC = () => {
   });
 
   const usersData = useFilterMetrics(period, users);
-  const periods = usePeriods(users?.metrics);
+  const periods = usePeriods(users?.metrics, ['1y', '6m', '3m', '1m', 'All']);
 
   const goToSingleDao = useCallback(
     (row) => {
-      history.push(
-        generatePath(ROUTES.usersDaoAll, { contract, dao: row.dao }),
-      );
+      history.push(generatePath(ROUTES.usersDao, { contract, dao: row.dao }));
     },
     [contract, history],
   );
@@ -92,10 +93,10 @@ export const UsersNumber: FC = () => {
     <div className={styles.detailsContainer}>
       <LoadingContainer
         hide={
-          (isSuccess(getUsersNumberLoading) &&
-            isSuccess(getUsersNumberLeaderboardLoading)) ||
-          isFailed(getUsersNumberLoading) ||
-          isFailed(getUsersNumberLeaderboardLoading)
+          (isSuccess(getUsersActiveUsersLoading) &&
+            isSuccess(getUsersActiveUsersLeaderboardLoading)) ||
+          isFailed(getUsersActiveUsersLoading) ||
+          isFailed(getUsersActiveUsersLeaderboardLoading)
         }
       />
       <div className={styles.tabWrapper}>
@@ -117,7 +118,9 @@ export const UsersNumber: FC = () => {
             data={usersData}
             period={period}
             setPeriod={setPeriod}
-            lines={[{ name: 'Users', color: '#E33F84', dataKey: 'count' }]}
+            lines={[
+              { name: 'Active Users', color: '#E33F84', dataKey: 'count' },
+            ]}
           />
         ) : null}
         {activeTab === 'leaderboard' && usersLeaderboardData ? (
@@ -126,7 +129,7 @@ export const UsersNumber: FC = () => {
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
-              { value: 'Users' },
+              { value: 'Active Users' },
               { value: 'Last Month', position: 'right' },
             ]}
             type="line"

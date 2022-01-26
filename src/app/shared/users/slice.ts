@@ -13,17 +13,22 @@ import {
   DaoHistoryParams,
   usersService,
   MetricsEntity,
+  IntervalHistoryParams,
+  DaoIntervalHistoryParams,
 } from 'src/api';
 
 import { UsersDaoEntity, UsersState } from './types';
 
 export const usersDaoAdapter = createEntityAdapter<UsersDaoEntity>();
 export const usersDaoUsersAdapter = createEntityAdapter<MetricsEntity>();
+export const usersDaoUsersActiveAdapter = createEntityAdapter<MetricsEntity>();
 export const usersDaoMembersAdapter = createEntityAdapter<MetricsEntity>();
 export const usersDaoInteractionsAdapter = createEntityAdapter<MetricsEntity>();
 
 const initialState: UsersState = {
   users: null,
+  usersActiveUsers: null,
+  usersActiveUsersLeaderboard: null,
   usersUsers: null,
   usersLeaderboard: null,
   usersMembers: null,
@@ -33,6 +38,7 @@ const initialState: UsersState = {
   usersInteractionsLeaderboard: null,
   usersAverageInteractions: null,
   usersDao: usersDaoAdapter.getInitialState(),
+  usersDaoActiveUsers: usersDaoUsersActiveAdapter.getInitialState(),
   usersDaoUsers: usersDaoUsersAdapter.getInitialState(),
   usersDaoMembers: usersDaoMembersAdapter.getInitialState(),
   usersDaoInteractions: usersDaoInteractionsAdapter.getInitialState(),
@@ -44,6 +50,18 @@ export const clearUsersError = createAction('users/clearUsersError');
 export const getUsers = createAsyncThunk(
   'users/getUsers',
   async (params: Params) => usersService.getUsers(params),
+);
+
+export const getUsersActiveUsers = createAsyncThunk(
+  'users/getUsersActiveUsers',
+  async (params: IntervalHistoryParams) =>
+    usersService.getUsersActiveUsers(params),
+);
+
+export const getUsersActiveUsersLeaderboard = createAsyncThunk(
+  'users/getUsersActiveUsersLeaderboard',
+  async (params: IntervalHistoryParams) =>
+    usersService.getUsersActiveUsersLeaderboard(params),
 );
 
 export const getUsersUsers = createAsyncThunk(
@@ -93,6 +111,12 @@ export const getUsersDao = createAsyncThunk(
   async (params: DaoParams) => usersService.getUsersDao(params),
 );
 
+export const getUsersDaoActiveUsers = createAsyncThunk(
+  'users/getUsersDaoActiveUsers',
+  async (params: DaoIntervalHistoryParams) =>
+    usersService.getUsersDaoActiveUsers(params),
+);
+
 export const getUsersDaoUsers = createAsyncThunk(
   'users/getUsersDaoUsers',
   async (params: DaoHistoryParams) => usersService.getUsersDaoUsers(params),
@@ -111,6 +135,8 @@ export const getUsersDaoInteractions = createAsyncThunk(
 
 const isRejectedAction = isRejected(
   getUsers,
+  getUsersActiveUsers,
+  getUsersActiveUsersLeaderboard,
   getUsersUsers,
   getUsersLeaderboard,
   getUsersMembers,
@@ -123,6 +149,7 @@ const isRejectedAction = isRejected(
   getUsersDaoUsers,
   getUsersDaoMembers,
   getUsersDaoInteractions,
+  getUsersDaoActiveUsers,
 );
 
 export const usersSlice = createSlice({
@@ -133,6 +160,17 @@ export const usersSlice = createSlice({
     builder.addCase(getUsers.fulfilled, (state, { payload }) => {
       state.users = payload.data;
     });
+
+    builder.addCase(getUsersActiveUsers.fulfilled, (state, { payload }) => {
+      state.usersActiveUsers = payload.data;
+    });
+
+    builder.addCase(
+      getUsersActiveUsersLeaderboard.fulfilled,
+      (state, { payload }) => {
+        state.usersActiveUsersLeaderboard = payload.data;
+      },
+    );
 
     builder.addCase(getUsersUsers.fulfilled, (state, { payload }) => {
       state.usersUsers = payload.data;
@@ -174,6 +212,24 @@ export const usersSlice = createSlice({
         state.usersAverageInteractions = {
           metrics: sortBy(payload.data.metrics, 'timestamp'),
         };
+      },
+    );
+
+    builder.addCase(
+      getUsersDaoActiveUsers.fulfilled,
+      (
+        state,
+        {
+          payload,
+          meta: {
+            arg: { dao },
+          },
+        },
+      ) => {
+        usersDaoUsersActiveAdapter.upsertOne(state.usersDaoActiveUsers, {
+          id: dao,
+          ...payload.data,
+        });
       },
     );
 

@@ -11,11 +11,13 @@ export const ROUTES = {
   generalInfoDaoGroups: '/:contract/general-info/:dao/groups',
 
   users: '/:contract/users',
+  usersAll: '/:contract/users/all',
   usersMembers: '/:contract/users/members',
   usersAverageUsers: '/:contract/users/average-users',
   usersAverageInteractions: '/:contract/users/average-interactions',
   usersInteractions: '/:contract/users/users-interactions',
   usersDao: '/:contract/users/:dao',
+  usersDaoAll: '/:contract/users/:dao/all',
   usersMembersDao: '/:contract/users/:dao/members',
   usersInteractionsDao: '/:contract/users/:dao/interactions',
 

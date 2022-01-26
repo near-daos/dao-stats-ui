@@ -18,6 +18,7 @@ import { ROUTES, UrlParams } from 'src/constants';
 
 import styles from 'src/styles/page.module.scss';
 
+import { ActiveUsers } from './active-users';
 import { UsersNumber } from './users-number';
 import { Members } from './members';
 import { Interactions } from './interactions';
@@ -48,6 +49,24 @@ export const UsersDao: FC = () => {
           active={Boolean(
             matchPath(location.pathname, {
               path: ROUTES.usersDao,
+              exact: true,
+            }),
+          )}
+        >
+          <WidgetInfo
+            title="Active Users"
+            number={users?.activeUsers?.count}
+            percentages={users?.activeUsers?.growth}
+          />
+        </WidgetTile>
+        <WidgetTile
+          className={styles.widget}
+          onClick={() =>
+            history.push(generatePath(ROUTES.usersDaoAll, { contract, dao }))
+          }
+          active={Boolean(
+            matchPath(location.pathname, {
+              path: ROUTES.usersDaoAll,
               exact: true,
             }),
           )}
@@ -104,7 +123,8 @@ export const UsersDao: FC = () => {
 
       <div className={styles.mainContent}>
         <Switch>
-          <Route exact path={ROUTES.usersDao} component={UsersNumber} />
+          <Route exact path={ROUTES.usersDao} component={ActiveUsers} />
+          <Route exact path={ROUTES.usersDaoAll} component={UsersNumber} />
           <Route exact path={ROUTES.usersMembersDao} component={Members} />
           <Route
             exact
