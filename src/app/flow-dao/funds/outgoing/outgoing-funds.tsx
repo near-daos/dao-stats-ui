@@ -10,7 +10,7 @@ import {
   selectFlowError,
 } from 'src/app/shared/flow/selectors';
 import { clearFlowError, getFlowDaoFunds } from 'src/app/shared/flow/slice';
-import { selectActionLoading } from 'src/store/loading';
+import { selectActionLoading } from 'src/app/shared';
 import { isSuccess, isFailed } from 'src/utils';
 import { UrlParams } from 'src/constants';
 

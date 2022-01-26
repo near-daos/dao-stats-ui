@@ -5,7 +5,7 @@ import { useUnmount, useMount } from 'react-use';
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { selectActionLoading } from 'src/store/loading';
+import { selectActionLoading } from 'src/app/shared';
 import { isSuccess, isFailed } from 'src/utils';
 import {
   clearUsersError,

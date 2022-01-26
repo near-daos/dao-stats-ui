@@ -5,7 +5,7 @@ import { useMount, useUnmount } from 'react-use';
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { selectActionLoading } from 'src/store/loading';
+import { selectActionLoading } from 'src/app/shared';
 import { isSuccess, isFailed } from 'src/utils';
 import { clearUsersError, getUsersDaoUsers } from 'src/app/shared/users/slice';
 import {

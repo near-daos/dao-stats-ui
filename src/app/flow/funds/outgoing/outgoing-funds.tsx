@@ -5,7 +5,7 @@ import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
 import { ROUTES, UrlParams } from 'src/constants';
 import styles from 'src/styles/page.module.scss';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { selectActionLoading } from 'src/store/loading';
+import { selectActionLoading } from 'src/app/shared';
 import { isSuccess, isFailed } from 'src/utils';
 import {
   clearFlowError,

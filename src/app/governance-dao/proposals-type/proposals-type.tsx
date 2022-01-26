@@ -10,7 +10,7 @@ import {
   usePeriods,
 } from 'src/hooks';
 import { isFailed, isSuccess } from 'src/utils';
-import { selectActionLoading } from 'src/store/loading';
+import { selectActionLoading } from 'src/app/shared';
 import {
   selectGovernanceDaoProposalsTypesById,
   selectGovernanceError,

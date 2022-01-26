@@ -4,13 +4,13 @@ import { useMount, useUnmount } from 'react-use';
 
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { selectActionLoading } from 'src/store/loading';
 import { useFilterMetrics, usePrepareLeaderboard, usePeriods } from 'src/hooks';
 import { isFailed, isSuccess } from 'src/utils';
 
 import styles from 'src/styles/page.module.scss';
 
 import {
+  selectActionLoading,
   getTvlHistory,
   getTvlLeaderboard,
   selectTvlTvl,

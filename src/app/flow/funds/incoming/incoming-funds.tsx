@@ -6,7 +6,7 @@ import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
 import { UrlParams, ROUTES } from 'src/constants';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { selectActionLoading } from 'src/store/loading';
+import { selectActionLoading } from 'src/app/shared';
 import { isFailed, isSuccess } from 'src/utils';
 import {
   clearFlowError,

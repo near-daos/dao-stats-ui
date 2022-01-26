@@ -5,7 +5,7 @@ import { useMount, useUnmount } from 'react-use';
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
-import { selectActionLoading } from 'src/store/loading';
+import { selectActionLoading } from 'src/app/shared';
 import { isFailed, isSuccess } from 'src/utils';
 import {
   selectGovernanceDaoVoteRateById,
