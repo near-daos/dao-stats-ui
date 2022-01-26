@@ -20,6 +20,7 @@ import { ROUTES, UrlParams } from 'src/constants';
 import styles from 'src/styles/page.module.scss';
 
 import { UsersNumber } from './users-number';
+import { ActiveUsers } from './active-users';
 import { Members } from './members';
 import { AverageUsers } from './average-users';
 import { Interactions } from './interactions';
@@ -50,6 +51,22 @@ export const Users: FC = () => {
           active={Boolean(
             matchPath(location.pathname, {
               path: ROUTES.users,
+              exact: true,
+            }),
+          )}
+        >
+          <WidgetInfo
+            title="Active Users"
+            number={users?.activeUsers?.count}
+            percentages={users?.activeUsers?.growth}
+          />
+        </WidgetTile>
+        <WidgetTile
+          className={styles.widget}
+          onClick={() => history.push(routes.usersAll)}
+          active={Boolean(
+            matchPath(location.pathname, {
+              path: ROUTES.usersAll,
               exact: true,
             }),
           )}
@@ -137,7 +154,8 @@ export const Users: FC = () => {
 
       <div className={styles.mainContent}>
         <Switch>
-          <Route exact path={ROUTES.users} component={UsersNumber} />
+          <Route exact path={ROUTES.users} component={ActiveUsers} />
+          <Route exact path={ROUTES.usersAll} component={UsersNumber} />
           <Route exact path={ROUTES.usersMembers} component={Members} />
           <Route
             exact

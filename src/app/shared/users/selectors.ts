@@ -5,6 +5,7 @@ import {
   usersDaoAdapter,
   usersDaoInteractionsAdapter,
   usersDaoMembersAdapter,
+  usersDaoUsersActiveAdapter,
   usersDaoUsersAdapter,
   usersSlice,
 } from './slice';
@@ -19,6 +20,16 @@ export const selectorUsers = createSelector(
 export const selectorUsersError = createSelector(
   (state: RootState) => getState(state).error,
   (error) => error,
+);
+
+export const selectUsersActiveUsers = createSelector(
+  (state: RootState) => getState(state).usersActiveUsers,
+  (data) => data,
+);
+
+export const selectUsersActiveUsersLeaderboard = createSelector(
+  (state: RootState) => getState(state).usersActiveUsersLeaderboard,
+  (data) => data,
 );
 
 export const selectUsersUsers = createSelector(
@@ -68,6 +79,16 @@ const { selectById: selectUsersDaoItem } = usersDaoAdapter.getSelectors(
 export const selectUsersDaoById = (id: string | undefined) => (
   state: RootState,
 ) => (id ? selectUsersDaoItem(state, id) : null);
+
+const {
+  selectById: selectUsersDaoActiveUsersItem,
+} = usersDaoUsersActiveAdapter.getSelectors(
+  (state: RootState) => state[usersSlice.name].usersDaoActiveUsers,
+);
+
+export const selectUsersDaoActiveUsersById = (id: string | undefined) => (
+  state: RootState,
+) => (id ? selectUsersDaoActiveUsersItem(state, id) : null);
 
 const {
   selectById: selectUsersDaoUsersItem,

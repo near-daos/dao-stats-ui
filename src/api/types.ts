@@ -11,8 +11,13 @@ export type Input = {
   input: string;
 };
 
+export type IntervalParams = {
+  interval: Interval;
+};
+
 export type InputParams = Params & Input;
 export type HistoryParams = Params & History;
+export type IntervalHistoryParams = Params & History & IntervalParams;
 
 export type DaoParams = Params & {
   dao: string;
@@ -51,6 +56,7 @@ export type Leaderboard = {
 };
 
 export type DaoHistoryParams = DaoParams & History;
+export type DaoIntervalHistoryParams = DaoParams & History & IntervalParams;
 
 export type Legal = {
   legalStatus?: string;
@@ -126,3 +132,9 @@ export enum Coin {
 export type PriceParams = { currency: Currency; coin: Coin };
 
 export type PriceParamsHistory = PriceParams & History;
+
+export enum Interval {
+  MONTH = 'month',
+  WEEK = 'week',
+  DAY = 'day',
+}
