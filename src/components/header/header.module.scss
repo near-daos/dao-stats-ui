@@ -63,13 +63,10 @@
   }
 }
 
-.main {
-  display: none;
+.header .networkSwitcher {
+  width: functions.calc-rem(158);
 
-  @include media.desktop {
-    display: flex;
-    justify-content: flex-end;
-  }
+  display: flex;
 }
 
 .navigationInfo {

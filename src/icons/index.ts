@@ -5,7 +5,6 @@ export { default as close } from './close.svg';
 export { default as crown } from './crown.svg';
 export { default as dropdownArrow } from './dropdownArrow.svg';
 export { default as gitHub } from './gitHub.svg';
-export { default as infinity } from './infinity.svg';
 export { default as magicPoweredLogo } from './magicPoweredLogo.svg';
 export { default as near } from './near.svg';
 export { default as search } from './search.svg';

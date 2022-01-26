@@ -1,6 +1,6 @@
-@use '../../styles/functions';
-@use '../../styles/typography';
-@use '../../styles/media';
+@use 'src/styles/functions';
+@use 'src/styles/typography';
+@use 'src/styles/media';
 
 .mainPage {
   width: 100%;
@@ -12,72 +12,60 @@
 
   text-align: center;
 
+  @include media.mobile-only {
+    width: functions.calc-rem(248);
+
+    padding: functions.calc-rem(112) 0 0 0;
+  }
+
+  @include media.tablet-portrait {
+    width: functions.calc-rem(452);
+
+    padding: functions.calc-rem(244) 0 0 0;
+  }
+
   @include media.desktop {
     width: functions.calc-rem(700);
 
-    padding: functions.calc-rem(104) 0 0 0;
+    padding: functions.calc-rem(132) 0 0 0;
   }
 }
 
 .title {
-  @include typography.title-1;
+  @include typography.heading-2;
 
   padding: 0;
-  margin: 0 0 functions.calc-rem(22);
+  margin: 0 0 functions.calc-rem(28);
 
-  @include media.desktop {
+  @include media.tablet-portrait {
     @include typography.heading-1;
-    margin-bottom: functions.calc-rem(28);
   }
 }
 
 .subTitle {
-  @include typography.body-2;
-  margin: 0 0 functions.calc-rem(56);
+  @include typography.body-1;
+  margin: 0 0 functions.calc-rem(118);
 
-  @include media.desktop {
-    @include typography.body-1;
-  }
-}
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-.tabs {
-  margin: 0 auto functions.calc-rem(24);
-
-  @include media.desktop {
-    margin-bottom: functions.calc-rem(32);
-  }
-}
-
-.search {
-  margin: 0 0 functions.calc-rem(34);
-
-  display: none;
-
-  @include media.desktop {
-    margin-bottom: functions.calc-rem(120);
-
-    display: flex;
+  @include media.mobile-only {
+    margin: 0 0 functions.calc-rem(124);
   }
 }
 
 .info {
   @include typography.title-4;
-  margin: 0 auto functions.calc-rem(16);
+  margin: 0 auto functions.calc-rem(18);
 }
 
 .button {
   margin: 0 auto functions.calc-rem(12);
 }
 
-.switcher {
-  margin: 0 auto functions.calc-rem(130);
-}
-
-.footer {
-  display: flex;
-  justify-content: space-between;
-}
-
 .image {
-  width: functions.calc-rem(14);
+  width: functions.calc-rem(17);
+
+  margin: 0 functions.calc-rem(8);
 }

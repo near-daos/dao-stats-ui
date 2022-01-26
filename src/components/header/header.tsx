@@ -44,19 +44,21 @@ export const Header: FC<HeaderProps> = ({ isOpen, setOpen }) => {
           </>
         ) : null}
       </div>
-      {!isForbiddenHeader ? <Autocomplete /> : null}
-      <button
-        type="button"
-        className={styles.mobileIcon}
-        onClick={() => setOpen(!isOpen)}
-      >
-        <SvgIcon icon={isOpen ? 'close' : 'burger'} />
-      </button>
+      {!isForbiddenHeader ? (
+        <>
+          <Autocomplete />
+          <button
+            type="button"
+            className={styles.mobileIcon}
+            onClick={() => setOpen(!isOpen)}
+          >
+            <SvgIcon icon={isOpen ? 'close' : 'burger'} />
+          </button>
+        </>
+      ) : null}
 
       {isForbiddenHeader ? (
-        <div className={styles.main}>
-          <NetworkSwitcher />
-        </div>
+        <NetworkSwitcher className={styles.networkSwitcher} />
       ) : null}
     </div>
   );
