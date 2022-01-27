@@ -8,7 +8,6 @@ A simple dashboard to get insights about different DAOs for communities.
 #### Technology stack
 
 - DaoStats backend: **[DaoStats API Middleware](https://github.com/near-daos/dao-stats-api)**
-- Smart Contracts: **[Sputnik DAO Factory V2](https://github.com/near-daos/sputnik-dao-contract/tree/main/sputnikdao-factory2), [Sputnik DAO V2](https://github.com/near-daos/sputnik-dao-contract/tree/main/sputnikdao2)**
 - Package manager: **[Yarn](https://yarnpkg.com/)**
 - Core programming language: **[TypeScript](https://www.typescriptlang.org/)**
 - Application framework: **[React](https://reactjs.org/)**
