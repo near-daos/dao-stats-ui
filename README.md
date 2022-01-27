@@ -1,33 +1,56 @@
 # DAO Stats
 
+[![Release version](https://img.shields.io/github/v/release/near-daos/dao-stats-ui)](https://github.com/near-daos/dao-stats-ui/releases/)
+[![Build](https://github.com/near-daos/dao-stats-ui/actions/workflows/build-deploy.yaml/badge.svg)](https://github.com/near-daos/dao-stats-ui/actions/workflows/build-deploy.yaml)
+
 A simple dashboard to get insights about different DAOs for communities.
 
-## Available Scripts
+#### Technology stack
 
-In the project directory, you can run:
+- DaoStats backend: **[DaoStats API Middleware](https://github.com/near-daos/dao-stats-api)**
+- Smart Contracts: **[Sputnik DAO Factory V2](https://github.com/near-daos/sputnik-dao-contract/tree/main/sputnikdao-factory2), [Sputnik DAO V2](https://github.com/near-daos/sputnik-dao-contract/tree/main/sputnikdao2)**
+- Package manager: **[Yarn](https://yarnpkg.com/)**
+- Core programming language: **[TypeScript](https://www.typescriptlang.org/)**
+- Application framework: **[React](https://reactjs.org/)**
+- Code quality: **[Eslint](https://eslint.org/), [Prettier](https://prettier.io/)**
+- Containers: **[Docker](https://www.docker.com/)**
+- Deployment: **[Kubernetes](https://kubernetes.io/)**
 
-### `yarn start`
+#### Status
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+[Change Log](https://github.com/near-daos/dao-stats--ui/releases/latest)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+#### Links
 
-### `yarn build`
+Dev: [https://develop.daostats.io/](https://develop.daostats.io/)  
+Production: [https://daostats.io/](https://daostats.io/)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Getting Started
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+###### Clone the repo
 
-### `yarn eject`
+```
+git clone git@github.com:near-daos/dao-stats-ui.git
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+###### Install dependencies
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+yarn install
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+###### Prepare local configuration
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Rename `.env.example` file in project folder to `.env.local`. It should have following content:
+
+```bash
+REACT_APP_API_ENDPOINT=https://mainnet.api.daostats.io/
+```
+
+###### Run development server
+
+```bash
+yarn start
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
