@@ -54,7 +54,7 @@ export const UsersDao: FC = () => {
           )}
         >
           <WidgetInfo
-            title="Active Users"
+            title="Weekly Active Users"
             number={users?.activeUsers?.count}
             percentages={users?.activeUsers?.growth}
           />
