@@ -79,7 +79,7 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
             {isCurrency ? '$' : null}{' '}
             {numeral(element.value).format(roundPattern)}
             {isNear ? (
-              <SvgIcon icon="near" className={styles.nearIcon} />
+              <SvgIcon icon="nearRound" className={styles.nearIcon} />
             ) : null}
           </span>
         </div>

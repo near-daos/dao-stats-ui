@@ -7,5 +7,6 @@ export { default as dropdownArrow } from './dropdownArrow.svg';
 export { default as gitHub } from './gitHub.svg';
 export { default as magicPoweredLogo } from './magicPoweredLogo.svg';
 export { default as near } from './near.svg';
+export { default as nearRound } from './nearRound.svg';
 export { default as search } from './search.svg';
 export { default as stats } from './stats.svg';

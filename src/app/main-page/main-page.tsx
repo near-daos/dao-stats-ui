@@ -2,10 +2,9 @@ import React, { FC, useEffect } from 'react';
 import startCase from 'lodash/startCase';
 import { generatePath, useHistory } from 'react-router';
 
-import { Button } from 'src/components';
+import { Button, SvgIcon } from 'src/components';
 import { useAppSelector } from 'src/store';
 import { useRoutes } from 'src/hooks';
-import { near } from 'src/icons';
 import { ROUTES } from 'src/constants';
 import { selectCurrentDao, selectSelectedContract } from 'src/app/shared';
 
@@ -51,7 +50,7 @@ export const MainPage: FC = () => {
       </h1>
 
       <h2 className={styles.subTitle}>
-        <span>For</span> <img className={styles.image} src={near} alt="Near" />{' '}
+        <span>For</span> <SvgIcon className={styles.image} icon="near" />{' '}
         <span>communities</span>
       </h2>
 
