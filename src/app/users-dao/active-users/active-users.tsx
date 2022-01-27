@@ -68,7 +68,11 @@ export const ActiveUsers: FC = () => {
             period={period}
             setPeriod={setPeriod}
             lines={[
-              { name: 'Active Users', color: '#E33F84', dataKey: 'count' },
+              {
+                name: 'Weekly Active Users',
+                color: '#E33F84',
+                dataKey: 'count',
+              },
             ]}
           />
         ) : null}
