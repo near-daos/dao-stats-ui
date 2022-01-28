@@ -59,7 +59,7 @@ export const Flow: FC = () => {
           <WidgetInfo
             isRoundNumber
             isSecondary
-            icon="near"
+            icon="nearRound"
             number={flow?.totalIn?.countNear}
           />
         </WidgetTile>
@@ -83,7 +83,7 @@ export const Flow: FC = () => {
           <WidgetInfo
             isRoundNumber
             isSecondary
-            icon="near"
+            icon="nearRound"
             number={flow?.totalOut?.countNear}
           />
         </WidgetTile>
