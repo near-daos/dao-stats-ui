@@ -68,23 +68,29 @@ export const selectGovernanceVoteRate = createSelector(
 
 export const selectGovernanceVoteRateLeaderboard = createSelector(
   (state: RootState) => getState(state).governanceVoteRateLeaderboard,
-  (data) => ({
-    metrics: data?.metrics?.map((metric) => ({
-      ...metric,
-      voteRate: metric?.voteRate
-        ? {
-            ...metric.voteRate,
-            count: Math.round(metric.voteRate.count * ONE_HUNDRED),
-          }
-        : undefined,
-      overview: metric?.overview
-        ? metric.overview.map((item) => ({
-            ...item,
-            count: Math.round(item.count * ONE_HUNDRED),
-          }))
-        : undefined,
-    })),
-  }),
+  (data) => {
+    if (!data) {
+      return null;
+    }
+
+    return {
+      metrics: data?.metrics?.map((metric) => ({
+        ...metric,
+        voteRate: metric?.voteRate
+          ? {
+              ...metric.voteRate,
+              count: Math.round(metric.voteRate.count * ONE_HUNDRED),
+            }
+          : undefined,
+        overview: metric?.overview
+          ? metric.overview.map((item) => ({
+              ...item,
+              count: Math.round(item.count * ONE_HUNDRED),
+            }))
+          : undefined,
+      })),
+    };
+  },
 );
 
 const {
