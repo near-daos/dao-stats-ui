@@ -146,6 +146,17 @@
   }
 }
 
+.tabsWrapper {
+  top: functions.calc-rem(64);
+  position: sticky;
+  overflow: auto;
+  background: var(--color-brand);
+
+  @include media.desktop {
+    display: none;
+  }
+}
+
 .tabs {
   margin-right: functions.calc-rem(22);
 }

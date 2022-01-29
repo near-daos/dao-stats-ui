@@ -7,12 +7,10 @@ import startCase from 'lodash/startCase';
 import { generatePath, useHistory } from 'react-router';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { clearDao, selectContracts } from 'src/app/shared';
+import { GetSectionOptions } from 'src/constants/sectionOptions';
 import { ROUTES } from 'src/constants';
-
 import { SvgIcon } from '../svgIcon/svgIcon';
-
 import styles from './header.module.scss';
-
 import { NetworkSwitcher } from '../network-switcher';
 import { Autocomplete } from '../autocomplete';
 import { Tabs } from '../tabs';
@@ -23,6 +21,8 @@ export type HeaderProps = {
 };
 
 export const Header: FC<HeaderProps> = ({ isOpen, setOpen }) => {
+  const currentURL = window.location.href;
+  const currentSection = currentURL.split('/')[4];
   const { isForbiddenHeader } = useForbiddenRoutes();
   const contracts = useAppSelector(selectContracts);
   const dispatch = useAppDispatch();
@@ -44,40 +44,57 @@ export const Header: FC<HeaderProps> = ({ isOpen, setOpen }) => {
     dispatch(clearDao());
   };
 
-  return (
-    <div className={styles.header}>
-      <Link to="/" className={styles.logo}>
-        <img
-          className={styles.desktopImage}
-          src={desktopLogo}
-          alt="Dao Stats"
-        />
-        <img className={styles.mobileImage} src={mobileLogo} alt="Dao Stats" />
-      </Link>
-      {!isForbiddenHeader ? (
-        <div className={styles.rightPart}>
-          <Tabs
-            onChange={onOptionChange}
-            variant="small"
-            options={tabOptions}
-            className={styles.tabs}
-          />
-          <Autocomplete />
-        </div>
-      ) : null}
-      <button
-        type="button"
-        className={styles.mobileIcon}
-        onClick={() => setOpen(!isOpen)}
-      >
-        <SvgIcon icon={isOpen ? 'close' : 'burger'} />
-      </button>
+  const handleOnChange = (value: string) => {
+    history.push(value);
+  };
 
-      {isForbiddenHeader ? (
-        <div className={styles.main}>
-          <NetworkSwitcher />
-        </div>
-      ) : null}
-    </div>
+  return (
+    <>
+      <div className={styles.header}>
+        <Link to="/" className={styles.logo}>
+          <img
+            className={styles.desktopImage}
+            src={desktopLogo}
+            alt="Dao Stats"
+          />
+          <img
+            className={styles.mobileImage}
+            src={mobileLogo}
+            alt="Dao Stats"
+          />
+        </Link>
+        {!isForbiddenHeader ? (
+          <div className={styles.rightPart}>
+            <Tabs
+              onChange={onOptionChange}
+              variant="small"
+              options={tabOptions}
+              className={styles.tabs}
+            />
+            <Autocomplete />
+          </div>
+        ) : null}
+        <button
+          type="button"
+          className={styles.mobileIcon}
+          onClick={() => setOpen(!isOpen)}
+        >
+          <SvgIcon icon={isOpen ? 'close' : 'burger'} />
+        </button>
+        {isForbiddenHeader ? (
+          <div className={styles.main}>
+            <NetworkSwitcher />
+          </div>
+        ) : null}
+      </div>
+      <div className={styles.tabsWrapper}>
+        <Tabs
+          variant="small"
+          options={GetSectionOptions(currentSection)}
+          className={styles.tabs}
+          onChange={handleOnChange}
+        />
+      </div>
+    </>
   );
 };
