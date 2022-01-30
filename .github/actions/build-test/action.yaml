@@ -9,7 +9,7 @@ runs:
 
   - shell: bash
     run: |
-      yarn install
+      yarn install --frozen-lockfile
       yarn test || true
-      yarn lint . || true
+      yarn lint || true
       yarn build

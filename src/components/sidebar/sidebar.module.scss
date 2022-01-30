@@ -6,7 +6,7 @@
   width: functions.calc-rem(269);
   height: 100%;
 
-  padding: functions.calc-rem(20);
+  padding: functions.calc-rem(20) functions.calc-rem(20);
 
   position: fixed;
   top: 0;
@@ -30,7 +30,7 @@
   transition: transform 0.3s ease-in-out;
 
   @include media.desktop {
-    padding-left: 0;
+    padding: 0 0 0 functions.calc-rem(20);
 
     position: initial;
 

@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 
 import { ChartLine, LoadingContainer } from 'src/components';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { selectActionLoading } from 'src/store/loading';
+import { selectActionLoading } from 'src/app/shared';
 import { useFilterMetrics, usePeriods } from 'src/hooks';
 import { isFailed, isSuccess } from 'src/utils';
 import { UrlParams } from 'src/constants';

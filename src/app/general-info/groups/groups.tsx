@@ -15,7 +15,7 @@ import {
   getGeneralGroups,
   clearGeneralError,
 } from 'src/app/shared/general/slice';
-import { selectActionLoading } from 'src/store/loading';
+import { selectActionLoading } from 'src/app/shared';
 import { isSuccess, isFailed } from 'src/utils';
 
 import styles from 'src/styles/page.module.scss';

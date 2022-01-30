@@ -5,7 +5,7 @@ import { useUnmount, useMount } from 'react-use';
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { selectActionLoading } from 'src/store/loading';
+import { selectActionLoading } from 'src/app/shared';
 import { isSuccess, isFailed } from 'src/utils';
 import {
   getUsersUsers,
@@ -81,7 +81,9 @@ export const UsersNumber: FC = () => {
 
   const goToSingleDao = useCallback(
     (row) => {
-      history.push(generatePath(ROUTES.usersDao, { contract, dao: row.dao }));
+      history.push(
+        generatePath(ROUTES.usersDaoAll, { contract, dao: row.dao }),
+      );
     },
     [contract, history],
   );

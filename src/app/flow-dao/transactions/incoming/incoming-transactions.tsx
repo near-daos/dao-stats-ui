@@ -13,7 +13,7 @@ import {
   clearFlowError,
   getFlowDaoTransactions,
 } from 'src/app/shared/flow/slice';
-import { selectActionLoading } from 'src/store/loading';
+import { selectActionLoading } from 'src/app/shared';
 import { isFailed, isSuccess } from 'src/utils';
 import { UrlParams } from 'src/constants';
 

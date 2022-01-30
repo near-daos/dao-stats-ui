@@ -23,6 +23,7 @@
     "react-router": "5.2.0",
     "react-router-dom": "5.2.0",
     "react-select": "5.1.0",
+    "react-tooltip": "4.2.21",
     "react-use": "17.3.1",
     "recharts": "2.1.8",
     "redux": "4.0.5",
@@ -94,7 +95,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "bitbucket:magicpowered/dao-stats-ui"
+    "url": "github:near-daos/dao-stats-ui"
   },
   "husky": {
     "hooks": {

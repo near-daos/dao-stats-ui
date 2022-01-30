@@ -7,3 +7,4 @@ export * from './tokens';
 export * from './currency';
 export * from './tvl';
 export * from './market';
+export * from './loading';

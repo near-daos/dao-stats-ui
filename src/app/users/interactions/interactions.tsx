@@ -5,7 +5,7 @@ import { useUnmount, useMount } from 'react-use';
 import { ChartLine, Leaderboard, LoadingContainer, Tabs } from 'src/components';
 import { useFilterMetrics, usePeriods, usePrepareLeaderboard } from 'src/hooks';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { selectActionLoading } from 'src/store/loading';
+import { selectActionLoading } from 'src/app/shared';
 import { isSuccess, isFailed } from 'src/utils';
 import {
   clearUsersError,
@@ -124,7 +124,7 @@ export const Interactions: FC = () => {
             setPeriod={setPeriod}
             lines={[
               {
-                name: 'Number of interactions',
+                name: 'Number of Interactions',
                 color: '#E33F84',
                 dataKey: 'count',
               },
@@ -137,7 +137,7 @@ export const Interactions: FC = () => {
             headerCells={[
               { value: '' },
               { value: 'DAO Name' },
-              { value: 'Number of interactions' },
+              { value: 'Number of Interactions' },
               { value: 'Last Month', position: 'right' },
             ]}
             type="line"

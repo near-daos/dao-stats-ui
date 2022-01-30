@@ -32,40 +32,19 @@
   }
 }
 
+.leftPart {
+  display: flex;
+}
+
 .headerControls {
   display: flex;
   flex-direction: column;
 }
 
-@keyframes hide {
-  to {
-    opacity: 0;
-  }
-}
+.header .networkSwitcher {
+  width: functions.calc-rem(158);
 
-@keyframes show {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.mobileIcon svg {
-  animation: show linear 0.1s 1 forwards;
-  &:active {
-    animation: hide linear 0.1s 1 forwards;
-  }
-}
-
-.main {
-  display: none;
-
-  @include media.desktop {
-    display: flex;
-    justify-content: flex-end;
-  }
+  display: flex;
 }
 
 .navigationInfo {
@@ -77,6 +56,9 @@
 }
 
 .logo {
+  display: flex;
+  flex-shrink: 0;
+
   @include media.desktop {
     margin: 0 0 0 functions.calc-rem(12);
   }
@@ -122,9 +104,15 @@
 
   padding: 0;
 
+  color: var(--color-grey-200);
+
   background-color: transparent;
 
   border: 0;
+}
+
+.closeIcon {
+  color: var(--white);
 }
 
 .title,
@@ -137,12 +125,9 @@
   }
 }
 
-.rightPart {
-  display: none;
-
+.header .breadcrumbs {
   @include media.desktop {
-    display: flex;
-    align-items: center;
+    display: none;
   }
 }
 
@@ -151,6 +136,21 @@
   position: sticky;
   overflow: auto;
   background: var(--color-brand);
+
+  @include media.desktop {
+    display: none;
+  }
+}
+
+.divider {
+  width: functions.calc-rem(1);
+  height: functions.calc-rem(40);
+
+  margin-left: functions.calc-rem(13);
+
+  display: flex;
+
+  background: var(--color-grey-800);
 
   @include media.desktop {
     display: none;

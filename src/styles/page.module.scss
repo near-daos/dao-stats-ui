@@ -1,6 +1,7 @@
 @use 'src/styles/functions';
 @use 'src/styles/media';
 @use 'src/styles/typography';
+@import 'src/styles/variables';
 
 .widget {
   margin: 0;
@@ -18,15 +19,13 @@
   }
 
   @include media.tablet-landscape {
-    width: functions.calc-rem(240);
+    width: 100%;
 
     margin: 0 0 functions.calc-rem(24) 0;
   }
 
   @include media.desktop {
-    width: functions.calc-rem(240);
-
-    margin: 0 functions.calc-rem(12) functions.calc-rem(12) 0;
+    margin: 0 0 functions.calc-rem(12) 0;
   }
 
   &:last-child {
@@ -36,36 +35,30 @@
   }
 }
 
-.breadcrumbs {
-  margin: 0 0 functions.calc-rem(10);
-  @include media.desktop {
-    margin: functions.calc-rem(16) 0 functions.calc-rem(10);
-  }
-}
-
 .mainContent {
   width: 100%;
 
-  height: functions.calc-rem(556);
+  height: functions.calc-rem($page-desktop-height);
 
   position: relative;
 
   border-radius: functions.calc-rem(7);
 
   @include media.mobile-only {
-    height: functions.calc-rem(345);
+    height: functions.calc-rem($page-mobile-height);
   }
 
   @include media.tablet-portrait {
-    height: functions.calc-rem(345);
+    height: functions.calc-rem($page-mobile-height);
   }
 
   @include media.tablet-landscape {
-    height: functions.calc-rem(556);
+    height: functions.calc-rem($page-desktop-height);
   }
 
   @include media.desktop {
     width: functions.calc-rem(750);
+
     background-color: var(--color-grey-900);
   }
 }

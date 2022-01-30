@@ -6,4 +6,5 @@ export type Users = {
   averageUsers: TotalMetrics;
   interactions: TotalMetrics;
   averageInteractions: TotalMetrics;
+  activeUsers: TotalMetrics;
 };

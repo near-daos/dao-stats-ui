@@ -38,6 +38,8 @@
 
 .aboutUs {
   min-width: functions.calc-rem(32);
+
+  gap: functions.calc-rem(6);
 }
 
 .links a {

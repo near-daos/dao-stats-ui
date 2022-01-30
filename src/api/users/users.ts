@@ -9,11 +9,39 @@ import {
   HistoryParams,
   DaoHistoryParams,
   Leaderboard,
+  IntervalHistoryParams,
+  DaoIntervalHistoryParams,
 } from '../types';
 
 export class UsersService extends HttpService {
   async getUsers(params: Params): Promise<AxiosResponse<Users>> {
     return this.get(`${params.contract}/users`);
+  }
+
+  async getUsersActiveUsers(
+    params: IntervalHistoryParams,
+  ): Promise<AxiosResponse<Metrics>> {
+    const query = queryString.stringify({
+      from: params.from,
+      to: params.to,
+      interval: params.interval,
+    });
+
+    return this.get(`${params.contract}/users/active-users?${query}`);
+  }
+
+  async getUsersActiveUsersLeaderboard(
+    params: IntervalHistoryParams,
+  ): Promise<AxiosResponse<Leaderboard>> {
+    const query = queryString.stringify({
+      from: params.from,
+      to: params.to,
+      interval: params.interval,
+    });
+
+    return this.get(
+      `${params.contract}/users/active-users/leaderboard?${query}`,
+    );
   }
 
   async getUsersUsers(params: HistoryParams): Promise<AxiosResponse<Metrics>> {
@@ -74,6 +102,20 @@ export class UsersService extends HttpService {
 
   async getUsersDao(params: DaoParams): Promise<AxiosResponse<Users>> {
     return this.get(`${params.contract}/users/${params.dao}`);
+  }
+
+  async getUsersDaoActiveUsers(
+    params: DaoIntervalHistoryParams,
+  ): Promise<AxiosResponse<Metrics>> {
+    const query = queryString.stringify({
+      from: params.from,
+      to: params.to,
+      interval: params.interval,
+    });
+
+    return this.get(
+      `${params.contract}/users/${params.dao}/active-users?${query}`,
+    );
   }
 
   async getUsersDaoUsers(

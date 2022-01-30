@@ -43,8 +43,9 @@
     display: none;
 
     @include media.desktop {
-      display: table-cell;
       padding-right: functions.calc-rem(32);
+
+      display: table-cell;
     }
   }
 }
