@@ -8,9 +8,8 @@
   --line-color: transparent;
   --padding-bottom: #{functions.calc-rem(10)};
 
-  width: fit-content;
+  width: max-content;
 
-  display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
@@ -24,6 +23,8 @@
   margin: 0 functions.calc-rem(24) 0 0;
 
   position: relative;
+
+  display: inline-flex;
 
   &::after {
     width: 100%;
