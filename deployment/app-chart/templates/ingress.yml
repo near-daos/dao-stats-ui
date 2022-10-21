@@ -4,7 +4,7 @@ metadata:
   name: dao-stats-ui-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
-    cert-manager.io/cluster-issuer: "letsencrypt-development"
+    cert-manager.io/cluster-issuer: "letsencrypt"
     nginx.org/websocket-services: {{ include "dao-stats-ui.fullname" . }}
 spec:
   ingressClassName: nginx
