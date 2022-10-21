@@ -53,7 +53,7 @@ spec:
           #   failureThreshold: {{ .Values.container.readinessProbe.failureThreshold }}
           envFrom:
           - configMapRef:
-              name: dao-stats-ui-configmap
+              name: {{ .Release.Name }}-configmap
           - configMapRef:
               name: {{ .Release.Name }}-version
           resources:

@@ -7,6 +7,7 @@
     "axios": "0.24.0",
     "clsx": "1.1.1",
     "connected-react-router": "6.9.1",
+    "cross-env": "7.0.3",
     "date-fns": "2.27.0",
     "date-fns-tz": "1.2.2",
     "downshift": "6.1.7",
@@ -22,6 +23,7 @@
     "react-router": "5.2.0",
     "react-router-dom": "5.2.0",
     "react-select": "5.1.0",
+    "react-tooltip": "4.2.21",
     "react-use": "17.3.1",
     "recharts": "2.1.8",
     "redux": "4.0.5",
@@ -61,7 +63,7 @@
     "prettier": "2.1.2",
     "react-scripts": "4.0.3",
     "redux-devtools-extension": "2.13.9",
-    "runtime-env-cra": "^0.2.4",
+    "runtime-env-cra": "0.2.4",
     "stylelint": "13.12.0",
     "stylelint-config-css-modules": "2.3.0",
     "stylelint-config-prettier": "8.0.2",
@@ -71,7 +73,7 @@
     "typescript-plugin-css-modules": "2.8.0"
   },
   "scripts": {
-    "start": "yarn generate-assets-index & yarn build-svg-sprite & NODE_ENV=production runtime-env-cra --config-name=./public/runtime-env.js & react-scripts start",
+    "start": "yarn generate-assets-index & yarn build-svg-sprite & cross-env NODE_ENV=development runtime-env-cra --config-name=./public/runtime-env.js & react-scripts start",
     "build": "yarn generate-assets-index & yarn build-svg-sprite & react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -93,7 +95,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "bitbucket:magicpowered/dao-stats-ui"
+    "url": "github:near-daos/dao-stats-ui"
   },
   "husky": {
     "hooks": {

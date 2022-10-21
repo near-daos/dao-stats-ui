@@ -7,5 +7,4 @@ data:
   NODE_ENV: 'production'
   REACT_APP_MAINNET: '{{ .Values.environment.react_app_mainnet }}'
   REACT_APP_TESTNET: '{{ .Values.environment.react_app_testnet }}'
-  REACT_APP_MAIN_SITE: '{{ .Values.environment.react_app_main_site }}'
   REACT_APP_API_ENDPOINT: '{{ .Values.environment.react_app_api_endpoint }}'

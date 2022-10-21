@@ -7,7 +7,7 @@ runs:
     uses: docker/metadata-action@v3
     with:
       images: |
-        ${{ env.AWS_ECR_URL }}/dao-stats-ui
+        ${{ env.AWS_ECR_URL }}/astro-dao-stats-ui
       tags: |
         type=raw,value=latest
         type=raw,value=${{ env.DOCKER_ENV_TAG }}
@@ -35,4 +35,4 @@ runs:
       platforms: linux/amd64
       tags: ${{ steps.meta.outputs.tags }}
       push: true
-      cache-from: type=registry,ref=${{ env.AWS_ECR_URL }}/dao-stats-ui:latest
+      cache-from: type=registry,ref=${{ env.AWS_ECR_URL }}/astro-dao-stats-ui:latest

@@ -13,9 +13,10 @@ on:
     - "**"
 
 env:
+  AWS_DEFAULT_REGION: us-east-1
+  AWS_ECR_URL: 570288326086.dkr.ecr.us-east-1.amazonaws.com
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  AWS_ECR_URL: ${{ secrets.AWS_ECR_URL }}
 
 jobs:
   get-environment:
@@ -23,41 +24,20 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       environment: ${{ steps.get-environment.outputs.environment }}
-      namespace_prefix: ${{ steps.get-environment.outputs.namespace_prefix }}
-      k8s_ingress_base_host: ${{ steps.get-environment.outputs.k8s_ingress_base_host }}
       docker_env_tag: ${{ steps.get-environment.outputs.docker_env_tag }}
     steps:
-    - name: get environment
-      id: get-environment
-      shell: bash
-      run: |
-        if [[ "${{ github.ref }}" =~ ^refs/tags.* ]]
-        then
-          echo "::set-output name=environment::production"
-          echo "::set-output name=namespace_prefix::dao-stats-ui"
-          echo "::set-output name=k8s_ingress_base_host::daostats.io"
-          echo "::set-output name=docker_env_tag::${GITHUB_REF#refs/*/}"
-        elif [[ "${{ github.ref }}" =~ ^refs/heads/staging ]]
-        then
-          echo "::set-output name=environment::staging"
-          echo "::set-output name=namespace_prefix::ds-ui-s"
-          echo "::set-output name=k8s_ingress_base_host::staging.daostats.io"
-          echo "::set-output name=docker_env_tag::staging-$GITHUB_SHA"
-        elif [[ "${{ github.ref }}" =~ ^refs/heads/develop ]]
-        then
-          echo "::set-output name=environment::develop"
-          echo "::set-output name=namespace_prefix::ds-ui-d"
-          echo "::set-output name=k8s_ingress_base_host::develop.daostats.io"
-          echo "::set-output name=docker_env_tag::develop-$GITHUB_SHA"
-        fi
-        if [[ "${{ github.event.inputs.environment }}" != "" ]]
-        then
-          echo "input was provided: ${{ github.event.inputs.environment }}"
-          echo "::set-output name=environment::${{ github.event.inputs.environment }}"
-          echo "::set-output name=namespace_prefix::ds-ui-d"
-          echo "::set-output name=k8s_ingress_base_host::develop.daostats.io"
-          echo "::set-output name=docker_env_tag::develop-$GITHUB_SHA"
-        fi
+      - name: get environment
+        id: get-environment
+        shell: bash
+        run: |
+          if [[ "${{ github.ref }}" =~ ^refs/tags.* ]]
+          then
+            echo "::set-output name=environment::production"
+          elif [[ "${{ github.ref }}" =~ ^refs/heads/develop ]]
+          then
+            echo "::set-output name=environment::development"
+          fi
+          echo "::set-output name=docker_env_tag::${GITHUB_REF#refs/*/}-$GITHUB_SHA"
 
   build-image:
     name: Build Image
@@ -71,8 +51,6 @@ jobs:
     - name: Set Environment
       run: |
         echo DOCKER_ENV_TAG=${{ needs.get-environment.outputs.docker_env_tag }} >> $GITHUB_ENV
-        cat ".github/env.common" | grep -E -v '^\ *#' >>$GITHUB_ENV
-        cat ".github/env.${{ needs.get-environment.outputs.environment }}" | grep -E -v '^\ *#' >>$GITHUB_ENV
     - name: Docker Build Publish
       uses: ./.github/actions/docker-build-publish
 
@@ -80,37 +58,27 @@ jobs:
     name: Helm Deploy
     runs-on: ubuntu-latest
     if: always()
-    strategy:
-      matrix:
-        network: [testnet, mainnet]
     needs:
     - get-environment
     - build-image
-    environment:
-      name: ${{ needs.get-environment.outputs.environment }}
     steps:
     - uses: actions/checkout@v2
     - name: Set Environment
       run: |
-        echo DOCKER_ENV_TAG=${{ needs.get-environment.outputs.docker_env_tag }} >> $GITHUB_ENV
-        cat ".github/env.common" | grep -E -v '^\ *#' >>$GITHUB_ENV
         cat ".github/env.${{ needs.get-environment.outputs.environment }}" | grep -E -v '^\ *#' >>$GITHUB_ENV
     - name: Helm Deploy
       uses: koslib/helm-eks-action@v1.8.0
-      env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-        API_ENDPOINT_SECRET_NAME: REACT_APP_API_ENDPOINT_${{ matrix.network }}
       with:
         command: |
           set -x
+          aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --kubeconfig kubeconfig
 
           export CHART_FOLDER=deployment/app-chart
           helm lint $CHART_FOLDER
-          helm -n ${{ needs.get-environment.outputs.namespace_prefix }}-${{ matrix.network }} \
-            upgrade --install --create-namespace --atomic dao-stats-ui $CHART_FOLDER \
-            --set image.tag=$DOCKER_ENV_TAG \
-            --set environment.react_app_api_endpoint=${{ secrets[env.API_ENDPOINT_SECRET_NAME] }} \
-            --set environment.react_app_mainnet=${{ secrets.REACT_APP_MAINNET }} \
-            --set environment.react_app_testnet=${{ secrets.REACT_APP_TESTNET }} \
-            --set environment.react_app_main_site=${{ secrets.REACT_APP_MAIN_SITE }} \
-            --set ingress.host=${{ matrix.network }}-${{ needs.get-environment.outputs.k8s_ingress_base_host }}
+          helm -n $EKS_NAMESPACE \
+            upgrade --install --create-namespace dao-stats-ui $CHART_FOLDER \
+            --set image.tag=${{ needs.get-environment.outputs.docker_env_tag }} \
+            --set environment.react_app_api_endpoint=$REACT_APP_API_ENDPOINT \
+            --set environment.react_app_mainnet=$REACT_APP_MAINNET \
+            --set environment.react_app_testnet=$REACT_APP_TESTNET \
+            --set ingress.host=$EKS_INGRESS_HOST

@@ -5,9 +5,9 @@
 replicaCount: 1
 
 image:
-  repository: 398077236708.dkr.ecr.eu-central-1.amazonaws.com
+  repository: 570288326086.dkr.ecr.us-east-1.amazonaws.com
   tag: latest
-  name: dao-stats-ui
+  name: astro-dao-stats-ui
   pullPolicy: Always
 
 imagePullSecrets: [ ]
@@ -56,7 +56,7 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: LoadBalancer
+  type: ClusterIP
   port: 80
   targetPort: 3000
 
@@ -82,6 +82,6 @@ version:
   branch: develop
 
 environment:
-  react_app_mainnet: "mainnet"
-  react_app_testnet: "testnet"
-  react_app_main_site: "mainnet"
+  react_app_api_endpoint: "http://api.local"
+  react_app_mainnet: "http://mainnet"
+  react_app_testnet: "http://testnet"
